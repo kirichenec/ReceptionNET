@@ -1,0 +1,42 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="clr-namespace:Reception.App.ViewModels;assembly=Reception.App"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:rxui="clr-namespace:Avalonia;assembly=Avalonia.ReactiveUI"
+        mc:Ignorable="d"
+        x:Class="Reception.App.Views.MainWindow"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="Reception.App">
+  <Design.DataContext>
+    <vm:MainWindowViewModel/>
+  </Design.DataContext>
+
+  <Grid RowDefinitions="Auto, *, Auto">
+
+    <!--Header-->
+    <Grid Grid.Row="0" Background="LightGray">
+    </Grid>
+
+    <!--Content-->
+    <rxui:RoutedViewHost Grid.Row="1" Router="{Binding Router}">
+      <rxui:RoutedViewHost.DefaultContent>
+        <TextBlock Text="Can't load IsBoss mode"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center" />
+      </rxui:RoutedViewHost.DefaultContent>
+    </rxui:RoutedViewHost>
+
+    <!--Footer-->
+    <Grid Grid.Row="2" Background="LightGray">
+      <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+        <!--<TextBlock Text="Mode:"/>
+        <TextBlock Text="Boss"/>
+        <Rectangle Fill="Black" Width="1" Opacity="0.5" Margin="{DynamicResource RightBottom}"/>-->
+        <TextBlock Text="Status:"/>
+        <TextBlock Text="offline"/>
+        <!--<DrawingPresenter Drawing="{DynamicResource VSImageLib.Search_16x}"/>-->
+      </StackPanel>
+    </Grid>
+  </Grid>
+</Window>
