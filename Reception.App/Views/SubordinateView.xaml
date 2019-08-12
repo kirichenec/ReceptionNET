@@ -1,27 +1,38 @@
-﻿<UserControl xmlns="https://github.com/avaloniaui"
+﻿<UserControl x:Class="Reception.App.Views.SubordinateView"
+             xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             x:Class="Reception.App.Views.SubordinateView">
+             Design.Height="600" Design.Width="800">
+  
   <Grid RowDefinitions="*, Auto">
     <Grid Grid.Row="0"
           HorizontalAlignment="Stretch"
           Margin="16"
-          RowDefinitions="Auto, Auto">
-      <StackPanel Grid.Row="0">
+          RowDefinitions="Auto, Auto, *">
+      <StackPanel Grid.Row="1">
         <TextBox Text="" Watermark="Search"/>
         <ListBox/>
       </StackPanel>
-      
-      <StackPanel Grid.Row="1">
-        <TextBox Text="{Binding FirstName}" Watermark="FirstName"/>
-        <TextBox Text="{Binding MiddleName}" Watermark="MiddleName"/>
-        <TextBox Text="{Binding SecondName}" Watermark="SecondName"/>
-        <TextBox Text="{Binding Post}" Watermark="Post"/>
-      </StackPanel>
+
+      <Grid Grid.Row="0" ColumnDefinitions="*, Auto">
+        <StackPanel Grid.Column="0" x:Name="PersonInfoStackPanel">
+          <TextBox Text="{Binding Person.FirstName, Mode=TwoWay}" Watermark="FirstName"/>
+          <TextBox Text="{Binding Person.MiddleName, Mode=TwoWay}" Watermark="MiddleName"/>
+          <TextBox Text="{Binding Person.SecondName, Mode=TwoWay}" Watermark="SecondName"/>
+          <TextBox Text="{Binding Person.Post, Mode=TwoWay}" Watermark="Post"/>
+          <TextBox Text="" Watermark="Message"/>
+        </StackPanel>
+
+        <Grid Grid.Column="1">
+          <DrawingPresenter Height="{Binding #PersonInfoStackPanel.Bounds.Height}">
+            <GeometryDrawing x:Key="Material.Adobe" Brush="Red" Geometry="M14.58,3H22V19.67L14.58,3M9.42,3H2V19.67L9.42,3M12,9.17L16.67,19.67H13.5L12.17,16.33H8.75L12,9.17Z"/>
+          </DrawingPresenter>
+        </Grid>
+      </Grid>
     </Grid>
-    
+
     <StackPanel Grid.Row="1"
                 HorizontalAlignment="Right"
                 Orientation="Horizontal">

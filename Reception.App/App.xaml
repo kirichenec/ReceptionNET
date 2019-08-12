@@ -15,6 +15,10 @@
     <StyleInclude Source="avares://Avalonia.Themes.Default/DefaultTheme.xaml"/>
     <StyleInclude Source="avares://Avalonia.Themes.Default/Accents/BaseLight.xaml"/>
 
+    <Style Selector="DrawingPresenter">
+      <Setter Property="Margin" Value="{DynamicResource RightBottom}"/>
+    </Style>
+
     <Style Selector="Path">
       <Setter Property="Stroke" Value="Black"/>
     </Style>
@@ -31,6 +35,10 @@
     <Style Selector="TextBox">
       <Setter Property="Margin" Value="{DynamicResource RightBottom}"/>
       <Setter Property="BorderThickness" Value="0,0,0,1"/>
+    </Style>
+
+    <Style Selector="TextBox TextBlock">
+      <Setter Property="Margin" Value="0"/>
     </Style>
     
     <Style Selector="Button">
