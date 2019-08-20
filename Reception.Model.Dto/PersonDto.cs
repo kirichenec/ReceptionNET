@@ -7,15 +7,17 @@ namespace Reception.Model.Dto
     {
         public string Comment { get; set; }
 
+        [Required]
         public string FirstName { get; set; }
 
         public string MiddleName { get; set; }
 
         public string PhotoPath { get; set; }
+                
+        public int? PostUid { get; set; }
+        public virtual PostDto Post { get; set; }
 
-        public int PostUid { get; set; }
-        public PostDto Post { get; set; }
-
+        [Required]
         public string SecondName { get; set; }
 
         [Key]

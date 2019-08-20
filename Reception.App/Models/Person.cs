@@ -98,5 +98,16 @@
             }
         }
         #endregion
+
+        #region Methods
+        public void CopyFrom(Person value)
+        {
+            FirstName = value.FirstName;
+            MiddleName = value.MiddleName;
+            PhotoPath = value.PhotoPath;
+            Post = value.Post;
+            SecondName = value.SecondName;
+        }
+        #endregion
     }
 }

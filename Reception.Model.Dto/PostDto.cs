@@ -7,6 +7,7 @@ namespace Reception.Model.Dto
     {
         public string Comment { get; set; }
 
+        [Required]
         public string Name { get; set; }
 
         [Key]

@@ -12,7 +12,10 @@
           Margin="16"
           RowDefinitions="Auto, Auto, *">
       <StackPanel Grid.Row="1">
-        <TextBox Text="" Watermark="Search"/>
+        <Grid Margin="0" ColumnDefinitions="*, Auto">
+          <TextBox Grid.Column="0" Text="{Binding SearchText, Mode=TwoWay}" Watermark="Search"/>
+          <Button Grid.Column="1" Content="Search" Command="{Binding SearchPersonCommand}" CommandParameter="{Binding SearchText}"/>
+        </Grid>
         <ListBox/>
       </StackPanel>
 

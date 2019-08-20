@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reception.Model.Network", "
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{13F90241-20A2-4BA3-AC06-BAFA300468CA}"
 	ProjectSection(SolutionItems) = preProject
-		Order.txt = Order.txt
+		..\Order.txt = ..\Order.txt
 	EndProjectSection
 EndProject
 Global

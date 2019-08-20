@@ -60,11 +60,11 @@ namespace Reception.Server.Repository
                 .Include(p => p.Post)
                 .Where(
                     p =>
-                    p.Comment.Contains(searchText) ||
-                    p.FirstName.Contains(searchText) ||
-                    p.MiddleName.Contains(searchText) ||
-                    p.Post.Name.Contains(searchText) ||
-                    p.SecondName.Contains(searchText) ||
+                    (p.Comment != null && p.Comment.ToLower().Contains(searchText)) ||
+                    p.FirstName.ToLower().Contains(searchText) ||
+                    (p.MiddleName != null && p.MiddleName.ToLower().Contains(searchText)) ||
+                    (p.Post != null && p.Post.Name.ToLower().Contains(searchText)) ||
+                    p.SecondName.ToLower().Contains(searchText) ||
                     p.Uid.ToString().Contains(searchText));
         }
     }

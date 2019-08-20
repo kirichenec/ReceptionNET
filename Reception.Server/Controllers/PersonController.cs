@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Reception.Model.Network;
 using Reception.Server.Logic;
 using Reception.Server.Model;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Reception.Server.Controllers
@@ -26,6 +27,15 @@ namespace Reception.Server.Controllers
         {
             var person = await _personLogic.GetPersonAsync(id);
             var info = new QueryResult<Person> { Data = person };
+            return await Task.FromResult<IActionResult>(Ok(info));
+        }
+
+        // GET api/Person?searchText=5
+        [HttpGet]
+        public async Task<IActionResult> SearchPersonAsync([FromQuery]string searchText = "")
+        {
+            var person = await _personLogic.SearchPersonAsync(searchText);
+            var info = new QueryResult<List<Person>> { Data = person };
             return await Task.FromResult<IActionResult>(Ok(info));
         }
 
