@@ -1,9 +1,12 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
+using Reception.Server.Logic;
+using Reception.Server.Repository;
 using System.IO;
 
 namespace Reception.Server
@@ -13,6 +16,12 @@ namespace Reception.Server
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+
+            using (var db = new ReceptionContext())
+            {
+                db.Database.EnsureCreated();
+                db.Database.Migrate();
+            }
         }
 
         public IConfiguration Configuration { get; }
@@ -21,6 +30,9 @@ namespace Reception.Server
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddEntityFrameworkSqlite().AddDbContext<ReceptionContext>();
+            services.AddScoped<IDataService, DataService>();
+            services.AddScoped<IPersonLogic, PersonLogic>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -8,10 +8,13 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.2.6" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="2.2.6" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Reception.Model\Reception.Model.csproj" />
+    <ProjectReference Include="..\Reception.Model.Dto\Reception.Model.Dto.csproj" />
+    <ProjectReference Include="..\Reception.Model.Network\Reception.Model.Network.csproj" />
   </ItemGroup>
 
   <ItemGroup>

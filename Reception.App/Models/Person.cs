@@ -2,12 +2,32 @@
 {
     public class Person : BaseModel
     {
+        #region Fields
         private string _firstName;
         private string _middleName;
         private string _photoPath;
         private string _post;
         private string _secondName;
+        #endregion
 
+        #region ctors
+        public Person(){}
+
+        public Person(Person value)
+        {
+            if (value == null)
+            {
+                return;
+            }
+            FirstName = value.FirstName;
+            MiddleName = value.MiddleName;
+            PhotoPath = value.PhotoPath;
+            Post = value.Post;
+            SecondName = value.SecondName;
+        }
+        #endregion
+
+        #region Properties
         public string FirstName
         {
             get => _firstName;
@@ -77,5 +97,6 @@
                 NotifyPropertyChanged();
             }
         }
+        #endregion
     }
 }
