@@ -1,58 +1,86 @@
-﻿using Newtonsoft.Json;
-using ReactiveUI;
+﻿using ReactiveUI;
+using ReactiveUI.Fody.Helpers;
 using Reception.App.Models;
-using Reception.Model.Network;
-using RestSharp;
+using Reception.App.Network;
+using Reception.App.Network.Exceptions;
+using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reactive;
+using System.Reactive.Linq;
 
 namespace Reception.App.ViewModels
 {
     public class SubordinateViewModel : BaseViewModel
     {
         #region Fields
+        private readonly INetworkServise<Person> _networkServiceOfPersons;
 
-        private Person _person = new Person();
-        private string _searchText;
-
+        private ObservableAsPropertyHelper<IEnumerable<Person>> _clearedPersons;
+        private ObservableAsPropertyHelper<IEnumerable<Person>> _searchedPersons;
         #endregion
 
         #region ctor
-        public SubordinateViewModel(IScreen screen)
+        public SubordinateViewModel(IScreen screen, INetworkServise<Person> networkServiceOfPersons)
         {
             UrlPathSegment = nameof(SubordinateViewModel);
             HostScreen = screen;
 
-            SearchPersonCommand = ReactiveCommand.Create<string>(SearchPerson);
+            _networkServiceOfPersons = networkServiceOfPersons;
+            
+            #region Init SearchPersonCommand
+            var canSearch = this.WhenAnyValue(x => x.SearchText, query => !string.IsNullOrWhiteSpace(query));
+            SearchPersonCommand = ReactiveCommand.CreateFromTask<string, IEnumerable<Person>>(_networkServiceOfPersons.SearchTAsync, canSearch);
+            SearchPersonCommand.ThrownExceptions.Subscribe(error => { CheckError(error); });
+
+            _searchedPersons = SearchPersonCommand.ToProperty(this, x => x.Persons);
+
+            this.WhenAnyValue(x => x.SearchText)
+                .Throttle(TimeSpan.FromSeconds(1), RxApp.MainThreadScheduler)
+                .InvokeCommand(SearchPersonCommand);
+            #endregion
+        }
+        #endregion
+
+        #region Enums
+        enum PersonsSource
+        {
+            Clear,
+            Searched
         }
         #endregion
 
         #region Properties
 
-        public Person Person { get => _person; set => this.RaiseAndSetIfChanged(ref _person, value); }
+        [Reactive]
+        public Person Person { get; set; }
 
-        public string SearchText { get => _searchText; set => this.RaiseAndSetIfChanged(ref _searchText, value); }
+        public IEnumerable<Person> Persons => _searchedPersons.Value;
+
+        [Reactive]
+        public string SearchText { get; set; }
+
+        [Reactive]
+        public Person SelectedPerson { get; set; }
 
         #endregion
 
         #region Commands
-        public ReactiveCommand<string, Unit> SearchPersonCommand { get; set; }
+        public ReactiveCommand<string, IEnumerable<Person>> SearchPersonCommand { get; set; }
+
+        public ReactiveCommand<Unit, IEnumerable<Person>> ClearPersonsCommand { get; set; }
         #endregion
 
         #region Methods
-        private void SearchPerson(string searchText)
+        private void CheckError(Exception error)
         {
-            var client = new RestClient($"{AppSettings.ServerPath}/api/Person?searchText={searchText}");
-            var request = new RestRequest(Method.GET);
-            IRestResponse response = client.Execute(request);
-            if (response.IsSuccessful)
+            if (HostScreen is MainWindowViewModel mainViewMidel)
             {
-                var content = JsonConvert.DeserializeObject<QueryResult<List<Person>>>(response.Content);
-                if (content.ErrorCode == ErrorCode.Ok)
+                mainViewMidel.ErrorMessage = error.Message;
+                var errorType = error.GetType();
+                if (errorType == typeof(NotFoundException<Person>))
                 {
-                    var persons = content.Data;
-                    Person.CopyFrom(persons?.FirstOrDefault() ?? new Person());
+                    ClearPersonsCommand.Execute();
+                    return;
                 }
             }
         }

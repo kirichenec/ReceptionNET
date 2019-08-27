@@ -21,7 +21,7 @@ namespace Reception.Server.Repository
             return
                 uid == 0 ?
                 null :
-                await _context.Persons.Include(p => p.Post).FirstOrDefaultAsync(p => p.Uid == uid);
+                await _context.Persons.Include(p => p.Post).FirstOrDefaultAsync(p => p.Id == uid);
         }
 
         public async Task<PostDto> GetPostAsync(int uid)
@@ -29,7 +29,7 @@ namespace Reception.Server.Repository
             return
                 uid == 0 ?
                 null :
-                await _context.Posts.FirstOrDefaultAsync(p => p.Uid == uid);
+                await _context.Posts.FirstOrDefaultAsync(p => p.Id == uid);
         }
 
         public IQueryable<PersonDto> QueryablePersons()
@@ -65,7 +65,7 @@ namespace Reception.Server.Repository
                     (p.MiddleName != null && p.MiddleName.ToLower().Contains(searchText)) ||
                     (p.Post != null && p.Post.Name.ToLower().Contains(searchText)) ||
                     p.SecondName.ToLower().Contains(searchText) ||
-                    p.Uid.ToString().Contains(searchText));
+                    p.Id.ToString().Contains(searchText));
         }
     }
 }

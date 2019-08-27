@@ -5,6 +5,9 @@ namespace Reception.Model.Dto
 {
     public class PersonDto
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Id { get; set; }
+
         public string Comment { get; set; }
 
         [Required]
@@ -14,14 +17,9 @@ namespace Reception.Model.Dto
 
         public string PhotoPath { get; set; }
                 
-        public int? PostUid { get; set; }
-        public virtual PostDto Post { get; set; }
+        public PostDto Post { get; set; }
 
         [Required]
         public string SecondName { get; set; }
-
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Uid { get; set; }
     }
 }

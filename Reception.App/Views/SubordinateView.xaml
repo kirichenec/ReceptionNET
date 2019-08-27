@@ -5,22 +5,34 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
              Design.Height="600" Design.Width="800">
-  
+
   <Grid RowDefinitions="*, Auto">
     <Grid Grid.Row="0"
           HorizontalAlignment="Stretch"
           Margin="16"
           RowDefinitions="Auto, Auto, *">
       <StackPanel Grid.Row="1">
-        <Grid Margin="0" ColumnDefinitions="*, Auto">
+        <Grid Margin="0" ColumnDefinitions="*, Auto, Auto">
           <TextBox Grid.Column="0" Text="{Binding SearchText, Mode=TwoWay}" Watermark="Search"/>
           <Button Grid.Column="1" Content="Search" Command="{Binding SearchPersonCommand}" CommandParameter="{Binding SearchText}"/>
+          <Button Grid.Column="2" Content="Clear" Command="{Binding ClearPersonsCommand}"/>
         </Grid>
-        <ListBox/>
+        <ListBox Items="{Binding Persons, Mode=OneWay}">
+          <ListBox.ItemTemplate>
+            <DataTemplate>
+              <StackPanel Orientation="Vertical">
+                <TextBlock Text="{Binding FirstName, Mode=OneWay}"/>
+                <TextBlock Text="{Binding MiddleName, Mode=OneWay}"/>
+                <TextBlock Text="{Binding SecondName, Mode=OneWay}"/>
+                <TextBlock Text="{Binding Post, Mode=OneWay}"/>
+              </StackPanel>
+            </DataTemplate>
+          </ListBox.ItemTemplate>
+        </ListBox>
       </StackPanel>
 
       <Grid Grid.Row="0" ColumnDefinitions="*, Auto">
-        <StackPanel Grid.Column="0" x:Name="PersonInfoStackPanel">
+        <StackPanel Grid.Column="0" x:Name="PersonInfoStackPanel" >
           <TextBox Text="{Binding Person.FirstName, Mode=TwoWay}" Watermark="FirstName"/>
           <TextBox Text="{Binding Person.MiddleName, Mode=TwoWay}" Watermark="MiddleName"/>
           <TextBox Text="{Binding Person.SecondName, Mode=TwoWay}" Watermark="SecondName"/>

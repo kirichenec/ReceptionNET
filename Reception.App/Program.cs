@@ -1,6 +1,8 @@
 ﻿using Avalonia;
 using Avalonia.Logging.Serilog;
 using ReactiveUI;
+using Reception.App.Models;
+using Reception.App.Network;
 using Reception.App.ViewModels;
 using Reception.App.Views;
 using Splat;
@@ -17,6 +19,7 @@ namespace Reception.App
         // Avalonia configuration, don't remove; also used by visual designer.
         public static AppBuilder BuildAvaloniaApp()
         {
+            Locator.CurrentMutable.RegisterConstant(new NetworkServise<Person>(AppSettings.ServerPath), typeof(INetworkServise<Person>));
             Locator.CurrentMutable.Register(() => new SubordinateView(), typeof(IViewFor<SubordinateViewModel>));
             Locator.CurrentMutable.Register(() => new BossView(), typeof(IViewFor<BossViewModel>));
 

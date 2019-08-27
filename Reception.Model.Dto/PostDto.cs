@@ -5,13 +5,12 @@ namespace Reception.Model.Dto
 {
     public class PostDto
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Id { get; set; }
+
         public string Comment { get; set; }
 
         [Required]
         public string Name { get; set; }
-
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Uid { get; set; }
     }
 }

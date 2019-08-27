@@ -30,9 +30,9 @@
     <!--Footer-->
     <Grid Grid.Row="2" Background="LightGray">
       <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-        <!--<TextBlock Text="Mode:"/>
-        <TextBlock Text="Boss"/>
-        <Rectangle Fill="Black" Width="1" Opacity="0.5" Margin="{DynamicResource RightBottom}"/>-->
+        <!--<TextBlock Text="Mode:"/>-->
+        <TextBlock Text="{Binding ErrorMessage}"/>
+        <Rectangle Fill="Black" Width="1" Opacity="0.5" Margin="{DynamicResource RightBottom}"/>
         <TextBlock Text="Status:"/>
         <TextBlock Text="offline"/>
         <!--<DrawingPresenter Drawing="{DynamicResource VSImageLib.Search_16x}"/>-->

@@ -4,6 +4,7 @@ using Reception.Model.Network;
 using Reception.Server.Logic;
 using Reception.Server.Model;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Reception.Server.Controllers
@@ -26,7 +27,7 @@ namespace Reception.Server.Controllers
         public async Task<IActionResult> GetPersonAsync(int id)
         {
             var person = await _personLogic.GetPersonAsync(id);
-            var info = new QueryResult<Person> { Data = person };
+            var info = new QueryResult<Person> { Data = person, ErrorCode = person == null ? ErrorCode.Ok : ErrorCode.NotFound };
             return await Task.FromResult<IActionResult>(Ok(info));
         }
 
@@ -34,8 +35,8 @@ namespace Reception.Server.Controllers
         [HttpGet]
         public async Task<IActionResult> SearchPersonAsync([FromQuery]string searchText = "")
         {
-            var person = await _personLogic.SearchPersonAsync(searchText);
-            var info = new QueryResult<List<Person>> { Data = person };
+            var persons = await _personLogic.SearchPersonAsync(searchText);
+            var info = new QueryResult<List<Person>> { Data = persons, ErrorCode = persons.Any() ? ErrorCode.Ok : ErrorCode.NotFound };
             return await Task.FromResult<IActionResult>(Ok(info));
         }
 

@@ -15,12 +15,6 @@ namespace Reception.Server.Repository
             optionsBuilder.UseSqlite(connection);
         }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            modelBuilder
-                .Entity<PersonDto>().HasIndex(b => b.PostUid).IsUnique(false);
-        }
-
         public DbSet<PersonDto> Persons { get; set; }
         public DbSet<PostDto> Posts { get; set; }
     }
