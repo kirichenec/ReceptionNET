@@ -16,12 +16,12 @@ namespace Reception.App.Network
         }
 
         public string ServerPath { get; set; }
-        
+
         public async Task<IEnumerable<T>> SearchTAsync(string searchText)
         {
             var client = new RestClient($"{ServerPath}/api/{typeof(T).Name}?searchText={searchText}");
             var request = new RestRequest(Method.GET);
-            IRestResponse response = await client.ExecuteTaskAsync(request);
+            var response = await client.ExecuteTaskAsync(request);
 
             if (response.IsSuccessful)
             {

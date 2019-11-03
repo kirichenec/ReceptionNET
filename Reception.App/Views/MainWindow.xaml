@@ -3,7 +3,7 @@
         xmlns:vm="clr-namespace:Reception.App.ViewModels;assembly=Reception.App"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:rxui="clr-namespace:Avalonia;assembly=Avalonia.ReactiveUI"
+        xmlns:reactiveUi="http://reactiveui.net"
         mc:Ignorable="d"
         x:Class="Reception.App.Views.MainWindow"
         Icon="/Assets/avalonia-logo.ico"
@@ -19,13 +19,13 @@
     </Grid>
 
     <!--Content-->
-    <rxui:RoutedViewHost Grid.Row="1" Router="{Binding Router}">
-      <rxui:RoutedViewHost.DefaultContent>
+    <reactiveUi:RoutedViewHost Grid.Row="1" Router="{Binding Router}">
+      <reactiveUi:RoutedViewHost.DefaultContent>
         <TextBlock Text="Can't load IsBoss mode"
                    HorizontalAlignment="Center"
                    VerticalAlignment="Center" />
-      </rxui:RoutedViewHost.DefaultContent>
-    </rxui:RoutedViewHost>
+      </reactiveUi:RoutedViewHost.DefaultContent>
+    </reactiveUi:RoutedViewHost>
 
     <!--Footer-->
     <Grid Grid.Row="2" Background="LightGray">

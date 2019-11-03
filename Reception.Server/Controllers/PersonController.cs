@@ -28,7 +28,7 @@ namespace Reception.Server.Controllers
         {
             var person = await _personLogic.GetPersonAsync(id);
             var info = new QueryResult<Person> { Data = person, ErrorCode = person == null ? ErrorCode.Ok : ErrorCode.NotFound };
-            return await Task.FromResult<IActionResult>(Ok(info));
+            return Ok(info);
         }
 
         // GET api/Person?searchText=5
@@ -37,13 +37,7 @@ namespace Reception.Server.Controllers
         {
             var persons = await _personLogic.SearchPersonAsync(searchText);
             var info = new QueryResult<List<Person>> { Data = persons, ErrorCode = persons.Any() ? ErrorCode.Ok : ErrorCode.NotFound };
-            return await Task.FromResult<IActionResult>(Ok(info));
-        }
-
-        // POST api/VisitorInfo
-        [HttpPost]
-        public void Post([FromBody] string value)
-        {
+            return Ok(info);
         }
     }
 }

@@ -1,5 +1,5 @@
-﻿using Avalonia;
-using Avalonia.Markup.Xaml;
+﻿using Avalonia.Markup.Xaml;
+using Avalonia.ReactiveUI;
 using ReactiveUI;
 using Reception.App.ViewModels;
 

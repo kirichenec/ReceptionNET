@@ -15,7 +15,6 @@ namespace Reception.App.ViewModels
         #region Fields
         private readonly INetworkServise<Person> _networkServiceOfPersons;
 
-        private ObservableAsPropertyHelper<IEnumerable<Person>> _clearedPersons;
         private ObservableAsPropertyHelper<IEnumerable<Person>> _searchedPersons;
         #endregion
 
@@ -26,11 +25,26 @@ namespace Reception.App.ViewModels
             HostScreen = screen;
 
             _networkServiceOfPersons = networkServiceOfPersons;
-            
+
+            #region Init SelectPersonCommand
+            SelectPersonCommand = ReactiveCommand.Create<Person, Unit?>(FillVisitorBySelected);
+
+            this.WhenAnyValue(x => x.SelectedPerson)
+                .InvokeCommand(SelectPersonCommand);
+            #endregion
+
             #region Init SearchPersonCommand
-            var canSearch = this.WhenAnyValue(x => x.SearchText, query => !string.IsNullOrWhiteSpace(query));
-            SearchPersonCommand = ReactiveCommand.CreateFromTask<string, IEnumerable<Person>>(_networkServiceOfPersons.SearchTAsync, canSearch);
-            SearchPersonCommand.ThrownExceptions.Subscribe(error => { CheckError(error); });
+            SearchPersonCommand =
+                ReactiveCommand.CreateFromTask<string, IEnumerable<Person>>(
+                    async query =>
+                    {
+                        if (string.IsNullOrWhiteSpace(query))
+                        {
+                            return new List<Person>();
+                        }
+                        return await _networkServiceOfPersons.SearchTAsync(query);
+                    });
+            SearchPersonCommand.ThrownExceptions.Subscribe(error => CheckError(error));
 
             _searchedPersons = SearchPersonCommand.ToProperty(this, x => x.Persons);
 
@@ -42,19 +56,14 @@ namespace Reception.App.ViewModels
         #endregion
 
         #region Enums
-        enum PersonsSource
-        {
-            Clear,
-            Searched
-        }
         #endregion
 
         #region Properties
 
         [Reactive]
-        public Person Person { get; set; }
+        public Person Person { get; set; } = new Person();
 
-        public IEnumerable<Person> Persons => _searchedPersons.Value;
+        public IEnumerable<Person> Persons => State == ViewModelState.Write ? _searchedPersons.Value : new List<Person>();
 
         [Reactive]
         public string SearchText { get; set; }
@@ -65,24 +74,31 @@ namespace Reception.App.ViewModels
         #endregion
 
         #region Commands
+        public ReactiveCommand<Unit, IEnumerable<Person>> ClearPersonsCommand { get; set; }
+
         public ReactiveCommand<string, IEnumerable<Person>> SearchPersonCommand { get; set; }
 
-        public ReactiveCommand<Unit, IEnumerable<Person>> ClearPersonsCommand { get; set; }
+        public ReactiveCommand<Person, Unit?> SelectPersonCommand { get; set; }
         #endregion
 
         #region Methods
         private void CheckError(Exception error)
         {
-            if (HostScreen is MainWindowViewModel mainViewMidel)
+            if (HostScreen is MainWindowViewModel mainViewModel)
             {
-                mainViewMidel.ErrorMessage = error.Message;
+                mainViewModel.ErrorMessage = error.Message;
                 var errorType = error.GetType();
                 if (errorType == typeof(NotFoundException<Person>))
                 {
-                    ClearPersonsCommand.Execute();
-                    return;
+                    SearchPersonCommand.Execute();
                 }
             }
+        }
+
+        private Unit? FillVisitorBySelected(Person person)
+        {
+            Person.CopyFrom(person);
+            return null;
         }
         #endregion
     }

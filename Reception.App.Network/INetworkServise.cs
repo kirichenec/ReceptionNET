@@ -1,5 +1,4 @@
-﻿using RestSharp;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Reception.App.Network

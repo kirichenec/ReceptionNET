@@ -11,9 +11,9 @@
         #endregion
 
         #region ctors
-        public Person(){}
+        public Person() { }
 
-        public Person(Person value)
+        public Person(Person value, bool fullLoad = true)
         {
             if (value == null)
             {
@@ -24,6 +24,13 @@
             PhotoPath = value.PhotoPath;
             Post = value.Post;
             SecondName = value.SecondName;
+
+            if (!fullLoad)
+            {
+                return;
+            }
+            Comment = value.Comment;
+            Uid = value.Uid;
         }
         #endregion
 
@@ -100,13 +107,38 @@
         #endregion
 
         #region Methods
-        public void CopyFrom(Person value)
+
+        public void CopyFrom(Person value, bool fullCopy = true)
         {
-            FirstName = value.FirstName;
-            MiddleName = value.MiddleName;
+            if (value == null)
+            {
+                Clear();
+                return;
+            }
+            FirstName = value.FirstName/* ?? string.Empty*/;
+            MiddleName = value.MiddleName/* ?? string.Empty*/;
             PhotoPath = value.PhotoPath;
             Post = value.Post;
             SecondName = value.SecondName;
+
+            if (!fullCopy)
+            {
+                return;
+            }
+            Comment = value.Comment;
+            Uid = value.Uid;
+        }
+
+        public void Clear()
+        {
+            FirstName = null;
+            MiddleName = null;
+            PhotoPath = null;
+            Post = null;
+            SecondName = null;
+
+            Comment = null;
+            Uid = 0;
         }
         #endregion
     }
