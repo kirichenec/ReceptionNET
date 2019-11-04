@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 using Reception.Model.Network;
 using Reception.Server.Logic;
 using Reception.Server.Model;
@@ -13,12 +12,10 @@ namespace Reception.Server.Controllers
     [ApiController]
     public class PersonController : ControllerBase
     {
-        private IConfiguration _configuration;
-        private IPersonLogic _personLogic;
+        private readonly IPersonLogic _personLogic;
 
-        public PersonController(IConfiguration configuration, IPersonLogic personLogic)
+        public PersonController(IPersonLogic personLogic)
         {
-            _configuration = configuration;
             _personLogic = personLogic;
         }
 
@@ -36,7 +33,7 @@ namespace Reception.Server.Controllers
         public async Task<IActionResult> SearchPersonAsync([FromQuery]string searchText = "")
         {
             var persons = await _personLogic.SearchPersonAsync(searchText);
-            var info = new QueryResult<List<Person>> { Data = persons, ErrorCode = persons.Any() ? ErrorCode.Ok : ErrorCode.NotFound };
+            var info = new QueryResult<List<Person>> { Data = persons };
             return Ok(info);
         }
     }

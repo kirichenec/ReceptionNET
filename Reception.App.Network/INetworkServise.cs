@@ -7,6 +7,8 @@ namespace Reception.App.Network
     {
         string ServerPath { get; set; }
 
+        Task<string> PingAsync();
+
         Task<IEnumerable<T>> SearchTAsync(string searchText);
     }
 }

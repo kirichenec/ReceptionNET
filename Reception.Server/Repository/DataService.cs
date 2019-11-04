@@ -9,7 +9,7 @@ namespace Reception.Server.Repository
 {
     public class DataService : IDataService
     {
-        private ReceptionContext _context;
+        private readonly ReceptionContext _context;
 
         public DataService(ReceptionContext context)
         {

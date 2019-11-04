@@ -7,7 +7,7 @@ namespace Reception.Server.Logic
 {
     public class PersonLogic : IPersonLogic
     {
-        private IDataService _dataService;
+        private readonly IDataService _dataService;
 
         public PersonLogic(IDataService dataService)
         {

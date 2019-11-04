@@ -17,6 +17,14 @@ namespace Reception.App.Network
 
         public string ServerPath { get; set; }
 
+        public async Task<string> PingAsync()
+        {
+            var client = new RestClient($"{ServerPath}/api/Helper/Ping");
+            var request = new RestRequest(Method.GET);
+            var response = await client.ExecuteTaskAsync(request);
+            return response.Content;
+        }
+
         public async Task<IEnumerable<T>> SearchTAsync(string searchText)
         {
             var client = new RestClient($"{ServerPath}/api/{typeof(T).Name}?searchText={searchText}");

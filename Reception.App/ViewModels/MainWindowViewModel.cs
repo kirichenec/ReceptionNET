@@ -23,6 +23,9 @@ namespace Reception.App.ViewModels
             ClearErrorMessageCommand = ReactiveCommand.Create(ClearErrorMessage);
 
             LoadIsBossMode();
+
+            // ping for up server
+            var pingAnswer = _networkServiceOfPersons.PingAsync();
         }
         #endregion
 

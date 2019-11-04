@@ -2,7 +2,6 @@
 using ReactiveUI.Fody.Helpers;
 using Reception.App.Models;
 using Reception.App.Network;
-using Reception.App.Network.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Reactive;
@@ -15,7 +14,7 @@ namespace Reception.App.ViewModels
         #region Fields
         private readonly INetworkServise<Person> _networkServiceOfPersons;
 
-        private ObservableAsPropertyHelper<IEnumerable<Person>> _searchedPersons;
+        private readonly ObservableAsPropertyHelper<IEnumerable<Person>> _searchedPersons;
         #endregion
 
         #region ctor
@@ -34,16 +33,11 @@ namespace Reception.App.ViewModels
             #endregion
 
             #region Init SearchPersonCommand
+            var canSearch = this.WhenAnyValue(x => x.SearchText, query => !string.IsNullOrWhiteSpace(query));
             SearchPersonCommand =
                 ReactiveCommand.CreateFromTask<string, IEnumerable<Person>>(
-                    async query =>
-                    {
-                        if (string.IsNullOrWhiteSpace(query))
-                        {
-                            return new List<Person>();
-                        }
-                        return await _networkServiceOfPersons.SearchTAsync(query);
-                    });
+                    async query => await _networkServiceOfPersons.SearchTAsync(query),
+                    canSearch);
             SearchPersonCommand.ThrownExceptions.Subscribe(error => CheckError(error));
 
             _searchedPersons = SearchPersonCommand.ToProperty(this, x => x.Persons);
@@ -87,11 +81,6 @@ namespace Reception.App.ViewModels
             if (HostScreen is MainWindowViewModel mainViewModel)
             {
                 mainViewModel.ErrorMessage = error.Message;
-                var errorType = error.GetType();
-                if (errorType == typeof(NotFoundException<Person>))
-                {
-                    SearchPersonCommand.Execute();
-                }
             }
         }
 
