@@ -59,6 +59,5 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Extensions\" />
-    <Folder Include="Network\" />
   </ItemGroup>
 </Project>

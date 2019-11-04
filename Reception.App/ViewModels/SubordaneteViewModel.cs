@@ -58,7 +58,7 @@ namespace Reception.App.ViewModels
         [Reactive]
         public Person Person { get; set; } = new Person();
 
-        public IEnumerable<Person> Persons => State == ViewModelState.Write ? _searchedPersons.Value : new List<Person>();
+        public IEnumerable<Person> Persons => _searchedPersons.Value;
 
         [Reactive]
         public string SearchText { get; set; }

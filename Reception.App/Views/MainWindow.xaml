@@ -21,7 +21,7 @@
     <!--Content-->
     <reactiveUi:RoutedViewHost Grid.Row="1" Router="{Binding Router}">
       <reactiveUi:RoutedViewHost.DefaultContent>
-        <TextBlock Text="Can't load IsBoss mode"
+        <TextBlock Text="{Binding CenterMessage}"
                    HorizontalAlignment="Center"
                    VerticalAlignment="Center" />
       </reactiveUi:RoutedViewHost.DefaultContent>
@@ -30,12 +30,13 @@
     <!--Footer-->
     <Grid Grid.Row="2" Background="LightGray">
       <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-        <!--<TextBlock Text="Mode:"/>-->
         <TextBlock Text="{Binding ErrorMessage}"/>
         <Rectangle Fill="Black" Width="1" Opacity="0.5" Margin="{DynamicResource RightBottom}"/>
-        <TextBlock Text="Status:"/>
-        <TextBlock Text="offline"/>
-        <!--<DrawingPresenter Drawing="{DynamicResource VSImageLib.Search_16x}"/>-->
+        <TextBlock Text="Server status:"/>
+        <TextBlock Text="{Binding ServerStatusMessage}"/>
+        <Rectangle Fill="Black" Width="1" Opacity="0.5" Margin="{DynamicResource RightBottom}"/>
+        <TextBlock Text="Connection status:"/>
+        <TextBlock Text="{Binding StatusMessage}"/>
       </StackPanel>
     </Grid>
   </Grid>
