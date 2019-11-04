@@ -10,7 +10,9 @@ namespace Reception.App.ViewModels
     public class MainWindowViewModel : ReactiveObject, IScreen
     {
         #region Fields
-        private readonly INetworkServise<Person> _networkServiceOfPersons;
+        private readonly INetworkService<Person> _networkServiceOfPersons;
+
+        private readonly IPingService _pingService;
 
         private string _errorMessage;
         #endregion
@@ -18,14 +20,15 @@ namespace Reception.App.ViewModels
         #region ctor
         public MainWindowViewModel()
         {
-            _networkServiceOfPersons = _networkServiceOfPersons ?? Locator.Current.GetService<INetworkServise<Person>>();
+            _networkServiceOfPersons = _networkServiceOfPersons ?? Locator.Current.GetService<INetworkService<Person>>();
+            _pingService = _pingService ?? Locator.Current.GetService<IPingService>();
 
             ClearErrorMessageCommand = ReactiveCommand.Create(ClearErrorMessage);
 
             LoadIsBossMode();
 
             // ping for up server
-            var pingAnswer = _networkServiceOfPersons.PingAsync();
+            var pingAnswer = _pingService.PingAsync();
         }
         #endregion
 

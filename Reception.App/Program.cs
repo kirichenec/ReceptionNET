@@ -21,7 +21,8 @@ namespace Reception.App
         // Avalonia configuration, don't remove; also used by visual designer.
         public static AppBuilder BuildAvaloniaApp()
         {
-            Locator.CurrentMutable.RegisterConstant(new NetworkServise<Person>(AppSettings.ServerPath), typeof(INetworkServise<Person>));
+            Locator.CurrentMutable.RegisterConstant(new NetworkService<Person>(AppSettings.ServerPath), typeof(INetworkService<Person>));
+            Locator.CurrentMutable.RegisterConstant(new NetworkService<object>(AppSettings.ServerPath), typeof(IPingService));
             Locator.CurrentMutable.Register(() => new SubordinateView(), typeof(IViewFor<SubordinateViewModel>));
             Locator.CurrentMutable.Register(() => new BossView(), typeof(IViewFor<BossViewModel>));
 

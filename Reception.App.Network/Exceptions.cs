@@ -6,8 +6,6 @@ namespace Reception.App.Network.Exceptions
     {
         public T ExceptionObjectType { get; set; }
 
-        public NotFoundException(string message) : base(message)
-        {
-        }
+        public NotFoundException(string message) : base(message) { }
     }
 }

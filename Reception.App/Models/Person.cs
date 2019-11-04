@@ -107,7 +107,6 @@
         #endregion
 
         #region Methods
-
         public void CopyFrom(Person value, bool fullCopy = true)
         {
             if (value == null)

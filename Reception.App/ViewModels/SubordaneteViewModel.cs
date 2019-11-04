@@ -1,5 +1,6 @@
 ﻿using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
+using Reception.App.Extensions;
 using Reception.App.Models;
 using Reception.App.Network;
 using System;
@@ -12,13 +13,13 @@ namespace Reception.App.ViewModels
     public class SubordinateViewModel : BaseViewModel
     {
         #region Fields
-        private readonly INetworkServise<Person> _networkServiceOfPersons;
+        private readonly INetworkService<Person> _networkServiceOfPersons;
 
         private readonly ObservableAsPropertyHelper<IEnumerable<Person>> _searchedPersons;
         #endregion
 
         #region ctor
-        public SubordinateViewModel(IScreen screen, INetworkServise<Person> networkServiceOfPersons)
+        public SubordinateViewModel(IScreen screen, INetworkService<Person> networkServiceOfPersons)
         {
             UrlPathSegment = nameof(SubordinateViewModel);
             HostScreen = screen;
@@ -86,7 +87,10 @@ namespace Reception.App.ViewModels
 
         private Unit? FillVisitorBySelected(Person person)
         {
-            Person.CopyFrom(person);
+            if (!person.IsNull())
+            {
+                Person.CopyFrom(person);
+            }
             return null;
         }
         #endregion
