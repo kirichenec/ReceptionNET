@@ -21,13 +21,13 @@
     <None Remove="Views\SubordinateView.xaml" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Avalonia" Version="0.8.999" />
-    <PackageReference Include="Avalonia.Desktop" Version="0.8.999" />
-    <PackageReference Include="Avalonia.ReactiveUI" Version="0.8.999" />
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
+    <PackageReference Include="Avalonia" Version="0.9.0-preview4" />
+    <PackageReference Include="Avalonia.Desktop" Version="0.9.0-preview4" />
+    <PackageReference Include="Avalonia.ReactiveUI" Version="0.9.0-preview4" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3-beta2" />
     <PackageReference Include="ReactiveUI.Fody" Version="10.5.7" />
     <PackageReference Include="RestSharp" Version="106.6.10" />
-    <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.6.0" />
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.7.0-preview2.19523.17" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Views\SubordinateView.xaml">

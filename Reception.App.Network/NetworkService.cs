@@ -30,7 +30,7 @@ namespace Reception.App.Network
             var response = await ExecuteGetTaskAsync($"{ServerPath}/api/Helper/Ping");
             return response.Content;
         }
-
+         
         public async Task<IEnumerable<T>> SearchTAsync(string searchText)
         {
             var response = await ExecuteGetTaskAsync($"{ServerPath}/api/{typeof(T).Name}?searchText={searchText}");
