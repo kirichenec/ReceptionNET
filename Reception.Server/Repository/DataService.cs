@@ -55,17 +55,17 @@ namespace Reception.Server.Repository
 
         private IQueryable<PersonDto> SearchPersonsQuery(string searchText)
         {
+            var likeSearchText = $"%{searchText}%";
             return
                 _context.Persons
                 .Include(p => p.Post)
                 .Where(
                     p =>
-                    (p.Comment != null && p.Comment.ToLower().Contains(searchText)) ||
-                    p.FirstName.ToLower().Contains(searchText) ||
-                    (p.MiddleName != null && p.MiddleName.ToLower().Contains(searchText)) ||
-                    (p.Post != null && p.Post.Name.ToLower().Contains(searchText)) ||
-                    p.SecondName.ToLower().Contains(searchText) ||
-                    p.Id.ToString().Contains(searchText));
+                    EF.Functions.Like(p.Comment, likeSearchText) ||
+                    EF.Functions.Like(p.FirstName, likeSearchText) ||
+                    EF.Functions.Like(p.MiddleName, likeSearchText) ||
+                    EF.Functions.Like(p.Post.Name, likeSearchText) ||
+                    EF.Functions.Like(p.SecondName, likeSearchText));
         }
     }
 }

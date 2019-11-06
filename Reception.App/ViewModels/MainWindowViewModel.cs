@@ -32,8 +32,8 @@ namespace Reception.App.ViewModels
         {
             CenterMessage = "Loading..";
 
-            _networkServiceOfPersons = _networkServiceOfPersons ?? Locator.Current.GetService<INetworkService<Person>>();
-            _pingService = _pingService ?? Locator.Current.GetService<IPingService>();
+            _networkServiceOfPersons ??= Locator.Current.GetService<INetworkService<Person>>();
+            _pingService ??= Locator.Current.GetService<IPingService>();
 
             Observable
                 .Timer(TimeSpan.Zero, TimeSpan.FromSeconds(AppSettings.PingDelay), RxApp.MainThreadScheduler)
