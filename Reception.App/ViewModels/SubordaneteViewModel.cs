@@ -54,7 +54,6 @@ namespace Reception.App.ViewModels
         #endregion
 
         #region Properties
-
         [Reactive]
         public Person Person { get; set; } = new Person();
 
@@ -65,7 +64,6 @@ namespace Reception.App.ViewModels
 
         [Reactive]
         public Person SelectedPerson { get; set; }
-
         #endregion
 
         #region Commands

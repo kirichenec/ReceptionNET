@@ -4,5 +4,27 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Reception.App.Views.BossView">
-    Welcome to Avalonia, boss!
+  <Grid RowDefinitions="Auto Auto Auto"
+        HorizontalAlignment="Center"
+        VerticalAlignment="Center">
+    
+    <TextBlock Grid.Row="0" Text="{Binding WelcomeMessage}" TextAlignment="Center" HorizontalAlignment="Center"/>
+
+    <Grid>
+      <!--Person info-->
+    </Grid>
+    
+    <StackPanel Grid.Row="2" Orientation="Horizontal">
+      <Button>
+        <TextBlock Text="In"/>
+      </Button>
+      <Button>
+        <TextBlock Text="Wait"/>
+      </Button>
+      <Button>
+        <TextBlock Text="Deny"/>
+      </Button>
+    </StackPanel>
+    
+  </Grid>
 </UserControl>
