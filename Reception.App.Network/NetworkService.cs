@@ -1,14 +1,13 @@
 ﻿using Newtonsoft.Json;
 using Reception.App.Network.Exceptions;
 using Reception.Model.Network;
-using RestSharp;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Reception.App.Network
 {
-    public class NetworkService<T> : INetworkService<T>, IPingService
+    public class NetworkService<T> : INetworkService<T>
     {
         public NetworkService(string serverPath)
         {
@@ -16,24 +15,10 @@ namespace Reception.App.Network
         }
 
         public string ServerPath { get; set; }
-
-        private async Task<IRestResponse> ExecuteGetTaskAsync(string url)
-        {
-            var client = new RestClient(url);
-            var request = new RestRequest(Method.GET);
-            var response = await client.ExecuteTaskAsync(request);
-            return response;
-        }
-
-        public async Task<string> PingAsync()
-        {
-            var response = await ExecuteGetTaskAsync($"{ServerPath}/api/Helper/Ping");
-            return response.Content;
-        }
          
         public async Task<IEnumerable<T>> SearchTAsync(string searchText)
         {
-            var response = await ExecuteGetTaskAsync($"{ServerPath}/api/{typeof(T).Name}?searchText={searchText}");
+            var response = await Core.ExecuteGetTaskAsync($"{ServerPath}/api/{typeof(T).Name}?searchText={searchText}");
 
             if (response.IsSuccessful)
             {
