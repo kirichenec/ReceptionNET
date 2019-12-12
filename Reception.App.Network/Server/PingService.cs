@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace Reception.App.Network
+namespace Reception.App.Network.Server
 {
     public class PingService : IPingService
     {

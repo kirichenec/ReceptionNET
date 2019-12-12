@@ -1,9 +1,9 @@
 ﻿using RestSharp;
 using System.Threading.Tasks;
 
-namespace Reception.App.Network
+namespace Reception.App.Network.Server
 {
-    internal class Core
+    internal static class Core
     {
         internal static async Task<IRestResponse> ExecuteGetTaskAsync(string url)
         {

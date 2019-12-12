@@ -2,11 +2,13 @@
 using ReactiveUI.Fody.Helpers;
 using Reception.App.Extensions;
 using Reception.App.Models;
-using Reception.App.Network;
+using Reception.App.Network.Exceptions;
+using Reception.App.Network.Server;
 using System;
 using System.Collections.Generic;
 using System.Reactive;
 using System.Reactive.Linq;
+using ErrorType = Reception.App.ViewModels.MainWindowViewModel.ErrorType;
 
 namespace Reception.App.ViewModels
 {
@@ -37,7 +39,28 @@ namespace Reception.App.ViewModels
             var canSearch = this.WhenAnyValue(x => x.SearchText, query => !string.IsNullOrWhiteSpace(query));
             SearchPersonCommand =
                 ReactiveCommand.CreateFromTask<string, IEnumerable<Person>>(
-                    async query => await _networkServiceOfPersons.SearchTAsync(query),
+                    async query =>
+                    {
+                        var answer = await _networkServiceOfPersons.SearchTAsync(query);
+
+                        if (HostScreen is MainWindowViewModel mainViewModel)
+                        {
+                            switch (mainViewModel.LastErrorType)
+                            {
+                                case ErrorType.No:
+                                case ErrorType.Server:
+                                case ErrorType.System:
+                                case ErrorType.Request:
+                                case ErrorType.Connection:
+                                    mainViewModel.LastErrorType = ErrorType.No;
+                                    mainViewModel.ErrorMessage = string.Empty;
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                        return answer;
+                    },
                     canSearch);
             SearchPersonCommand.ThrownExceptions.Subscribe(error => CheckError(error));
 
@@ -80,6 +103,17 @@ namespace Reception.App.ViewModels
             if (HostScreen is MainWindowViewModel mainViewModel)
             {
                 mainViewModel.ErrorMessage = error.Message;
+                if (error is NotFoundException<Person>)
+                {
+                    mainViewModel.LastErrorType = ErrorType.Request;
+                    return;
+                }
+                if (error is QueryException)
+                {
+                    mainViewModel.LastErrorType = ErrorType.Server;
+                    return;
+                }
+                mainViewModel.LastErrorType = ErrorType.System;
             }
         }
 

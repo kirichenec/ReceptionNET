@@ -3,6 +3,7 @@ using Reception.Model.Network;
 using Reception.Server.Logic;
 using Reception.Server.Model;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Reception.Server.Controllers
@@ -32,7 +33,7 @@ namespace Reception.Server.Controllers
         public async Task<IActionResult> SearchPersonAsync([FromQuery]string searchText = "")
         {
             var persons = await _personLogic.SearchPersonAsync(searchText);
-            var info = new QueryResult<List<Person>> { Data = persons };
+            var info = new QueryResult<List<Person>> { Data = persons, ErrorCode = persons.Any() ? ErrorCode.Ok : ErrorCode.NotFound };
             return Ok(info);
         }
     }

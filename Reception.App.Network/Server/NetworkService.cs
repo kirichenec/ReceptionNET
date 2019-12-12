@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Reception.App.Network
+namespace Reception.App.Network.Server
 {
     public class NetworkService<T> : INetworkService<T>
     {
@@ -31,7 +31,7 @@ namespace Reception.App.Network
                 {
                     throw new NotFoundException<T>(ErrorCode.NotFound.ToString());
                 }
-                throw new Exception(content.ErrorMessage);
+                throw new QueryException(content.ErrorMessage);
             }
             throw response.ErrorException;
         }

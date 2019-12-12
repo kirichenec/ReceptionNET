@@ -1,7 +1,8 @@
 ﻿using ReactiveUI;
+using ReactiveUI.Fody.Helpers;
 using Reception.App.Constants;
 using Reception.App.Models;
-using Reception.App.Network;
+using Reception.App.Network.Server;
 using Splat;
 using System;
 using System.Reactive.Linq;
@@ -12,25 +13,20 @@ namespace Reception.App.ViewModels
     public class MainWindowViewModel : ReactiveObject, IScreen
     {
         #region Fields
-        private string _centerMessage;
-
-        private string _errorMessage;
-
-        private ErrorType _lastErrorType = ErrorType.No;
-
         private readonly INetworkService<Person> _networkServiceOfPersons;
 
         private readonly IPingService _pingService;
-
-        private string _serverStatusMessage = ConnectionStatus.OFFLINE.ToLower();
-
-        private string _statusMessage = ConnectionStatus.OFFLINE.ToLower();
         #endregion
 
         #region ctor
         public MainWindowViewModel()
         {
             CenterMessage = "Loading..";
+
+            ServerStatusMessage = ConnectionStatus.OFFLINE.ToLower();
+            StatusMessage = ConnectionStatus.OFFLINE.ToLower();
+
+            Router = new RoutingState();
 
             _networkServiceOfPersons ??= Locator.Current.GetService<INetworkService<Person>>();
             _pingService ??= Locator.Current.GetService<IPingService>();
@@ -46,24 +42,33 @@ namespace Reception.App.ViewModels
         #endregion
 
         #region Enums
-        enum ErrorType
+        public enum ErrorType
         {
             No,
             Server,
-            Connection
+            Connection,
+            System,
+            Request
         }
         #endregion
 
         #region Properties
-        public string CenterMessage { get => _centerMessage; set => this.RaiseAndSetIfChanged(ref _centerMessage, value); }
+        [Reactive]
+        public string CenterMessage { get; set; }
 
-        public string ErrorMessage { get => _errorMessage; set => this.RaiseAndSetIfChanged(ref _errorMessage, value); }
+        [Reactive]
+        public string ErrorMessage { get; set; }
 
-        public RoutingState Router { get; } = new RoutingState();
+        [Reactive]
+        public ErrorType LastErrorType { get; set; }
 
-        public string ServerStatusMessage { get => _serverStatusMessage; set => this.RaiseAndSetIfChanged(ref _serverStatusMessage, value); }
+        public RoutingState Router { get; }
 
-        public string StatusMessage { get => _statusMessage; set => this.RaiseAndSetIfChanged(ref _statusMessage, value); }
+        [Reactive]
+        public string ServerStatusMessage { get; set; }
+
+        [Reactive]
+        public string StatusMessage { get; set; }
         #endregion
 
         #region Methods
@@ -82,6 +87,7 @@ namespace Reception.App.ViewModels
             }
             catch (Exception)
             {
+                LastErrorType = ErrorType.System;
                 ErrorMessage = "Can't load IsBoss mode";
             }
         }
@@ -92,16 +98,16 @@ namespace Reception.App.ViewModels
             {
                 await _pingService.PingAsync();
                 ServerStatusMessage = ConnectionStatus.ONLINE.ToLower();
-                if (_lastErrorType == ErrorType.Server)
+                if (LastErrorType == ErrorType.Server)
                 {
-                    _lastErrorType = ErrorType.No;
+                    LastErrorType = ErrorType.No;
                     ErrorMessage = null;
                 }
             }
             catch (Exception ex)
             {
                 ServerStatusMessage = ConnectionStatus.OFFLINE.ToLower();
-                _lastErrorType = ErrorType.Server;
+                LastErrorType = ErrorType.Server;
                 ErrorMessage = ex.Message;
             }
         }

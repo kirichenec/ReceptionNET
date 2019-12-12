@@ -4,14 +4,14 @@ using Avalonia.Logging.Serilog;
 using Avalonia.ReactiveUI;
 using ReactiveUI;
 using Reception.App.Models;
-using Reception.App.Network;
+using Reception.App.Network.Server;
 using Reception.App.ViewModels;
 using Reception.App.Views;
 using Splat;
 
 namespace Reception.App
 {
-    class Program
+    static class Program
     {
         // Initialization code. Don't use any Avalonia, third-party APIs or any
         // SynchronizationContext-reliant code before AppMain is called: things aren't initialized
