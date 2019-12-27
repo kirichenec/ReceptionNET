@@ -1,7 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Reception.App.Network.Exceptions;
 using Reception.Model.Network;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
