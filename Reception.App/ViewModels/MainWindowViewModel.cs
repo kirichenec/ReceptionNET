@@ -13,8 +13,6 @@ namespace Reception.App.ViewModels
     public class MainWindowViewModel : ReactiveObject, IScreen
     {
         #region Fields
-        private readonly INetworkService<Person> _networkServiceOfPersons;
-
         private readonly IPingService _pingService;
         #endregion
 
@@ -28,7 +26,6 @@ namespace Reception.App.ViewModels
 
             Router = new RoutingState();
 
-            _networkServiceOfPersons ??= Locator.Current.GetService<INetworkService<Person>>();
             _pingService ??= Locator.Current.GetService<IPingService>();
 
             Observable
@@ -82,7 +79,7 @@ namespace Reception.App.ViewModels
                 }
                 else
                 {
-                    Router.Navigate.Execute(new SubordinateViewModel(this, _networkServiceOfPersons));
+                    Router.Navigate.Execute(new SubordinateViewModel(this));
                 }
             }
             catch (Exception)

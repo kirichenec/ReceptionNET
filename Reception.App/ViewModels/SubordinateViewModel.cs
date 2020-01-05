@@ -4,6 +4,7 @@ using Reception.App.Extensions;
 using Reception.App.Models;
 using Reception.App.Network.Exceptions;
 using Reception.App.Network.Server;
+using Splat;
 using System;
 using System.Collections.Generic;
 using System.Reactive;
@@ -21,12 +22,12 @@ namespace Reception.App.ViewModels
         #endregion
 
         #region ctor
-        public SubordinateViewModel(IScreen screen, INetworkService<Person> networkServiceOfPersons)
+        public SubordinateViewModel(IScreen screen)
         {
             UrlPathSegment = nameof(SubordinateViewModel);
             HostScreen = screen;
 
-            _networkServiceOfPersons = networkServiceOfPersons;
+            _networkServiceOfPersons ??= Locator.Current.GetService<INetworkService<Person>>();
 
             #region Init SelectPersonCommand
             SelectPersonCommand = ReactiveCommand.Create<Person, Unit?>(FillVisitorBySelected);
