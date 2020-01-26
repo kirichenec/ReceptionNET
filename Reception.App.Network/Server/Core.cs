@@ -9,7 +9,7 @@ namespace Reception.App.Network.Server
         {
             var client = new RestClient(url);
             var request = new RestRequest(Method.GET);
-            var response = await client.ExecuteTaskAsync(request);
+            var response = await client.ExecuteAsync(request);
             return response;
         }
     }

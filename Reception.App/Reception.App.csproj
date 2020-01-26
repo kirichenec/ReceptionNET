@@ -1,7 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <OutputType>Exe</OutputType>
+    <OutputType>WinExe</OutputType>
     <TargetFrameworks>netcoreapp3.1</TargetFrameworks>
+    <ApplicationIcon />
+    <StartupObject />
   </PropertyGroup>
   <ItemGroup>
     <Compile Update="**\*.xaml.cs">
@@ -21,12 +23,12 @@
     <None Remove="Views\SubordinateView.xaml" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Avalonia" Version="0.9.999-cibuild*" />
-    <PackageReference Include="Avalonia.Desktop" Version="0.9.999-cibuild*" />
-    <PackageReference Include="Avalonia.ReactiveUI" Version="0.9.999-cibuild*" />
+    <PackageReference Include="Avalonia" Version="0.9.999-cibuild0005661-beta" />
+    <PackageReference Include="Avalonia.Desktop" Version="0.9.999-cibuild0005661-beta" />
+    <PackageReference Include="Avalonia.ReactiveUI" Version="0.9.999-cibuild0005661-beta" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
-    <PackageReference Include="ReactiveUI.Fody" Version="11.1.1" />
-    <PackageReference Include="RestSharp" Version="106.6.10" />
+    <PackageReference Include="ReactiveUI.Fody" Version="11.1.12" />
+    <PackageReference Include="RestSharp" Version="106.10.2-alpha.0.8" />
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.7.0" />
   </ItemGroup>
   <ItemGroup>
