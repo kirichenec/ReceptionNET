@@ -16,7 +16,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		..\Order.txt = ..\Order.txt
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reception.App.Network", "..\Reception.App.Network\Reception.App.Network.csproj", "{F15FA492-77EB-4A09-BC95-6BA3412EFE6F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reception.App.Network", "..\Reception.App.Network\Reception.App.Network.csproj", "{F15FA492-77EB-4A09-BC95-6BA3412EFE6F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reception.Model.Interfaces", "..\Reception.Model.Interfaces\Reception.Model.Interfaces.csproj", "{FD82375F-77E4-4D4B-9D62-999DAB2048AF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -44,6 +46,10 @@ Global
 		{F15FA492-77EB-4A09-BC95-6BA3412EFE6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F15FA492-77EB-4A09-BC95-6BA3412EFE6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F15FA492-77EB-4A09-BC95-6BA3412EFE6F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FD82375F-77E4-4D4B-9D62-999DAB2048AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FD82375F-77E4-4D4B-9D62-999DAB2048AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FD82375F-77E4-4D4B-9D62-999DAB2048AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FD82375F-77E4-4D4B-9D62-999DAB2048AF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

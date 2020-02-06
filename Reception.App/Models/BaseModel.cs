@@ -1,9 +1,11 @@
-﻿namespace Reception.App.Models
+﻿using Reception.Model.Interfaces;
+
+namespace Reception.App.Models
 {
-    public class BaseModel : PropertyChangedModel
+    public class BaseModel : PropertyChangedModel, IUnique
     {
         private string _comment;
-        private int _uid;
+        private int _id;
 
         public string Comment
         {
@@ -19,16 +21,16 @@
             }
         }
 
-        public int Uid
+        public int Id
         {
-            get { return _uid; }
+            get { return _id; }
             set
             {
-                if (_uid == value)
+                if (_id == value)
                 {
                     return;
                 }
-                _uid = value;
+                _id = value;
                 NotifyPropertyChanged();
             }
         }

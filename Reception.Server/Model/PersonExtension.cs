@@ -12,7 +12,7 @@ namespace Reception.Server.Model
             This.PhotoPath = personDto.PhotoPath;
             This.Post = personDto.Post?.Name;
             This.SecondName = personDto.SecondName;
-            This.Uid = personDto.Id;
+            This.Id = personDto.Id;
         }
 
         public static Person PersonFromDto(PersonDto personDto)
@@ -28,7 +28,7 @@ namespace Reception.Server.Model
                     PhotoPath = personDto.PhotoPath,
                     Post = personDto.Post?.Name,
                     SecondName = personDto.SecondName,
-                    Uid = personDto.Id
+                    Id = personDto.Id
                 };
         }
     }

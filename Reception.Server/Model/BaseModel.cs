@@ -1,9 +1,11 @@
-﻿namespace Reception.Server.Model
+﻿using Reception.Model.Interfaces;
+
+namespace Reception.Server.Model
 {
-    public class BaseModel
+    public class BaseModel : IUnique
     {
         public string Comment { get; set; }
 
-        public int Uid { get; set; }
+        public int Id { get; set; }
     }
 }

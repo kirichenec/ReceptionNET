@@ -30,7 +30,7 @@
                 return;
             }
             Comment = value.Comment;
-            Uid = value.Uid;
+            Id = value.Id;
         }
         #endregion
 
@@ -125,7 +125,7 @@
                 return;
             }
             Comment = value.Comment;
-            Uid = value.Uid;
+            Id = value.Id;
         }
 
         public void Clear()
@@ -137,7 +137,7 @@
             SecondName = null;
 
             Comment = null;
-            Uid = 0;
+            Id = 0;
         }
         #endregion
     }

@@ -15,7 +15,7 @@ namespace Reception.Server.Model
                     PhotoPath = personDto.PhotoPath,
                     Post = personDto.Post?.Name,
                     SecondName = personDto.SecondName,
-                    Uid = personDto.Id
+                    Id = personDto.Id
                 };
         }
     }

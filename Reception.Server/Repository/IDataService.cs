@@ -7,8 +7,8 @@ namespace Reception.Server.Repository
 {
     public interface IDataService
     {
-        Task<PersonDto> GetPersonAsync(int uid);
-        Task<PostDto> GetPostAsync(int uid);
+        Task<PersonDto> GetPersonAsync(int id);
+        Task<PostDto> GetPostAsync(int id);
         IQueryable<PersonDto> QueryablePersons();
         Task<List<PersonDto>> SearchPersonsAsync(string searchText);
         Task<List<PersonDto>> SearchPersonsPagedAsync(string searchText, int count, int page);

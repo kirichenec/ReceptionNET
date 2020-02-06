@@ -16,20 +16,20 @@ namespace Reception.Server.Repository
             _context = context;
         }
 
-        public async Task<PersonDto> GetPersonAsync(int uid)
+        public async Task<PersonDto> GetPersonAsync(int id)
         {
             return
-                uid == 0 ?
+                id == 0 ?
                 null :
-                await _context.Persons.Include(p => p.Post).FirstOrDefaultAsync(p => p.Id == uid);
+                await _context.Persons.Include(p => p.Post).FirstOrDefaultAsync(p => p.Id == id);
         }
 
-        public async Task<PostDto> GetPostAsync(int uid)
+        public async Task<PostDto> GetPostAsync(int id)
         {
             return
-                uid == 0 ?
+                id == 0 ?
                 null :
-                await _context.Posts.FirstOrDefaultAsync(p => p.Id == uid);
+                await _context.Posts.FirstOrDefaultAsync(p => p.Id == id);
         }
 
         public IQueryable<PersonDto> QueryablePersons()

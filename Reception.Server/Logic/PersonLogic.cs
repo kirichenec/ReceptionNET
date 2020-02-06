@@ -14,9 +14,9 @@ namespace Reception.Server.Logic
             _dataService = dataService;
         }
 
-        public async Task<Person> GetPersonAsync(int uid)
+        public async Task<Person> GetPersonAsync(int id)
         {
-            return PersonExtension.PersonFromDto(await _dataService.GetPersonAsync(uid));
+            return PersonExtension.PersonFromDto(await _dataService.GetPersonAsync(id));
         }
 
         public async Task<List<Person>> SearchPersonAsync(string searchText)
