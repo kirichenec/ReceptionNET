@@ -8,16 +8,16 @@ namespace Reception.App.Network.Server
 {
     public class NetworkService<T> : INetworkService<T>
     {
+        private readonly string _serverPath;
+
         public NetworkService(string serverPath)
         {
-            ServerPath = serverPath;
+            _serverPath = serverPath;
         }
-
-        public string ServerPath { get; set; }
          
         public async Task<IEnumerable<T>> SearchTAsync(string searchText)
         {
-            var response = await Core.ExecuteGetTaskAsync($"{ServerPath}/api/{typeof(T).Name}?searchText={searchText}");
+            var response = await Core.ExecuteGetTaskAsync($"{_serverPath}/api/{typeof(T).Name}?searchText={searchText}");
 
             if (response.IsSuccessful)
             {

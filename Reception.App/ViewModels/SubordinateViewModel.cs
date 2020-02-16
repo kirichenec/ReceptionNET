@@ -7,8 +7,10 @@ using Reception.App.Network.Server;
 using Splat;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
+using System.Threading.Tasks;
 using ErrorType = Reception.App.ViewModels.MainWindowViewModel.ErrorType;
 
 namespace Reception.App.ViewModels
@@ -27,10 +29,12 @@ namespace Reception.App.ViewModels
             UrlPathSegment = nameof(SubordinateViewModel);
             HostScreen = screen;
 
+            SearchText = string.Empty;
+
             _networkServiceOfPersons ??= Locator.Current.GetService<INetworkService<Person>>();
 
             #region Init SelectPersonCommand
-            SelectPersonCommand = ReactiveCommand.Create<Person, Unit?>(FillVisitorBySelected);
+            SelectPersonCommand = ReactiveCommand.Create<Person, bool>(FillVisitorBySelected);
 
             this.WhenAnyValue(x => x.SelectedPerson)
                 .InvokeCommand(SelectPersonCommand);
@@ -40,30 +44,9 @@ namespace Reception.App.ViewModels
             var canSearch = this.WhenAnyValue(x => x.SearchText, query => !string.IsNullOrWhiteSpace(query));
             SearchPersonCommand =
                 ReactiveCommand.CreateFromTask<string, IEnumerable<Person>>(
-                    async query =>
-                    {
-                        var answer = await _networkServiceOfPersons.SearchTAsync(query);
-
-                        if (HostScreen is MainWindowViewModel mainViewModel)
-                        {
-                            switch (mainViewModel.LastErrorType)
-                            {
-                                case ErrorType.No:
-                                case ErrorType.Server:
-                                case ErrorType.System:
-                                case ErrorType.Request:
-                                case ErrorType.Connection:
-                                    mainViewModel.LastErrorType = ErrorType.No;
-                                    mainViewModel.ErrorMessage = string.Empty;
-                                    break;
-                                default:
-                                    break;
-                            }
-                        }
-                        return answer;
-                    },
+                    async query => await GetAnswer(query),
                     canSearch);
-            SearchPersonCommand.ThrownExceptions.Subscribe(error => CheckError(error));
+            SearchPersonCommand.ThrownExceptions.Subscribe(error => ShowError(error));
 
             _searchedPersons = SearchPersonCommand.ToProperty(this, x => x.Persons);
 
@@ -71,17 +54,19 @@ namespace Reception.App.ViewModels
                 .Throttle(TimeSpan.FromSeconds(1), RxApp.MainThreadScheduler)
                 .InvokeCommand(SearchPersonCommand);
             #endregion
-        }
-        #endregion
 
-        #region Enums
+            #region Init ClearSearchPersonCommand
+            var canClearSearch = this.WhenAnyValue(x => x.SearchText, query => !string.IsNullOrWhiteSpace(query) || Persons.Any());
+            ClearSearchPersonCommand = ReactiveCommand.CreateFromTask<Unit, bool>(ClearSearchPersons, canClearSearch);
+            #endregion
+        }
         #endregion
 
         #region Properties
         [Reactive]
         public Person Person { get; set; } = new Person();
 
-        public IEnumerable<Person> Persons => _searchedPersons.Value;
+        public IEnumerable<Person> Persons => _searchedPersons.Value ?? Array.Empty<Person>();
 
         [Reactive]
         public string SearchText { get; set; }
@@ -91,15 +76,59 @@ namespace Reception.App.ViewModels
         #endregion
 
         #region Commands
-        public ReactiveCommand<Unit, IEnumerable<Person>> ClearPersonsCommand { get; set; }
+        public ReactiveCommand<Unit, bool> ClearSearchPersonCommand { get; set; }
 
         public ReactiveCommand<string, IEnumerable<Person>> SearchPersonCommand { get; set; }
 
-        public ReactiveCommand<Person, Unit?> SelectPersonCommand { get; set; }
+        public ReactiveCommand<Person, bool> SelectPersonCommand { get; set; }
         #endregion
 
         #region Methods
-        private void CheckError(Exception error)
+        private async Task<bool> ClearSearchPersons(Unit _)
+        {
+            await SearchPersonCommand.Execute();
+            return true;
+        }
+
+        private bool FillVisitorBySelected(Person person)
+        {
+            if (!person.IsNull())
+            {
+                Person.CopyFrom(person);
+                return true;
+            }
+            return false;
+        }
+
+        private async Task<IEnumerable<Person>> GetAnswer(string query)
+        {
+            if (query == null)
+            {
+                return Array.Empty<Person>();
+            }
+
+            var answer = await _networkServiceOfPersons.SearchTAsync(query);
+
+            if (HostScreen is MainWindowViewModel mainViewModel)
+            {
+                switch (mainViewModel.LastErrorType)
+                {
+                    case ErrorType.No:
+                    case ErrorType.Server:
+                    case ErrorType.System:
+                    case ErrorType.Request:
+                    case ErrorType.Connection:
+                        mainViewModel.LastErrorType = ErrorType.No;
+                        mainViewModel.ErrorMessage = string.Empty;
+                        break;
+                    default:
+                        break;
+                }
+            }
+            return answer;
+        }
+
+        private void ShowError(Exception error)
         {
             if (HostScreen is MainWindowViewModel mainViewModel)
             {
@@ -116,15 +145,6 @@ namespace Reception.App.ViewModels
                 }
                 mainViewModel.LastErrorType = ErrorType.System;
             }
-        }
-
-        private Unit? FillVisitorBySelected(Person person)
-        {
-            if (!person.IsNull())
-            {
-                Person.CopyFrom(person);
-            }
-            return null;
         }
         #endregion
     }
