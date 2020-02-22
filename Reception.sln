@@ -13,14 +13,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reception.Model.Network", "
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{13F90241-20A2-4BA3-AC06-BAFA300468CA}"
 	ProjectSection(SolutionItems) = preProject
-		Order.txt = Order.txt
+		Reception.AdditionalFiles\Order.txt = Reception.AdditionalFiles\Order.txt
+		Reception.AdditionalFiles\RC.svg = Reception.AdditionalFiles\RC.svg
+		Reception.AdditionalFiles\RCgit.png = Reception.AdditionalFiles\RCgit.png
+		Reception.AdditionalFiles\RClogo.png = Reception.AdditionalFiles\RClogo.png
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reception.App.Network", "Reception.App.Network\Reception.App.Network.csproj", "{F15FA492-77EB-4A09-BC95-6BA3412EFE6F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reception.Model.Interfaces", "Reception.Model.Interfaces\Reception.Model.Interfaces.csproj", "{FD82375F-77E4-4D4B-9D62-999DAB2048AF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reception.Server.Chat", "Reception.Server.Chat\Reception.Server.Chat.csproj", "{AE5262AC-5DC0-4D3C-957D-ACAD6113F1C5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reception.Server.Chat", "Reception.Server.Chat\Reception.Server.Chat.csproj", "{AE5262AC-5DC0-4D3C-957D-ACAD6113F1C5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
