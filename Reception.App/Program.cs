@@ -22,11 +22,7 @@ namespace Reception.App
         // Avalonia configuration, don't remove; also used by visual designer.
         public static AppBuilder BuildAvaloniaApp()
         {
-            Locator.CurrentMutable.RegisterConstant(new NetworkService<Person>(AppSettings.ServerPath), typeof(INetworkService<Person>));
-            Locator.CurrentMutable.RegisterConstant(new PingService(AppSettings.ServerPath), typeof(IPingService));
-            Locator.CurrentMutable.Register(() => new ClientService(AppSettings.ChatServerPath, true), typeof(IClientService));
-            Locator.CurrentMutable.Register(() => new SubordinateView(), typeof(IViewFor<SubordinateViewModel>));
-            Locator.CurrentMutable.Register(() => new BossView(), typeof(IViewFor<BossViewModel>));
+            InitLocatorObjects();
 
             return
                 AppBuilder
@@ -34,6 +30,16 @@ namespace Reception.App
                     .UsePlatformDetect()
                     .LogToDebug()
                     .UseReactiveUI();
+        }
+
+        private static void InitLocatorObjects()
+        {
+            Locator.CurrentMutable.RegisterConstant(new NetworkService<Person>(AppSettings.ServerPath), typeof(INetworkService<Person>));
+            Locator.CurrentMutable.RegisterConstant(new PingService(AppSettings.ServerPath), typeof(IPingService));
+            //TODO: change 333 to normal userId
+            Locator.CurrentMutable.Register(() => new ClientService(333, AppSettings.ChatServerPath, true), typeof(IClientService));
+            Locator.CurrentMutable.Register(() => new SubordinateView(), typeof(IViewFor<SubordinateViewModel>));
+            Locator.CurrentMutable.Register(() => new BossView(), typeof(IViewFor<BossViewModel>));
         }
 
         // Your application's entry point. Here you can initialize your MVVM framework, DI

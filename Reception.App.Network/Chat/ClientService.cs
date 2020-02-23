@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.SignalR.Client;
+using Reception.App.Network.Chat.Constants;
+using Reception.Model.Network;
 using System;
 using System.Threading.Tasks;
 
@@ -8,11 +10,15 @@ namespace Reception.App.Network.Chat
     {
         #region Fields
         private readonly HubConnection _client;
+
+        private readonly int _userId;
         #endregion
 
         #region ctor
-        public ClientService(string serverPath, bool withReconnect = true)
+        public ClientService(int userId, string serverPath, bool withReconnect = true)
         {
+            _userId = userId;
+
             var hubBuilder = new HubConnectionBuilder().WithUrl(serverPath);
             if (withReconnect)
             {
@@ -23,11 +29,17 @@ namespace Reception.App.Network.Chat
             _client.Closed += Closed;
             _client.Reconnected += Reconnected;
             _client.Reconnecting += Reconnecting;
+            
+            _client.On(ChatMethodType.RECEIVER, OnReceive());
         }
         #endregion
 
         #region Events
         public event Func<Exception, Task> Closed;
+
+        public event Func<bool, Task> Connected;
+
+        public event Func<int, object, Task> MessageReceived;
 
         public event Func<string, Task> Reconnected;
 
@@ -35,14 +47,20 @@ namespace Reception.App.Network.Chat
         #endregion
 
         #region Methods
-        public async Task SendAsync(object value)
+        private Func<int, QueryResult<object>, Task> OnReceive()
         {
-            await _client.SendAsync("SendMessage", value);
+            return (userId, message) => MessageReceived?.Invoke(userId, message.Data);
         }
 
-        public async Task StartAsync()
+        public async Task SendAsync(object value)
+        {
+            await _client.SendAsync(ChatMethodNames.SEND_MESSAGE_BROADCAST, _userId, new QueryResult<object> { Data = value });
+        }
+
+        public async Task StartClientAsync()
         {
             await _client.StartAsync();
+            Connected?.Invoke(true);
         }
 
         #region IDisposable Support

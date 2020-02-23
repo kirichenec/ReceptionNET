@@ -1,4 +1,5 @@
-﻿using ReactiveUI;
+﻿using Newtonsoft.Json;
+using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using Reception.App.Extensions;
 using Reception.App.Models;
@@ -19,11 +20,11 @@ namespace Reception.App.ViewModels
     public class SubordinateViewModel : BaseViewModel
     {
         #region Fields
+        private readonly IClientService _clientService;
+
         private readonly INetworkService<Person> _networkServiceOfPersons;
 
         private readonly ObservableAsPropertyHelper<IEnumerable<Person>> _searchedPersons;
-
-        private readonly IClientService _clientService;
         #endregion
 
         #region ctor
@@ -35,7 +36,11 @@ namespace Reception.App.ViewModels
             SearchText = string.Empty;
 
             _networkServiceOfPersons ??= Locator.Current.GetService<INetworkService<Person>>();
+
+            #region Init Chat service
             _clientService ??= Locator.Current.GetService<IClientService>();
+            _clientService.MessageReceived += MessageReceived;
+            #endregion
 
             #region Init SelectPersonCommand
             SelectPersonCommand = ReactiveCommand.Create<Person, bool>(FillVisitorBySelected);
@@ -48,7 +53,7 @@ namespace Reception.App.ViewModels
             var canSearch = this.WhenAnyValue(x => x.SearchText, query => !string.IsNullOrWhiteSpace(query));
             SearchPersonCommand =
                 ReactiveCommand.CreateFromTask<string, IEnumerable<Person>>(
-                    async query => await GetAnswer(query),
+                    async query => await SearchPersons(query),
                     canSearch);
             SearchPersonCommand.ThrownExceptions.Subscribe(error => ShowError(error));
 
@@ -67,19 +72,28 @@ namespace Reception.App.ViewModels
             #region Init SendPersonCommand
             var canSendPerson =
                 this.WhenAnyValue(
-                    x => x.Person,
-                    x => x.Person.Comment, x => x.Person.FirstName, x => x.Person.Message,
-                    x => x.Person.MiddleName, x => x.Person.Post, x => x.Person.SecondName,
+                    x => x.Visitor,
+                    x => x.Visitor.Comment, x => x.Visitor.FirstName, x => x.Visitor.Message,
+                    x => x.Visitor.MiddleName, x => x.Visitor.Post, x => x.Visitor.SecondName,
                     (person, _, __, ___, ____, _____, ______) =>
                     !person.IsNullOrEmpty());
-            SendPersonCommand = ReactiveCommand.CreateFromTask<VisitorInfo, bool>(SendPerson, canSendPerson);
+            SendVisitorCommand = ReactiveCommand.CreateFromTask<VisitorInfo, bool>(SendVisitor, canSendPerson);
             #endregion
+
+            Initialized = SubordinateViewModel_Initialized;
+            Initialized.Invoke();
         }
+        #endregion
+
+        #region Events
+
+        private event Func<Task<bool>> Initialized;
+
         #endregion
 
         #region Properties
         [Reactive]
-        public VisitorInfo Person { get; set; } = new VisitorInfo();
+        public VisitorInfo Visitor { get; set; } = new VisitorInfo();
 
         public IEnumerable<Person> Persons => _searchedPersons.Value ?? Array.Empty<Person>();
 
@@ -97,13 +111,14 @@ namespace Reception.App.ViewModels
 
         public ReactiveCommand<Person, bool> SelectPersonCommand { get; }
 
-        public ReactiveCommand<VisitorInfo, bool> SendPersonCommand { get; }
+        public ReactiveCommand<VisitorInfo, bool> SendVisitorCommand { get; }
         #endregion
 
         #region Methods
         private async Task<bool> ClearSearchPersons(Unit _)
         {
             await SearchPersonCommand.Execute();
+            SearchText = string.Empty;
             return true;
         }
 
@@ -111,13 +126,22 @@ namespace Reception.App.ViewModels
         {
             if (!person.IsNull())
             {
-                Person.CopyFrom(person);
+                Visitor.CopyFrom(person);
                 return true;
             }
             return false;
         }
 
-        private async Task<IEnumerable<Person>> GetAnswer(string query)
+        private Task MessageReceived(int userId, object message)
+        {
+            //TODO: switch message types
+            var iii = JsonConvert.DeserializeObject(message.ToString(), typeof(VisitorInfo));
+            var xxx = iii as VisitorInfo;
+
+            return Task.FromResult(true);
+        }
+
+        private async Task<IEnumerable<Person>> SearchPersons(string query)
         {
             if (query == null)
             {
@@ -145,10 +169,33 @@ namespace Reception.App.ViewModels
             return answer;
         }
 
-        private async Task<bool> SendPerson(Person person)
+        private async Task<bool> SendVisitor(VisitorInfo visitor)
         {
-            await _clientService.SendAsync(person);
-            return true;
+            try
+            {
+                visitor.IncomingDate = DateTime.Now;
+                await _clientService.SendAsync(visitor);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                ShowError(ex);
+                return false;
+            }
+        }
+
+        private async Task<bool> SubordinateViewModel_Initialized()
+        {
+            try
+            {
+                await _clientService.StartClientAsync();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                throw;
+            }
         }
 
         private void ShowError(Exception error)
@@ -169,7 +216,6 @@ namespace Reception.App.ViewModels
                 mainViewModel.LastErrorType = ErrorType.System;
             }
         }
-
         #endregion
     }
 }
