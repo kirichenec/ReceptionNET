@@ -2,6 +2,7 @@
 using ReactiveUI.Fody.Helpers;
 using Reception.App.Extensions;
 using Reception.App.Models;
+using Reception.App.Network.Chat;
 using Reception.App.Network.Exceptions;
 using Reception.App.Network.Server;
 using Splat;
@@ -21,6 +22,8 @@ namespace Reception.App.ViewModels
         private readonly INetworkService<Person> _networkServiceOfPersons;
 
         private readonly ObservableAsPropertyHelper<IEnumerable<Person>> _searchedPersons;
+
+        private readonly IClientService _clientService;
         #endregion
 
         #region ctor
@@ -32,6 +35,7 @@ namespace Reception.App.ViewModels
             SearchText = string.Empty;
 
             _networkServiceOfPersons ??= Locator.Current.GetService<INetworkService<Person>>();
+            _clientService ??= Locator.Current.GetService<IClientService>();
 
             #region Init SelectPersonCommand
             SelectPersonCommand = ReactiveCommand.Create<Person, bool>(FillVisitorBySelected);
@@ -59,12 +63,23 @@ namespace Reception.App.ViewModels
             var canClearSearch = this.WhenAnyValue(x => x.SearchText, query => !string.IsNullOrWhiteSpace(query) || Persons.Any());
             ClearSearchPersonCommand = ReactiveCommand.CreateFromTask<Unit, bool>(ClearSearchPersons, canClearSearch);
             #endregion
+
+            #region Init SendPersonCommand
+            var canSendPerson =
+                this.WhenAnyValue(
+                    x => x.Person,
+                    x => x.Person.Comment, x => x.Person.FirstName, x => x.Person.Message,
+                    x => x.Person.MiddleName, x => x.Person.Post, x => x.Person.SecondName,
+                    (person, _, __, ___, ____, _____, ______) =>
+                    !person.IsNullOrEmpty());
+            SendPersonCommand = ReactiveCommand.CreateFromTask<VisitorInfo, bool>(SendPerson, canSendPerson);
+            #endregion
         }
         #endregion
 
         #region Properties
         [Reactive]
-        public Person Person { get; set; } = new Person();
+        public VisitorInfo Person { get; set; } = new VisitorInfo();
 
         public IEnumerable<Person> Persons => _searchedPersons.Value ?? Array.Empty<Person>();
 
@@ -76,11 +91,13 @@ namespace Reception.App.ViewModels
         #endregion
 
         #region Commands
-        public ReactiveCommand<Unit, bool> ClearSearchPersonCommand { get; set; }
+        public ReactiveCommand<Unit, bool> ClearSearchPersonCommand { get; }
 
-        public ReactiveCommand<string, IEnumerable<Person>> SearchPersonCommand { get; set; }
+        public ReactiveCommand<string, IEnumerable<Person>> SearchPersonCommand { get; }
 
-        public ReactiveCommand<Person, bool> SelectPersonCommand { get; set; }
+        public ReactiveCommand<Person, bool> SelectPersonCommand { get; }
+
+        public ReactiveCommand<VisitorInfo, bool> SendPersonCommand { get; }
         #endregion
 
         #region Methods
@@ -128,6 +145,12 @@ namespace Reception.App.ViewModels
             return answer;
         }
 
+        private async Task<bool> SendPerson(Person person)
+        {
+            await _clientService.SendAsync(person);
+            return true;
+        }
+
         private void ShowError(Exception error)
         {
             if (HostScreen is MainWindowViewModel mainViewModel)
@@ -146,6 +169,7 @@ namespace Reception.App.ViewModels
                 mainViewModel.LastErrorType = ErrorType.System;
             }
         }
+
         #endregion
     }
 }

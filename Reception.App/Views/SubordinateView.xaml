@@ -18,7 +18,8 @@
           <TextBox Text="{Binding Person.MiddleName, Mode=TwoWay}" Watermark="MiddleName"/>
           <TextBox Text="{Binding Person.SecondName, Mode=TwoWay}" Watermark="SecondName"/>
           <TextBox Text="{Binding Person.Post, Mode=TwoWay}" Watermark="Post"/>
-          <TextBox Text="" Watermark="Message"/>
+          <TextBox Text="{Binding Person.Message, Mode=TwoWay}" Watermark="Message"/>
+          <Button Content="Send" Command="{Binding SendPersonCommand}" CommandParameter="{Binding Person}"/>
         </StackPanel>
 
         <Grid Grid.Column="1">

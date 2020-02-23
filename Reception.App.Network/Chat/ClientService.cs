@@ -11,7 +11,7 @@ namespace Reception.App.Network.Chat
         #endregion
 
         #region ctor
-        public ClientService(string serverPath, bool withReconnect = false)
+        public ClientService(string serverPath, bool withReconnect = true)
         {
             var hubBuilder = new HubConnectionBuilder().WithUrl(serverPath);
             if (withReconnect)
@@ -35,6 +35,11 @@ namespace Reception.App.Network.Chat
         #endregion
 
         #region Methods
+        public async Task SendAsync(object value)
+        {
+            await _client.SendAsync("SendMessage", value);
+        }
+
         public async Task StartAsync()
         {
             await _client.StartAsync();
@@ -64,6 +69,7 @@ namespace Reception.App.Network.Chat
             GC.SuppressFinalize(this);
         }
         #endregion
+
         #endregion
     }
 }

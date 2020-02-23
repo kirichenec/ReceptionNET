@@ -114,8 +114,8 @@
                 Clear();
                 return;
             }
-            FirstName = value.FirstName/* ?? string.Empty*/;
-            MiddleName = value.MiddleName/* ?? string.Empty*/;
+            FirstName = value.FirstName;
+            MiddleName = value.MiddleName;
             PhotoPath = value.PhotoPath;
             Post = value.Post;
             SecondName = value.SecondName;
@@ -138,6 +138,16 @@
 
             Comment = null;
             Id = 0;
+        }
+
+        public virtual bool IsEmpty()
+        {
+            return
+                string.IsNullOrWhiteSpace(Comment)
+                && string.IsNullOrWhiteSpace(FirstName)
+                && string.IsNullOrWhiteSpace(MiddleName)
+                && string.IsNullOrWhiteSpace(Post)
+                && string.IsNullOrWhiteSpace(SecondName);
         }
         #endregion
     }

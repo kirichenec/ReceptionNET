@@ -8,5 +8,10 @@ namespace Reception.App.Extensions
         {
             return value == null;
         }
+
+        public static bool IsNullOrEmpty(this Person value)
+        {
+            return value.IsNull() || value.IsEmpty();
+        }
     }
 }

@@ -9,6 +9,7 @@ namespace Reception.App.Network.Chat
         public event Func<string, Task> Reconnected;
         public event Func<Exception, Task> Reconnecting;
 
+        Task SendAsync(object value);
         Task StartAsync();
     }
 }
