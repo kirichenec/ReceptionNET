@@ -1,4 +1,6 @@
-﻿namespace Reception.App.Models
+﻿using Reception.App.Model.Base;
+
+namespace Reception.App.Model.PersonInfo
 {
     public class Person : BaseModel
     {

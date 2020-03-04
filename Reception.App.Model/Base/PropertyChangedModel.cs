@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace Reception.App.Models
+namespace Reception.App.Model.Base
 {
     public class PropertyChangedModel : INotifyPropertyChanged
     {

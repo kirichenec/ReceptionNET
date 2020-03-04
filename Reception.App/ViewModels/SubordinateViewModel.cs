@@ -1,8 +1,9 @@
 ﻿using Newtonsoft.Json;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
-using Reception.App.Extensions;
-using Reception.App.Models;
+using Reception.App.Model;
+using Reception.App.Model.Extensions;
+using Reception.App.Model.PersonInfo;
 using Reception.App.Network.Chat;
 using Reception.App.Network.Exceptions;
 using Reception.App.Network.Server;
@@ -77,7 +78,7 @@ namespace Reception.App.ViewModels
                     x => x.Visitor.MiddleName, x => x.Visitor.Post, x => x.Visitor.SecondName,
                     (person, _, __, ___, ____, _____, ______) =>
                     !person.IsNullOrEmpty());
-            SendVisitorCommand = ReactiveCommand.CreateFromTask<VisitorInfo, bool>(SendVisitor, canSendPerson);
+            SendVisitorCommand = ReactiveCommand.CreateFromTask<Visitor, bool>(SendVisitor, canSendPerson);
             #endregion
 
             Initialized = SubordinateViewModel_Initialized;
@@ -86,14 +87,12 @@ namespace Reception.App.ViewModels
         #endregion
 
         #region Events
-
         private event Func<Task<bool>> Initialized;
-
         #endregion
 
         #region Properties
         [Reactive]
-        public VisitorInfo Visitor { get; set; } = new VisitorInfo();
+        public Visitor Visitor { get; set; } = new Visitor();
 
         public IEnumerable<Person> Persons => _searchedPersons.Value ?? Array.Empty<Person>();
 
@@ -111,7 +110,7 @@ namespace Reception.App.ViewModels
 
         public ReactiveCommand<Person, bool> SelectPersonCommand { get; }
 
-        public ReactiveCommand<VisitorInfo, bool> SendVisitorCommand { get; }
+        public ReactiveCommand<Visitor, bool> SendVisitorCommand { get; }
         #endregion
 
         #region Methods
@@ -132,11 +131,19 @@ namespace Reception.App.ViewModels
             return false;
         }
 
-        private Task MessageReceived(int userId, object message)
+        private Task MessageReceived(int userId, Type messageType,  object message)
         {
-            //TODO: switch message types
-            var iii = JsonConvert.DeserializeObject(message.ToString(), typeof(VisitorInfo));
-            var xxx = iii as VisitorInfo;
+            Collection.Dictionary.TryGetValue(messageType, out int typeId);
+            switch (typeId)
+            {
+                default:
+                    break;
+            }
+
+            var iii = JsonConvert.DeserializeObject<Visitor>(message.ToString());
+            var xxx = message.GetType();
+            var uuu = JsonConvert.DeserializeObject<object>(message.ToString());
+            var yyy = uuu.GetType();
 
             return Task.FromResult(true);
         }
@@ -169,7 +176,7 @@ namespace Reception.App.ViewModels
             return answer;
         }
 
-        private async Task<bool> SendVisitor(VisitorInfo visitor)
+        private async Task<bool> SendVisitor(Visitor visitor)
         {
             try
             {

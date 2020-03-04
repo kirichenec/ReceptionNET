@@ -1,6 +1,6 @@
-﻿using Reception.App.Models;
+﻿using Reception.App.Model.PersonInfo;
 
-namespace Reception.App.Extensions
+namespace Reception.App.Model.Extensions
 {
     public static class PersonExtension
     {

@@ -3,6 +3,7 @@ using Avalonia.Controls;
 using Avalonia.Logging.Serilog;
 using Avalonia.ReactiveUI;
 using ReactiveUI;
+using Reception.App.Model.PersonInfo;
 using Reception.App.Models;
 using Reception.App.Network.Chat;
 using Reception.App.Network.Server;

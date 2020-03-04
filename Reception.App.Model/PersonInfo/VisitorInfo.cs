@@ -1,15 +1,15 @@
 ﻿using System;
 
-namespace Reception.App.Models
+namespace Reception.App.Model.PersonInfo
 {
-    public class VisitorInfo : Person
+    public class Visitor : Person
     {
         private DateTime _incomingDate;
         private string _message;
 
-        public VisitorInfo() { }
+        public Visitor() { }
 
-        public VisitorInfo(Person value)
+        public Visitor(Person value)
         {
             CopyFrom(value);
         }

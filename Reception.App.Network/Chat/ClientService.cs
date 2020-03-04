@@ -39,7 +39,7 @@ namespace Reception.App.Network.Chat
 
         public event Func<bool, Task> Connected;
 
-        public event Func<int, object, Task> MessageReceived;
+        public event Func<int, Type, object, Task> MessageReceived;
 
         public event Func<string, Task> Reconnected;
 
@@ -49,12 +49,13 @@ namespace Reception.App.Network.Chat
         #region Methods
         private Func<int, QueryResult<object>, Task> OnReceive()
         {
-            return (userId, message) => MessageReceived?.Invoke(userId, message.Data);
+            return (userId, message) => MessageReceived?.Invoke(userId, message.DataType, message.Data);
         }
 
-        public async Task SendAsync(object value)
+        public async Task SendAsync<T>(T value)
         {
-            await _client.SendAsync(ChatMethodNames.SEND_MESSAGE_BROADCAST, _userId, new QueryResult<object> { Data = value });
+            var query = new QueryResult<T> { DataType = typeof(T), Data = value };
+            await _client.SendAsync(ChatMethodNames.SEND_MESSAGE_BROADCAST, _userId, query);
         }
 
         public async Task StartClientAsync()

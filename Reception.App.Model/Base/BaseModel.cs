@@ -1,6 +1,6 @@
 ﻿using Reception.Model.Interfaces;
 
-namespace Reception.App.Models
+namespace Reception.App.Model.Base
 {
     public class BaseModel : PropertyChangedModel, IUnique
     {
