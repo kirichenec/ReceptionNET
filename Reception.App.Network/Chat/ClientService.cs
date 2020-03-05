@@ -49,12 +49,12 @@ namespace Reception.App.Network.Chat
         #region Methods
         private Func<int, QueryResult<object>, Task> OnReceive()
         {
-            return (userId, message) => MessageReceived?.Invoke(userId, message.DataType, message.Data);
+            return (userId, message) => MessageReceived?.Invoke(userId, Type.GetType(message.DataTypeName ?? ""), message.Data);
         }
 
         public async Task SendAsync<T>(T value)
         {
-            var query = new QueryResult<T> { DataType = typeof(T), Data = value };
+            var query = new QueryResult<T> { Data = value, DataTypeName = typeof(T).AssemblyQualifiedName };
             await _client.SendAsync(ChatMethodNames.SEND_MESSAGE_BROADCAST, _userId, query);
         }
 

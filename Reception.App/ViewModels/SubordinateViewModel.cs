@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using ReactiveUI;
+﻿using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using Reception.App.Model;
 using Reception.App.Model.Extensions;
@@ -13,6 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 using ErrorType = Reception.App.ViewModels.MainWindowViewModel.ErrorType;
 
@@ -121,6 +121,11 @@ namespace Reception.App.ViewModels
             return true;
         }
 
+        private static T DeserializeMessage<T>(object message)
+        {
+            return JsonSerializer.Deserialize<T>(message.ToString());
+        }
+
         private bool FillVisitorBySelected(Person person)
         {
             if (!person.IsNull())
@@ -133,19 +138,30 @@ namespace Reception.App.ViewModels
 
         private Task MessageReceived(int userId, Type messageType,  object message)
         {
-            Collection.Dictionary.TryGetValue(messageType, out int typeId);
+            int typeId = 0;
+            if (messageType != null)
+            {
+                Types.Dictionary.TryGetValue(messageType, out typeId);
+            }
             switch (typeId)
             {
+                case 1:
+                    PersonReceived(DeserializeMessage<Person>(message));
+                    break;
+                case 2:
+                    VisitorReceived(DeserializeMessage<Visitor>(message));
+                    break;
                 default:
+                    ShowError(new ArgumentException($"Unknown message data type {messageType?.FullName ?? "null-type"}"));
                     break;
             }
 
-            var iii = JsonConvert.DeserializeObject<Visitor>(message.ToString());
-            var xxx = message.GetType();
-            var uuu = JsonConvert.DeserializeObject<object>(message.ToString());
-            var yyy = uuu.GetType();
-
             return Task.FromResult(true);
+        }
+
+        private void PersonReceived(Person person)
+        {
+            throw new NotImplementedException();
         }
 
         private async Task<IEnumerable<Person>> SearchPersons(string query)
@@ -222,6 +238,11 @@ namespace Reception.App.ViewModels
                 }
                 mainViewModel.LastErrorType = ErrorType.System;
             }
+        }
+
+        private void VisitorReceived(Visitor visitor)
+        {
+            throw new NotImplementedException();
         }
         #endregion
     }
