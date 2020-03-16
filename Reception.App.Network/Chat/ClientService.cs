@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.SignalR.Client;
+using Microsoft.Extensions.DependencyInjection;
 using Reception.App.Network.Chat.Constants;
 using Reception.Model.Network;
 using System;
@@ -19,7 +20,10 @@ namespace Reception.App.Network.Chat
         {
             _userId = userId;
 
-            var hubBuilder = new HubConnectionBuilder().WithUrl(serverPath);
+            var hubBuilder =
+                new HubConnectionBuilder()
+                .WithUrl(serverPath)
+                .AddNewtonsoftJsonProtocol();
             if (withReconnect)
             {
                 hubBuilder = hubBuilder.WithAutomaticReconnect();
@@ -30,7 +34,7 @@ namespace Reception.App.Network.Chat
             _client.Reconnected += Reconnected;
             _client.Reconnecting += Reconnecting;
             
-            _client.On(ChatMethodType.RECEIVER, OnReceive());
+            _client.On(ChatMethodType.RECEIVER, OnReceive);
         }
         #endregion
 
@@ -47,10 +51,9 @@ namespace Reception.App.Network.Chat
         #endregion
 
         #region Methods
-        private Func<int, QueryResult<object>, Task> OnReceive()
-        {
-            return (userId, message) => MessageReceived?.Invoke(userId, Type.GetType(message.DataTypeName ?? ""), message.Data);
-        }
+        private Func<int, QueryResult<object>, Task> OnReceive =>
+            (userId, message) =>
+            MessageReceived?.Invoke(userId, Type.GetType(message.DataTypeName ?? string.Empty), message.Data);
 
         public async Task SendAsync<T>(T value)
         {
