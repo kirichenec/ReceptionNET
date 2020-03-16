@@ -7,6 +7,7 @@ using Reception.App.Network.Chat;
 using Reception.App.Network.Exceptions;
 using Reception.App.Network.Server;
 using Reception.Extensions.Converters;
+using Reception.Extensions.Dictionaries;
 using Splat;
 using System;
 using System.Collections.Generic;
@@ -131,14 +132,9 @@ namespace Reception.App.ViewModels
             return false;
         }
 
-        private Task MessageReceived(int userId, Type messageType,  object message)
+        private void MessageReceived(int userId, Type messageType, object message)
         {
-            int typeId = 0;
-            if (messageType != null)
-            {
-                Types.Dictionary.TryGetValue(messageType, out typeId);
-            }
-            switch (typeId)
+            switch (Types.Dictionary.TryGetValue(messageType))
             {
                 case 1:
                     PersonReceived(message.DeserializeMessage<Person>());
@@ -150,8 +146,6 @@ namespace Reception.App.ViewModels
                     ShowError(new ArgumentException($"Unknown message data type {messageType?.FullName ?? "null-type"}"));
                     break;
             }
-
-            return Task.FromResult(true);
         }
 
         private void PersonReceived(Person person)

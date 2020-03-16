@@ -43,7 +43,7 @@ namespace Reception.App.Network.Chat
 
         public event Func<bool, Task> Connected;
 
-        public event Func<int, Type, object, Task> MessageReceived;
+        public event Action<int, Type, object> MessageReceived;
 
         public event Func<string, Task> Reconnected;
 
@@ -51,7 +51,7 @@ namespace Reception.App.Network.Chat
         #endregion
 
         #region Methods
-        private Func<int, QueryResult<object>, Task> OnReceive =>
+        private Action<int, QueryResult<object>> OnReceive =>
             (userId, message) =>
             MessageReceived?.Invoke(userId, message.DataType, message.Data);
 

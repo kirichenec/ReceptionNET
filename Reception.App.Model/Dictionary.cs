@@ -11,14 +11,17 @@ namespace Reception.App.Model
         {
             Dictionary = new Dictionary<Type, int>
             {
+                { typeof(object), 0 },
                 { typeof(Person), 1 },
                 { typeof(Visitor), 2 }
             };
         }
 
         /// <summary>
-        /// <see cref="Person"/> - 1;
-        /// <see cref="Visitor"/> - 2
+        /// null = -1;
+        /// <see cref="object"/> = 0;
+        /// <see cref="Person"/> = 1;
+        /// <see cref="Visitor"/> = 2
         /// </summary>
         public static Dictionary<Type, int> Dictionary { get; set; }
 
