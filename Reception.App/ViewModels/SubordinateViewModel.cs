@@ -6,13 +6,13 @@ using Reception.App.Model.PersonInfo;
 using Reception.App.Network.Chat;
 using Reception.App.Network.Exceptions;
 using Reception.App.Network.Server;
+using Reception.Extensions.Converters;
 using Splat;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
-using System.Text.Json;
 using System.Threading.Tasks;
 using ErrorType = Reception.App.ViewModels.MainWindowViewModel.ErrorType;
 
@@ -121,11 +121,6 @@ namespace Reception.App.ViewModels
             return true;
         }
 
-        private static T DeserializeMessage<T>(object message)
-        {
-            return JsonSerializer.Deserialize<T>(message.ToString());
-        }
-
         private bool FillVisitorBySelected(Person person)
         {
             if (!person.IsNull())
@@ -146,10 +141,10 @@ namespace Reception.App.ViewModels
             switch (typeId)
             {
                 case 1:
-                    PersonReceived(DeserializeMessage<Person>(message));
+                    PersonReceived(message.DeserializeMessage<Person>());
                     break;
                 case 2:
-                    VisitorReceived(DeserializeMessage<Visitor>(message));
+                    VisitorReceived(message.DeserializeMessage<Visitor>());
                     break;
                 default:
                     ShowError(new ArgumentException($"Unknown message data type {messageType?.FullName ?? "null-type"}"));
