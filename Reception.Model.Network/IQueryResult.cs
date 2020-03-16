@@ -1,9 +1,14 @@
-﻿namespace Reception.Model.Network
+﻿using Newtonsoft.Json;
+using Reception.Extensions.Converters;
+using System;
+
+namespace Reception.Model.Network
 {
     public interface IQueryResult<T>
     {
         public T Data { get; set; }
-        public string DataTypeName { get; set; }
+        [JsonConverter(typeof(SystemTypeConverter))]
+        public Type DataType { get; set; }
         public ErrorCode ErrorCode { get; set; }
         public string ErrorMessage { get; set; }
     }

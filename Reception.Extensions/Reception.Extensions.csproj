@@ -5,11 +5,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Folder Include="Attributes\" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Reception.Extensions\Reception.Extensions.csproj" />
+    <ProjectReference Include="..\Reception.App.Model\Reception.App.Model.csproj" />
   </ItemGroup>
 
 </Project>

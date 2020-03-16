@@ -2,9 +2,11 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Reception.Server.Extensions.Middlewares;
 using Microsoft.Extensions.Hosting;
 using Reception.App.Network.Chat;
 using Reception.Model.Network;
+using Reception.App.Model.PersonInfo;
 
 namespace Reception.Server.Chat
 {
@@ -21,12 +23,15 @@ namespace Reception.Server.Chat
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddSignalR();
+            services.AddSignalR().AddNewtonsoftJsonProtocol();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+
+            app.UseRequestResponseLogging();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -45,7 +50,7 @@ namespace Reception.Server.Chat
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapHub<ChatHub<QueryResult<object>>>("/ChatHub");
+                endpoints.MapHub<ChatHub<QueryResult<Visitor>>>("/ChatHub");
             });
         }
     }

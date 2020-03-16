@@ -136,7 +136,7 @@ namespace Reception.App.ViewModels
             return false;
         }
 
-        private Task MessageReceived(int userId, Type messageType,  object message)
+        private Task MessageReceived(int userId, Type messageType, Visitor message)
         {
             int typeId = 0;
             if (messageType != null)
@@ -161,7 +161,7 @@ namespace Reception.App.ViewModels
 
         private void PersonReceived(Person person)
         {
-            throw new NotImplementedException();
+            throw new NotImplementedException($"{nameof(PersonReceived)}({person})");
         }
 
         private async Task<IEnumerable<Person>> SearchPersons(string query)
@@ -242,7 +242,7 @@ namespace Reception.App.ViewModels
 
         private void VisitorReceived(Visitor visitor)
         {
-            throw new NotImplementedException();
+            throw new NotImplementedException($"{nameof(VisitorReceived)}({visitor})");
         }
         #endregion
     }
