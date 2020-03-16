@@ -53,11 +53,11 @@ namespace Reception.App.Network.Chat
         #region Methods
         private Func<int, QueryResult<object>, Task> OnReceive =>
             (userId, message) =>
-            MessageReceived?.Invoke(userId, Type.GetType(message.DataTypeName ?? string.Empty), message.Data);
+            MessageReceived?.Invoke(userId, message.DataType, message.Data);
 
         public async Task SendAsync<T>(T value)
         {
-            var query = new QueryResult<T> { Data = value, DataTypeName = typeof(T).AssemblyQualifiedName };
+            var query = new QueryResult<T> { Data = value, DataType = typeof(T) };
             await _client.SendAsync(ChatMethodNames.SEND_MESSAGE_BROADCAST, _userId, query);
         }
 
