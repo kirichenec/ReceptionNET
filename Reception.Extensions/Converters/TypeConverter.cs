@@ -3,7 +3,7 @@ using System;
 
 namespace Reception.Extensions.Converters
 {
-    public class SystemTypeConverter : JsonConverter
+    public class TypeConverter : JsonConverter
     {
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
