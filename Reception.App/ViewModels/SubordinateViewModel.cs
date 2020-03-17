@@ -150,7 +150,7 @@ namespace Reception.App.ViewModels
 
         private void PersonReceived(Person person)
         {
-            throw new NotImplementedException();
+            ShowError(new NotImplementedException($"{nameof(PersonReceived)} not implemented"));
         }
 
         private async Task<IEnumerable<Person>> SearchPersons(string query)
@@ -231,7 +231,7 @@ namespace Reception.App.ViewModels
 
         private void VisitorReceived(Visitor visitor)
         {
-            throw new NotImplementedException();
+            ShowError(new NotImplementedException($"{nameof(VisitorReceived)} not implemented"));
         }
         #endregion
     }

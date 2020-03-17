@@ -8,5 +8,10 @@ namespace Reception.Extensions.Converters
         {
             return JsonConvert.DeserializeObject<T>(value.ToString());
         }
+
+        public static string ToJsonString<T>(this T value)
+        {
+            return JsonConvert.SerializeObject(value);
+        }
     }
 }
