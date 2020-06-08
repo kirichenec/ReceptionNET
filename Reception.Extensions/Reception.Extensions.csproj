@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Reception.App.Model\Reception.App.Model.csproj" />
+    <ProjectReference Include="..\Reception.Model.Dto\Reception.Model.Dto.csproj" />
   </ItemGroup>
 
 </Project>

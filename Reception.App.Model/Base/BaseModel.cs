@@ -2,7 +2,7 @@
 
 namespace Reception.App.Model.Base
 {
-    public class BaseModel : PropertyChangedModel, IUnique
+    public class BaseModel : PropertyChangedModel, IUnique, ICommentable
     {
         private string _comment;
         private int _id;
@@ -33,6 +33,11 @@ namespace Reception.App.Model.Base
                 _id = value;
                 NotifyPropertyChanged();
             }
+        }
+
+        public virtual bool IsEmpty()
+        {
+            return string.IsNullOrWhiteSpace(Comment);
         }
     }
 }

@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Reception.Model.Dto;
 using Reception.Model.Network;
+using Reception.Server.Data.Extensions;
 using Reception.Server.Data.Logic;
-using Reception.Server.Data.Model;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -24,16 +25,16 @@ namespace Reception.Server.Data.Controllers
         public async Task<IActionResult> GetPersonAsync(int id)
         {
             var person = await _personLogic.GetPersonAsync(id);
-            var info = new QueryResult<Person> { Data = person, ErrorCode = person == null ? ErrorCode.Ok : ErrorCode.NotFound };
+            var info = new QueryResult<PersonDto>(person.ToDto());
             return Ok(info);
         }
 
         // GET api/Person?searchText=5
         [HttpGet]
-        public async Task<IActionResult> SearchPersonAsync([FromQuery]string searchText = "")
+        public async Task<IActionResult> SearchPersonAsync([FromQuery] string searchText)
         {
             var persons = await _personLogic.SearchPersonAsync(searchText);
-            var info = new QueryResult<List<Person>> { Data = persons, ErrorCode = persons.Any() ? ErrorCode.Ok : ErrorCode.NotFound };
+            var info = new QueryResult<List<PersonDto>>(persons.Select(p => p.ToDto()).ToList());
             return Ok(info);
         }
     }

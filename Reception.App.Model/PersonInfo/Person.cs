@@ -1,14 +1,15 @@
 ﻿using Reception.App.Model.Base;
+using Reception.App.Model.Extensions;
+using Reception.Model.Interfaces;
 
 namespace Reception.App.Model.PersonInfo
 {
-    public class Person : BaseModel
+    public class Person : BaseModel, IPerson<Post>
     {
         #region Fields
         private string _firstName;
         private string _middleName;
-        private string _photoPath;
-        private string _post;
+        private Post _post;
         private string _secondName;
         #endregion
 
@@ -23,7 +24,6 @@ namespace Reception.App.Model.PersonInfo
             }
             FirstName = value.FirstName;
             MiddleName = value.MiddleName;
-            PhotoPath = value.PhotoPath;
             Post = value.Post;
             SecondName = value.SecondName;
 
@@ -65,34 +65,6 @@ namespace Reception.App.Model.PersonInfo
             }
         }
 
-        public string PhotoPath
-        {
-            get => _photoPath;
-            set
-            {
-                if (_photoPath == value)
-                {
-                    return;
-                }
-                _photoPath = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        public string Post
-        {
-            get => _post;
-            set
-            {
-                if (_post == value)
-                {
-                    return;
-                }
-                _post = value;
-                NotifyPropertyChanged();
-            }
-        }
-
         public string SecondName
         {
             get => _secondName;
@@ -103,6 +75,20 @@ namespace Reception.App.Model.PersonInfo
                     return;
                 }
                 _secondName = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public Post Post
+        {
+            get => _post;
+            set
+            {
+                if (_post == value)
+                {
+                    return;
+                }
+                _post = value;
                 NotifyPropertyChanged();
             }
         }
@@ -118,7 +104,6 @@ namespace Reception.App.Model.PersonInfo
             }
             FirstName = value.FirstName;
             MiddleName = value.MiddleName;
-            PhotoPath = value.PhotoPath;
             Post = value.Post;
             SecondName = value.SecondName;
 
@@ -134,7 +119,6 @@ namespace Reception.App.Model.PersonInfo
         {
             FirstName = null;
             MiddleName = null;
-            PhotoPath = null;
             Post = null;
             SecondName = null;
 
@@ -142,13 +126,13 @@ namespace Reception.App.Model.PersonInfo
             Id = 0;
         }
 
-        public virtual bool IsEmpty()
+        public override bool IsEmpty()
         {
             return
-                string.IsNullOrWhiteSpace(Comment)
+                base.IsEmpty()
                 && string.IsNullOrWhiteSpace(FirstName)
                 && string.IsNullOrWhiteSpace(MiddleName)
-                && string.IsNullOrWhiteSpace(Post)
+                && Post.IsNullOrEmpty()
                 && string.IsNullOrWhiteSpace(SecondName);
         }
         #endregion

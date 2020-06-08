@@ -7,8 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reception.App", "Reception.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reception.Server.Data", "Reception.Server.Data\Reception.Server.Data.csproj", "{2DD738DB-D722-4530-9462-CBA3FB2BE1B5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reception.Model.Dto", "Reception.Model.Dto\Reception.Model.Dto.csproj", "{9CF370FA-951E-40E8-8645-212175FE1925}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reception.Model.Network", "Reception.Model.Network\Reception.Model.Network.csproj", "{D104A550-FE4D-4E82-8040-E3FD6213C663}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{13F90241-20A2-4BA3-AC06-BAFA300468CA}"
@@ -17,6 +15,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Reception.AdditionalFiles\RC.svg = Reception.AdditionalFiles\RC.svg
 		Reception.AdditionalFiles\RCgit.png = Reception.AdditionalFiles\RCgit.png
 		Reception.AdditionalFiles\RClogo.png = Reception.AdditionalFiles\RClogo.png
+		Tasks.txt = Tasks.txt
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reception.App.Network", "Reception.App.Network\Reception.App.Network.csproj", "{F15FA492-77EB-4A09-BC95-6BA3412EFE6F}"
@@ -27,7 +26,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reception.Server.Chat", "Re
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reception.App.Model", "Reception.App.Model\Reception.App.Model.csproj", "{F78A59CB-3FA3-4158-AF5E-C7913AB8D96B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reception.Extensions", "Reception.Extensions\Reception.Extensions.csproj", "{18058FA8-E031-4C50-A633-C8609A8C29C4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reception.Extensions", "Reception.Extensions\Reception.Extensions.csproj", "{18058FA8-E031-4C50-A633-C8609A8C29C4}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reception.Server.File", "Reception.Server.File\Reception.Server.File.csproj", "{61128E75-E9B5-469E-86F3-22B0D66B0C8C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reception.Model.Dto", "Reception.Model.Dto\Reception.Model.Dto.csproj", "{08E23F42-53CF-4B0A-8047-FFF815D2F49D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -43,10 +46,6 @@ Global
 		{2DD738DB-D722-4530-9462-CBA3FB2BE1B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2DD738DB-D722-4530-9462-CBA3FB2BE1B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2DD738DB-D722-4530-9462-CBA3FB2BE1B5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9CF370FA-951E-40E8-8645-212175FE1925}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9CF370FA-951E-40E8-8645-212175FE1925}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9CF370FA-951E-40E8-8645-212175FE1925}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9CF370FA-951E-40E8-8645-212175FE1925}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D104A550-FE4D-4E82-8040-E3FD6213C663}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D104A550-FE4D-4E82-8040-E3FD6213C663}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D104A550-FE4D-4E82-8040-E3FD6213C663}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -71,6 +70,14 @@ Global
 		{18058FA8-E031-4C50-A633-C8609A8C29C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{18058FA8-E031-4C50-A633-C8609A8C29C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{18058FA8-E031-4C50-A633-C8609A8C29C4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{61128E75-E9B5-469E-86F3-22B0D66B0C8C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{61128E75-E9B5-469E-86F3-22B0D66B0C8C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{61128E75-E9B5-469E-86F3-22B0D66B0C8C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{61128E75-E9B5-469E-86F3-22B0D66B0C8C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{08E23F42-53CF-4B0A-8047-FFF815D2F49D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{08E23F42-53CF-4B0A-8047-FFF815D2F49D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{08E23F42-53CF-4B0A-8047-FFF815D2F49D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{08E23F42-53CF-4B0A-8047-FFF815D2F49D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

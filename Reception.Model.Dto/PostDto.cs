@@ -1,16 +1,13 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using Reception.Model.Interfaces;
 
 namespace Reception.Model.Dto
 {
-    public class PostDto
+    public class PostDto : IPost
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
         public string Comment { get; set; }
 
-        [Required]
         public string Name { get; set; }
     }
 }

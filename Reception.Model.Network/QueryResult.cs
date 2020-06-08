@@ -4,12 +4,19 @@ using System;
 
 namespace Reception.Model.Network
 {
-    public class QueryResult<T> : IQueryResult<T>
+    public class QueryResult<T>
     {
+        public QueryResult() { }
+
+        public QueryResult(T data)
+        {
+            Data = data;
+            DataType = data.GetType();
+        }
+
         public T Data { get; set; }
+
         [JsonConverter(typeof(TypeConverter))]
         public Type DataType { get; set; }
-        public ErrorCode ErrorCode { get; set; }
-        public string ErrorMessage { get; set; }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Reception.Model.Dto;
+using Reception.Server.Data.Model;
 
 namespace Reception.Server.Data.Repository
 {
@@ -9,8 +9,8 @@ namespace Reception.Server.Data.Repository
     {
         public static readonly ILoggerFactory ReceptionLoggerFactory = LoggerFactory.Create(builder => { builder.AddConsole(); });
 
-        public DbSet<PersonDto> Persons { get; set; }
-        public DbSet<PostDto> Posts { get; set; }
+        public DbSet<Person> Persons { get; set; }
+        public DbSet<Post> Posts { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

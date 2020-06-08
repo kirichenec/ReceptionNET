@@ -3,11 +3,9 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Reception.Server.Data.Logic;
 using Reception.Server.Data.Repository;
-using System.IO;
 
 namespace Reception.Server.Data
 {
@@ -27,7 +25,7 @@ namespace Reception.Server.Data
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
+            services.AddMvc().AddNewtonsoftJson();
             services.AddEntityFrameworkSqlite().AddDbContext<ReceptionContext>();
             services.AddScoped<IDataService, DataService>();
             services.AddScoped<IPersonLogic, PersonLogic>();
@@ -46,12 +44,6 @@ namespace Reception.Server.Data
             }
 
             app.UseHttpsRedirection();
-            app.UseStaticFiles(
-                new StaticFileOptions
-                {
-                    FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "Files")),
-                    RequestPath = "/Files"
-                });
 
             app.UseRouting();
 

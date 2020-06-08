@@ -16,18 +16,12 @@ namespace Reception.Server.Data.Logic
 
         public async Task<Person> GetPersonAsync(int id)
         {
-            return PersonExtension.PersonFromDto(await _dataService.GetPersonAsync(id));
+            return await _dataService.GetPersonAsync(id);
         }
 
         public async Task<List<Person>> SearchPersonAsync(string searchText)
         {
-            var repositorySearchResult = await _dataService.SearchPersonsAsync(searchText);
-            var result = new List<Person>();
-            foreach (var personDto in repositorySearchResult)
-            {
-                result.Add(PersonExtension.PersonFromDto(personDto));
-            }
-            return result;
+            return await _dataService.SearchPersonsAsync(searchText);
         }
     }
 }

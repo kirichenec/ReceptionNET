@@ -1,9 +1,9 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using Reception.Extensions;
+using Reception.Server.Data.Model;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using Reception.Model.Dto;
 
 namespace Reception.Server.Data.Repository
 {
@@ -16,46 +16,37 @@ namespace Reception.Server.Data.Repository
             _context = context;
         }
 
-        public async Task<PersonDto> GetPersonAsync(int id)
+        public async Task<Person> GetPersonAsync(int id)
         {
-            return
-                id == 0 ?
-                null :
-                await _context.Persons.Include(p => p.Post).FirstOrDefaultAsync(p => p.Id == id);
+            return await _context.Persons.Include(p => p.Post).FirstOrDefaultAsync(p => p.Id == id);
         }
 
-        public async Task<PostDto> GetPostAsync(int id)
+        public async Task<Post> GetPostAsync(int id)
         {
-            return
-                id == 0 ?
-                null :
-                await _context.Posts.FirstOrDefaultAsync(p => p.Id == id);
+            return await _context.Posts.FirstOrDefaultAsync(p => p.Id == id);
         }
 
-        public IQueryable<PersonDto> QueryablePersons()
+        public IQueryable<Person> QueryablePersons()
         {
             return _context.Persons.AsQueryable();
         }
 
-        public async Task<List<PersonDto>> SearchPersonsAsync(string searchText)
+        public async Task<List<Person>> SearchPersonsAsync(string searchText)
+        {
+            return await SearchPersonsQuery(searchText).ToListAsync();
+        }
+
+        public async Task<List<Person>> SearchPersonsPagedAsync(string searchText, int count, int page)
         {
             return await
                 SearchPersonsQuery(searchText)
+                .Paged(page, count)
                 .ToListAsync();
         }
 
-        public async Task<List<PersonDto>> SearchPersonsPagedAsync(string searchText, int count, int page)
+        private IQueryable<Person> SearchPersonsQuery(string searchText)
         {
-            return await
-                SearchPersonsQuery(searchText)
-                .Skip((page - 1) * count)
-                .Take(count)
-                .ToListAsync();
-        }
-
-        private IQueryable<PersonDto> SearchPersonsQuery(string searchText)
-        {
-            var likeSearchText = $"%{searchText}%";
+            var likeSearchText = searchText.AsLike();
             return
                 _context.Persons
                 .Include(p => p.Post)

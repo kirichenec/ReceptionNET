@@ -11,28 +11,27 @@
           HorizontalAlignment="Stretch"
           Margin="16"
           RowDefinitions="Auto, *, Auto">
-      
+
       <Grid Grid.Row="0" ColumnDefinitions="*, Auto">
         <StackPanel Grid.Column="0" x:Name="VisitorInfoStackPanel" >
           <TextBox Text="{Binding Visitor.FirstName, Mode=TwoWay}" Watermark="FirstName"/>
           <TextBox Text="{Binding Visitor.MiddleName, Mode=TwoWay}" Watermark="MiddleName"/>
           <TextBox Text="{Binding Visitor.SecondName, Mode=TwoWay}" Watermark="SecondName"/>
-          <TextBox Text="{Binding Visitor.Post, Mode=TwoWay}" Watermark="Post"/>
+          <TextBox Text="{Binding Visitor.Post.Name, Mode=TwoWay}" Watermark="Post"/>
           <TextBox Text="{Binding Visitor.Message, Mode=TwoWay}" Watermark="Message"/>
           <Button Content="Send" Command="{Binding SendVisitorCommand}" CommandParameter="{Binding Visitor}"/>
         </StackPanel>
 
         <Grid Grid.Column="1">
-          <DrawingPresenter Height="{Binding #VisitorInfoStackPanel.Bounds.Height}">
-            <GeometryDrawing Brush="Red" Geometry="M14.58,3H22V19.67L14.58,3M9.42,3H2V19.67L9.42,3M12,9.17L16.67,19.67H13.5L12.17,16.33H8.75L12,9.17Z"/>
-          </DrawingPresenter>
+          <Image Height="{Binding #VisitorInfoStackPanel.Bounds.Height}"
+                 Source="D:\Git\ReceptionNetCore\Reception.App\Images\Person.png"/>
         </Grid>
       </Grid>
 
       <Grid Grid.Row="1">
-        
+
       </Grid>
-      
+
       <StackPanel Grid.Row="2">
         <Grid Margin="0" ColumnDefinitions="*, Auto, Auto">
           <TextBox Grid.Column="0" Text="{Binding SearchText, Mode=TwoWay}" Watermark="Search"/>
@@ -46,7 +45,7 @@
                 <TextBlock Text="{Binding FirstName, Mode=OneWay}"/>
                 <TextBlock Text="{Binding MiddleName, Mode=OneWay}"/>
                 <TextBlock Text="{Binding SecondName, Mode=OneWay}"/>
-                <TextBlock Text="{Binding Post, Mode=OneWay}"/>
+                <TextBlock Text="{Binding Post.Name, Mode=OneWay}"/>
               </StackPanel>
             </DataTemplate>
           </ListBox.ItemTemplate>

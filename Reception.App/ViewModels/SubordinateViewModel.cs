@@ -160,7 +160,7 @@ namespace Reception.App.ViewModels
                 return Array.Empty<Person>();
             }
 
-            var answer = await _networkServiceOfPersons.SearchTAsync(query);
+            var answer = await _networkServiceOfPersons.SearchAsync(query);
 
             if (HostScreen is MainWindowViewModel mainViewModel)
             {

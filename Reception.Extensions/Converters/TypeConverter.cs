@@ -13,14 +13,10 @@ namespace Reception.Extensions.Converters
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
-            Type type;
+            Type type = null;
             if (reader.Value is string typeName)
             {
                 type = Type.GetType(typeName);
-            }
-            else
-            {
-                type = typeof(object);
             }
             return type;
         }

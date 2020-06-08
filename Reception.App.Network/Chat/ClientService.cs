@@ -57,7 +57,7 @@ namespace Reception.App.Network.Chat
 
         public async Task SendAsync<T>(T value)
         {
-            var query = new QueryResult<T> { Data = value, DataType = typeof(T) };
+            var query = new QueryResult<T>(value);
             await _client.SendAsync(ChatMethodNames.SEND_MESSAGE_BROADCAST, _userId, query);
         }
 
