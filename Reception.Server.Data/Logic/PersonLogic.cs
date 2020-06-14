@@ -14,14 +14,24 @@ namespace Reception.Server.Data.Logic
             _dataService = dataService;
         }
 
-        public async Task<Person> GetPersonAsync(int id)
+        public Task<bool> DeleteAsync(int id)
         {
-            return await _dataService.GetPersonAsync(id);
+            throw new System.NotImplementedException();
         }
 
-        public async Task<List<Person>> SearchPersonAsync(string searchText)
+        public async Task<Person> GetAsync(int id)
         {
-            return await _dataService.SearchPersonsAsync(searchText);
+            return await _dataService.GetAsync(id);
+        }
+
+        public Task<Person> SaveAsync(Person value)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public async Task<List<Person>> SearchAsync(string searchText)
+        {
+            return await _dataService.SearchAsync(searchText);
         }
     }
 }

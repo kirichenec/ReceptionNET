@@ -1,16 +1,11 @@
-﻿using Reception.Server.Data.Model;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Reception.Model.Interfaces;
+using Reception.Server.Data.Model;
 using System.Threading.Tasks;
 
 namespace Reception.Server.Data.Repository
 {
-    public interface IDataService
+    public interface IDataService : IRepository<Person>
     {
-        Task<Person> GetPersonAsync(int id);
         Task<Post> GetPostAsync(int id);
-        IQueryable<Person> QueryablePersons();
-        Task<List<Person>> SearchPersonsAsync(string searchText);
-        Task<List<Person>> SearchPersonsPagedAsync(string searchText, int count, int page);
     }
 }

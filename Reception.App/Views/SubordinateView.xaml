@@ -3,8 +3,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:converters="clr-namespace:Reception.App.Converters;assembly=Reception.App"
              mc:Ignorable="d"
              Design.Height="600" Design.Width="800">
+  <UserControl.Resources>
+    <converters:ByteArrayImageConverter x:Key="ByteArrayToImage"/>
+  </UserControl.Resources>
 
   <Grid RowDefinitions="*, Auto">
     <Grid Grid.Row="0"
@@ -24,7 +28,9 @@
 
         <Grid Grid.Column="1">
           <Image Height="{Binding #VisitorInfoStackPanel.Bounds.Height}"
-                 Source="D:\Git\ReceptionNetCore\Reception.App\Images\Person.png"/>
+                 Source="{Binding Visitor.Image, Converter={StaticResource ByteArrayToImage}}">
+          </Image>
+
         </Grid>
       </Grid>
 

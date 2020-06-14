@@ -1,11 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
-using Reception.Extensions;
-using Reception.Model.Interfaces;
-using Reception.Server.Data.Extensions;
-using Reception.Server.File.Model;
+﻿using Reception.Server.File.Model;
 using Reception.Server.File.Repository;
 using System;
-using System.IO;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Reception.Server.File.Logic
@@ -19,28 +15,38 @@ namespace Reception.Server.File.Logic
             _dataService = dataService;
         }
 
-        public async Task<bool> DeleteFileAsync(int id)
+        public async Task<bool> DeleteAsync(int id)
         {
             return await _dataService.DeleteAsync(id);
         }
 
-        public async Task<IFormFile> GetFileAsync(int id)
+        public async Task<FileData> GetAsync(int id)
         {
             var fileData = await _dataService.GetAsync(id);
-            var stream = new MemoryStream(fileData.Value);
-            IFormFile file = new FormFile(stream, 0, fileData.Value.Length, fileData.VersionInfo.Name, fileData.VersionInfo.FileName);
-            return file;
+            return fileData;
         }
 
-        public async Task<IFileVersionInfo> SaveAsync(IFormFile value)
+        public async Task<FileData> SaveAsync(string fileName, byte[] fileData)
         {
             var data = new FileData
             {
-                Value = await value.GetBytes(),
-                VersionInfo = new VersionInfo { FileName = value.FileName, Name = value.Name, Version = Guid.NewGuid() }
+                Value = fileData,
+                VersionInfo = new FileVersion { Name = fileName, Version = Guid.NewGuid() }
             };
             var result = await _dataService.SaveAsync(data);
-            return result.VersionInfo.ToDto();
+            return result;
+        }
+
+        public Task<FileData> SaveAsync(FileData value)
+        {
+            var rightMethodInfo = GetType().GetMethod(nameof(SaveAsync), new Type[] { typeof(string), typeof(byte[]) });
+            var wrongMethodInfo = GetType().GetMethod(nameof(SaveAsync), new Type[] { typeof(FileData) });
+            throw new NotSupportedException($"Use {rightMethodInfo} instead of {wrongMethodInfo}");
+        }
+
+        public Task<List<FileData>> SearchAsync(string searchText)
+        {
+            throw new NotImplementedException();
         }
     }
 }

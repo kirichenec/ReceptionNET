@@ -9,5 +9,6 @@ namespace Reception.App.Models
         public static string ServerPath { get { return ConfigurationManager.AppSettings[nameof(ServerPath)]; } }
         public static int PingDelay { get { return int.Parse(ConfigurationManager.AppSettings[nameof(PingDelay)]); } }
         public static string WelcomeMessage { get { return ConfigurationManager.AppSettings[nameof(WelcomeMessage)]; } }
+        public static string DefaultImagePath { get { return ConfigurationManager.AppSettings[nameof(DefaultImagePath)]; } }
     }
 }

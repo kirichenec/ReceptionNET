@@ -1,8 +1,9 @@
-﻿using Reception.Server.File.Model;
+﻿using Reception.Model.Interfaces;
+using Reception.Server.File.Model;
 
 namespace Reception.Server.File.Repository
 {
-    public interface IFileVersionService : IService<VersionInfo>
+    public interface IFileVersionService : IRepository<FileVersion>
     {
     }
 }

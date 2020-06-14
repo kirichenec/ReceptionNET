@@ -1,5 +1,7 @@
 ﻿using Reception.Model.Dto;
 using Reception.Server.Data.Model;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Reception.Server.Data.Extensions
 {
@@ -19,6 +21,11 @@ namespace Reception.Server.Data.Extensions
                     SecondName = person.SecondName,
                     Id = person.Id
                 };
+        }
+
+        public static List<PersonDto> ToDto(this List<Person> valueList)
+        {
+            return valueList.Select(value => value.ToDto()).ToList();
         }
     }
 }

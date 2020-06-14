@@ -1,13 +1,11 @@
-﻿using Microsoft.AspNetCore.Http;
-using Reception.Model.Interfaces;
+﻿using Reception.Model.Interfaces;
+using Reception.Server.File.Model;
 using System.Threading.Tasks;
 
 namespace Reception.Server.File.Logic
 {
-    public interface IFileDataLogic
+    public interface IFileDataLogic : ILogic<FileData>
     {
-        Task<bool> DeleteFileAsync(int id);
-        Task<IFormFile> GetFileAsync(int id);
-        Task<IFileVersionInfo> SaveAsync(IFormFile value);
+        Task<FileData> SaveAsync(string fileName, byte[] fileData);
     }
 }

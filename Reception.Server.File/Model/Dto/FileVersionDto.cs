@@ -3,13 +3,13 @@ using System;
 
 namespace Reception.Server.File.Model.Dto
 {
-    public class VersionInfoDto : IFileVersionInfo
+    public class FileVersionDto : IFileVersion
     {
         public int Id { get; set; }
 
         public string Comment { get; set; }
 
-        public string FileName { get; set; }
+        public string Extension { get; set; }
 
         public string Name { get; set; }
 

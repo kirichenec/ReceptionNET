@@ -16,7 +16,7 @@ namespace Reception.Server.Data.Repository
             _context = context;
         }
 
-        public async Task<Person> GetPersonAsync(int id)
+        public async Task<Person> GetAsync(int id)
         {
             return await _context.Persons.Include(p => p.Post).FirstOrDefaultAsync(p => p.Id == id);
         }
@@ -26,17 +26,17 @@ namespace Reception.Server.Data.Repository
             return await _context.Posts.FirstOrDefaultAsync(p => p.Id == id);
         }
 
-        public IQueryable<Person> QueryablePersons()
+        public IQueryable<Person> Queryable()
         {
             return _context.Persons.AsQueryable();
         }
 
-        public async Task<List<Person>> SearchPersonsAsync(string searchText)
+        public async Task<List<Person>> SearchAsync(string searchText)
         {
             return await SearchPersonsQuery(searchText).ToListAsync();
         }
 
-        public async Task<List<Person>> SearchPersonsPagedAsync(string searchText, int count, int page)
+        public async Task<List<Person>> SearchPagedAsync(string searchText, int count, int page)
         {
             return await
                 SearchPersonsQuery(searchText)

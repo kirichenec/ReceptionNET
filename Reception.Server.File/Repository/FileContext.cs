@@ -10,7 +10,7 @@ namespace Reception.Server.File.Repository
         public static readonly ILoggerFactory ReceptionLoggerFactory = LoggerFactory.Create(builder => { builder.AddConsole(); });
 
         public DbSet<FileData> Datas { get; set; }
-        public DbSet<VersionInfo> VersionInfoes { get; set; }
+        public DbSet<FileVersion> VersionInfoes { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

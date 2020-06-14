@@ -1,10 +1,7 @@
 ﻿using Reception.Model.Interfaces;
-using System.Threading.Tasks;
+using Reception.Server.File.Model;
 
 namespace Reception.Server.File.Logic
 {
-    public interface IFileVersionLogic
-    {
-        Task<IFileVersionInfo> GetInfoAsync(int id);
-    }
+    public interface IFileVersionLogic : ILogic<FileVersion> { }
 }

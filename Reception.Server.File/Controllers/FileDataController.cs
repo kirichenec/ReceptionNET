@@ -1,15 +1,17 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Reception.Model.Interfaces;
 using Reception.Model.Network;
+using Reception.Server.File.Extensions;
 using Reception.Server.File.Logic;
+using Reception.Server.File.Model.Dto;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Reception.Server.File.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class FileDataController : ControllerBase
+    public class FileDataController : ControllerBase, IBaseController
     {
         private readonly IFileDataLogic _fileDataLogic;
 
@@ -18,28 +20,35 @@ namespace Reception.Server.File.Controllers
             _fileDataLogic = fileDataLogic;
         }
 
-        [HttpGet("Data/{id}")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetAsync(int id)
         {
-            var fileData = await _fileDataLogic.GetFileAsync(id);
-            var info = new QueryResult<IFormFile>(fileData);
+            var fileData = await _fileDataLogic.GetAsync(id);
+            var info = new QueryResult<FileDataDto>(fileData.ToDto());
             return Ok(info);
         }
 
-        [HttpPost("UploadFile")]
-        public async Task<IActionResult> UploadAsync(IFormFile value)
+        [HttpPost]
+        public async Task<IActionResult> UploadAsync(string fileName, byte[] value)
         {
-            var savedFileInfo = await _fileDataLogic.SaveAsync(value);
-            var info = new QueryResult<IFileVersionInfo>(savedFileInfo);
+            var savedFileInfo = await _fileDataLogic.SaveAsync(fileName, value);
+            var info = new QueryResult<FileDataDto>(savedFileInfo.ToDto());
             return Ok(info);
         }
 
         [HttpDelete("{id}")]
-        [Route(nameof(DeleteAsync))]
         public async Task<IActionResult> DeleteAsync(int id)
         {
-            var isDeleteSuccess = await _fileDataLogic.DeleteFileAsync(id);
+            var isDeleteSuccess = await _fileDataLogic.DeleteAsync(id);
             var info = new QueryResult<bool>(isDeleteSuccess);
+            return Ok(info);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> SearchAsync([FromQuery] string searchText)
+        {
+            var searchResult = await _fileDataLogic.SearchAsync(searchText);
+            var info = new QueryResult<List<FileDataDto>>(searchResult.ToDto());
             return Ok(info);
         }
     }

@@ -2,9 +2,9 @@
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Reception.Server.File.Repository
+namespace Reception.Model.Interfaces
 {
-    public interface IService<T>
+    public interface IRepository<T>
     {
         Task<T> GetAsync(int id);
         IQueryable<T> Queryable();

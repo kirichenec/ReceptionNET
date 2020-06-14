@@ -4,6 +4,6 @@
     {
         public byte[] Value { get; set; }
 
-        public IFileVersionInfo VersionInfo { get; set; }
+        public IFileVersion VersionInfo { get; set; }
     }
 }

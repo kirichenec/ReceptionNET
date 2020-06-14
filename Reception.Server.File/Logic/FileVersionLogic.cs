@@ -1,6 +1,6 @@
-﻿using Reception.Model.Interfaces;
-using Reception.Server.Data.Extensions;
+﻿using Reception.Server.File.Model;
 using Reception.Server.File.Repository;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Reception.Server.File.Logic
@@ -14,9 +14,29 @@ namespace Reception.Server.File.Logic
             _dataService = dataService;
         }
 
-        public async Task<IFileVersionInfo> GetInfoAsync(int id)
+        public Task<bool> DeleteAsync(int id)
         {
-            return (await _dataService.GetAsync(id)).ToDto();
+            throw new System.NotImplementedException();
+        }
+
+        public Task<FileVersion> GetAsync(int id)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public async Task<FileVersion> GetInfoAsync(int id)
+        {
+            return (await _dataService.GetAsync(id));
+        }
+
+        public Task<FileVersion> SaveAsync(FileVersion value)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task<List<FileVersion>> SearchAsync(string searchText)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

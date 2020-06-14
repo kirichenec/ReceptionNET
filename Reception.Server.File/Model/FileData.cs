@@ -1,24 +1,19 @@
 ﻿using Reception.Model.Interfaces;
-using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Reception.Server.File.Model
 {
-    public class VersionInfo : IFileVersionInfo
+    [Table("FileData", Schema = "Files")]
+    public class FileData : IUnique
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
-        public string Comment { get; set; }
+        [Required]
+        public byte[] Value { get; set; }
 
         [Required]
-        public string Name { get; set; }
-
-        [Required]
-        public string FileName { get; set; }
-
-        [Required]
-        public Guid Version { get; set; }
+        public FileVersion VersionInfo { get; set; }
     }
 }

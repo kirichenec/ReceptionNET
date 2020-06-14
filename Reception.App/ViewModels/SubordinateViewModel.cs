@@ -3,6 +3,7 @@ using ReactiveUI.Fody.Helpers;
 using Reception.App.Model;
 using Reception.App.Model.Extensions;
 using Reception.App.Model.PersonInfo;
+using Reception.App.Models;
 using Reception.App.Network.Chat;
 using Reception.App.Network.Exceptions;
 using Reception.App.Network.Server;
@@ -11,6 +12,7 @@ using Reception.Extensions.Dictionaries;
 using Splat;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
@@ -92,8 +94,7 @@ namespace Reception.App.ViewModels
         #endregion
 
         #region Properties
-        [Reactive]
-        public Visitor Visitor { get; set; } = new Visitor();
+        public byte[] DefaultImage { get; set; }
 
         public IEnumerable<Person> Persons => _searchedPersons.Value ?? Array.Empty<Person>();
 
@@ -102,10 +103,15 @@ namespace Reception.App.ViewModels
 
         [Reactive]
         public Person SelectedPerson { get; set; }
+
+        [Reactive]
+        public Visitor Visitor { get; set; } = new Visitor();
         #endregion
 
         #region Commands
         public ReactiveCommand<Unit, bool> ClearSearchPersonCommand { get; }
+
+        public ReactiveCommand<Unit, Unit> ChangeImageCommand { get; }
 
         public ReactiveCommand<string, IEnumerable<Person>> SearchPersonCommand { get; }
 
@@ -198,15 +204,19 @@ namespace Reception.App.ViewModels
 
         private async Task<bool> SubordinateViewModel_Initialized()
         {
+            return await LoadSettingsAsync() && await StartClientAsync();
+        }
+
+        private async Task<bool> LoadSettingsAsync()
+        {
             try
             {
-                await _clientService.StartClientAsync();
+                DefaultImage = await File.ReadAllBytesAsync(AppSettings.DefaultImagePath);
                 return true;
             }
-            catch (Exception ex)
+            catch
             {
-                Console.WriteLine(ex);
-                throw;
+                return false;
             }
         }
 
@@ -226,6 +236,20 @@ namespace Reception.App.ViewModels
                     return;
                 }
                 mainViewModel.LastErrorType = ErrorType.System;
+            }
+        }
+
+        private async Task<bool> StartClientAsync()
+        {
+            try
+            {
+                await _clientService.StartClientAsync();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                throw;
             }
         }
 

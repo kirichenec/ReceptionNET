@@ -16,17 +16,22 @@ namespace Reception.Server.File.Repository
             _context = context;
         }
 
-        public async Task<VersionInfo> GetAsync(int id)
+        public async Task<FileVersion> GetAsync(int id)
         {
             return await _context.VersionInfoes.FirstOrDefaultAsync(fi => fi.Id == id);
         }
 
-        public IQueryable<VersionInfo> Queryable()
+        public IQueryable<FileVersion> Queryable()
         {
             return _context.VersionInfoes.AsQueryable();
         }
 
-        public async Task<List<VersionInfo>> SearchPagedAsync(string searchText, int count, int page)
+        public async Task<List<FileVersion>> SearchAsync(string searchText)
+        {
+            return await SearchVersionInfosQuery(searchText).ToListAsync();
+        }
+
+        public async Task<List<FileVersion>> SearchPagedAsync(string searchText, int count, int page)
         {
             return await
                 SearchVersionInfosQuery(searchText)
@@ -34,12 +39,7 @@ namespace Reception.Server.File.Repository
                 .ToListAsync();
         }
 
-        public async Task<List<VersionInfo>> SearchAsync(string searchText)
-        {
-            return await SearchVersionInfosQuery(searchText).ToListAsync();
-        }
-
-        private IQueryable<VersionInfo> SearchVersionInfosQuery(string searchText)
+        private IQueryable<FileVersion> SearchVersionInfosQuery(string searchText)
         {
             var likeSearchText = searchText.AsLike();
             return

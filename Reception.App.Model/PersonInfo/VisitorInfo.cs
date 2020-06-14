@@ -14,6 +14,8 @@ namespace Reception.App.Model.PersonInfo
             CopyFrom(value);
         }
 
+        public byte[] ImageSource { get; set; }
+
         public DateTime IncomingDate
         {
             get => _incomingDate;

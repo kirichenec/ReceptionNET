@@ -2,9 +2,9 @@
 
 namespace Reception.Model.Interfaces
 {
-    public interface IFileVersionInfo : IUnique, ICommentable
+    public interface IFileVersion : IUnique, ICommentable
     {
-        string FileName { get; set; }
+        string Extension { get; set; }
         string Name { get; set; }
         Guid Version { get; set; }
     }

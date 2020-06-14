@@ -43,17 +43,17 @@ namespace Reception.Server.File.Repository
             return await GetAsync(trackedData.Entity.Id);
         }
 
+        public async Task<List<FileData>> SearchAsync(string searchText)
+        {
+            return await SearchFileDataQuery(searchText).ToListAsync();
+        }
+
         public async Task<List<FileData>> SearchPagedAsync(string searchText, int count, int page)
         {
             return await
                 SearchFileDataQuery(searchText)
                 .Paged(page, count)
                 .ToListAsync();
-        }
-
-        public async Task<List<FileData>> SearchAsync(string searchText)
-        {
-            return await SearchFileDataQuery(searchText).ToListAsync();
         }
 
         private IQueryable<FileData> SearchFileDataQuery(string searchText)
