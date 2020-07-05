@@ -2,7 +2,7 @@
 
 namespace Reception.App.Model.FileInfo
 {
-    class FileData : IFileData
+    public class FileData : IFileData
     {
         public int Id { get; set; }
         public byte[] Value { get; set; }

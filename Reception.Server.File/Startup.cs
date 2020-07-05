@@ -19,8 +19,8 @@ namespace Reception.Server.File
             db.Database.EnsureCreated();
             db.Database.Migrate();
         }
-        public IConfiguration Configuration { get; }
 
+        public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
@@ -28,8 +28,10 @@ namespace Reception.Server.File
         {
             services.AddMvc().AddNewtonsoftJson();
             services.AddEntityFrameworkSqlite().AddDbContext<FileContext>();
-            services.AddScoped<IFileVersionService, FileVersionService>();
+            services.AddScoped<IFileDataService, FileDataService>();
             services.AddScoped<IFileDataLogic, FileDataLogic>();
+            services.AddScoped<IFileVersionService, FileVersionService>();
+            services.AddScoped<IFileVersionLogic, FileVersionLogic>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

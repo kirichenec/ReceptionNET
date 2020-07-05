@@ -2,8 +2,8 @@
 using ReactiveUI.Fody.Helpers;
 using Reception.App.Model;
 using Reception.App.Model.Extensions;
+using Reception.App.Model.FileInfo;
 using Reception.App.Model.PersonInfo;
-using Reception.App.Models;
 using Reception.App.Network.Chat;
 using Reception.App.Network.Exceptions;
 using Reception.App.Network.Server;
@@ -12,7 +12,6 @@ using Reception.Extensions.Dictionaries;
 using Splat;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
@@ -28,6 +27,8 @@ namespace Reception.App.ViewModels
 
         private readonly INetworkService<Person> _networkServiceOfPersons;
 
+        private readonly INetworkService<FileData> _networkServiceOfFileData;
+
         private readonly ObservableAsPropertyHelper<IEnumerable<Person>> _searchedPersons;
         #endregion
 
@@ -40,6 +41,7 @@ namespace Reception.App.ViewModels
             SearchText = string.Empty;
 
             _networkServiceOfPersons ??= Locator.Current.GetService<INetworkService<Person>>();
+            _networkServiceOfFileData ??= Locator.Current.GetService<INetworkService<FileData>>();
 
             #region Init Chat service
             _clientService ??= Locator.Current.GetService<IClientService>();
@@ -47,7 +49,7 @@ namespace Reception.App.ViewModels
             #endregion
 
             #region Init SelectPersonCommand
-            SelectPersonCommand = ReactiveCommand.Create<Person, bool>(FillVisitorBySelected);
+            SelectPersonCommand = ReactiveCommand.CreateFromTask<Person, bool>(FillVisitorBySelected);
 
             this.WhenAnyValue(x => x.SelectedPerson)
                 .InvokeCommand(SelectPersonCommand);
@@ -94,8 +96,6 @@ namespace Reception.App.ViewModels
         #endregion
 
         #region Properties
-        public byte[] DefaultImage { get; set; }
-
         public IEnumerable<Person> Persons => _searchedPersons.Value ?? Array.Empty<Person>();
 
         [Reactive]
@@ -128,11 +128,12 @@ namespace Reception.App.ViewModels
             return true;
         }
 
-        private bool FillVisitorBySelected(Person person)
+        private async Task<bool> FillVisitorBySelected(Person person)
         {
             if (!person.IsNull())
             {
                 Visitor.CopyFrom(person);
+                Visitor.ImageSource = (await _networkServiceOfFileData.SearchAsync("test")).FirstOrDefault()?.Value;
                 return true;
             }
             return false;
@@ -204,20 +205,7 @@ namespace Reception.App.ViewModels
 
         private async Task<bool> SubordinateViewModel_Initialized()
         {
-            return await LoadSettingsAsync() && await StartClientAsync();
-        }
-
-        private async Task<bool> LoadSettingsAsync()
-        {
-            try
-            {
-                DefaultImage = await File.ReadAllBytesAsync(AppSettings.DefaultImagePath);
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
+            return await StartClientAsync();
         }
 
         private void ShowError(Exception error)

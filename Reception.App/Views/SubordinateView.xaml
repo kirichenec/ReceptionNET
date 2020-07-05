@@ -26,12 +26,11 @@
           <Button Content="Send" Command="{Binding SendVisitorCommand}" CommandParameter="{Binding Visitor}"/>
         </StackPanel>
 
-        <Grid Grid.Column="1">
-          <Image Height="{Binding #VisitorInfoStackPanel.Bounds.Height}"
-                 Source="{Binding Visitor.Image, Converter={StaticResource ByteArrayToImage}}">
-          </Image>
-
-        </Grid>
+        <Image Grid.Column="1"
+               Height="{Binding #VisitorInfoStackPanel.Bounds.Height}"
+               MinWidth="150"
+               Source="{Binding Visitor.ImageSource, Converter={StaticResource ByteArrayToImage}}">
+        </Image>
       </Grid>
 
       <Grid Grid.Row="1">
