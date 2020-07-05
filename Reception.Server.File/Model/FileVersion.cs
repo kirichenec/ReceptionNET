@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Reception.Server.File.Model
 {
+    [Table("FileVersion", Schema = "Files")]
     public class FileVersion : IFileVersion
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -13,6 +14,9 @@ namespace Reception.Server.File.Model
         public string Comment { get; set; }
 
         public string Extension { get; set; }
+
+        [NotMapped]
+        public string FullName => $"{Name}.{Extension}";
 
         [Required]
         public string Name { get; set; }

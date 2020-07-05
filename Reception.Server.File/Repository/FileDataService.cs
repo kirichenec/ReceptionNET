@@ -20,7 +20,7 @@ namespace Reception.Server.File.Repository
         {
             if (await GetAsync(id) is FileData dataToDelete)
             {
-                _context.Datas.Remove(dataToDelete);
+                _context.FileDatas.Remove(dataToDelete);
                 return true;
             }
             return false;
@@ -28,12 +28,12 @@ namespace Reception.Server.File.Repository
 
         public async Task<FileData> GetAsync(int id)
         {
-            return await _context.Datas.FirstOrDefaultAsync(fi => fi.Id == id);
+            return await _context.FileDatas.FirstOrDefaultAsync(fi => fi.Id == id);
         }
 
         public IQueryable<FileData> Queryable()
         {
-            return _context.Datas.AsQueryable();
+            return _context.FileDatas.AsQueryable();
         }
 
         public async Task<FileData> SaveAsync(FileData value)
@@ -60,14 +60,12 @@ namespace Reception.Server.File.Repository
         {
             var likeSearchText = searchText.AsLike();
             return
-                _context.Datas
+                _context.FileDatas
                 .Include(data => data.VersionInfo)
                 .Where(
                     vi =>
-                    EF.Functions.Like(vi.Id.ToString(), likeSearchText) ||
                     EF.Functions.Like(vi.VersionInfo.Comment, likeSearchText) ||
-                    EF.Functions.Like(vi.VersionInfo.Name, likeSearchText) ||
-                    EF.Functions.Like(vi.VersionInfo.Version.ToString(), likeSearchText));
+                    EF.Functions.Like(vi.VersionInfo.Name, likeSearchText));
         }
     }
 }

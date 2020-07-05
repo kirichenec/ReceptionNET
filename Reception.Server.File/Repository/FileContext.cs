@@ -9,12 +9,12 @@ namespace Reception.Server.File.Repository
     {
         public static readonly ILoggerFactory ReceptionLoggerFactory = LoggerFactory.Create(builder => { builder.AddConsole(); });
 
-        public DbSet<FileData> Datas { get; set; }
-        public DbSet<FileVersion> VersionInfoes { get; set; }
+        public DbSet<FileData> FileDatas { get; set; }
+        public DbSet<FileVersion> FileVersions { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            var connectionStringBuilder = new SqliteConnectionStringBuilder { DataSource = $"{nameof(Reception.Server.File)}.db" };
+            var connectionStringBuilder = new SqliteConnectionStringBuilder { DataSource = $"{nameof(Reception)}.{nameof(Server)}.{nameof(File)}.db" };
             var connectionString = connectionStringBuilder.ToString();
             var connection = new SqliteConnection(connectionString);
 

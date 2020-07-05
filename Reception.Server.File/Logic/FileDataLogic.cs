@@ -44,9 +44,9 @@ namespace Reception.Server.File.Logic
             throw new NotSupportedException($"Use {rightMethodInfo} instead of {wrongMethodInfo}");
         }
 
-        public Task<List<FileData>> SearchAsync(string searchText)
+        public async Task<List<FileData>> SearchAsync(string searchText)
         {
-            throw new NotImplementedException();
+            return await _dataService.SearchAsync(searchText);
         }
     }
 }

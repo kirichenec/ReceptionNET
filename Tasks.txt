@@ -1,3 +1,5 @@
 - Auth
 - Files Data
    - Person Image from File Data with person link: Image Info section + File Data
+   - Link Visitor to Image file
+- Delete crutch in SubordinateViewModel.cs: change search to getting by visitor-file link

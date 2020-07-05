@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Reception.Server.Data.Model
 {
+    [Table("Post", Schema = "Person")]
     public class Post : IPost
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

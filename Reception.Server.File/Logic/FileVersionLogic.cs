@@ -34,9 +34,9 @@ namespace Reception.Server.File.Logic
             throw new System.NotImplementedException();
         }
 
-        public Task<List<FileVersion>> SearchAsync(string searchText)
+        public async Task<List<FileVersion>> SearchAsync(string searchText)
         {
-            throw new System.NotImplementedException();
+            return await _dataService.SearchAsync(searchText);
         }
     }
 }

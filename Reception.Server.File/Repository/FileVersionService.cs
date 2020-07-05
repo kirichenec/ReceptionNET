@@ -18,12 +18,12 @@ namespace Reception.Server.File.Repository
 
         public async Task<FileVersion> GetAsync(int id)
         {
-            return await _context.VersionInfoes.FirstOrDefaultAsync(fi => fi.Id == id);
+            return await _context.FileVersions.FirstOrDefaultAsync(fi => fi.Id == id);
         }
 
         public IQueryable<FileVersion> Queryable()
         {
-            return _context.VersionInfoes.AsQueryable();
+            return _context.FileVersions.AsQueryable();
         }
 
         public async Task<List<FileVersion>> SearchAsync(string searchText)
@@ -43,12 +43,12 @@ namespace Reception.Server.File.Repository
         {
             var likeSearchText = searchText.AsLike();
             return
-                _context.VersionInfoes
+                _context.FileVersions
                 .Where(
                     vi =>
                     EF.Functions.Like(vi.Comment, likeSearchText) ||
-                    EF.Functions.Like(vi.Name, likeSearchText) ||
-                    EF.Functions.Like(vi.Version.ToString(), likeSearchText));
+                    EF.Functions.Like(vi.Name + "." + vi.Extension, likeSearchText) ||
+                    EF.Functions.Like((string)(object)vi.Version, likeSearchText));
         }
     }
 }

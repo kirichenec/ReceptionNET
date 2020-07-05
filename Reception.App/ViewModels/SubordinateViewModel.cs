@@ -133,6 +133,7 @@ namespace Reception.App.ViewModels
             if (!person.IsNull())
             {
                 Visitor.CopyFrom(person);
+                // TODO: Change to normal getting after person-photo chain realization
                 Visitor.ImageSource = (await _networkServiceOfFileData.SearchAsync("test")).FirstOrDefault()?.Value;
                 return true;
             }
