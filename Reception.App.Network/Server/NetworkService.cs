@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Reception.App.Network.Exceptions;
 using Reception.Model.Network;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -14,34 +15,43 @@ namespace Reception.App.Network.Server
             _serverPath = serverPath;
         }
 
-        public async Task<IEnumerable<T>> GetByIds(IEnumerable<int> ids)
+        public async Task<T> GetById(int id)
         {
-            var response = await Core.ExecuteGetTaskAsync($"{_serverPath}/api/{typeof(T).Name}?searchText={ids}");
+            var response = await Core.ExecuteGetTaskAsync($"{_serverPath}/api/{typeof(T).Name}/{id}");
 
             if (response.IsSuccessful)
             {
-                var content = JsonConvert.DeserializeObject<QueryResult<List<T>>>(response.Content);
+                var content = JsonConvert.DeserializeObject<QueryResult<T>>(response.Content);
                 return content.Data;
             }
 
-            throw response.ErrorException;
+            throw new QueryException(response.StatusDescription);
+        }
+
+        public async Task<IEnumerable<T>> GetByIds(IEnumerable<int> ids)
+        {
+            var response = await Core.ExecutePostTaskAsync($"{_serverPath}/api/{typeof(T).Name}/GetByIds", ids);
+
+            if (response.IsSuccessful)
+            {
+                var content = JsonConvert.DeserializeObject<QueryResult<IEnumerable<T>>>(response.Content);
+                return content.Data;
+            }
+
+            throw new QueryException(response.StatusDescription);
         }
 
         public async Task<IEnumerable<T>> SearchAsync(string searchText)
         {
-            var queryPath = $"{_serverPath}/api/{typeof(T).Name}?searchText={searchText}";
-            return await GetListQueryAsync(queryPath);
-        }
+            var response = await Core.ExecuteGetTaskAsync($"{_serverPath}/api/{typeof(T).Name}?searchText={searchText}");
 
-        private static async Task<IEnumerable<T>> GetListQueryAsync(string queryPath)
-        {
-            var response = await Core.ExecuteGetTaskAsync(queryPath);
             if (response.IsSuccessful)
             {
-                var content = JsonConvert.DeserializeObject<QueryResult<List<T>>>(response.Content);
+                var content = JsonConvert.DeserializeObject<QueryResult<IEnumerable<T>>>(response.Content);
                 return content.Data;
             }
-            throw response.ErrorException;
+
+            throw new QueryException(response.StatusDescription);
         }
     }
 }

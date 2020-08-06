@@ -5,7 +5,7 @@ namespace Reception.Model.Interfaces
 {
     public interface IBaseController
     {
-        public Task<IActionResult> GetAsync(int id);
-        public Task<IActionResult> SearchAsync(string searchText);
+        public Task<IActionResult> Get(int id);
+        public Task<IActionResult> Search(string searchText);
     }
 }

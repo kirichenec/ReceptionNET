@@ -7,7 +7,8 @@ namespace Reception.Model.Interfaces
     {
         Task<bool> DeleteAsync(int id);
         Task<T> GetAsync(int id);
+        Task<IEnumerable<T>> GetByIdsAsync(IEnumerable<int> ids);
         Task<T> SaveAsync(T value);
-        Task<List<T>> SearchAsync(string searchText);
+        Task<IEnumerable<T>> SearchAsync(string searchText);
     }
 }

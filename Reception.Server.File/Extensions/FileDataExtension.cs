@@ -20,9 +20,9 @@ namespace Reception.Server.File.Extensions
                 };
         }
 
-        public static List<FileDataDto> ToDto(this List<FileData> valueList)
+        public static IEnumerable<FileDataDto> ToDtos(this IEnumerable<FileData> valueList)
         {
-            return valueList.Select(value => value.ToDto()).ToList();
+            return valueList?.Select(value => value.ToDto()).ToList();
         }
     }
 }

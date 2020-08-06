@@ -1,6 +1,9 @@
-﻿using Reception.Server.Data.Model;
+﻿using Microsoft.EntityFrameworkCore;
+using Reception.Model.Dto;
+using Reception.Server.Data.Extensions;
 using Reception.Server.Data.Repository;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Reception.Server.Data.Logic
@@ -19,19 +22,27 @@ namespace Reception.Server.Data.Logic
             throw new System.NotImplementedException();
         }
 
-        public async Task<Person> GetAsync(int id)
+        public async Task<PersonDto> GetAsync(int id)
         {
-            return await _dataService.GetAsync(id);
+            var person = await _dataService.GetAsync(id);
+            return person.ToDto();
         }
 
-        public Task<Person> SaveAsync(Person value)
+        public async Task<IEnumerable<PersonDto>> GetByIdsAsync(IEnumerable<int> ids)
+        {
+            var queriedValues = await _dataService.Queryable().Where(p => ids.Contains(p.Id)).ToListAsync();
+            return queriedValues.ToDtos();
+        }
+
+        public Task<PersonDto> SaveAsync(PersonDto value)
         {
             throw new System.NotImplementedException();
         }
 
-        public async Task<List<Person>> SearchAsync(string searchText)
+        public async Task<IEnumerable<PersonDto>> SearchAsync(string searchText)
         {
-            return await _dataService.SearchAsync(searchText);
+            var searchedValues = await _dataService.SearchAsync(searchText);
+            return searchedValues.ToDtos();
         }
     }
 }

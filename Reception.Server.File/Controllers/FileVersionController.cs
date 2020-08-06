@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Reception.Model.Interfaces;
 using Reception.Model.Network;
-using Reception.Server.Data.Extensions;
 using Reception.Server.File.Logic;
 using Reception.Server.File.Model.Dto;
 using System.Collections.Generic;
@@ -22,18 +21,23 @@ namespace Reception.Server.File.Controllers
 
         // GET api/<FileVersionInfoController>/5
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetAsync(int id)
+        [ProducesResponseType(200)]
+        [ProducesResponseType(500)]
+        public async Task<IActionResult> Get(int id)
         {
             var fileVersion = await _fileVersionLogic.GetAsync(id);
-            var info = new QueryResult<FileVersionDto>(fileVersion.ToDto());
+            var info = new QueryResult<FileVersionDto>(fileVersion);
             return Ok(info);
         }
 
+        // GET api/FileVersion?searchText=5
         [HttpGet]
-        public async Task<IActionResult> SearchAsync(string searchText)
+        [ProducesResponseType(200)]
+        [ProducesResponseType(500)]
+        public async Task<IActionResult> Search(string searchText)
         {
             var result = await _fileVersionLogic.SearchAsync(searchText);
-            var info = new QueryResult<List<FileVersionDto>>(result.ToDto());
+            var info = new QueryResult<IEnumerable<FileVersionDto>>(result);
             return Ok(info);
         }
     }
