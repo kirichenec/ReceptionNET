@@ -1,6 +1,5 @@
 ﻿using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Logging.Serilog;
 using Avalonia.ReactiveUI;
 using ReactiveUI;
 using Reception.App.Model.FileInfo;
