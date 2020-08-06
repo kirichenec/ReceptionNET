@@ -23,7 +23,7 @@ namespace Reception.Server.Data.Extensions
                 };
         }
 
-        public static List<PersonDto> ToDto(this List<Person> valueList)
+        public static IEnumerable<PersonDto> ToDtos(this IEnumerable<Person> valueList)
         {
             return valueList.Select(value => value.ToDto()).ToList();
         }

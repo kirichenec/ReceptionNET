@@ -2,7 +2,6 @@
 using Reception.Model.Dto;
 using Reception.Model.Interfaces;
 using Reception.Model.Network;
-using Reception.Server.Data.Extensions;
 using Reception.Server.Data.Logic;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,19 +22,34 @@ namespace Reception.Server.Data.Controllers
 
         // GET api/Person/5
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetAsync(int id)
+        [ProducesResponseType(200)]
+        [ProducesResponseType(500)]
+        public async Task<IActionResult> Get(int id)
         {
             var person = await _personLogic.GetAsync(id);
-            var info = new QueryResult<PersonDto>(person.ToDto());
+            var info = new QueryResult<PersonDto>(person);
+            return Ok(info);
+        }
+
+        // POST api/Person/GetByIds
+        [HttpPost("[action]")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(500)]
+        public async Task<IActionResult> GetByIds([FromBody] int[] ids)
+        {
+            var persons = await _personLogic.GetByIdsAsync(ids);
+            var info = new QueryResult<IEnumerable<PersonDto>>(persons.ToList());
             return Ok(info);
         }
 
         // GET api/Person?searchText=5
         [HttpGet]
-        public async Task<IActionResult> SearchAsync([FromQuery] string searchText)
+        [ProducesResponseType(200)]
+        [ProducesResponseType(500)]
+        public async Task<IActionResult> Search([FromQuery] string searchText)
         {
             var persons = await _personLogic.SearchAsync(searchText);
-            var info = new QueryResult<List<PersonDto>>(persons.Select(p => p.ToDto()).ToList());
+            var info = new QueryResult<IEnumerable<PersonDto>>(persons);
             return Ok(info);
         }
     }

@@ -1,11 +1,11 @@
 ﻿using Reception.Model.Interfaces;
-using Reception.Server.File.Model;
+using Reception.Server.File.Model.Dto;
 using System.Threading.Tasks;
 
 namespace Reception.Server.File.Logic
 {
-    public interface IFileDataLogic : ILogic<FileData>
+    public interface IFileDataLogic : ILogic<FileDataDto>
     {
-        Task<FileData> SaveAsync(string fileName, byte[] fileData);
+        Task<FileDataDto> SaveAsync(string fileName, byte[] fileData);
     }
 }

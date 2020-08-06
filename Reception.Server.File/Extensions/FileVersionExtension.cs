@@ -21,9 +21,9 @@ namespace Reception.Server.Data.Extensions
                 };
         }
 
-        public static List<FileVersionDto> ToDto(this List<FileVersion> valueList)
+        public static IEnumerable<FileVersionDto> ToDtos(this IEnumerable<FileVersion> valueList)
         {
-            return valueList.Select(value => value.ToDto()).ToList();
+            return valueList?.Select(value => value.ToDto()).ToList();
         }
     }
 }

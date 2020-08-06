@@ -1,4 +1,5 @@
-﻿using Reception.Server.File.Model;
+﻿using Reception.Server.Data.Extensions;
+using Reception.Server.File.Model.Dto;
 using Reception.Server.File.Repository;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -19,24 +20,31 @@ namespace Reception.Server.File.Logic
             throw new System.NotImplementedException();
         }
 
-        public Task<FileVersion> GetAsync(int id)
+        public Task<FileVersionDto> GetAsync(int id)
         {
             throw new System.NotImplementedException();
         }
 
-        public async Task<FileVersion> GetInfoAsync(int id)
-        {
-            return (await _dataService.GetAsync(id));
-        }
-
-        public Task<FileVersion> SaveAsync(FileVersion value)
+        public Task<IEnumerable<FileVersionDto>> GetByIdsAsync(IEnumerable<int> ids)
         {
             throw new System.NotImplementedException();
         }
 
-        public async Task<List<FileVersion>> SearchAsync(string searchText)
+        public async Task<FileVersionDto> GetInfoAsync(int id)
         {
-            return await _dataService.SearchAsync(searchText);
+            var fileVersion = await _dataService.GetAsync(id);
+            return fileVersion.ToDto();
+        }
+
+        public Task<FileVersionDto> SaveAsync(FileVersionDto value)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public async Task<IEnumerable<FileVersionDto>> SearchAsync(string searchText)
+        {
+            var searchedValues = await _dataService.SearchAsync(searchText);
+            return searchedValues.ToDtos();
         }
     }
 }

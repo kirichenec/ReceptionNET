@@ -1,5 +1,7 @@
-﻿using ReactiveUI;
+﻿using Avalonia.Logging;
+using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
+using Reception.App.Extensions;
 using Reception.App.Model;
 using Reception.App.Model.Extensions;
 using Reception.App.Model.FileInfo;
@@ -12,9 +14,11 @@ using Reception.Extensions.Dictionaries;
 using Splat;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using ErrorType = Reception.App.ViewModels.MainWindowViewModel.ErrorType;
 
@@ -61,7 +65,7 @@ namespace Reception.App.ViewModels
                 ReactiveCommand.CreateFromTask<string, IEnumerable<Person>>(
                     async query => await SearchPersons(query),
                     canSearch);
-            SearchPersonCommand.ThrownExceptions.Subscribe(error => ShowError(error));
+            SearchPersonCommand.ThrownExceptions.Subscribe(error => ShowError(error, nameof(SearchPersons)));
 
             _searchedPersons = SearchPersonCommand.ToProperty(this, x => x.Persons);
 
@@ -158,7 +162,7 @@ namespace Reception.App.ViewModels
 
         private void PersonReceived(Person person)
         {
-            ShowError(new NotImplementedException($"{nameof(PersonReceived)} not implemented"));
+            ShowError(new NotImplementedException($"{nameof(PersonReceived)} not implemented"), properties: person);
         }
 
         private async Task<IEnumerable<Person>> SearchPersons(string query)
@@ -209,8 +213,10 @@ namespace Reception.App.ViewModels
             return await StartClientAsync();
         }
 
-        private void ShowError(Exception error)
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Major Bug", "S3343:Caller information parameters should come at the end of the parameter list", Justification = "<Pending>")]
+        private void ShowError(Exception error, [CallerMemberName] string name = null, params object[] properties)
         {
+            Logger.Sink.LogException(name, this, typeof(Exception), properties);
             if (HostScreen is MainWindowViewModel mainViewModel)
             {
                 mainViewModel.ErrorMessage = error.Message;
@@ -244,7 +250,7 @@ namespace Reception.App.ViewModels
 
         private void VisitorReceived(Visitor visitor)
         {
-            ShowError(new NotImplementedException($"{nameof(VisitorReceived)} not implemented"));
+            ShowError(new NotImplementedException($"{nameof(VisitorReceived)} not implemented"), properties: visitor);
         }
         #endregion
     }

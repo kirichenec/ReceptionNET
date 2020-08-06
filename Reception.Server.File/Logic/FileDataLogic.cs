@@ -1,4 +1,6 @@
-﻿using Reception.Server.File.Model;
+﻿using Reception.Server.File.Extensions;
+using Reception.Server.File.Model;
+using Reception.Server.File.Model.Dto;
 using Reception.Server.File.Repository;
 using System;
 using System.Collections.Generic;
@@ -20,13 +22,18 @@ namespace Reception.Server.File.Logic
             return await _dataService.DeleteAsync(id);
         }
 
-        public async Task<FileData> GetAsync(int id)
+        public async Task<FileDataDto> GetAsync(int id)
         {
             var fileData = await _dataService.GetAsync(id);
-            return fileData;
+            return fileData.ToDto();
         }
 
-        public async Task<FileData> SaveAsync(string fileName, byte[] fileData)
+        public Task<IEnumerable<FileDataDto>> GetByIdsAsync(IEnumerable<int> ids)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<FileDataDto> SaveAsync(string fileName, byte[] fileData)
         {
             var data = new FileData
             {
@@ -34,19 +41,20 @@ namespace Reception.Server.File.Logic
                 VersionInfo = new FileVersion { Name = fileName, Version = Guid.NewGuid() }
             };
             var result = await _dataService.SaveAsync(data);
-            return result;
+            return result.ToDto();
         }
 
-        public Task<FileData> SaveAsync(FileData value)
+        public Task<FileDataDto> SaveAsync(FileDataDto value)
         {
             var rightMethodInfo = GetType().GetMethod(nameof(SaveAsync), new Type[] { typeof(string), typeof(byte[]) });
-            var wrongMethodInfo = GetType().GetMethod(nameof(SaveAsync), new Type[] { typeof(FileData) });
+            var wrongMethodInfo = GetType().GetMethod(nameof(SaveAsync), new Type[] { typeof(FileDataDto) });
             throw new NotSupportedException($"Use {rightMethodInfo} instead of {wrongMethodInfo}");
         }
 
-        public async Task<List<FileData>> SearchAsync(string searchText)
+        public async Task<IEnumerable<FileDataDto>> SearchAsync(string searchText)
         {
-            return await _dataService.SearchAsync(searchText);
+            var searchedValues = await _dataService.SearchAsync(searchText);
+            return searchedValues.ToDtos();
         }
     }
 }

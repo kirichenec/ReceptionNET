@@ -1,7 +1,7 @@
-﻿using Reception.Model.Interfaces;
-using Reception.Server.Data.Model;
+﻿using Reception.Model.Dto;
+using Reception.Model.Interfaces;
 
 namespace Reception.Server.Data.Logic
 {
-    public interface IPersonLogic : ILogic<Person> { }
+    public interface IPersonLogic : ILogic<PersonDto> { }
 }
