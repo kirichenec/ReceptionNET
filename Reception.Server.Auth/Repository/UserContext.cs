@@ -1,13 +1,19 @@
 ﻿using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Reception.Server.Auth.Entities;
+using Reception.Server.Auth.PasswordHelper;
 
 namespace Reception.Server.Auth.Repository
 {
     public class UserContext : DbContext
     {
-        public UserContext()
+        private readonly IPasswordHasher _passwordHasher;
+
+        public UserContext(IOptions<HashingOptions> hashingOptions)
         {
+            _passwordHasher = new PasswordHasher(hashingOptions.Value);
+
             Database.EnsureCreated();
             Database.Migrate();
         }
@@ -27,7 +33,10 @@ namespace Reception.Server.Auth.Repository
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<User>().HasAlternateKey(p =>p.Username).HasName("IX_Username");
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<User>().HasAlternateKey(p => p.Username).HasName("IX_Username");
+            modelBuilder.Entity<User>().HasData(new User { Id = 1, Username = "admin", Password = _passwordHasher.Hash("admin") });
         }
     }
 }
