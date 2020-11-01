@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.OpenApi.Models;
 using Reception.Server.Auth.Helpers;
 using Reception.Server.Auth.Logic;
 using Reception.Server.Auth.PasswordHelper;
@@ -30,6 +31,11 @@ namespace Reception.Server.Auth
 
             services.AddMvc().AddNewtonsoftJson();
 
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Reception auth server", Version = "v1" });
+            });
+
             // configure strongly typed settings object
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
             services.Configure<HashingOptions>(Configuration.GetSection("HashingOptions"));
@@ -46,6 +52,9 @@ namespace Reception.Server.Auth
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+
+                app.UseSwagger();
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "WebApplication1 v1"));
             }
             else
             {

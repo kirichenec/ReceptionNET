@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.OpenApi.Models;
 using Reception.Server.File.Logic;
 using Reception.Server.File.Repository;
 
@@ -25,6 +26,12 @@ namespace Reception.Server.File
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().AddNewtonsoftJson();
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Reception files server", Version = "v1" });
+            });
+
             services.AddEntityFrameworkSqlite().AddDbContext<FileContext>();
             services.AddScoped<IFileDataService, FileDataService>();
             services.AddScoped<IFileDataLogic, FileDataLogic>();
@@ -38,6 +45,9 @@ namespace Reception.Server.File
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+
+                app.UseSwagger();
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "WebApplication1 v1"));
             }
             else
             {

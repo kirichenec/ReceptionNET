@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.OpenApi.Models;
 using Reception.Server.Data.Logic;
 using Reception.Server.Data.Repository;
 
@@ -24,6 +25,12 @@ namespace Reception.Server.Data
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().AddNewtonsoftJson();
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Reception data server", Version = "v1" });
+            });
+
             services.AddEntityFrameworkSqlite().AddDbContext<DataContext>();
             services.AddScoped<IDataService, DataService>();
             services.AddScoped<IPersonLogic, PersonLogic>();
@@ -35,6 +42,9 @@ namespace Reception.Server.Data
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+
+                app.UseSwagger();
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "WebApplication1 v1"));
             }
             else
             {
