@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Reception.Extensions;
-using Reception.Server.Data.Model;
+using Reception.Server.Data.Entities;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,9 +9,9 @@ namespace Reception.Server.Data.Repository
 {
     public class DataService : IDataService
     {
-        private readonly ReceptionContext _context;
+        private readonly DataContext _context;
 
-        public DataService(ReceptionContext context)
+        public DataService(DataContext context)
         {
             _context = context;
         }
@@ -31,12 +31,12 @@ namespace Reception.Server.Data.Repository
             return _context.Persons.AsQueryable();
         }
 
-        public async Task<List<Person>> SearchAsync(string searchText)
+        public async Task<IEnumerable<Person>> SearchAsync(string searchText)
         {
             return await SearchPersonsQuery(searchText).ToListAsync();
         }
 
-        public async Task<List<Person>> SearchPagedAsync(string searchText, int count, int page)
+        public async Task<IEnumerable<Person>> SearchPagedAsync(string searchText, int count, int page)
         {
             return await
                 SearchPersonsQuery(searchText)

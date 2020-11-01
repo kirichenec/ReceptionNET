@@ -26,12 +26,12 @@ namespace Reception.Server.File.Repository
             return _context.FileVersions.AsQueryable();
         }
 
-        public async Task<List<FileVersion>> SearchAsync(string searchText)
+        public async Task<IEnumerable<FileVersion>> SearchAsync(string searchText)
         {
             return await SearchVersionInfosQuery(searchText).ToListAsync();
         }
 
-        public async Task<List<FileVersion>> SearchPagedAsync(string searchText, int count, int page)
+        public async Task<IEnumerable<FileVersion>> SearchPagedAsync(string searchText, int count, int page)
         {
             return await
                 SearchVersionInfosQuery(searchText)

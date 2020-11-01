@@ -13,7 +13,7 @@ namespace Reception.Server.Data.Controllers
         [HttpGet("Ping")]
         public async Task<IActionResult> Ping()
         {
-            return await Task.FromResult<IActionResult>(Ok(Status.Code.OK));
+            return await Task.FromResult<IActionResult>(Ok());
         }
     }
 }

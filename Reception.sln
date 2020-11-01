@@ -32,6 +32,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reception.Server.File", "Re
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reception.Model.Dto", "Reception.Model.Dto\Reception.Model.Dto.csproj", "{08E23F42-53CF-4B0A-8047-FFF815D2F49D}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reception.Server.Auth", "Reception.Server.Auth\Reception.Server.Auth.csproj", "{E6108DCA-A26C-4D35-A41F-2589FAA823BA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reception.Server.Auth.PasswordHelper", "Reception.Server.Auth.PasswordHelper\Reception.Server.Auth.PasswordHelper.csproj", "{5DDD5B34-5808-4EB1-A491-5DFCC7C239A5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -78,6 +82,14 @@ Global
 		{08E23F42-53CF-4B0A-8047-FFF815D2F49D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{08E23F42-53CF-4B0A-8047-FFF815D2F49D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{08E23F42-53CF-4B0A-8047-FFF815D2F49D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E6108DCA-A26C-4D35-A41F-2589FAA823BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E6108DCA-A26C-4D35-A41F-2589FAA823BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E6108DCA-A26C-4D35-A41F-2589FAA823BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E6108DCA-A26C-4D35-A41F-2589FAA823BA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5DDD5B34-5808-4EB1-A491-5DFCC7C239A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5DDD5B34-5808-4EB1-A491-5DFCC7C239A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5DDD5B34-5808-4EB1-A491-5DFCC7C239A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5DDD5B34-5808-4EB1-A491-5DFCC7C239A5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

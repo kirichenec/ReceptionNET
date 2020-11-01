@@ -40,8 +40,8 @@ namespace Reception.Server.File.Logic
                 Value = fileData,
                 VersionInfo = new FileVersion { Name = fileName, Version = Guid.NewGuid() }
             };
-            var result = await _dataService.SaveAsync(data);
-            return result.ToDto();
+            var result = await _dataService.SaveAsync(data).ToDtoAsync();
+            return result;
         }
 
         public Task<FileDataDto> SaveAsync(FileDataDto value)
@@ -53,8 +53,8 @@ namespace Reception.Server.File.Logic
 
         public async Task<IEnumerable<FileDataDto>> SearchAsync(string searchText)
         {
-            var searchedValues = await _dataService.SearchAsync(searchText);
-            return searchedValues.ToDtos();
+            var searchedValues = await _dataService.SearchAsync(searchText).ToDtosAsync();
+            return searchedValues;
         }
     }
 }

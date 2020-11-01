@@ -1,7 +1,7 @@
 ﻿{
   "iisSettings": {
-    "windowsAuthentication": false, 
-    "anonymousAuthentication": true, 
+    "windowsAuthentication": false,
+    "anonymousAuthentication": true,
     "iisExpress": {
       "applicationUrl": "http://localhost:63538",
       "sslPort": 44381
@@ -18,7 +18,6 @@
     "Reception.Server.Photo": {
       "commandName": "Project",
       "launchBrowser": false,
-      "launchUrl": "api/File/Info/1",
       "applicationUrl": "https://localhost:5001;http://localhost:5000",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"

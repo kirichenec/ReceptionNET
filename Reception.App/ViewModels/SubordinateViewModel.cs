@@ -1,13 +1,10 @@
-﻿using Avalonia.Logging;
-using ReactiveUI;
+﻿using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
-using Reception.App.Extensions;
 using Reception.App.Model;
 using Reception.App.Model.Extensions;
 using Reception.App.Model.FileInfo;
 using Reception.App.Model.PersonInfo;
 using Reception.App.Network.Chat;
-using Reception.App.Network.Exceptions;
 using Reception.App.Network.Server;
 using Reception.Extensions.Converters;
 using Reception.Extensions.Dictionaries;
@@ -17,7 +14,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using ErrorType = Reception.App.ViewModels.MainWindowViewModel.ErrorType;
 
@@ -64,7 +60,7 @@ namespace Reception.App.ViewModels
                 ReactiveCommand.CreateFromTask<string, IEnumerable<Person>>(
                     async query => await SearchPersons(query),
                     canSearch);
-            SearchPersonCommand.ThrownExceptions.Subscribe(error => ShowError(error, nameof(SearchPersons)));
+            SearchPersonCommand.ThrownExceptions.Subscribe(error => ViewLocator.MainVM.ShowError(error, nameof(SearchPersons)));
 
             _searchedPersons = SearchPersonCommand.ToProperty(this, x => x.Persons);
 
@@ -154,14 +150,14 @@ namespace Reception.App.ViewModels
                     VisitorReceived(message.DeserializeMessage<Visitor>());
                     break;
                 default:
-                    ShowError(new ArgumentException($"Unknown message data type {messageType?.FullName ?? "null-type"}"));
+                    ViewLocator.MainVM.ShowError(new ArgumentException($"Unknown message data type {messageType?.FullName ?? "null-type"}"));
                     break;
             }
         }
 
         private void PersonReceived(Person person)
         {
-            ShowError(new NotImplementedException($"{nameof(PersonReceived)} not implemented"), properties: person);
+            ViewLocator.MainVM.ShowError(new NotImplementedException($"{nameof(PersonReceived)} not implemented"), properties: person);
         }
 
         private async Task<IEnumerable<Person>> SearchPersons(string query)
@@ -202,7 +198,7 @@ namespace Reception.App.ViewModels
             }
             catch (Exception ex)
             {
-                ShowError(ex);
+                ViewLocator.MainVM.ShowError(ex);
                 return false;
             }
         }
@@ -210,27 +206,6 @@ namespace Reception.App.ViewModels
         private async Task<bool> SubordinateViewModel_Initialized()
         {
             return await StartClientAsync();
-        }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Major Bug", "S3343:Caller information parameters should come at the end of the parameter list", Justification = "<Pending>")]
-        private void ShowError(Exception error, [CallerMemberName] string name = null, params object[] properties)
-        {
-            Logger.Sink.LogException(name, this, typeof(Exception), properties);
-            if (HostScreen is MainWindowViewModel mainViewModel)
-            {
-                mainViewModel.ErrorMessage = error.Message;
-                if (error is NotFoundException<Person>)
-                {
-                    mainViewModel.LastErrorType = ErrorType.Request;
-                    return;
-                }
-                if (error is QueryException)
-                {
-                    mainViewModel.LastErrorType = ErrorType.Server;
-                    return;
-                }
-                mainViewModel.LastErrorType = ErrorType.System;
-            }
         }
 
         private async Task<bool> StartClientAsync()
@@ -249,7 +224,7 @@ namespace Reception.App.ViewModels
 
         private void VisitorReceived(Visitor visitor)
         {
-            ShowError(new NotImplementedException($"{nameof(VisitorReceived)} not implemented"), properties: visitor);
+            ViewLocator.MainVM.ShowError(new NotImplementedException($"{nameof(VisitorReceived)} not implemented"), properties: visitor);
         }
         #endregion
     }

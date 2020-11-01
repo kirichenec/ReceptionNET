@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Reception.Server.Data.Logic;
 using Reception.Server.Data.Repository;
 
@@ -11,13 +11,11 @@ namespace Reception.Server.Data
 {
     public class Startup
     {
+        public static readonly ILoggerFactory ReceptionLoggerFactory = LoggerFactory.Create(builder => { builder.AddConsole(); });
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-
-            using var db = new ReceptionContext();
-            db.Database.EnsureCreated();
-            db.Database.Migrate();
         }
 
         public IConfiguration Configuration { get; }
@@ -26,7 +24,7 @@ namespace Reception.Server.Data
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().AddNewtonsoftJson();
-            services.AddEntityFrameworkSqlite().AddDbContext<ReceptionContext>();
+            services.AddEntityFrameworkSqlite().AddDbContext<DataContext>();
             services.AddScoped<IDataService, DataService>();
             services.AddScoped<IPersonLogic, PersonLogic>();
         }

@@ -1,7 +1,7 @@
 ﻿using RestSharp;
 using System.Threading.Tasks;
 
-namespace Reception.App.Network.Server
+namespace Reception.App.Network
 {
     internal static class Core
     {
@@ -17,6 +17,15 @@ namespace Reception.App.Network.Server
         {
             var client = new RestClient(url);
             var request = new RestRequest(Method.POST);
+            request.AddJsonBody(bodyValue);
+            var response = await client.ExecuteAsync(request);
+            return response;
+        }
+
+        internal static async Task<IRestResponse> ExecutePutTaskAsync<T>(string url, T bodyValue)
+        {
+            var client = new RestClient(url);
+            var request = new RestRequest(Method.PUT);
             request.AddJsonBody(bodyValue);
             var response = await client.ExecuteAsync(request);
             return response;

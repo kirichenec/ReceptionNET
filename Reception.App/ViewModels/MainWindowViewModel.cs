@@ -1,11 +1,17 @@
-﻿using ReactiveUI;
+﻿using Avalonia.Logging;
+using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using Reception.App.Constants;
+using Reception.App.Extensions;
+using Reception.App.Model.Auth;
+using Reception.App.Model.PersonInfo;
 using Reception.App.Models;
+using Reception.App.Network.Exceptions;
 using Reception.App.Network.Server;
 using Splat;
 using System;
 using System.Reactive.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 namespace Reception.App.ViewModels
@@ -19,6 +25,10 @@ namespace Reception.App.ViewModels
         #region ctor
         public MainWindowViewModel()
         {
+            ViewLocator.MainVM = this;
+
+            AuthData = LoadAuthData();
+
             CenterMessage = "Loading..";
 
             ServerStatusMessage = ConnectionStatus.OFFLINE.ToLower();
@@ -32,7 +42,23 @@ namespace Reception.App.ViewModels
                 .Timer(TimeSpan.Zero, TimeSpan.FromSeconds(AppSettings.PingDelay), RxApp.MainThreadScheduler)
                 .Subscribe(async x => await TryPing());
 
-            LoadIsBossMode();
+            Router.CurrentViewModel.Subscribe(x =>
+            {
+                if (!(Router.GetCurrentViewModel() is IRoutableViewModel) && AuthData.Token != null)
+                {
+                    LoadIsBossMode();
+                }
+            });
+
+            Router.Navigate.Subscribe(x =>
+            {
+                if (Router.GetCurrentViewModel() is MainWindowViewModel)
+                {
+                    LoadIsBossMode();
+                }
+            });
+
+            NavigateToAuth();
 
             CenterMessage = "";
         }
@@ -51,10 +77,16 @@ namespace Reception.App.ViewModels
 
         #region Properties
         [Reactive]
+        public AuthenticateResponse AuthData { get; set; }
+
+        [Reactive]
         public string CenterMessage { get; set; }
 
         [Reactive]
         public string ErrorMessage { get; set; }
+
+        [Reactive]
+        public bool IsLogined { get; set; }
 
         [Reactive]
         public ErrorType LastErrorType { get; set; }
@@ -69,6 +101,11 @@ namespace Reception.App.ViewModels
         #endregion
 
         #region Methods
+        private AuthenticateResponse LoadAuthData()
+        {
+            return new AuthenticateResponse();
+        }
+
         private void LoadIsBossMode()
         {
             try
@@ -87,6 +124,29 @@ namespace Reception.App.ViewModels
                 LastErrorType = ErrorType.System;
                 ErrorMessage = "Can't load IsBoss mode";
             }
+        }
+
+        private void NavigateToAuth()
+        {
+            Router.Navigate.Execute(new AuthViewModel(this));
+        }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Major Bug", "S3343:Caller information parameters should come at the end of the parameter list", Justification = "<Pending>")]
+        public void ShowError(Exception error, [CallerMemberName] string name = null, params object[] properties)
+        {
+            Logger.Sink.LogException(name, this, typeof(Exception), properties);
+            ErrorMessage = error.Message;
+            if (error is NotFoundException<Person>)
+            {
+                LastErrorType = ErrorType.Request;
+                return;
+            }
+            if (error is QueryException)
+            {
+                LastErrorType = ErrorType.Server;
+                return;
+            }
+            LastErrorType = ErrorType.System;
         }
 
         private async Task TryPing()

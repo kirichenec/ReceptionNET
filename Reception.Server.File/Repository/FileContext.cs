@@ -1,13 +1,16 @@
 ﻿using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 using Reception.Server.File.Model;
 
 namespace Reception.Server.File.Repository
 {
     public class FileContext : DbContext
     {
-        public static readonly ILoggerFactory ReceptionLoggerFactory = LoggerFactory.Create(builder => { builder.AddConsole(); });
+        public FileContext()
+        {
+            Database.EnsureCreated();
+            Database.Migrate();
+        }
 
         public DbSet<FileData> FileDatas { get; set; }
         public DbSet<FileVersion> FileVersions { get; set; }
@@ -19,7 +22,7 @@ namespace Reception.Server.File.Repository
             var connection = new SqliteConnection(connectionString);
 
             optionsBuilder
-                .UseLoggerFactory(ReceptionLoggerFactory)
+                .UseLoggerFactory(Startup.ReceptionLoggerFactory)
                 .UseSqlite(connection);
         }
     }

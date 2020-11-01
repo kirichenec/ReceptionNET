@@ -8,7 +8,7 @@ namespace Reception.Model.Interfaces
     {
         Task<T> GetAsync(int id);
         IQueryable<T> Queryable();
-        Task<List<T>> SearchAsync(string searchText);
-        Task<List<T>> SearchPagedAsync(string searchText, int count, int page);
+        Task<IEnumerable<T>> SearchAsync(string searchText);
+        Task<IEnumerable<T>> SearchPagedAsync(string searchText, int count, int page);
     }
 }

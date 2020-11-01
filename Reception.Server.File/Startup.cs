@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Reception.Server.File.Logic;
 using Reception.Server.File.Repository;
 
@@ -11,13 +11,11 @@ namespace Reception.Server.File
 {
     public class Startup
     {
+        public static readonly ILoggerFactory ReceptionLoggerFactory = LoggerFactory.Create(builder => { builder.AddConsole(); });
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-
-            using var db = new FileContext();
-            db.Database.EnsureCreated();
-            db.Database.Migrate();
         }
 
         public IConfiguration Configuration { get; }

@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Reception.Server.Data.Model
+namespace Reception.Server.Data.Entities
 {
     [Table("Post", Schema = "Person")]
     public class Post : IPost

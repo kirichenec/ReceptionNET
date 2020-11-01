@@ -1,5 +1,5 @@
 ﻿using Reception.Model.Interfaces;
-using Reception.Server.Data.Model;
+using Reception.Server.Data.Entities;
 using System.Threading.Tasks;
 
 namespace Reception.Server.Data.Repository
