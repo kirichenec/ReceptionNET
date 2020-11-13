@@ -10,6 +10,7 @@ using Reception.App.Network.Exceptions;
 using Reception.App.Network.Server;
 using Splat;
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Reactive.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
@@ -42,25 +43,23 @@ namespace Reception.App.ViewModels
                 .Timer(TimeSpan.Zero, TimeSpan.FromSeconds(AppSettings.PingDelay), RxApp.MainThreadScheduler)
                 .Subscribe(async x => await TryPing());
 
-            Router.CurrentViewModel.Subscribe(x =>
-            {
-                if (!(Router.GetCurrentViewModel() is IRoutableViewModel) && AuthData.Token != null)
-                {
+            //Router.CurrentViewModel.Subscribe(x =>
+            //{
+            //    if (!(Router.GetCurrentViewModel() is IRoutableViewModel) && AuthData.Token != null)
+            //    {
                     LoadIsBossMode();
-                }
-            });
+            //    }
+            //});
 
-            Router.Navigate.Subscribe(x =>
-            {
-                if (Router.GetCurrentViewModel() is MainWindowViewModel)
-                {
-                    LoadIsBossMode();
-                }
-            });
+            //Router.Navigate.Subscribe(x =>
+            //{
+            //    if (Router.GetCurrentViewModel() is MainWindowViewModel)
+            //    {
+            //        LoadIsBossMode();
+            //    }
+            //});
 
-            NavigateToAuth();
-
-            CenterMessage = "";
+            //NavigateToAuth();
         }
         #endregion
 
@@ -108,22 +107,15 @@ namespace Reception.App.ViewModels
 
         private void LoadIsBossMode()
         {
-            try
+            if (AppSettings.IsBoss)
             {
-                if (AppSettings.IsBoss)
-                {
-                    Router.Navigate.Execute(new BossViewModel(this));
-                }
-                else
-                {
-                    Router.Navigate.Execute(new SubordinateViewModel(this));
-                }
+                Router.Navigate.Execute(new BossViewModel(this));
             }
-            catch (Exception)
+            else
             {
-                LastErrorType = ErrorType.System;
-                ErrorMessage = "Can't load IsBoss mode";
+                Router.Navigate.Execute(new SubordinateViewModel(this));
             }
+            CenterMessage = string.Empty;
         }
 
         private void NavigateToAuth()
@@ -131,7 +123,7 @@ namespace Reception.App.ViewModels
             Router.Navigate.Execute(new AuthViewModel(this));
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Major Bug", "S3343:Caller information parameters should come at the end of the parameter list", Justification = "<Pending>")]
+        [SuppressMessage("Major Bug", "S3343:Caller information parameters should come at the end of the parameter list", Justification = "<Pending>")]
         public void ShowError(Exception error, [CallerMemberName] string name = null, params object[] properties)
         {
             Logger.Sink.LogException(name, this, typeof(Exception), properties);

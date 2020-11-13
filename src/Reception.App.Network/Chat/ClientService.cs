@@ -33,7 +33,7 @@ namespace Reception.App.Network.Chat
             _client.Closed += Closed;
             _client.Reconnected += Reconnected;
             _client.Reconnecting += Reconnecting;
-            
+
             _client.On(ChatMethodType.RECEIVER, OnReceive);
         }
         #endregion
