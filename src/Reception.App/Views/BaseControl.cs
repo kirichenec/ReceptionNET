@@ -7,10 +7,10 @@ namespace Reception.App.Views
     /// <summary>
     /// Workaround for model activation
     /// </summary>
-    public class BaseControl<TViewModel> : ReactiveUserControl<TViewModel>
+    public abstract class BaseControl<TViewModel> : ReactiveUserControl<TViewModel>
         where TViewModel : class
     {
-        public BaseControl(bool activate = true)
+        protected BaseControl(bool activate = true)
         {
             if (activate)
             {

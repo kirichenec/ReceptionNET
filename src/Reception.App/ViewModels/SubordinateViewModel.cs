@@ -85,13 +85,10 @@ namespace Reception.App.ViewModels
             SendVisitorCommand = ReactiveCommand.CreateFromTask<Visitor, bool>(SendVisitor, canSendPerson);
             #endregion
 
-            Initialized = SubordinateViewModel_Initialized;
-            Initialized.Invoke();
+            Initialized += SubordinateViewModel_Initialized;
+            OnInitialized();
         }
-        #endregion
 
-        #region Events
-        private event Func<Task<bool>> Initialized;
         #endregion
 
         #region Properties
@@ -166,7 +163,6 @@ namespace Reception.App.ViewModels
             {
                 return Array.Empty<Person>();
             }
-            throw new Exception("test");
 
             var answer = await _networkServiceOfPersons.SearchAsync(query);
 

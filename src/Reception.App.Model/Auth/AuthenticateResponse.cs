@@ -18,7 +18,7 @@ namespace Reception.App.Model.Auth
         {
             return
                 value != null
-                && value.Id != -1
+                && value.Id != 0
                 && !value.Token.IsNullOrWhiteSpace();
 
         }

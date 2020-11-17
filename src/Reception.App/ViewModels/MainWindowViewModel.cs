@@ -28,9 +28,9 @@ namespace Reception.App.ViewModels
         {
             ViewLocator.MainVM = this;
 
-            AuthData = LoadAuthData();
-
             CenterMessage = "Loading..";
+
+            #region Init VM
 
             ServerStatusMessage = ConnectionStatus.OFFLINE.ToLower();
             StatusMessage = ConnectionStatus.OFFLINE.ToLower();
@@ -43,21 +43,9 @@ namespace Reception.App.ViewModels
                 .Timer(TimeSpan.Zero, TimeSpan.FromSeconds(AppSettings.PingDelay), RxApp.MainThreadScheduler)
                 .Subscribe(async x => await TryPing());
 
-            //Router.CurrentViewModel.Subscribe(x =>
-            //{
-            //    if (!(Router.GetCurrentViewModel() is IRoutableViewModel) && AuthData.Token != null)
-            //    {
-            //LoadIsBossMode();
-            //    }
-            //});
+            #endregion
 
-            //Router.Navigate.Subscribe(x =>
-            //{
-            //    if (Router.GetCurrentViewModel() is MainWindowViewModel)
-            //    {
-            //        LoadIsBossMode();
-            //    }
-            //});
+            CenterMessage = string.Empty;
 
             NavigateToAuth();
         }
@@ -100,11 +88,6 @@ namespace Reception.App.ViewModels
         #endregion
 
         #region Methods
-        private AuthenticateResponse LoadAuthData()
-        {
-            return new AuthenticateResponse();
-        }
-
         public void LoadIsBossMode()
         {
             if (AppSettings.IsBoss)
@@ -115,7 +98,6 @@ namespace Reception.App.ViewModels
             {
                 Router.Navigate.Execute(new SubordinateViewModel(this));
             }
-            CenterMessage = string.Empty;
         }
 
         private void NavigateToAuth()

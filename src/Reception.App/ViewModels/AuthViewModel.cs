@@ -37,6 +37,9 @@ namespace Reception.App.ViewModels
             LoginCommand = ReactiveCommand.CreateFromTask(LoginExecute, canLogin);
             LoginCommand.ThrownExceptions.Subscribe(error => MainVM.ShowError(error, nameof(LoginExecute)));
             #endregion
+
+            Initialized += AuthViewModel_Initialized;
+            OnInitialized();
         }
         #endregion
 
@@ -58,6 +61,31 @@ namespace Reception.App.ViewModels
         #endregion
 
         #region Methods
+        private async Task<bool> AuthDataNotExpired(AuthenticateResponse loadedAuthData)
+        {
+            // ToDo: Delete this hack
+            await Task.Delay(TimeSpan.FromSeconds(3));
+
+            // ToDo: change to auth server token check
+            return loadedAuthData.IsAuthInfoCorrect();
+        }
+
+        private async Task<bool> AuthViewModel_Initialized()
+        {
+            var loadedAuthData = LoadAuthData();
+            if (await AuthDataNotExpired(loadedAuthData))
+            {
+                AuthData = loadedAuthData;
+            }
+            return true;
+        }
+
+        private AuthenticateResponse LoadAuthData()
+        {
+            // ToDo: Load from app data
+            return new AuthenticateResponse { Id = 1, Token = "qwe" };
+        }
+
         private async Task LoginExecute()
         {
             var request = new AuthenticateRequest { Password = Password, Username = Login };
