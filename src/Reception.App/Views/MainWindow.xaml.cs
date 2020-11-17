@@ -1,16 +1,17 @@
+using Avalonia;
 using Avalonia.Markup.Xaml;
-using Avalonia.ReactiveUI;
 using ReactiveUI;
 using Reception.App.ViewModels;
 
 namespace Reception.App.Views
 {
-    public class MainWindow : ReactiveWindow<MainWindowViewModel>
+    public class MainWindow : BaseWindow<MainWindowViewModel>
     {
-        public MainWindow()
+        public MainWindow() : base(false)
         {
             this.WhenActivated(disposables => { });
             AvaloniaXamlLoader.Load(this);
+            this.AttachDevTools();
         }
     }
 }

@@ -12,7 +12,6 @@ using Reception.App.Network.Server;
 using Reception.App.ViewModels;
 using Reception.App.Views;
 using Splat;
-using System.Reflection;
 
 namespace Reception.App
 {
@@ -49,9 +48,10 @@ namespace Reception.App
             Locator.CurrentMutable.RegisterConstant(new PingService(AppSettings.DataServerPath), typeof(IPingService));
             //TODO: change 333 to normal userId
             Locator.CurrentMutable.Register(() => new ClientService(333, AppSettings.ChatServerPath, true), typeof(IClientService));
-            
-            // Splat uses assembly scanning here to register all views and view models.
-            Locator.CurrentMutable.RegisterViewsForViewModels(Assembly.GetCallingAssembly());
+                        
+            Locator.CurrentMutable.Register(() => new AuthView(), typeof(IViewFor<AuthViewModel>));
+            Locator.CurrentMutable.Register(() => new SubordinateView(), typeof(IViewFor<SubordinateViewModel>));
+            Locator.CurrentMutable.Register(() => new BossView(), typeof(IViewFor<BossViewModel>));
         }
 
         public static void Main(string[] args)
