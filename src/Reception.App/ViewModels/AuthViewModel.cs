@@ -35,7 +35,7 @@ namespace Reception.App.ViewModels
                     x => x.Login, x => x.Password,
                     (login, password) => !login.IsNullOrWhiteSpace() && !password.IsNullOrWhiteSpace());
             LoginCommand = ReactiveCommand.CreateFromTask(LoginExecute, canLogin);
-            LoginCommand.ThrownExceptions.Subscribe(error => ViewLocator.MainVM.ShowError(error, nameof(LoginExecute)));
+            LoginCommand.ThrownExceptions.Subscribe(error => MainVM.ShowError(error, nameof(LoginExecute)));
             #endregion
         }
         #endregion
@@ -66,8 +66,8 @@ namespace Reception.App.ViewModels
 
         private void NavigateBack(AuthenticateResponse authData)
         {
-            ViewLocator.MainVM.AuthData = authData;
-            ViewLocator.MainVM.Router.NavigateBack.Execute();
+            MainVM.AuthData = authData;
+            MainVM.LoadIsBossMode();
         }
         #endregion
     }

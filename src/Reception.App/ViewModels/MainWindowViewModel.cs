@@ -47,7 +47,7 @@ namespace Reception.App.ViewModels
             //{
             //    if (!(Router.GetCurrentViewModel() is IRoutableViewModel) && AuthData.Token != null)
             //    {
-                    LoadIsBossMode();
+            //LoadIsBossMode();
             //    }
             //});
 
@@ -59,7 +59,7 @@ namespace Reception.App.ViewModels
             //    }
             //});
 
-            //NavigateToAuth();
+            NavigateToAuth();
         }
         #endregion
 
@@ -105,7 +105,7 @@ namespace Reception.App.ViewModels
             return new AuthenticateResponse();
         }
 
-        private void LoadIsBossMode()
+        public void LoadIsBossMode()
         {
             if (AppSettings.IsBoss)
             {

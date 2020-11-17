@@ -60,7 +60,7 @@ namespace Reception.App.ViewModels
                 ReactiveCommand.CreateFromTask<string, IEnumerable<Person>>(
                     async query => await SearchPersons(query),
                     canSearch);
-            SearchPersonCommand.ThrownExceptions.Subscribe(error => ViewLocator.MainVM.ShowError(error, nameof(SearchPersons)));
+            SearchPersonCommand.ThrownExceptions.Subscribe(error => MainVM.ShowError(error, nameof(SearchPersons)));
 
             _searchedPersons = SearchPersonCommand.ToProperty(this, x => x.Persons);
 
@@ -150,14 +150,14 @@ namespace Reception.App.ViewModels
                     VisitorReceived(message.DeserializeMessage<Visitor>());
                     break;
                 default:
-                    ViewLocator.MainVM.ShowError(new ArgumentException($"Unknown message data type {messageType?.FullName ?? "null-type"}"));
+                    MainVM.ShowError(new ArgumentException($"Unknown message data type {messageType?.FullName ?? "null-type"}"));
                     break;
             }
         }
 
         private void PersonReceived(Person person)
         {
-            ViewLocator.MainVM.ShowError(new NotImplementedException($"{nameof(PersonReceived)} not implemented"), properties: person);
+            MainVM.ShowError(new NotImplementedException($"{nameof(PersonReceived)} not implemented"), properties: person);
         }
 
         private async Task<IEnumerable<Person>> SearchPersons(string query)
@@ -166,6 +166,7 @@ namespace Reception.App.ViewModels
             {
                 return Array.Empty<Person>();
             }
+            throw new Exception("test");
 
             var answer = await _networkServiceOfPersons.SearchAsync(query);
 
@@ -198,7 +199,7 @@ namespace Reception.App.ViewModels
             }
             catch (Exception ex)
             {
-                ViewLocator.MainVM.ShowError(ex);
+                MainVM.ShowError(ex);
                 return false;
             }
         }
@@ -224,7 +225,7 @@ namespace Reception.App.ViewModels
 
         private void VisitorReceived(Visitor visitor)
         {
-            ViewLocator.MainVM.ShowError(new NotImplementedException($"{nameof(VisitorReceived)} not implemented"), properties: visitor);
+            MainVM.ShowError(new NotImplementedException($"{nameof(VisitorReceived)} not implemented"), properties: visitor);
         }
         #endregion
     }
