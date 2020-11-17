@@ -85,8 +85,8 @@ namespace Reception.App.ViewModels
             SendVisitorCommand = ReactiveCommand.CreateFromTask<Visitor, bool>(SendVisitor, canSendPerson);
             #endregion
 
-            //Initialized = SubordinateViewModel_Initialized;
-            //Initialized.Invoke();
+            Initialized = SubordinateViewModel_Initialized;
+            Initialized.Invoke();
         }
         #endregion
 
