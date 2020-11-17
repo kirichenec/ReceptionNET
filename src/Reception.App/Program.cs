@@ -48,7 +48,7 @@ namespace Reception.App
             Locator.CurrentMutable.RegisterConstant(new PingService(AppSettings.DataServerPath), typeof(IPingService));
             //TODO: change 333 to normal userId
             Locator.CurrentMutable.Register(() => new ClientService(333, AppSettings.ChatServerPath, true), typeof(IClientService));
-                        
+
             Locator.CurrentMutable.Register(() => new AuthView(), typeof(IViewFor<AuthViewModel>));
             Locator.CurrentMutable.Register(() => new SubordinateView(), typeof(IViewFor<SubordinateViewModel>));
             Locator.CurrentMutable.Register(() => new BossView(), typeof(IViewFor<BossViewModel>));
