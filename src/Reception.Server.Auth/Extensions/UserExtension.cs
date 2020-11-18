@@ -18,8 +18,9 @@ namespace Reception.Server.Auth.Extensions
                     Id = value.Id,
                     FirstName = value.FirstName,
                     LastName = value.LastName,
-                    Password = value.Password,
-                    Username = value.Username
+                    Login = value.Login,
+                    MiddleName = value.MiddleName,
+                    Password = value.Password
                 };
         }
 

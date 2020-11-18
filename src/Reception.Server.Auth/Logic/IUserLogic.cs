@@ -7,6 +7,6 @@ namespace Reception.Server.Auth.Logic
     public interface IUserLogic : ILogic<UserDto>
     {
         Task<AuthenticateResponse> Authenticate(AuthenticateRequest requestModel);
-        Task<UserDto> CreateUserAsync(string username, string password);
+        Task<UserDto> CreateUserAsync(string login, string password);
     }
 }

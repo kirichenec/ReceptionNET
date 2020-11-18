@@ -35,8 +35,8 @@ namespace Reception.Server.Auth.Repository
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<User>().HasAlternateKey(p => p.Username).HasName("IX_Username");
-            modelBuilder.Entity<User>().HasData(new User { Id = 1, Username = "admin", Password = _passwordHasher.Hash("admin") });
+            modelBuilder.Entity<User>().HasAlternateKey(p => p.Login).HasName("IX_Login");
+            modelBuilder.Entity<User>().HasData(new User { Id = 1, Login = "admin", Password = _passwordHasher.Hash("admin") });
         }
     }
 }

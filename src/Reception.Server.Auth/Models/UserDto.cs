@@ -12,7 +12,6 @@ namespace Reception.Server.Auth.Models
         public string LastName { get; set; }
         public string Login { get; set; }
         public string MiddleName { get; set; }
-        public string Username { get; set; }
 
         [JsonIgnore]
         public string Password { get; set; }

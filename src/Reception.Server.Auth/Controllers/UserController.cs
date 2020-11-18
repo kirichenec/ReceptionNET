@@ -39,7 +39,7 @@ namespace Reception.Server.Auth.Controllers
         [ProducesResponseType(500)]
         public async Task<IActionResult> CreateUser([FromBody] AuthenticateRequest model)
         {
-            var savedUser = await _userLogic.CreateUserAsync(model.Username, model.Password);
+            var savedUser = await _userLogic.CreateUserAsync(model.Login, model.Password);
             return Ok(savedUser.ToQueryResult());
         }
 

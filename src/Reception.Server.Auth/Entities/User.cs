@@ -14,11 +14,11 @@ namespace Reception.Server.Auth.Entities
 
         public string LastName { get; set; }
 
+        [Required]
+        public string Login { get; set; }
+
         public string MiddleName { get; set; }
 
         public string Password { get; set; }
-
-        [Required]
-        public string Username { get; set; }
     }
 }

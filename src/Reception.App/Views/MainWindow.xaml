@@ -8,36 +8,36 @@
         x:Class="Reception.App.Views.MainWindow"
         Icon="/Assets/avalonia-logo.ico"
         Title="Reception.App">
-    <Design.DataContext>
-        <vm:MainWindowViewModel/>
-    </Design.DataContext>
+	<Design.DataContext>
+		<vm:MainWindowViewModel/>
+	</Design.DataContext>
 
-    <Grid RowDefinitions="Auto, *, Auto">
+	<Grid RowDefinitions="Auto, *, Auto">
 
-        <!--Header-->
-        <Grid Grid.Row="0" Background="LightGray">
-        </Grid>
+		<!--Header-->
+		<Grid Grid.Row="0" Background="LightGray">
+		</Grid>
 
-        <!--Content-->
-        <reactiveUi:RoutedViewHost Grid.Row="1" Router="{Binding Router}">
-            <reactiveUi:RoutedViewHost.DefaultContent>
-                <TextBlock Text="{Binding CenterMessage}"
+		<!--Content-->
+		<reactiveUi:RoutedViewHost Grid.Row="1" Router="{Binding Router}">
+			<reactiveUi:RoutedViewHost.DefaultContent>
+				<TextBlock Text="{Binding CenterMessage}"
                    HorizontalAlignment="Center"
                    VerticalAlignment="Center" />
-            </reactiveUi:RoutedViewHost.DefaultContent>
-        </reactiveUi:RoutedViewHost>
+			</reactiveUi:RoutedViewHost.DefaultContent>
+		</reactiveUi:RoutedViewHost>
 
-        <!--Footer-->
-        <Grid Grid.Row="2" Background="LightGray">
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                <TextBlock Text="{Binding ErrorMessage}"/>
-                <Rectangle Fill="Black" Width="1" Opacity="0.5" Margin="{DynamicResource RightBottom}"/>
-                <TextBlock Text="Server status:"/>
-                <TextBlock Text="{Binding ServerStatusMessage}"/>
-                <Rectangle Fill="Black" Width="1" Opacity="0.5" Margin="{DynamicResource RightBottom}"/>
-                <TextBlock Text="Connection status:"/>
-                <TextBlock Text="{Binding StatusMessage}"/>
-            </StackPanel>
-        </Grid>
-    </Grid>
+		<!--Footer-->
+		<Grid Grid.Row="2" Background="LightGray">
+			<StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+				<TextBlock Text="{Binding ErrorMessage}"/>
+				<Rectangle Fill="Black" Width="1" Opacity="0.5" Margin="{DynamicResource RightBottom}"/>
+				<TextBlock Text="Server status:"/>
+				<TextBlock Text="{Binding ServerStatusMessage}"/>
+				<Rectangle Fill="Black" Width="1" Opacity="0.5" Margin="{DynamicResource RightBottom}"/>
+				<TextBlock Text="Connection status:"/>
+				<TextBlock Text="{Binding StatusMessage}"/>
+			</StackPanel>
+		</Grid>
+	</Grid>
 </Window>

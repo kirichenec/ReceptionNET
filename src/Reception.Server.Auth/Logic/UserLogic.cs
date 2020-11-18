@@ -31,9 +31,8 @@ namespace Reception.Server.Auth.Logic
 
         public async Task<AuthenticateResponse> Authenticate(AuthenticateRequest requestModel)
         {
-            var userName = requestModel.Username;
-            var user = await
-                _userService.Queryable().SingleOrDefaultAsync(x => x.Username == userName)
+            var user = await _userService.Queryable()
+                .SingleOrDefaultAsync(x => x.Login == requestModel.Login)
                 .ToDtoAsync();
 
             // return null if user not found
@@ -48,9 +47,9 @@ namespace Reception.Server.Auth.Logic
             return new AuthenticateResponse(user, token);
         }
 
-        public async Task<UserDto> CreateUserAsync(string username, string password)
+        public async Task<UserDto> CreateUserAsync(string login, string password)
         {
-            var userDto = new UserDto { Username = username, Password = password };
+            var userDto = new UserDto { Login = login, Password = password };
             return await SaveAsync(userDto);
         }
 
@@ -75,9 +74,9 @@ namespace Reception.Server.Auth.Logic
             {
                 FirstName = value.FirstName,
                 LastName = value.LastName,
+                Login = value.Login,
                 MiddleName = value.MiddleName,
-                Password = _passwordHasher.Hash(value.Password),
-                Username = value.Username
+                Password = _passwordHasher.Hash(value.Password)
             };
             var result = await _userService.SaveAsync(data).ToDtoAsync();
             return result;
