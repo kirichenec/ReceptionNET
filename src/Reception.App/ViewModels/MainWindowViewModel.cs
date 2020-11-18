@@ -39,16 +39,19 @@ namespace Reception.App.ViewModels
 
             _pingService ??= Locator.Current.GetService<IPingService>();
 
-            Observable
-                .Timer(TimeSpan.Zero, TimeSpan.FromSeconds(AppSettings.PingDelay), RxApp.MainThreadScheduler)
-                .Subscribe(async x => await TryPing());
-
             #endregion
 
             CenterMessage = string.Empty;
 
             NavigateToAuth();
+
+            Initialized = MainWindowViewModel_Initialized;
+            Initialized?.Invoke();
         }
+        #endregion
+
+        #region Events
+        public event Func<Task> Initialized;
         #endregion
 
         #region Enums
@@ -100,11 +103,6 @@ namespace Reception.App.ViewModels
             }
         }
 
-        private void NavigateToAuth()
-        {
-            Router.Navigate.Execute(new AuthViewModel(this));
-        }
-
         [SuppressMessage("Major Bug", "S3343:Caller information parameters should come at the end of the parameter list", Justification = "<Pending>")]
         public void ShowError(Exception error, [CallerMemberName] string name = null, params object[] properties)
         {
@@ -121,6 +119,18 @@ namespace Reception.App.ViewModels
                 return;
             }
             LastErrorType = ErrorType.System;
+        }
+
+        private async Task MainWindowViewModel_Initialized()
+        {
+            Observable
+                .Timer(TimeSpan.Zero, TimeSpan.FromSeconds(AppSettings.PingDelay), RxApp.MainThreadScheduler)
+                .Subscribe(async x => await TryPing());
+        }
+
+        private void NavigateToAuth()
+        {
+            Router.Navigate.Execute(new AuthViewModel(this));
         }
 
         private async Task TryPing()
