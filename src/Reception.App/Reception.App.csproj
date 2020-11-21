@@ -1,0 +1,44 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<TargetFrameworks>netcoreapp3.1</TargetFrameworks>
+		<ApplicationIcon />
+		<StartupObject />
+	</PropertyGroup>
+	<ItemGroup>
+		<Compile Update="**\*.xaml.cs">
+			<DependentUpon>%(Filename)</DependentUpon>
+		</Compile>
+		<AvaloniaResource Include="**\*.xaml">
+			<SubType>Designer</SubType>
+		</AvaloniaResource>
+		<AvaloniaResource Include="Assets\*" />
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Avalonia" Version="0.9.12" />
+		<PackageReference Include="Avalonia.Desktop" Version="0.9.12" />
+		<PackageReference Include="Avalonia.ReactiveUI" Version="0.9.12" />
+		<PackageReference Include="ReactiveUI.Fody" Version="12.1.5" />
+		<PackageReference Include="RestSharp" Version="106.11.7" />
+		<PackageReference Include="System.Configuration.ConfigurationManager" Version="5.0.0" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Reception.App.Model\Reception.App.Model.csproj" />
+		<ProjectReference Include="..\Reception.App.Network\Reception.App.Network.csproj" />
+		<ProjectReference Include="..\Reception.Model.Network\Reception.Model.Network.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+		<None Update="Icons\Material.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</None>
+		<None Update="Icons\MaterialDesign.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</None>
+		<None Update="Icons\MaterialLight.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</None>
+		<None Update="Images\Person.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
+</Project>

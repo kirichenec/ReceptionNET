@@ -3,34 +3,40 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29123.88
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reception.App", "Reception.App\Reception.App.csproj", "{E1312754-3AE2-4794-913F-A782A159E970}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reception.App", "src\Reception.App\Reception.App.csproj", "{E1312754-3AE2-4794-913F-A782A159E970}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reception.Server.Data", "Reception.Server.Data\Reception.Server.Data.csproj", "{2DD738DB-D722-4530-9462-CBA3FB2BE1B5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reception.Server.Data", "src\Reception.Server.Data\Reception.Server.Data.csproj", "{2DD738DB-D722-4530-9462-CBA3FB2BE1B5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reception.Model.Network", "Reception.Model.Network\Reception.Model.Network.csproj", "{D104A550-FE4D-4E82-8040-E3FD6213C663}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reception.Model.Network", "src\Reception.Model.Network\Reception.Model.Network.csproj", "{D104A550-FE4D-4E82-8040-E3FD6213C663}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{13F90241-20A2-4BA3-AC06-BAFA300468CA}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "solutionItems", "solutionItems", "{13F90241-20A2-4BA3-AC06-BAFA300468CA}"
 	ProjectSection(SolutionItems) = preProject
-		Reception.AdditionalFiles\Order.txt = Reception.AdditionalFiles\Order.txt
-		Reception.AdditionalFiles\RC.svg = Reception.AdditionalFiles\RC.svg
-		Reception.AdditionalFiles\RCgit.png = Reception.AdditionalFiles\RCgit.png
-		Reception.AdditionalFiles\RClogo.png = Reception.AdditionalFiles\RClogo.png
-		Tasks.txt = Tasks.txt
+		solutionItems\Order.txt = solutionItems\Order.txt
+		solutionItems\RC.svg = solutionItems\RC.svg
+		solutionItems\RCgit.png = solutionItems\RCgit.png
+		solutionItems\RClogo.png = solutionItems\RClogo.png
+		solutionItems\Tasks.txt = solutionItems\Tasks.txt
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reception.App.Network", "Reception.App.Network\Reception.App.Network.csproj", "{F15FA492-77EB-4A09-BC95-6BA3412EFE6F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reception.App.Network", "src\Reception.App.Network\Reception.App.Network.csproj", "{F15FA492-77EB-4A09-BC95-6BA3412EFE6F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reception.Model.Interfaces", "Reception.Model.Interfaces\Reception.Model.Interfaces.csproj", "{FD82375F-77E4-4D4B-9D62-999DAB2048AF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reception.Model.Interfaces", "src\Reception.Model.Interfaces\Reception.Model.Interfaces.csproj", "{FD82375F-77E4-4D4B-9D62-999DAB2048AF}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reception.Server.Chat", "Reception.Server.Chat\Reception.Server.Chat.csproj", "{AE5262AC-5DC0-4D3C-957D-ACAD6113F1C5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reception.Server.Chat", "src\Reception.Server.Chat\Reception.Server.Chat.csproj", "{AE5262AC-5DC0-4D3C-957D-ACAD6113F1C5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reception.App.Model", "Reception.App.Model\Reception.App.Model.csproj", "{F78A59CB-3FA3-4158-AF5E-C7913AB8D96B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reception.App.Model", "src\Reception.App.Model\Reception.App.Model.csproj", "{F78A59CB-3FA3-4158-AF5E-C7913AB8D96B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reception.Extensions", "Reception.Extensions\Reception.Extensions.csproj", "{18058FA8-E031-4C50-A633-C8609A8C29C4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reception.Extensions", "src\Reception.Extensions\Reception.Extensions.csproj", "{18058FA8-E031-4C50-A633-C8609A8C29C4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reception.Server.File", "Reception.Server.File\Reception.Server.File.csproj", "{61128E75-E9B5-469E-86F3-22B0D66B0C8C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reception.Server.File", "src\Reception.Server.File\Reception.Server.File.csproj", "{61128E75-E9B5-469E-86F3-22B0D66B0C8C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reception.Model.Dto", "Reception.Model.Dto\Reception.Model.Dto.csproj", "{08E23F42-53CF-4B0A-8047-FFF815D2F49D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reception.Model.Dto", "src\Reception.Model.Dto\Reception.Model.Dto.csproj", "{08E23F42-53CF-4B0A-8047-FFF815D2F49D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reception.Server.Auth", "src\Reception.Server.Auth\Reception.Server.Auth.csproj", "{E6108DCA-A26C-4D35-A41F-2589FAA823BA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reception.Server.Auth.PasswordHelper", "src\Reception.Server.Auth.PasswordHelper\Reception.Server.Auth.PasswordHelper.csproj", "{5DDD5B34-5808-4EB1-A491-5DFCC7C239A5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{AD2A5F91-93CF-42D8-A331-6CA299E9097E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -78,9 +84,31 @@ Global
 		{08E23F42-53CF-4B0A-8047-FFF815D2F49D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{08E23F42-53CF-4B0A-8047-FFF815D2F49D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{08E23F42-53CF-4B0A-8047-FFF815D2F49D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E6108DCA-A26C-4D35-A41F-2589FAA823BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E6108DCA-A26C-4D35-A41F-2589FAA823BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E6108DCA-A26C-4D35-A41F-2589FAA823BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E6108DCA-A26C-4D35-A41F-2589FAA823BA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5DDD5B34-5808-4EB1-A491-5DFCC7C239A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5DDD5B34-5808-4EB1-A491-5DFCC7C239A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5DDD5B34-5808-4EB1-A491-5DFCC7C239A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5DDD5B34-5808-4EB1-A491-5DFCC7C239A5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{E1312754-3AE2-4794-913F-A782A159E970} = {AD2A5F91-93CF-42D8-A331-6CA299E9097E}
+		{2DD738DB-D722-4530-9462-CBA3FB2BE1B5} = {AD2A5F91-93CF-42D8-A331-6CA299E9097E}
+		{D104A550-FE4D-4E82-8040-E3FD6213C663} = {AD2A5F91-93CF-42D8-A331-6CA299E9097E}
+		{F15FA492-77EB-4A09-BC95-6BA3412EFE6F} = {AD2A5F91-93CF-42D8-A331-6CA299E9097E}
+		{FD82375F-77E4-4D4B-9D62-999DAB2048AF} = {AD2A5F91-93CF-42D8-A331-6CA299E9097E}
+		{AE5262AC-5DC0-4D3C-957D-ACAD6113F1C5} = {AD2A5F91-93CF-42D8-A331-6CA299E9097E}
+		{F78A59CB-3FA3-4158-AF5E-C7913AB8D96B} = {AD2A5F91-93CF-42D8-A331-6CA299E9097E}
+		{18058FA8-E031-4C50-A633-C8609A8C29C4} = {AD2A5F91-93CF-42D8-A331-6CA299E9097E}
+		{61128E75-E9B5-469E-86F3-22B0D66B0C8C} = {AD2A5F91-93CF-42D8-A331-6CA299E9097E}
+		{08E23F42-53CF-4B0A-8047-FFF815D2F49D} = {AD2A5F91-93CF-42D8-A331-6CA299E9097E}
+		{E6108DCA-A26C-4D35-A41F-2589FAA823BA} = {AD2A5F91-93CF-42D8-A331-6CA299E9097E}
+		{5DDD5B34-5808-4EB1-A491-5DFCC7C239A5} = {AD2A5F91-93CF-42D8-A331-6CA299E9097E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D9C0D531-28FB-4D40-AFD0-658855890982}

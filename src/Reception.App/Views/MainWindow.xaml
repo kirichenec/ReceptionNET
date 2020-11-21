@@ -1,0 +1,43 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:reactiveUi="http://reactiveui.net"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:Reception.App.ViewModels;assembly=Reception.App"
+        mc:Ignorable="d"
+        x:Class="Reception.App.Views.MainWindow"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="Reception.App">
+	<Design.DataContext>
+		<vm:MainWindowViewModel/>
+	</Design.DataContext>
+
+	<Grid RowDefinitions="Auto, *, Auto">
+
+		<!--Header-->
+		<Grid Grid.Row="0" Background="LightGray">
+		</Grid>
+
+		<!--Content-->
+		<reactiveUi:RoutedViewHost Grid.Row="1" Router="{Binding Router}">
+			<reactiveUi:RoutedViewHost.DefaultContent>
+				<TextBlock Text="{Binding CenterMessage}"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center" />
+			</reactiveUi:RoutedViewHost.DefaultContent>
+		</reactiveUi:RoutedViewHost>
+
+		<!--Footer-->
+		<Grid Grid.Row="2" Background="LightGray">
+			<StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+				<TextBlock Text="{Binding ErrorMessage}"/>
+				<Rectangle Fill="Black" Width="1" Opacity="0.5" Margin="{DynamicResource RightBottom}"/>
+				<TextBlock Text="Server status:"/>
+				<TextBlock Text="{Binding ServerStatusMessage}"/>
+				<Rectangle Fill="Black" Width="1" Opacity="0.5" Margin="{DynamicResource RightBottom}"/>
+				<TextBlock Text="Connection status:"/>
+				<TextBlock Text="{Binding StatusMessage}"/>
+			</StackPanel>
+		</Grid>
+	</Grid>
+</Window>
