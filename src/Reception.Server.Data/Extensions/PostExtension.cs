@@ -1,5 +1,5 @@
 ﻿using Reception.Model.Dto;
-using Reception.Model.Interfaces;
+using Reception.Model.Interface;
 using System.Collections.Generic;
 using System.Linq;
 

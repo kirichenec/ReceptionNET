@@ -1,5 +1,5 @@
 ﻿using ReactiveUI;
-using Reception.Extensions;
+using Reception.Extension;
 using System;
 using System.Threading.Tasks;
 

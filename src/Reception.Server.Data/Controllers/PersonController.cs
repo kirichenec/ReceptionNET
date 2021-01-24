@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Reception.Model.Dto;
-using Reception.Model.Interfaces;
+using Reception.Model.Interface;
 using Reception.Model.Network;
 using Reception.Server.Data.Logic;
 using System.Collections.Generic;

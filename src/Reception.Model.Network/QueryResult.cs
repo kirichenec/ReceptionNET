@@ -1,5 +1,5 @@
 ﻿using Newtonsoft.Json;
-using Reception.Extensions.Converters;
+using Reception.Extension.Converters;
 using System;
 using System.Threading.Tasks;
 

@@ -2,7 +2,7 @@
 using ReactiveUI.Fody.Helpers;
 using Reception.App.Model.Auth;
 using Reception.App.Network.Auth;
-using Reception.Extensions;
+using Reception.Extension;
 using Splat;
 using System;
 using System.Reactive;

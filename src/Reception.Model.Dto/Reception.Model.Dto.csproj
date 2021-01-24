@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Reception.Model.Interfaces\Reception.Model.Interfaces.csproj" />
+    <ProjectReference Include="..\Reception.Model.Interfaces\Reception.Model.Interface.csproj" />
   </ItemGroup>
 
 </Project>

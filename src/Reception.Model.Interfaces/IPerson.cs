@@ -1,4 +1,4 @@
-﻿namespace Reception.Model.Interfaces
+﻿namespace Reception.Model.Interface
 {
     public interface IPerson<TPost> : IUnique, ICommentable where TPost : class, IPost
     {

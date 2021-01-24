@@ -1,22 +1,24 @@
 ﻿using Newtonsoft.Json;
 using Reception.App.Model.Auth;
 using Reception.App.Network.Exceptions;
+using Reception.App.Service.Interface;
+using Splat;
 using System.Threading.Tasks;
 
 namespace Reception.App.Network.Auth
 {
     public class UserService : IUserService
     {
-        private readonly string _serverPath;
+        private readonly ISettingsService _settings;
 
-        public UserService(string serverPath)
+        public UserService()
         {
-            _serverPath = serverPath;
+            _settings = Locator.Current.GetService<ISettingsService>();
         }
 
         public async Task<AuthenticateResponse> Authenticate(AuthenticateRequest request)
         {
-            var response = await Core.ExecutePostTaskAsync($"{_serverPath}/User/Authenticate", request);
+            var response = await Core.ExecutePostTaskAsync($"{_settings.UserServerPath}/User/Authenticate", request);
 
             if (response.IsSuccessful)
             {

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Reception.Model.Interfaces
+namespace Reception.Model.Interface
 {
     public interface ILogic<T>
     {

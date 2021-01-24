@@ -1,15 +1,19 @@
-﻿using System.Threading.Tasks;
+﻿using Reception.App.Service.Interface;
+using Splat;
+using System.Threading.Tasks;
 
 namespace Reception.App.Network.Server
 {
     public class PingService : IPingService
     {
-        public PingService(string serverPath)
+        private readonly ISettingsService _settingsService;
+
+        public PingService()
         {
-            ServerPath = serverPath;
+            _settingsService = Locator.Current.GetService<ISettingsService>();
         }
 
-        public string ServerPath { get; set; }
+        public string ServerPath => _settingsService.DataServerPath;
 
         public async Task<string> PingAsync()
         {

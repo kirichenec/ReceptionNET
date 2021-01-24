@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.Extensions.DependencyInjection;
 using Reception.App.Network.Chat.Constants;
+using Reception.App.Service.Interface;
 using Reception.Model.Network;
+using Splat;
 using System;
 using System.Threading.Tasks;
 
@@ -11,18 +13,17 @@ namespace Reception.App.Network.Chat
     {
         #region Fields
         private readonly HubConnection _client;
-
         private readonly int _userId;
         #endregion
 
         #region ctor
-        public ClientService(int userId, string serverPath, bool withReconnect = true)
+        public ClientService(int userId, bool withReconnect = true)
         {
             _userId = userId;
 
             var hubBuilder =
                 new HubConnectionBuilder()
-                .WithUrl(serverPath)
+                .WithUrl(Locator.Current.GetService<ISettingsService>().ChatServerPath)
                 .AddNewtonsoftJsonProtocol();
             if (withReconnect)
             {

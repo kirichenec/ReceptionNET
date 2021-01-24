@@ -10,8 +10,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Reception.Extensions\Reception.Extensions.csproj" />
-    <ProjectReference Include="..\Reception.Model.Interfaces\Reception.Model.Interfaces.csproj" />
+    <ProjectReference Include="..\Reception.Extensions\Reception.Extension.csproj" />
+    <ProjectReference Include="..\Reception.Model.Interfaces\Reception.Model.Interface.csproj" />
   </ItemGroup>
 
 </Project>

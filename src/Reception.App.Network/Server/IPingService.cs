@@ -4,7 +4,7 @@ namespace Reception.App.Network.Server
 {
     public interface IPingService
     {
-        string ServerPath { get; set; }
+        string ServerPath { get; }
 
         Task<string> PingAsync();
     }

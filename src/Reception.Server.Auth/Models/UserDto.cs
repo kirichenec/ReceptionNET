@@ -1,4 +1,4 @@
-﻿using Reception.Model.Interfaces;
+﻿using Reception.Model.Interface;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 

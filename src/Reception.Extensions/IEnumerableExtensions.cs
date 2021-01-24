@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Reception.Extensions
+namespace Reception.Extension
 {
     public static class IEnumerableExtensions
     {

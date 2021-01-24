@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Reception.Model.Interfaces
+namespace Reception.Model.Interface
 {
     public interface IRepository<T>
     {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Reception.Extensions.Converters
+namespace Reception.Extension.Converters
 {
     public static class Newtonsoft
     {
