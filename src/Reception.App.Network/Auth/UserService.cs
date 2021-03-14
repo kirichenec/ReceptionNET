@@ -2,6 +2,8 @@
 using Reception.App.Model.Auth;
 using Reception.App.Network.Exceptions;
 using Reception.App.Service.Interface;
+using Reception.Extension.Converters;
+using Reception.Model.Interface;
 using Splat;
 using System.Threading.Tasks;
 
@@ -9,7 +11,7 @@ namespace Reception.App.Network.Auth
 {
     public class UserService : IUserService
     {
-        private AuthenticateResponse _authData;
+        private AuthenticateResponse _authData = new AuthenticateResponse();
 
         private readonly ISettingsService _settings;
 
@@ -22,6 +24,8 @@ namespace Reception.App.Network.Auth
 
         public string UserRootUri => $"{_settings.UserServerPath}/User";
 
+        public IToken Token => new Token { UserId = _authData.Id, Value = _authData.Token };
+
         public async Task<AuthenticateResponse> Authenticate(AuthenticateRequest request)
         {
             var response = await Core.ExecutePostTaskAsync($"{UserRootUri}/authenticate", request);
@@ -29,7 +33,7 @@ namespace Reception.App.Network.Auth
             if (response.IsSuccessful)
             {
                 _authData = JsonConvert.DeserializeObject<AuthenticateResponse>(response.Content);
-                return _authData;
+                return AuthData;
             }
 
             throw new QueryException(response.StatusDescription);
@@ -37,8 +41,7 @@ namespace Reception.App.Network.Auth
 
         public async Task<bool> IsAuthValid()
         {
-            var response = await Core.ExecuteGetTaskAsync($"{UserRootUri}/IsAuthValid");
-
+            var response = await Core.ExecuteGetTaskAsync($"{UserRootUri}/IsAuthValid", new (string, string)[] { (nameof(IUserService.Token), Token.ToJsonString()) });
 
             if (response.IsSuccessful)
             {
@@ -50,7 +53,8 @@ namespace Reception.App.Network.Auth
 
         public void SetUserAuth(int userId, string token)
         {
-            _authData = new AuthenticateResponse { Id = userId, Token = token };
+            _authData.Id = userId;
+            _authData.Token = token;
         }
     }
 }

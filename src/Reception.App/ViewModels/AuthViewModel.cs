@@ -76,7 +76,11 @@ namespace Reception.App.ViewModels
         private void LoadAuthData()
         {
             // ToDo: Load from app data
-            var authInfo = new AuthenticateResponse { Id = 1, Token = "qwe" };
+            var authInfo = new AuthenticateResponse
+            {
+                Id = 1,
+                Token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJuYmYiOjE2MTU3MjcxNTYsImV4cCI6MTYzMDI0MjM1NiwiaWF0IjoxNjE1NzI3MTU2fQ.Je6PB3jKZDG2MMXyFl6suYTy8f2ru3Ldx9AuArkwA1M"
+            };
 
             _userService.SetUserAuth(authInfo.Id, authInfo.Token);
         }

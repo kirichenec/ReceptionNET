@@ -1,12 +1,11 @@
-﻿using Reception.Server.Auth.Entities;
+﻿using Reception.Model.Interface;
 using System.Threading.Tasks;
 
 namespace Reception.Server.Auth.Repository
 {
     public interface ITokenService
     {
-        // ToDo: maybe we don't needs it
-        Task<bool> CheckAsync(Token token);
-        Task<Token> GenerateAndSaveAsync(int userId);
+        Task<bool> CheckAsync(IToken token);
+        Task<IToken> GenerateAndSaveAsync(int userId);
     }
 }

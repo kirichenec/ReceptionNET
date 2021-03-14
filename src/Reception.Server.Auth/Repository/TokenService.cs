@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Reception.Extension;
+using Reception.Model.Interface;
 using Reception.Server.Auth.Entities;
 using Reception.Server.Auth.Helpers;
 using System;
@@ -27,13 +28,13 @@ namespace Reception.Server.Auth.Repository
 
         #region public
 
-        public async Task<bool> CheckAsync(Token token)
+        public async Task<bool> CheckAsync(IToken token)
         {
             var availableToken = await _context.Tokens.FirstOrDefaultAsync(t => t.UserId == token.UserId && t.Value == token.Value);
             return availableToken.HasValue() && IsJwtTokenNotExpired(token.Value);
         }
 
-        public async Task<Token> GenerateAndSaveAsync(int userId)
+        public async Task<IToken> GenerateAndSaveAsync(int userId)
         {
             var tokenValue = GenerateJwtToken(userId);
             return await SaveAsync(userId, tokenValue);
@@ -47,7 +48,7 @@ namespace Reception.Server.Auth.Repository
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var token = tokenHandler.ReadToken(value);
-            return DateTime.Now > token.ValidTo;
+            return DateTime.Now <= token.ValidTo;
         }
 
         private string GenerateJwtToken(int userId)
