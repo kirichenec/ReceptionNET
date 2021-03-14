@@ -7,13 +7,14 @@ using Reception.Server.Auth.Entities;
 using Reception.Server.Auth.Repository;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Reception.Server.Auth.Helpers
 {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
-    public class AuthorizeAttribute : Attribute, IAuthorizationFilter
+    public class AuthorizeAttribute : Attribute, IAsyncAuthorizationFilter
     {
-        public void OnAuthorization(AuthorizationFilterContext context)
+        public async Task OnAuthorizationAsync(AuthorizationFilterContext context)
         {
             var _tokenService = context.HttpContext.RequestServices.GetRequiredService<ITokenService>();
 
@@ -21,8 +22,7 @@ namespace Reception.Server.Auth.Helpers
             {
                 var token = jsonToken.DeserializeMessage<Token>();
 
-                // ToDo: Maybe async?
-                if (_tokenService.CheckAsync(token).Result)
+                if (await _tokenService.CheckAsync(token))
                 {
                     context.Result = new JsonResult(new { message = "Authorized" }) { StatusCode = StatusCodes.Status200OK };
                     return;
