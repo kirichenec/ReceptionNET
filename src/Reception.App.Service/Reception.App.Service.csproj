@@ -9,8 +9,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\src\Reception.App.Model\Reception.App.Model.csproj" />
-    <ProjectReference Include="..\src\Reception.Model.Network\Reception.Model.Network.csproj" />
+    <ProjectReference Include="..\Reception.App.Model\Reception.App.Model.csproj" />
+    <ProjectReference Include="..\Reception.Model.Network\Reception.Model.Network.csproj" />
   </ItemGroup>
 
 </Project>
