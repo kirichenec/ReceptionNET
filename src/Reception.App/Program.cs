@@ -48,7 +48,7 @@ namespace Reception.App
             Locator.CurrentMutable.RegisterConstant(new PersonNetworkService(), typeof(INetworkService<Person>));
             Locator.CurrentMutable.RegisterConstant(new FileDataNetworkService(), typeof(INetworkService<FileData>));
             Locator.CurrentMutable.RegisterConstant(new PingService(), typeof(IPingService));
-            Locator.CurrentMutable.Register(() => new ClientService(), typeof(IClientService));
+            Locator.CurrentMutable.RegisterConstant(new ClientService(), typeof(IClientService));
 
             Locator.CurrentMutable.RegisterViewsForViewModels(Assembly.GetCallingAssembly());
         }

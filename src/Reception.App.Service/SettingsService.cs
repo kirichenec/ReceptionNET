@@ -12,5 +12,6 @@ namespace Reception.App.Service
         public int PingDelay => int.Parse(ConfigurationManager.AppSettings[nameof(PingDelay)]);
         public string UserServerPath => ConfigurationManager.AppSettings[nameof(UserServerPath)];
         public string WelcomeMessage => ConfigurationManager.AppSettings[nameof(WelcomeMessage)];
+        public bool WithReconnect => bool.Parse(ConfigurationManager.AppSettings[nameof(WithReconnect)]);
     }
 }

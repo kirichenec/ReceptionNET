@@ -9,5 +9,6 @@
         int PingDelay { get; }
         string UserServerPath { get; }
         string WelcomeMessage { get; }
+        bool WithReconnect { get; }
     }
 }
