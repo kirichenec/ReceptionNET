@@ -17,9 +17,10 @@ namespace Reception.App.Network.Chat
         #endregion
 
         #region ctor
-        public ClientService(int userId, bool withReconnect = true)
+        public ClientService(bool withReconnect = true)
         {
-            _userId = userId;
+            //TODO: change 333 to normal userId
+            _userId = 333;
 
             var hubBuilder =
                 new HubConnectionBuilder()

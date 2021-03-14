@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Reception.Model.Dto;
 using Reception.Model.Interface;
 using Reception.Model.Network;
@@ -9,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace Reception.Server.Data.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class PersonController : ControllerBase, IBaseController

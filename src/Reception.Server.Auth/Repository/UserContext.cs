@@ -18,6 +18,8 @@ namespace Reception.Server.Auth.Repository
             Database.Migrate();
         }
 
+        public DbSet<Token> Tokens { get; set; }
+
         public DbSet<User> Users { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

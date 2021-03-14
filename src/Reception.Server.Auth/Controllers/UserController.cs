@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Reception.Extension;
 using Reception.Model.Network;
 using Reception.Server.Auth.Helpers;
 using Reception.Server.Auth.Logic;
@@ -19,17 +20,27 @@ namespace Reception.Server.Auth.Controllers
         }
 
         // POST User/Authenticate
-        [HttpPost("authenticate")]
+        [HttpPost("Authenticate")]
         [ProducesResponseType(200)]
         [ProducesResponseType(500)]
         public async Task<IActionResult> Authenticate([FromBody] AuthenticateRequest model)
         {
             var response = await _userLogic.Authenticate(model);
 
-            if (response == null)
+            if (response.HasNoValue())
                 return BadRequest(new { message = "Username or password is incorrect" });
 
             return Ok(response);
+        }
+
+        // GET User/IsAuthValid
+        [Authorize]
+        [HttpGet("IsAuthValid")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(401)]
+        public IActionResult IsAuthValid()
+        {
+            return Ok();
         }
 
         // PUT User

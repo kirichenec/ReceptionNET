@@ -57,6 +57,8 @@ namespace Reception.Server.Auth.Repository
                 .ToListAsync();
         }
 
+        #region Private
+
         private IQueryable<User> SearchUserQuery(string searchText)
         {
             var likeSearchText = searchText.AsLike();
@@ -68,5 +70,7 @@ namespace Reception.Server.Auth.Repository
                     EF.Functions.Like(user.LastName, likeSearchText) ||
                     EF.Functions.Like(user.Login, likeSearchText));
         }
+
+        #endregion
     }
 }

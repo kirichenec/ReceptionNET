@@ -42,6 +42,7 @@ namespace Reception.Server.Auth
 
             // configure DI for application services
             services.AddEntityFrameworkSqlite().AddDbContext<UserContext>();
+            services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IUserLogic, UserLogic>();
         }
