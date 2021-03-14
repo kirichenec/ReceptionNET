@@ -30,8 +30,10 @@ namespace Reception.Server.Auth.Repository
 
         public async Task<bool> CheckAsync(IToken token)
         {
-            var availableToken = await _context.Tokens.FirstOrDefaultAsync(t => t.UserId == token.UserId && t.Value == token.Value);
-            return availableToken.HasValue() && IsJwtTokenNotExpired(token.Value);
+            return
+                token.HasValue()
+                && (await _context.Tokens.FirstOrDefaultAsync(t => t.UserId == token.UserId && t.Value == token.Value)).HasValue()
+                && IsJwtTokenNotExpired(token.Value);
         }
 
         public async Task<IToken> GenerateAndSaveAsync(int userId)
