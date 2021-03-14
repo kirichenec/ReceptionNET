@@ -38,7 +38,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reception.Server.Auth.Passw
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{AD2A5F91-93CF-42D8-A331-6CA299E9097E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reception.App.Service", "Reception.App.Service\Reception.App.Service.csproj", "{91529021-D067-4385-9CF1-DF25A62D7560}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reception.App.Service", "src\Reception.App.Service\Reception.App.Service.csproj", "{91529021-D067-4385-9CF1-DF25A62D7560}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
