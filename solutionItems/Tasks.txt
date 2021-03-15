@@ -1,4 +1,6 @@
 - Auth
+   - Auth info to Auth.config
+   - Load actual user info after/with auth
 - Files Data
    - Person Image from File Data with person link: Image Info section + File Data
    - Link Visitor to Image file

@@ -3,7 +3,7 @@ using System.Configuration;
 
 namespace Reception.App.Service
 {
-    public class SettingsService : ISettingsService
+    public partial class SettingsService : ISettingsService
     {
         public string ChatServerPath => ConfigurationManager.AppSettings[nameof(ChatServerPath)];
         public string DataServerPath => ConfigurationManager.AppSettings[nameof(DataServerPath)];

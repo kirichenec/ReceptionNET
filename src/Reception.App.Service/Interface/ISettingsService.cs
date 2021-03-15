@@ -1,4 +1,6 @@
-﻿namespace Reception.App.Service.Interface
+﻿using Reception.Model.Interface;
+
+namespace Reception.App.Service.Interface
 {
     public interface ISettingsService
     {
@@ -7,6 +9,7 @@
         string FileServerPath { get; }
         bool IsBoss { get; }
         int PingDelay { get; }
+        IToken Token { get; }
         string UserServerPath { get; }
         string WelcomeMessage { get; }
         bool WithReconnect { get; }

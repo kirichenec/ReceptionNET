@@ -2,6 +2,7 @@
 using ReactiveUI.Fody.Helpers;
 using Reception.App.Model.Auth;
 using Reception.App.Network.Auth;
+using Reception.App.Service.Interface;
 using Reception.Extension;
 using Splat;
 using System;
@@ -13,6 +14,7 @@ namespace Reception.App.ViewModels
     public class AuthViewModel : BaseViewModel
     {
         private readonly IUserService _userService;
+        private readonly ISettingsService _settings;
 
         #region ctor
         public AuthViewModel(IScreen parentViewModel = null)
@@ -21,6 +23,7 @@ namespace Reception.App.ViewModels
 
             HostScreen = parentViewModel ?? Locator.Current.GetService<IScreen>();
 
+            _settings ??= Locator.Current.GetService<ISettingsService>();
             _userService ??= Locator.Current.GetService<IUserService>();
 
             #region Init NavigateCommand
@@ -74,11 +77,10 @@ namespace Reception.App.ViewModels
 
         private void LoadAuthData()
         {
-            // ToDo: Load from app data
             var authInfo = new AuthenticateResponse
             {
-                Id = 1,
-                Token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJuYmYiOjE2MTU3MjcxNTYsImV4cCI6MTYzMDI0MjM1NiwiaWF0IjoxNjE1NzI3MTU2fQ.Je6PB3jKZDG2MMXyFl6suYTy8f2ru3Ldx9AuArkwA1M"
+                Id = _settings.Token.UserId,
+                Token = _settings.Token.Value
             };
 
             _userService.SetUserAuth(authInfo.Id, authInfo.Token);
