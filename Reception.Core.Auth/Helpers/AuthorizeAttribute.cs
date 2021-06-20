@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.DependencyInjection;
-using Reception.Core.Auth.Repository;
+using Reception.Core.Auth.Model;
 using Reception.Extension.Converters;
 using Reception.Model.Interface;
 using System;
@@ -20,7 +20,7 @@ namespace Reception.Core.Auth.Helpers
 
             if (context.HttpContext.Request.Headers["Token"].FirstOrDefault() is string jsonToken)
             {
-                var token = jsonToken.DeserializeMessage<IToken>();
+                var token = jsonToken.DeserializeMessage<Token>();
 
                 if (await _tokenService.CheckAsync(token))
                 {

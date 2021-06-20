@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Reception.Core.Auth.Helpers;
 using Reception.Server.Data.Logic;
 using Reception.Server.Data.Repository;
 
@@ -31,6 +32,7 @@ namespace Reception.Server.Data
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Reception data server", Version = "v1" });
             });
 
+            // configure DI for application services
             services.AddEntityFrameworkSqlite().AddDbContext<DataContext>();
             services.AddScoped<IDataService, DataService>();
             services.AddScoped<IPersonLogic, PersonLogic>();

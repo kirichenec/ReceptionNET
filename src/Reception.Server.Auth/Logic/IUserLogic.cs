@@ -1,8 +1,9 @@
-﻿using Reception.Model.Interface;
-using Reception.Core.Auth.Model;
+﻿using Reception.Core.Auth.Model;
+using Reception.Model.Dto;
+using Reception.Model.Interface;
 using System.Threading.Tasks;
 
-namespace Reception.Core.Auth.Logic
+namespace Reception.Server.Auth.Logic
 {
     public interface IUserLogic : ILogic<UserDto>
     {

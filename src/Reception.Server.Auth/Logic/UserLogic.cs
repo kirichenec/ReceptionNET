@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
-using Reception.Core.Auth.Logic;
 using Reception.Core.Auth.Model;
-using Reception.Core.Auth.Repository;
 using Reception.Extension;
+using Reception.Model.Dto;
+using Reception.Model.Interface;
 using Reception.Server.Auth.Entities;
 using Reception.Server.Auth.Extensions;
 using Reception.Server.Auth.PasswordHelper;
@@ -42,7 +42,7 @@ namespace Reception.Server.Auth.Logic
             // authentication successful so generate jwt token
             var token = await _tokenService.GenerateAndSaveAsync(user.Id);
 
-            return new AuthenticateResponse(user, token.Value);
+            return user.ToAuthenticateResponse(token.Value);
         }
 
         public async Task<UserDto> CreateUserAsync(string login, string password)

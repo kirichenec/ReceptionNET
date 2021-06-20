@@ -1,20 +1,20 @@
-﻿using Reception.Model.Interface;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using CoreToken = Reception.Core.Auth.Model.Token;
 
 namespace Reception.Server.Auth.Entities
 {
     [Table("Token", Schema = "Auth")]
-    public class Token : IToken
+    public class Token : CoreToken
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+        public override int Id { get; set; }
 
         [Required]
-        public int UserId { get; set; }
+        public override int UserId { get; set; }
 
         [Required]
-        public string Value { get; set; }
+        public override string Value { get; set; }
     }
 }

@@ -1,14 +1,17 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using Reception.Core.Auth.Logic;
+using Reception.Core.Auth.Helpers;
+using Reception.Core.Auth.Model;
+using Reception.Extension.Converters;
+using Reception.Server.Auth.Logic;
 using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Reception.Core.Auth.Helpers
+namespace Reception.Server.Auth.Helper
 {
     public class JwtMiddleware
     {
@@ -23,7 +26,7 @@ namespace Reception.Core.Auth.Helpers
 
         public async Task Invoke(HttpContext context, IUserLogic userService)
         {
-            var token = context.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
+            var token = context.Request.Headers["Token"].FirstOrDefault()?.DeserializeMessage<Token>().Value;
 
             if (token != null)
                 await AttachUserToContext(context, userService, token);
