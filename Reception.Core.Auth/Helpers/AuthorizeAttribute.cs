@@ -2,14 +2,14 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.DependencyInjection;
+using Reception.Core.Auth.Repository;
 using Reception.Extension.Converters;
-using Reception.Server.Auth.Entities;
-using Reception.Server.Auth.Repository;
+using Reception.Model.Interface;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Reception.Server.Auth.Helpers
+namespace Reception.Core.Auth.Helpers
 {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
     public class AuthorizeAttribute : Attribute, IAsyncAuthorizationFilter
@@ -20,7 +20,7 @@ namespace Reception.Server.Auth.Helpers
 
             if (context.HttpContext.Request.Headers["Token"].FirstOrDefault() is string jsonToken)
             {
-                var token = jsonToken.DeserializeMessage<Token>();
+                var token = jsonToken.DeserializeMessage<IToken>();
 
                 if (await _tokenService.CheckAsync(token))
                 {

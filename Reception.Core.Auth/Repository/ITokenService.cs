@@ -1,7 +1,7 @@
 ﻿using Reception.Model.Interface;
 using System.Threading.Tasks;
 
-namespace Reception.Server.Auth.Repository
+namespace Reception.Core.Auth.Repository
 {
     public interface ITokenService
     {

@@ -1,4 +1,4 @@
-﻿namespace Reception.Server.Auth.Helpers
+﻿namespace Reception.Core.Auth.Helpers
 {
     public class AppSettings
     {

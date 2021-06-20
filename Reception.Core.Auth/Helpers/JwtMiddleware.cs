@@ -1,14 +1,14 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using Reception.Server.Auth.Logic;
+using Reception.Core.Auth.Logic;
 using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Reception.Server.Auth.Helpers
+namespace Reception.Core.Auth.Helpers
 {
     public class JwtMiddleware
     {

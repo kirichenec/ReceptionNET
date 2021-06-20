@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Reception.Core.Auth.Helpers;
+using Reception.Core.Auth.Logic;
+using Reception.Core.Auth.Model;
 using Reception.Extension;
 using Reception.Model.Network;
-using Reception.Server.Auth.Helpers;
-using Reception.Server.Auth.Logic;
-using Reception.Server.Auth.Models;
 using System.Threading.Tasks;
 
 namespace Reception.Server.Auth.Controllers

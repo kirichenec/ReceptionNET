@@ -1,4 +1,4 @@
-﻿namespace Reception.Server.Auth.Models
+﻿namespace Reception.Core.Auth.Model
 {
     public class AuthenticateResponse
     {

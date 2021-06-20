@@ -1,5 +1,5 @@
-﻿using Reception.Server.Auth.Entities;
-using Reception.Server.Auth.Models;
+﻿using Reception.Core.Auth.Model;
+using Reception.Server.Auth.Entities;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;

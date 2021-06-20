@@ -1,8 +1,8 @@
-﻿using Reception.Model.Interface;
+﻿using Newtonsoft.Json;
+using Reception.Model.Interface;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text.Json.Serialization;
 
-namespace Reception.Server.Auth.Models
+namespace Reception.Core.Auth.Model
 {
     public class UserDto : IUnique
     {
