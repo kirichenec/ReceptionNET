@@ -18,6 +18,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Reception.Model.Interfaces\Reception.Model.Interface.csproj" />
     <ProjectReference Include="..\Reception.Model.Network\Reception.Model.Network.csproj" />
+    <ProjectReference Include="..\Reception.Server.Auth.ConnectionLibrary\Reception.Server.Auth.ConnectionLibrary.csproj" />
   </ItemGroup>
 
 </Project>

@@ -14,14 +14,11 @@ namespace Reception.Server.Auth.ConnectionLibrary
             // ToDo: Check auth by server's IsAuthValid. Check needs Rest
             var checkResult = await Task.FromResult(true);
 
-            if (checkResult)
+            if (!checkResult)
             {
-                context.Result = new JsonResult(new { message = "Authorized" }) { StatusCode = StatusCodes.Status200OK };
-                return;
+                // not logged in
+                context.Result = new JsonResult(new { message = "Unauthorized" }) { StatusCode = StatusCodes.Status401Unauthorized };
             }
-
-            // not logged in
-            context.Result = new JsonResult(new { message = "Unauthorized" }) { StatusCode = StatusCodes.Status401Unauthorized };
         }
     }
 }

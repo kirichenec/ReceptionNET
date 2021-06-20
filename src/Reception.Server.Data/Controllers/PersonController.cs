@@ -2,6 +2,7 @@
 using Reception.Model.Dto;
 using Reception.Model.Interface;
 using Reception.Model.Network;
+using Reception.Server.Auth.ConnectionLibrary;
 using Reception.Server.Data.Logic;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Reception.Server.Data.Controllers
 {
-    //[Authorize]
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class PersonController : ControllerBase, IBaseController

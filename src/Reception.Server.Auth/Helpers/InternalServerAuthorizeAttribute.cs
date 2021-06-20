@@ -17,16 +17,12 @@ namespace Reception.Server.Auth.Helpers
         public async Task OnAuthorizationAsync(AuthorizationFilterContext context)
         {
             var _tokenService = context.HttpContext.RequestServices.GetRequiredService<ITokenService>();
-            
-            if (context.HttpContext.Request.Headers["Token"].FirstOrDefault() is string jsonToken)
-            {
-                var token = jsonToken.DeserializeMessage<Token>();
 
-                if (await _tokenService.CheckAsync(token))
-                {
-                    context.Result = new JsonResult(new { message = "Authorized" }) { StatusCode = StatusCodes.Status200OK };
-                    return;
-                }
+            if (context.HttpContext.Request.Headers["Token"].FirstOrDefault() is string jsonToken
+                && await _tokenService.CheckAsync(jsonToken.DeserializeMessage<Token>()))
+            {
+                context.Result = new JsonResult(new { message = "Authorized" }) { StatusCode = StatusCodes.Status200OK };
+                return;
             }
 
             // not logged in

@@ -40,7 +40,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{AD2A5F91-93C
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reception.App.Service", "src\Reception.App.Service\Reception.App.Service.csproj", "{91529021-D067-4385-9CF1-DF25A62D7560}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reception.Server.Auth.ConnectionLibrary", "Reception.Server.Auth.ConnectionLibrary\Reception.Server.Auth.ConnectionLibrary.csproj", "{178F4715-E24E-4E69-8C5D-69AF78E2CFAF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reception.Server.Auth.ConnectionLibrary", "src\Reception.Server.Auth.ConnectionLibrary\Reception.Server.Auth.ConnectionLibrary.csproj", "{178F4715-E24E-4E69-8C5D-69AF78E2CFAF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
