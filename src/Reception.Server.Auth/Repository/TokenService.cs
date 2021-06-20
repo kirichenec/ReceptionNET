@@ -1,10 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using Reception.Core.Auth.Helpers;
 using Reception.Extension;
 using Reception.Model.Interface;
 using Reception.Server.Auth.Entities;
+using Reception.Server.Auth.Helpers;
 using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;

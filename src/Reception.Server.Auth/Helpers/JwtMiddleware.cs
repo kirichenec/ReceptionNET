@@ -1,9 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using Reception.Core.Auth.Helpers;
-using Reception.Core.Auth.Model;
 using Reception.Extension.Converters;
+using Reception.Model.Network;
 using Reception.Server.Auth.Logic;
 using System;
 using System.IdentityModel.Tokens.Jwt;
@@ -11,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Reception.Server.Auth.Helper
+namespace Reception.Server.Auth.Helpers
 {
     public class JwtMiddleware
     {

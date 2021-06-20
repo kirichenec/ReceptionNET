@@ -16,6 +16,11 @@
   <ItemGroup>
     <ProjectReference Include="..\src\Reception.Extensions\Reception.Extension.csproj" />
     <ProjectReference Include="..\src\Reception.Model.Interfaces\Reception.Model.Interface.csproj" />
+    <ProjectReference Include="..\src\Reception.Model.Network\Reception.Model.Network.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Helpers\" />
   </ItemGroup>
 
 </Project>

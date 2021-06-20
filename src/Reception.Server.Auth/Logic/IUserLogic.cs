@@ -1,6 +1,6 @@
-﻿using Reception.Core.Auth.Model;
-using Reception.Model.Dto;
+﻿using Reception.Model.Dto;
 using Reception.Model.Interface;
+using Reception.Model.Network;
 using System.Threading.Tasks;
 
 namespace Reception.Server.Auth.Logic

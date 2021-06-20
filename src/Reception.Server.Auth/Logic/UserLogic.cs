@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
-using Reception.Core.Auth.Model;
 using Reception.Extension;
 using Reception.Model.Dto;
 using Reception.Model.Interface;
+using Reception.Model.Network;
 using Reception.Server.Auth.Entities;
 using Reception.Server.Auth.Extensions;
 using Reception.Server.Auth.PasswordHelper;

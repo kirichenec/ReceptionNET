@@ -5,7 +5,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using Reception.Core.Auth.Helpers;
 using Reception.Server.Data.Logic;
 using Reception.Server.Data.Repository;
 
