@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 namespace Reception.Server.Auth.Helpers
 {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
-    public class AuthorizeAttribute : Attribute, IAsyncAuthorizationFilter
+    internal class InternalServerAuthorizeAttribute : Attribute, IAsyncAuthorizationFilter
     {
         public async Task OnAuthorizationAsync(AuthorizationFilterContext context)
         {

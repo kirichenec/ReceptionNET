@@ -33,7 +33,7 @@ namespace Reception.Server.Auth.Controllers
         }
 
         // GET User/IsAuthValid
-        [Authorize]
+        [InternalServerAuthorize]
         [HttpGet("IsAuthValid")]
         [ProducesResponseType(200)]
         [ProducesResponseType(401)]
@@ -43,7 +43,7 @@ namespace Reception.Server.Auth.Controllers
         }
 
         // PUT User
-        [Authorize]
+        [InternalServerAuthorize]
         [HttpPut]
         [ProducesResponseType(200)]
         [ProducesResponseType(500)]
@@ -54,7 +54,7 @@ namespace Reception.Server.Auth.Controllers
         }
 
         // GET User?searchText=5
-        [Authorize]
+        [InternalServerAuthorize]
         [HttpGet]
         [ProducesResponseType(200)]
         [ProducesResponseType(500)]

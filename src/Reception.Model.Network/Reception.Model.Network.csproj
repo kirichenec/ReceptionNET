@@ -15,8 +15,4 @@
     <ProjectReference Include="..\Reception.Model.Interfaces\Reception.Model.Interface.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Helpers\" />
-  </ItemGroup>
-
 </Project>
