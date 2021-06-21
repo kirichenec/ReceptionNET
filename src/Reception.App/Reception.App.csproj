@@ -15,10 +15,10 @@
 		<AvaloniaResource Include="Assets\*" />
 	</ItemGroup>
 	<ItemGroup>
-		<PackageReference Include="Avalonia" Version="0.10.0" />
-		<PackageReference Include="Avalonia.Desktop" Version="0.10.0" />
-		<PackageReference Include="Avalonia.ReactiveUI" Version="0.10.0" />
-		<PackageReference Include="ReactiveUI.Fody" Version="13.2.2" />
+		<PackageReference Include="Avalonia" Version="0.10.6" />
+		<PackageReference Include="Avalonia.Desktop" Version="0.10.6" />
+		<PackageReference Include="Avalonia.ReactiveUI" Version="0.10.6" />
+		<PackageReference Include="ReactiveUI.Fody" Version="14.1.1" />
 		<PackageReference Include="RestSharp" Version="106.11.7" />
 		<PackageReference Include="System.Configuration.ConfigurationManager" Version="5.0.0" />
 	</ItemGroup>
