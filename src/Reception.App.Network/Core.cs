@@ -39,10 +39,6 @@ namespace Reception.App.Network
 
         private static void AddHeaders(RestRequest request, IEnumerable<(string, string)> headers)
         {
-            if (headers?.Any() == true)
-            {
-                headers.ForEach(header => request.AddHeader(header.Item1, header.Item2));
-            }
+            headers?.ForEach(header => request.AddHeader(header.Item1, header.Item2));
         }
-    }
-} 
+    }}

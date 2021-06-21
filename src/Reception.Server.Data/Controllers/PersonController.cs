@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using Reception.Model.Dto;
 using Reception.Model.Interface;
 using Reception.Model.Network;
@@ -15,10 +16,12 @@ namespace Reception.Server.Data.Controllers
     [ApiController]
     public class PersonController : ControllerBase, IBaseController
     {
+        private readonly IOptions<AuthSettings> _authSettings;
         private readonly IPersonLogic _personLogic;
 
-        public PersonController(IPersonLogic personLogic)
+        public PersonController(IOptions<AuthSettings> authSettings, IPersonLogic personLogic)
         {
+            _authSettings = authSettings;
             _personLogic = personLogic;
         }
 
