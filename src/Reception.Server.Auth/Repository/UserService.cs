@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Reception.Extension;
 using Reception.Server.Auth.Entities;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;

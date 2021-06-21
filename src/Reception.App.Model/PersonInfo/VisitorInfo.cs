@@ -47,7 +47,7 @@ namespace Reception.App.Model.PersonInfo
                 NotifyPropertyChanged();
             }
         }
-        
+
         public string Message
         {
             get => _message;

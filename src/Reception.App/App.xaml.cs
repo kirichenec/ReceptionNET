@@ -9,5 +9,5 @@ namespace Reception.App
         {
             AvaloniaXamlLoader.Load(this);
         }
-   }
+    }
 }

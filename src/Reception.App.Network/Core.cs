@@ -1,7 +1,6 @@
 ﻿using Reception.Extension;
 using RestSharp;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Reception.App.Network
@@ -41,4 +40,5 @@ namespace Reception.App.Network
         {
             headers?.ForEach(header => request.AddHeader(header.Item1, header.Item2));
         }
-    }}
+    }
+}

@@ -16,7 +16,7 @@ namespace Reception.Server.Data.Entities
         public string FirstName { get; set; }
 
         public string MiddleName { get; set; }
-        
+
         public Post Post { get; set; }
 
         [Required]

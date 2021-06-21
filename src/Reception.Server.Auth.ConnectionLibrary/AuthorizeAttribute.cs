@@ -19,14 +19,8 @@ namespace Reception.Server.Auth.ConnectionLibrary
         {
             var authSettings = context.HttpContext.RequestServices.GetRequiredService<IOptions<AuthSettings>>().Value;
 
-            var jsonToken = context.HttpContext.Request.Headers["Token"].FirstOrDefault();
-#if DEBUG
-            // ToDo: Client must send token to server each time
-            jsonToken = "{\"UserId\":1,\"Value\":\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJuYmYiOjE2MTU3MjcxNTYsImV4cCI6MTYzMDI0MjM1NiwiaWF0IjoxNjE1NzI3MTU2fQ.Je6PB3jKZDG2MMXyFl6suYTy8f2ru3Ldx9AuArkwA1M\"}";
-#endif
-
             var authCheckResult =
-                jsonToken.HasValue()
+                context.HttpContext.Request.Headers["Token"].FirstOrDefault() is string jsonToken
                 && await CheckAuth(authSettings.AuthServerPath, new[] { ("Token", jsonToken) });
 
             if (!authCheckResult)
