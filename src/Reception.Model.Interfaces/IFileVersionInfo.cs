@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Reception.Model.Interfaces
+namespace Reception.Model.Interface
 {
     public interface IFileVersion : IUnique, ICommentable
     {

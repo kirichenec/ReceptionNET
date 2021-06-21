@@ -1,6 +1,6 @@
 ﻿using Reception.App.Model.Base;
 using Reception.App.Model.Extensions;
-using Reception.Model.Interfaces;
+using Reception.Model.Interface;
 
 namespace Reception.App.Model.PersonInfo
 {

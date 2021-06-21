@@ -1,4 +1,4 @@
-﻿namespace Reception.Extensions
+﻿namespace Reception.Extension
 {
     public static class StringExtensions
     {

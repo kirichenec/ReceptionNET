@@ -1,4 +1,4 @@
-﻿using Reception.Model.Interfaces;
+﻿using Reception.Model.Interface;
 
 namespace Reception.App.Model.FileInfo
 {

@@ -20,13 +20,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "solutionItems", "solutionIt
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reception.App.Network", "src\Reception.App.Network\Reception.App.Network.csproj", "{F15FA492-77EB-4A09-BC95-6BA3412EFE6F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reception.Model.Interfaces", "src\Reception.Model.Interfaces\Reception.Model.Interfaces.csproj", "{FD82375F-77E4-4D4B-9D62-999DAB2048AF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reception.Model.Interface", "src\Reception.Model.Interfaces\Reception.Model.Interface.csproj", "{FD82375F-77E4-4D4B-9D62-999DAB2048AF}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reception.Server.Chat", "src\Reception.Server.Chat\Reception.Server.Chat.csproj", "{AE5262AC-5DC0-4D3C-957D-ACAD6113F1C5}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reception.App.Model", "src\Reception.App.Model\Reception.App.Model.csproj", "{F78A59CB-3FA3-4158-AF5E-C7913AB8D96B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reception.Extensions", "src\Reception.Extensions\Reception.Extensions.csproj", "{18058FA8-E031-4C50-A633-C8609A8C29C4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reception.Extension", "src\Reception.Extensions\Reception.Extension.csproj", "{18058FA8-E031-4C50-A633-C8609A8C29C4}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reception.Server.File", "src\Reception.Server.File\Reception.Server.File.csproj", "{61128E75-E9B5-469E-86F3-22B0D66B0C8C}"
 EndProject
@@ -37,6 +37,10 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reception.Server.Auth.PasswordHelper", "src\Reception.Server.Auth.PasswordHelper\Reception.Server.Auth.PasswordHelper.csproj", "{5DDD5B34-5808-4EB1-A491-5DFCC7C239A5}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{AD2A5F91-93CF-42D8-A331-6CA299E9097E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reception.App.Service", "src\Reception.App.Service\Reception.App.Service.csproj", "{91529021-D067-4385-9CF1-DF25A62D7560}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reception.Server.Auth.ConnectionLibrary", "src\Reception.Server.Auth.ConnectionLibrary\Reception.Server.Auth.ConnectionLibrary.csproj", "{178F4715-E24E-4E69-8C5D-69AF78E2CFAF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -92,6 +96,14 @@ Global
 		{5DDD5B34-5808-4EB1-A491-5DFCC7C239A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5DDD5B34-5808-4EB1-A491-5DFCC7C239A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5DDD5B34-5808-4EB1-A491-5DFCC7C239A5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{91529021-D067-4385-9CF1-DF25A62D7560}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{91529021-D067-4385-9CF1-DF25A62D7560}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{91529021-D067-4385-9CF1-DF25A62D7560}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{91529021-D067-4385-9CF1-DF25A62D7560}.Release|Any CPU.Build.0 = Release|Any CPU
+		{178F4715-E24E-4E69-8C5D-69AF78E2CFAF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{178F4715-E24E-4E69-8C5D-69AF78E2CFAF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{178F4715-E24E-4E69-8C5D-69AF78E2CFAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{178F4715-E24E-4E69-8C5D-69AF78E2CFAF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -109,6 +121,8 @@ Global
 		{08E23F42-53CF-4B0A-8047-FFF815D2F49D} = {AD2A5F91-93CF-42D8-A331-6CA299E9097E}
 		{E6108DCA-A26C-4D35-A41F-2589FAA823BA} = {AD2A5F91-93CF-42D8-A331-6CA299E9097E}
 		{5DDD5B34-5808-4EB1-A491-5DFCC7C239A5} = {AD2A5F91-93CF-42D8-A331-6CA299E9097E}
+		{91529021-D067-4385-9CF1-DF25A62D7560} = {AD2A5F91-93CF-42D8-A331-6CA299E9097E}
+		{178F4715-E24E-4E69-8C5D-69AF78E2CFAF} = {AD2A5F91-93CF-42D8-A331-6CA299E9097E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D9C0D531-28FB-4D40-AFD0-658855890982}

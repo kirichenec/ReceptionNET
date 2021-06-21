@@ -1,30 +1,60 @@
 ﻿using Newtonsoft.Json;
 using Reception.App.Model.Auth;
 using Reception.App.Network.Exceptions;
+using Reception.App.Service.Interface;
+using Reception.Extension.Converters;
+using Reception.Model.Interface;
+using Splat;
 using System.Threading.Tasks;
 
 namespace Reception.App.Network.Auth
 {
     public class UserService : IUserService
     {
-        private readonly string _serverPath;
+        private AuthenticateResponse _authData = new AuthenticateResponse();
 
-        public UserService(string serverPath)
+        private readonly ISettingsService _settings;
+
+        public UserService()
         {
-            _serverPath = serverPath;
+            _settings = Locator.Current.GetService<ISettingsService>();
         }
+
+        public AuthenticateResponse AuthData => _authData;
+
+        public string UserRootUri => $"{_settings.UserServerPath}/User";
+
+        public IToken Token => new Token { UserId = _authData.Id, Value = _authData.Token };
 
         public async Task<AuthenticateResponse> Authenticate(AuthenticateRequest request)
         {
-            var response = await Core.ExecutePostTaskAsync($"{_serverPath}/User/Authenticate", request);
+            var response = await Core.ExecutePostTaskAsync($"{UserRootUri}/authenticate", request);
 
             if (response.IsSuccessful)
             {
-                var content = JsonConvert.DeserializeObject<AuthenticateResponse>(response.Content);
-                return content;
+                _authData = JsonConvert.DeserializeObject<AuthenticateResponse>(response.Content);
+                return AuthData;
             }
 
             throw new QueryException(response.StatusDescription);
+        }
+
+        public async Task<bool> IsAuthValid()
+        {
+            var response = await Core.ExecuteGetTaskAsync($"{UserRootUri}/IsAuthValid", new (string, string)[] { (nameof(IUserService.Token), Token.ToJsonString()) });
+
+            if (response.IsSuccessful)
+            {
+                return true;
+            }
+
+            throw new QueryException(response.StatusDescription);
+        }
+
+        public void SetUserAuth(int userId, string token)
+        {
+            _authData.Id = userId;
+            _authData.Token = token;
         }
     }
 }

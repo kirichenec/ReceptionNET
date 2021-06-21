@@ -1,4 +1,4 @@
-﻿using Reception.Extensions;
+﻿using Reception.Extension;
 
 namespace Reception.App.Model.Auth
 {
@@ -20,7 +20,6 @@ namespace Reception.App.Model.Auth
                 value != null
                 && value.Id != 0
                 && !value.Token.IsNullOrWhiteSpace();
-
         }
     }
 }

@@ -20,10 +20,13 @@ namespace Reception.App.ViewModels
     public class MainWindowViewModel : ReactiveObject, IScreen
     {
         #region Fields
+
         private readonly IPingService _pingService;
+
         #endregion
 
         #region ctor
+
         public MainWindowViewModel()
         {
             ViewLocator.MainVM = this;
@@ -39,22 +42,21 @@ namespace Reception.App.ViewModels
 
             _pingService ??= Locator.Current.GetService<IPingService>();
 
+            _ = Observable
+                .Timer(TimeSpan.Zero, TimeSpan.FromSeconds(AppSettings.PingDelay), RxApp.MainThreadScheduler)
+                .Subscribe(async x => await TryPing());
+
             #endregion
 
             CenterMessage = string.Empty;
 
             NavigateToAuth();
-
-            Initialized = MainWindowViewModel_Initialized;
-            Initialized?.Invoke();
         }
-        #endregion
 
-        #region Events
-        public event Func<Task> Initialized;
         #endregion
 
         #region Enums
+
         public enum ErrorType
         {
             No,
@@ -63,9 +65,11 @@ namespace Reception.App.ViewModels
             System,
             Request
         }
+
         #endregion
 
         #region Properties
+
         [Reactive]
         public AuthenticateResponse AuthData { get; set; }
 
@@ -88,9 +92,11 @@ namespace Reception.App.ViewModels
 
         [Reactive]
         public string StatusMessage { get; set; }
+
         #endregion
 
         #region Methods
+
         public void LoadIsBossMode()
         {
             if (AppSettings.IsBoss)
@@ -121,13 +127,6 @@ namespace Reception.App.ViewModels
             LastErrorType = ErrorType.System;
         }
 
-        private async Task MainWindowViewModel_Initialized()
-        {
-            Observable
-                .Timer(TimeSpan.Zero, TimeSpan.FromSeconds(AppSettings.PingDelay), RxApp.MainThreadScheduler)
-                .Subscribe(async x => await TryPing());
-        }
-
         private void NavigateToAuth()
         {
             Router.Navigate.Execute(new AuthViewModel(this));
@@ -152,6 +151,7 @@ namespace Reception.App.ViewModels
                 ErrorMessage = ex.Message;
             }
         }
+
         #endregion
     }
 }

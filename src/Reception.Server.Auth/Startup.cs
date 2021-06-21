@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Reception.Model.Interface;
 using Reception.Server.Auth.Helpers;
 using Reception.Server.Auth.Logic;
 using Reception.Server.Auth.PasswordHelper;
@@ -42,6 +43,7 @@ namespace Reception.Server.Auth
 
             // configure DI for application services
             services.AddEntityFrameworkSqlite().AddDbContext<UserContext>();
+            services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IUserLogic, UserLogic>();
         }

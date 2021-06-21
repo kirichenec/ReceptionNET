@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Reception.Server.Auth.Models
+namespace Reception.Model.Network
 {
     public class AuthenticateRequest
     {

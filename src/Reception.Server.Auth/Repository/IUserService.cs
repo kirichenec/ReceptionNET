@@ -1,4 +1,4 @@
-﻿using Reception.Model.Interfaces;
+﻿using Reception.Model.Interface;
 using Reception.Server.Auth.Entities;
 using System.Threading.Tasks;
 

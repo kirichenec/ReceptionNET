@@ -2,7 +2,7 @@
 using System.IO;
 using System.Threading.Tasks;
 
-namespace Reception.Extensions
+namespace Reception.Extension
 {
     public static class FormFileExtensions
     {

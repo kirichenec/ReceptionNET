@@ -24,6 +24,9 @@ bld/
 
 # DataBases
 *.db
+*.db-shm
+*.db-wal
+*.sqbpro
 
 # Visual Studio 2015 cache/options directory
 .vs/

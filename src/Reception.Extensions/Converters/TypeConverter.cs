@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 
-namespace Reception.Extensions.Converters
+namespace Reception.Extension.Converters
 {
     public class TypeConverter : JsonConverter
     {

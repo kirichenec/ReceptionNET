@@ -1,31 +1,29 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
+using Reception.Extension;
+using Reception.Model.Dto;
+using Reception.Model.Interface;
+using Reception.Model.Network;
 using Reception.Server.Auth.Entities;
 using Reception.Server.Auth.Extensions;
-using Reception.Server.Auth.Helpers;
-using Reception.Server.Auth.Models;
 using Reception.Server.Auth.PasswordHelper;
 using Reception.Server.Auth.Repository;
 using System;
 using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Reception.Server.Auth.Logic
 {
     public class UserLogic : IUserLogic
     {
-        private readonly AppSettings _appSettings;
         private readonly IPasswordHasher _passwordHasher;
+        private readonly ITokenService _tokenService;
         private readonly IUserService _userService;
 
-        public UserLogic(IOptions<AppSettings> appSettings, IUserService userService, IOptions<HashingOptions> hashingOptions)
+        public UserLogic(IUserService userService, ITokenService tokenService, IOptions<HashingOptions> hashingOptions)
         {
-            _appSettings = appSettings.Value;
             _passwordHasher = new PasswordHasher(hashingOptions.Value);
+            _tokenService = tokenService;
             _userService = userService;
         }
 
@@ -36,15 +34,15 @@ namespace Reception.Server.Auth.Logic
                 .ToDtoAsync();
 
             // return null if user not found
-            if (user == null) return null;
+            if (user.HasNoValue()) return null;
 
             var (verified, needsUpgrade) = _passwordHasher.Check(user.Password, requestModel.Password);
             if (!verified || needsUpgrade) return null;
 
             // authentication successful so generate jwt token
-            var token = GenerateJwtToken(user);
+            var token = await _tokenService.GenerateAndSaveAsync(user.Id);
 
-            return new AuthenticateResponse(user, token);
+            return user.ToAuthenticateResponse(token.Value);
         }
 
         public async Task<UserDto> CreateUserAsync(string login, string password)
@@ -85,21 +83,6 @@ namespace Reception.Server.Auth.Logic
         public async Task<IEnumerable<UserDto>> SearchAsync(string searchText)
         {
             return await _userService.SearchAsync(searchText).ToDtosAsync();
-        }
-
-        private string GenerateJwtToken(UserDto user)
-        {
-            // generate token that is valid for 7 days
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
-            var tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(new[] { new Claim("id", user.Id.ToString()) }),
-                Expires = DateTime.UtcNow.AddDays(7),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-            };
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-            return tokenHandler.WriteToken(token);
         }
     }
 }

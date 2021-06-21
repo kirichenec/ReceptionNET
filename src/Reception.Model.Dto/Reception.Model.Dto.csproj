@@ -5,7 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Reception.Model.Interfaces\Reception.Model.Interfaces.csproj" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Reception.Model.Interfaces\Reception.Model.Interface.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,4 +1,3 @@
-using Avalonia;
 using Avalonia.Markup.Xaml;
 using ReactiveUI;
 using Reception.App.ViewModels;
@@ -11,7 +10,6 @@ namespace Reception.App.Views
         {
             this.WhenActivated(disposables => { });
             AvaloniaXamlLoader.Load(this);
-            this.AttachDevTools();
         }
     }
 }

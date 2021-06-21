@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Reception.Extensions;
+using Reception.Extension;
 using Reception.Server.File.Model;
 using System.Collections.Generic;
 using System.Linq;

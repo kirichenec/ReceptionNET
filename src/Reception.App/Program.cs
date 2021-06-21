@@ -1,14 +1,14 @@
 ﻿using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Logging.Serilog;
 using Avalonia.ReactiveUI;
 using ReactiveUI;
 using Reception.App.Model.FileInfo;
 using Reception.App.Model.PersonInfo;
-using Reception.App.Models;
 using Reception.App.Network.Auth;
 using Reception.App.Network.Chat;
 using Reception.App.Network.Server;
+using Reception.App.Service;
+using Reception.App.Service.Interface;
 using Reception.App.ViewModels;
 using Reception.App.Views;
 using Splat;
@@ -43,12 +43,12 @@ namespace Reception.App
 
         private static void InitLocatorObjects()
         {
-            Locator.CurrentMutable.RegisterConstant(new UserService(AppSettings.UserServerPath), typeof(IUserService));
-            Locator.CurrentMutable.RegisterConstant(new NetworkService<Person>(AppSettings.DataServerPath), typeof(INetworkService<Person>));
-            Locator.CurrentMutable.RegisterConstant(new NetworkService<FileData>(AppSettings.FileServerPath), typeof(INetworkService<FileData>));
-            Locator.CurrentMutable.RegisterConstant(new PingService(AppSettings.DataServerPath), typeof(IPingService));
-            //TODO: change 333 to normal userId
-            Locator.CurrentMutable.Register(() => new ClientService(333, AppSettings.ChatServerPath, true), typeof(IClientService));
+            Locator.CurrentMutable.RegisterConstant(new SettingsService(), typeof(ISettingsService));
+            Locator.CurrentMutable.RegisterConstant(new UserService(), typeof(IUserService));
+            Locator.CurrentMutable.RegisterConstant(new PersonNetworkService(), typeof(INetworkService<Person>));
+            Locator.CurrentMutable.RegisterConstant(new FileDataNetworkService(), typeof(INetworkService<FileData>));
+            Locator.CurrentMutable.RegisterConstant(new PingService(), typeof(IPingService));
+            Locator.CurrentMutable.RegisterConstant(new ClientService(), typeof(IClientService));
 
             Locator.CurrentMutable.RegisterViewsForViewModels(Assembly.GetCallingAssembly());
         }

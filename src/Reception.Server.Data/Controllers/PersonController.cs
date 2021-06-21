@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using Reception.Model.Dto;
-using Reception.Model.Interfaces;
+using Reception.Model.Interface;
 using Reception.Model.Network;
+using Reception.Server.Auth.ConnectionLibrary;
 using Reception.Server.Data.Logic;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,14 +11,17 @@ using System.Threading.Tasks;
 
 namespace Reception.Server.Data.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class PersonController : ControllerBase, IBaseController
     {
+        private readonly IOptions<AuthSettings> _authSettings;
         private readonly IPersonLogic _personLogic;
 
-        public PersonController(IPersonLogic personLogic)
+        public PersonController(IOptions<AuthSettings> authSettings, IPersonLogic personLogic)
         {
+            _authSettings = authSettings;
             _personLogic = personLogic;
         }
 

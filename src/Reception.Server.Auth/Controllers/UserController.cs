@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Reception.Extension;
 using Reception.Model.Network;
 using Reception.Server.Auth.Helpers;
 using Reception.Server.Auth.Logic;
-using Reception.Server.Auth.Models;
 using System.Threading.Tasks;
 
 namespace Reception.Server.Auth.Controllers
@@ -19,21 +19,31 @@ namespace Reception.Server.Auth.Controllers
         }
 
         // POST User/Authenticate
-        [HttpPost("authenticate")]
+        [HttpPost("Authenticate")]
         [ProducesResponseType(200)]
         [ProducesResponseType(500)]
         public async Task<IActionResult> Authenticate([FromBody] AuthenticateRequest model)
         {
             var response = await _userLogic.Authenticate(model);
 
-            if (response == null)
+            if (response.HasNoValue())
                 return BadRequest(new { message = "Username or password is incorrect" });
 
             return Ok(response);
         }
 
+        // GET User/IsAuthValid
+        [InternalServerAuthorize]
+        [HttpGet("IsAuthValid")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(401)]
+        public IActionResult IsAuthValid()
+        {
+            return Ok();
+        }
+
         // PUT User
-        [Authorize]
+        [InternalServerAuthorize]
         [HttpPut]
         [ProducesResponseType(200)]
         [ProducesResponseType(500)]
@@ -44,7 +54,7 @@ namespace Reception.Server.Auth.Controllers
         }
 
         // GET User?searchText=5
-        [Authorize]
+        [InternalServerAuthorize]
         [HttpGet]
         [ProducesResponseType(200)]
         [ProducesResponseType(500)]

@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Reception.Server.Auth.ConnectionLibrary;
 using Reception.Server.File.Logic;
 using Reception.Server.File.Repository;
 
@@ -32,6 +33,10 @@ namespace Reception.Server.File
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Reception files server", Version = "v1" });
             });
 
+            // configure strongly typed settings object
+            services.Configure<AuthSettings>(Configuration.GetSection("AuthSettings"));
+
+            // configure DI for application services
             services.AddEntityFrameworkSqlite().AddDbContext<FileContext>();
             services.AddScoped<IFileDataService, FileDataService>();
             services.AddScoped<IFileDataLogic, FileDataLogic>();

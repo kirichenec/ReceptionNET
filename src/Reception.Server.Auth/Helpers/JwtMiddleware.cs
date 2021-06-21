@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using Reception.Extension.Converters;
+using Reception.Model.Network;
 using Reception.Server.Auth.Logic;
 using System;
 using System.IdentityModel.Tokens.Jwt;
@@ -23,7 +25,7 @@ namespace Reception.Server.Auth.Helpers
 
         public async Task Invoke(HttpContext context, IUserLogic userService)
         {
-            var token = context.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
+            var token = context.Request.Headers["Token"].FirstOrDefault()?.DeserializeMessage<Token>().Value;
 
             if (token != null)
                 await AttachUserToContext(context, userService, token);

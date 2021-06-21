@@ -1,12 +1,10 @@
-﻿using Reception.Model.Interfaces;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Text.Json.Serialization;
+﻿using Newtonsoft.Json;
+using Reception.Model.Interface;
 
-namespace Reception.Server.Auth.Models
+namespace Reception.Model.Dto
 {
     public class UserDto : IUnique
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }

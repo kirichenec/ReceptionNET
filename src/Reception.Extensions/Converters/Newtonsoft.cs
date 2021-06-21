@@ -2,13 +2,18 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Reception.Extensions.Converters
+namespace Reception.Extension.Converters
 {
     public static class Newtonsoft
     {
         public static T DeserializeMessage<T>(this object value)
         {
-            return JsonConvert.DeserializeObject<T>(value.ToString());
+            return value.ToString().DeserializeMessage<T>();
+        }
+
+        public static T DeserializeMessage<T>(this string value)
+        {
+            return JsonConvert.DeserializeObject<T>(value);
         }
 
         public static string ToJsonString<T>(this T value)

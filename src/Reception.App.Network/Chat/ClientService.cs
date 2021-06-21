@@ -1,7 +1,10 @@
 ﻿using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.Extensions.DependencyInjection;
+using Reception.App.Network.Auth;
 using Reception.App.Network.Chat.Constants;
+using Reception.App.Service.Interface;
 using Reception.Model.Network;
+using Splat;
 using System;
 using System.Threading.Tasks;
 
@@ -11,20 +14,22 @@ namespace Reception.App.Network.Chat
     {
         #region Fields
         private readonly HubConnection _client;
-
-        private readonly int _userId;
+        private readonly ISettingsService _settingsService;
+        private readonly IUserService _userService;
         #endregion
 
         #region ctor
-        public ClientService(int userId, string serverPath, bool withReconnect = true)
+        public ClientService()
         {
-            _userId = userId;
+            _settingsService ??= Locator.Current.GetService<ISettingsService>();
+            _userService ??= Locator.Current.GetService<IUserService>();
 
             var hubBuilder =
                 new HubConnectionBuilder()
-                .WithUrl(serverPath)
+                .WithUrl(Locator.Current.GetService<ISettingsService>().ChatServerPath)
                 .AddNewtonsoftJsonProtocol();
-            if (withReconnect)
+
+            if (_settingsService.WithReconnect)
             {
                 hubBuilder = hubBuilder.WithAutomaticReconnect();
             }
@@ -58,7 +63,7 @@ namespace Reception.App.Network.Chat
         public async Task SendAsync<T>(T value)
         {
             var query = new QueryResult<T>(value);
-            await _client.SendAsync(ChatMethodNames.SEND_MESSAGE_BROADCAST, _userId, query);
+            await _client.SendAsync(ChatMethodNames.SEND_MESSAGE_BROADCAST, _userService.AuthData.Id, query);
         }
 
         public async Task StartClientAsync()

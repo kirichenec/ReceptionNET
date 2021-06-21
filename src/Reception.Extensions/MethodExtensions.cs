@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using System.Reflection;
 
-namespace Reception.Extensions
+namespace Reception.Extension
 {
     public static class MethodExtensions
     {

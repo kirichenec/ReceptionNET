@@ -2,7 +2,8 @@
 using ReactiveUI.Fody.Helpers;
 using Reception.App.Model.Auth;
 using Reception.App.Network.Auth;
-using Reception.Extensions;
+using Reception.App.Service.Interface;
+using Reception.Extension;
 using Splat;
 using System;
 using System.Reactive;
@@ -13,6 +14,7 @@ namespace Reception.App.ViewModels
     public class AuthViewModel : BaseViewModel
     {
         private readonly IUserService _userService;
+        private readonly ISettingsService _settings;
 
         #region ctor
         public AuthViewModel(IScreen parentViewModel = null)
@@ -21,6 +23,7 @@ namespace Reception.App.ViewModels
 
             HostScreen = parentViewModel ?? Locator.Current.GetService<IScreen>();
 
+            _settings ??= Locator.Current.GetService<ISettingsService>();
             _userService ??= Locator.Current.GetService<IUserService>();
 
             #region Init NavigateCommand
@@ -61,34 +64,31 @@ namespace Reception.App.ViewModels
         #endregion
 
         #region Methods
-        private async Task<bool> AuthDataNotExpired(AuthenticateResponse loadedAuthData)
-        {
-            // ToDo: Delete this hack
-            await Task.Delay(TimeSpan.FromSeconds(3));
-
-            // ToDo: change to auth server token check
-            return loadedAuthData.IsAuthInfoCorrect();
-        }
-
         private async Task<bool> AuthViewModel_Initialized()
         {
-            var loadedAuthData = LoadAuthData();
-            if (await AuthDataNotExpired(loadedAuthData))
+            LoadAuthData();
+            if (await _userService.IsAuthValid())
             {
-                AuthData = loadedAuthData;
+                AuthData = _userService.AuthData;
+                return true;
             }
-            return true;
+            return false;
         }
 
-        private AuthenticateResponse LoadAuthData()
+        private void LoadAuthData()
         {
-            // ToDo: Load from app data
-            return new AuthenticateResponse { Id = 1, Token = "qwe" };
+            var authInfo = new AuthenticateResponse
+            {
+                Id = _settings.Token.UserId,
+                Token = _settings.Token.Value
+            };
+
+            _userService.SetUserAuth(authInfo.Id, authInfo.Token);
         }
 
         private async Task LoginExecute()
         {
-            var request = new AuthenticateRequest { Password = Password, Username = Login };
+            var request = new AuthenticateRequest { Password = Password, Login = Login };
             AuthData = await _userService.Authenticate(request);
         }
 

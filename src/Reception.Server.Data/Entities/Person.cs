@@ -1,4 +1,4 @@
-﻿using Reception.Model.Interfaces;
+﻿using Reception.Model.Interface;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -16,7 +16,7 @@ namespace Reception.Server.Data.Entities
         public string FirstName { get; set; }
 
         public string MiddleName { get; set; }
-        
+
         public Post Post { get; set; }
 
         [Required]

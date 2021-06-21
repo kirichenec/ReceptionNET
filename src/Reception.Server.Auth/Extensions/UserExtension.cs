@@ -1,5 +1,6 @@
-﻿using Reception.Server.Auth.Entities;
-using Reception.Server.Auth.Models;
+﻿using Reception.Model.Dto;
+using Reception.Model.Network;
+using Reception.Server.Auth.Entities;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,12 +9,29 @@ namespace Reception.Server.Auth.Extensions
 {
     public static class UserExtension
     {
+        public static AuthenticateResponse ToAuthenticateResponse(this UserDto user, string token)
+        {
+            return
+                user == null
+                ? null
+                : new AuthenticateResponse
+                {
+
+                    Id = user.Id,
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    Login = user.Login,
+                    MiddleName = user.MiddleName,
+                    Token = token
+                };
+        }
+
         public static UserDto ToDto(this User value)
         {
             return
-                value == null ?
-                null :
-                new UserDto
+                value == null
+                ? null
+                : new UserDto
                 {
                     Id = value.Id,
                     FirstName = value.FirstName,
@@ -38,5 +56,6 @@ namespace Reception.Server.Auth.Extensions
         {
             return (await valueListTasked)?.Select(value => value.ToDto()).ToList();
         }
+
     }
 }
