@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Reception.Extension;
@@ -39,7 +40,7 @@ namespace Reception.Server.Auth.Repository
         public async Task<IToken> GenerateAndSaveAsync(int userId)
         {
             var tokenValue = GenerateJwtToken(userId);
-            return await SaveAsync(userId, tokenValue);
+            return await SaveOrUpdateAsync(userId, tokenValue);
         }
 
         #endregion
@@ -67,17 +68,27 @@ namespace Reception.Server.Auth.Repository
             return tokenHandler.WriteToken(token);
         }
 
-        private async Task<Token> GetTokenAsync(int id)
+        private async Task<Token> SaveOrUpdateAsync(int userId, string tokenValue)
         {
-            return await _context.Tokens.FirstOrDefaultAsync(token => token.Id == id);
-        }
-
-        private async Task<Token> SaveAsync(int userId, string value)
-        {
-            var token = new Token { UserId = userId, Value = value };
-            var trackedData = await _context.Tokens.AddAsync(token);
+            EntityEntry<Token> trackedData;
+            if (await GetTokenAsync(userId) is Token existedToken)
+            {
+                existedToken.Value = tokenValue;
+                trackedData = _context.Tokens.Update(existedToken);
+            }
+            else
+            {
+                var token = new Token { UserId = userId, Value = tokenValue };
+                trackedData = await _context.Tokens.AddAsync(token);
+            }
             await _context.SaveChangesAsync();
-            return await GetTokenAsync(trackedData.Entity.Id);
+            return trackedData.Entity;
+
+
+            async Task<Token> GetTokenAsync(int userId)
+            {
+                return await _context.Tokens.FirstOrDefaultAsync(token => token.UserId == userId);
+            }
         }
 
         #endregion
