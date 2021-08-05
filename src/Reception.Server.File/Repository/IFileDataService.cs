@@ -1,5 +1,5 @@
 ﻿using Reception.Model.Interface;
-using Reception.Server.File.Model;
+using Reception.Server.File.Entities;
 using System.Threading.Tasks;
 
 namespace Reception.Server.File.Repository

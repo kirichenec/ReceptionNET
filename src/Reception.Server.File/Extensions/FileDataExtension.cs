@@ -1,4 +1,5 @@
-﻿using Reception.Server.File.Model;
+﻿using Reception.Extension;
+using Reception.Server.File.Entities;
 using Reception.Server.File.Model.Dto;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,13 +12,18 @@ namespace Reception.Server.File.Extensions
         public static FileDataDto ToDto(this FileData value)
         {
             return
-                value == null ?
+                value.HasNoValue() ?
                 null :
                 new FileDataDto
                 {
+                    Additional = value.Additional,
+                    Comment = value.Comment,
+                    Data = value.Data,
+                    Extension = value.Extension,
                     Id = value.Id,
-                    Value = value.Value,
-                    VersionInfo = value.VersionInfo
+                    Name = value.Name,
+                    Type = value.Type,
+                    Version = value.Version
                 };
         }
 

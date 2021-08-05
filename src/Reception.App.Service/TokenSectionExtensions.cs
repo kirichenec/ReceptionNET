@@ -4,7 +4,6 @@ namespace Reception.App.Service
 {
     public static class TokenSectionExtensions
     {
-
         public static TokenSection CreateTokenSection(this IToken value)
         {
             return new TokenSection

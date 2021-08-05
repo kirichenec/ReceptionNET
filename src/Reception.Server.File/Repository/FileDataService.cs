@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Reception.Extension;
-using Reception.Server.File.Model;
+using Reception.Server.File.Entities;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -61,11 +61,11 @@ namespace Reception.Server.File.Repository
             var likeSearchText = searchText.AsLike();
             return
                 _context.FileDatas
-                .Include(data => data.VersionInfo)
                 .Where(
-                    vi =>
-                    EF.Functions.Like(vi.VersionInfo.Comment, likeSearchText) ||
-                    EF.Functions.Like(vi.VersionInfo.Name, likeSearchText));
+                    fd =>
+                    EF.Functions.Like(fd.Additional, likeSearchText)
+                    || EF.Functions.Like(fd.Comment, likeSearchText)
+                    || EF.Functions.Like(fd.Name + "." + fd.Extension, likeSearchText));
         }
     }
 }

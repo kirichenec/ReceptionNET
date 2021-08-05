@@ -1,5 +1,5 @@
-﻿using Reception.Server.File.Extensions;
-using Reception.Server.File.Model;
+﻿using Reception.Server.File.Entities;
+using Reception.Server.File.Extensions;
 using Reception.Server.File.Model.Dto;
 using Reception.Server.File.Repository;
 using System;
@@ -37,8 +37,7 @@ namespace Reception.Server.File.Logic
         {
             var data = new FileData
             {
-                Value = fileData,
-                VersionInfo = new FileVersion { Name = fileName, Version = Guid.NewGuid() }
+                Data = fileData
             };
             var result = await _dataService.SaveAsync(data).ToDtoAsync();
             return result;
