@@ -9,8 +9,8 @@ namespace Reception.App.Service
         {
             return new TokenSection
             {
-                UserId = new UserIdElement { Value = value?.UserId ?? 0 },
-                Token = new TokenElement { Value = value?.Value }
+                UserId = value?.UserId ?? 0,
+                Token = value?.Value
             };
         }
 
@@ -18,8 +18,8 @@ namespace Reception.App.Service
         {
             return new TokenSettings
             {
-                UserId = value.UserId.Value,
-                Value = value.Token.Value
+                UserId = value.UserId,
+                Value = value.Token
             };
         }
     }
