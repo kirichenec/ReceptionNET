@@ -14,7 +14,7 @@ namespace Reception.App.ViewModels
     public class AuthViewModel : BaseViewModel
     {
         private readonly IUserService _userService;
-        private readonly ISettingsService _settings;
+        private readonly ISettingsService _settingsService;
 
         #region ctor
         public AuthViewModel(IScreen parentViewModel = null)
@@ -23,7 +23,7 @@ namespace Reception.App.ViewModels
 
             HostScreen = parentViewModel ?? Locator.Current.GetService<IScreen>();
 
-            _settings ??= Locator.Current.GetService<ISettingsService>();
+            _settingsService ??= Locator.Current.GetService<ISettingsService>();
             _userService ??= Locator.Current.GetService<IUserService>();
 
             #region Init NavigateCommand
@@ -79,8 +79,8 @@ namespace Reception.App.ViewModels
         {
             var authInfo = new AuthenticateResponse
             {
-                Id = _settings.Token.UserId,
-                Token = _settings.Token.Value
+                Id = _settingsService.Token.UserId,
+                Token = _settingsService.Token.Value
             };
 
             _userService.SetUserAuth(authInfo.Id, authInfo.Token);
@@ -90,6 +90,7 @@ namespace Reception.App.ViewModels
         {
             var request = new AuthenticateRequest { Password = Password, Login = Login };
             AuthData = await _userService.Authenticate(request);
+            _settingsService.Token = new Token { UserId = AuthData.Id,  Value = AuthData.Token };
         }
 
         private void NavigateBack(AuthenticateResponse authData)

@@ -5,13 +5,100 @@ namespace Reception.App.Service
 {
     public partial class SettingsService : ISettingsService
     {
-        public string ChatServerPath => ConfigurationManager.AppSettings[nameof(ChatServerPath)];
-        public string DataServerPath => ConfigurationManager.AppSettings[nameof(DataServerPath)];
-        public string FileServerPath => ConfigurationManager.AppSettings[nameof(FileServerPath)];
-        public bool IsBoss => bool.Parse(ConfigurationManager.AppSettings[nameof(IsBoss)]);
-        public int PingDelay => int.Parse(ConfigurationManager.AppSettings[nameof(PingDelay)]);
-        public string UserServerPath => ConfigurationManager.AppSettings[nameof(UserServerPath)];
-        public string WelcomeMessage => ConfigurationManager.AppSettings[nameof(WelcomeMessage)];
-        public bool WithReconnect => bool.Parse(ConfigurationManager.AppSettings[nameof(WithReconnect)]);
+        public string ChatServerPath
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings[nameof(ChatServerPath)];
+            }
+            set
+            {
+                ConfigurationManager.AppSettings[nameof(ChatServerPath)] = value;
+            }
+        }
+
+        public string DataServerPath
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings[nameof(DataServerPath)];
+            }
+            set
+            {
+                ConfigurationManager.AppSettings[nameof(DataServerPath)] = value;
+            }
+        }
+
+        public string FileServerPath
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings[nameof(FileServerPath)];
+            }
+            set
+            {
+                ConfigurationManager.AppSettings[nameof(FileServerPath)] = value;
+            }
+        }
+
+        public bool IsBoss
+        {
+            get
+            {
+                return bool.Parse(ConfigurationManager.AppSettings[nameof(IsBoss)]);
+            }
+            set
+            {
+                ConfigurationManager.AppSettings[nameof(IsBoss)] = value.ToString();
+            }
+        }
+
+        public int PingDelay
+        {
+            get
+            {
+                return int.Parse(ConfigurationManager.AppSettings[nameof(PingDelay)]);
+            }
+            set
+            {
+                ConfigurationManager.AppSettings[nameof(PingDelay)] = value.ToString();
+            }
+        }
+
+        public string UserServerPath
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings[nameof(UserServerPath)];
+            }
+            set
+            {
+                ConfigurationManager.AppSettings[nameof(UserServerPath)] = value;
+            }
+        }
+
+        public string WelcomeMessage
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings[nameof(WelcomeMessage)];
+            }
+            set
+            {
+                ConfigurationManager.AppSettings[nameof(WelcomeMessage)] = value;
+            }
+        }
+
+        public bool WithReconnect
+        {
+            get
+            {
+                return bool.Parse(ConfigurationManager.AppSettings[nameof(WithReconnect)]);
+            }
+            set
+            {
+                ConfigurationManager.AppSettings[nameof(WithReconnect)] = value.ToString();
+            }
+        }
     }
 }
