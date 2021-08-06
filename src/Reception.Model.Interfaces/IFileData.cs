@@ -11,8 +11,6 @@ namespace Reception.Model.Interface
             Photo
         }
 
-        string Additional { get; set; }
-
         byte[] Data { get; set; }
 
         string Extension { get; set; }

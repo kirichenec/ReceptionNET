@@ -6,8 +6,6 @@ namespace Reception.App.Model.FileInfo
 {
     public class FileData : IFileData
     {
-        public string Additional { get; set; }
-
         public string Comment { get; set; }
 
         public byte[] Data { get; set; }

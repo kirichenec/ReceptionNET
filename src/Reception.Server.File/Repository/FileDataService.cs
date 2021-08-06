@@ -63,8 +63,7 @@ namespace Reception.Server.File.Repository
                 _context.FileDatas
                 .Where(
                     fd =>
-                    EF.Functions.Like(fd.Additional, likeSearchText)
-                    || EF.Functions.Like(fd.Comment, likeSearchText)
+                    EF.Functions.Like(fd.Comment, likeSearchText)
                     || EF.Functions.Like(fd.Name + "." + fd.Extension, likeSearchText));
         }
     }

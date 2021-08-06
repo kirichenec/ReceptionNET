@@ -12,8 +12,6 @@ namespace Reception.Server.File.Entities
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
-        public string Additional { get; set; }
-
         public string Comment { get; set; }
 
         [Required]

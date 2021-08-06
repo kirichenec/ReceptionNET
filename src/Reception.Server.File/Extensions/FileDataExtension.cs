@@ -16,7 +16,6 @@ namespace Reception.Server.File.Extensions
                 null :
                 new FileDataDto
                 {
-                    Additional = value.Additional,
                     Comment = value.Comment,
                     Data = value.Data,
                     Extension = value.Extension,
@@ -34,12 +33,12 @@ namespace Reception.Server.File.Extensions
 
         public static IEnumerable<FileDataDto> ToDtos(this IEnumerable<FileData> valueList)
         {
-            return valueList?.Select(value => value.ToDto()).ToList();
+            return valueList.Select(value => value.ToDto()).ToList();
         }
 
         public async static Task<IEnumerable<FileDataDto>> ToDtosAsync(this Task<IEnumerable<FileData>> valueListTasked)
         {
-            return (await valueListTasked)?.Select(value => value.ToDto()).ToList();
+            return (await valueListTasked).Select(value => value.ToDto()).ToList();
         }
     }
 }
