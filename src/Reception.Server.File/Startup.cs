@@ -40,8 +40,6 @@ namespace Reception.Server.File
             services.AddEntityFrameworkSqlite().AddDbContext<FileContext>();
             services.AddScoped<IFileDataService, FileDataService>();
             services.AddScoped<IFileDataLogic, FileDataLogic>();
-            services.AddScoped<IFileVersionService, FileVersionService>();
-            services.AddScoped<IFileVersionLogic, FileVersionLogic>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

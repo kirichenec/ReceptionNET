@@ -9,7 +9,7 @@ namespace Reception.App.Service.Interface
         string FileServerPath { get; }
         bool IsBoss { get; }
         int PingDelay { get; }
-        IToken Token { get; }
+        IToken Token { get; set; }
         string UserServerPath { get; }
         string WelcomeMessage { get; }
         bool WithReconnect { get; }
