@@ -22,6 +22,7 @@ namespace Reception.Server.File.Entities
         [NotMapped]
         public string FullName => this.GetFullName();
 
+        [Required]
         public string Name { get; set; }
 
         public FileType Type { get; set; }

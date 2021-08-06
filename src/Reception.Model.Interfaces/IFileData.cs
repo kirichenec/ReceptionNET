@@ -28,7 +28,7 @@ namespace Reception.Model.Interface
     {
         public static string GetFullName(this IFileData value)
         {
-            return $"{value.Name}.{value.Extension}";
+            return string.Join('.', value.Name, value.Extension);
         }
     }
 }
