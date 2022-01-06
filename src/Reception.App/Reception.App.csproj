@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<OutputType>WinExe</OutputType>
-		<TargetFrameworks>netcoreapp3.1</TargetFrameworks>
+		<TargetFrameworks>net6.0</TargetFrameworks>
 		<ApplicationIcon />
 		<StartupObject />
 	</PropertyGroup>
@@ -15,12 +15,12 @@
 		<AvaloniaResource Include="Assets\*" />
 	</ItemGroup>
 	<ItemGroup>
-		<PackageReference Include="Avalonia" Version="0.10.6" />
-		<PackageReference Include="Avalonia.Desktop" Version="0.10.6" />
-		<PackageReference Include="Avalonia.ReactiveUI" Version="0.10.6" />
-		<PackageReference Include="ReactiveUI.Fody" Version="14.2.1" />
-		<PackageReference Include="RestSharp" Version="106.12.0" />
-		<PackageReference Include="System.Configuration.ConfigurationManager" Version="5.0.0" />
+		<PackageReference Include="Avalonia" Version="0.10.11" />
+		<PackageReference Include="Avalonia.Desktop" Version="0.10.11" />
+		<PackageReference Include="Avalonia.ReactiveUI" Version="0.10.11" />
+		<PackageReference Include="ReactiveUI.Fody" Version="17.1.17" />
+		<PackageReference Include="RestSharp" Version="106.15.0" />
+		<PackageReference Include="System.Configuration.ConfigurationManager" Version="6.0.0" />
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\Reception.App.Model\Reception.App.Model.csproj" />
