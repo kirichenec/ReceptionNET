@@ -4,18 +4,21 @@ namespace Reception.App.Service
 {
     public class TokenSection : ConfigurationSection
     {
-        [ConfigurationProperty("userId")]
+        private const string TokenPropertyName = "token";
+        private const string UserIdPropertyName = "userId";
+
+        [ConfigurationProperty(UserIdPropertyName)]
         public int UserId
         {
-            get => (int)base["userId"];
-            set => base["userId"] = value;
+            get => (int)base[UserIdPropertyName];
+            set => base[UserIdPropertyName] = value;
         }
 
-        [ConfigurationProperty("token")]
+        [ConfigurationProperty(TokenPropertyName)]
         public string Token
         {
-            get => (string)base["token"];
-            set => base["token"] = value;
+            get => (string)base[TokenPropertyName];
+            set => base[TokenPropertyName] = value;
         }
     }
 }

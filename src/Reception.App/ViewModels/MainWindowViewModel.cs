@@ -5,9 +5,9 @@ using Reception.App.Constants;
 using Reception.App.Extensions;
 using Reception.App.Model.Auth;
 using Reception.App.Model.PersonInfo;
-using Reception.App.Models;
 using Reception.App.Network.Exceptions;
 using Reception.App.Network.Server;
+using Reception.App.Service.Interface;
 using Splat;
 using System;
 using System.Diagnostics.CodeAnalysis;
@@ -22,6 +22,7 @@ namespace Reception.App.ViewModels
         #region Fields
 
         private readonly IPingService _pingService;
+        private readonly ISettingsService _settingsService;
 
         #endregion
 
@@ -29,6 +30,8 @@ namespace Reception.App.ViewModels
 
         public MainWindowViewModel()
         {
+            _settingsService ??= Locator.Current.GetService<ISettingsService>();
+
             ViewLocator.MainVM = this;
 
             CenterMessage = "Loading..";
@@ -43,7 +46,7 @@ namespace Reception.App.ViewModels
             _pingService ??= Locator.Current.GetService<IPingService>();
 
             _ = Observable
-                .Timer(TimeSpan.Zero, TimeSpan.FromSeconds(AppSettings.PingDelay), RxApp.MainThreadScheduler)
+                .Timer(TimeSpan.Zero, TimeSpan.FromSeconds(_settingsService.PingDelay), RxApp.MainThreadScheduler)
                 .Subscribe(async x => await TryPing());
 
             #endregion
@@ -97,9 +100,14 @@ namespace Reception.App.ViewModels
 
         #region Methods
 
+        public void ClearErrorInfo()
+        {
+            SetErrorInfo(null, ErrorType.No);
+        }
+
         public void LoadIsBossMode()
         {
-            if (AppSettings.IsBoss)
+            if (_settingsService.IsBoss)
             {
                 Router.Navigate.Execute(new BossViewModel(this));
             }
@@ -113,18 +121,23 @@ namespace Reception.App.ViewModels
         public void ShowError(Exception error, [CallerMemberName] string name = null, params object[] properties)
         {
             Logger.Sink.LogException(name, this, typeof(Exception), properties);
-            ErrorMessage = error.Message;
+
+            var errorType = ErrorType.System;
             if (error is NotFoundException<Person>)
             {
-                LastErrorType = ErrorType.Request;
-                return;
+                errorType = ErrorType.Request;
             }
-            if (error is QueryException)
+            else if (error is QueryException)
             {
-                LastErrorType = ErrorType.Server;
-                return;
+                errorType = ErrorType.Server;
             }
-            LastErrorType = ErrorType.System;
+            SetErrorInfo(error.Message, errorType);
+        }
+
+        public void SetErrorInfo(string message, ErrorType type)
+        {
+            LastErrorType = type;
+            ErrorMessage = message;
         }
 
         private void NavigateToAuth()
@@ -140,15 +153,13 @@ namespace Reception.App.ViewModels
                 ServerStatusMessage = ConnectionStatus.ONLINE.ToLower();
                 if (LastErrorType == ErrorType.Server)
                 {
-                    LastErrorType = ErrorType.No;
-                    ErrorMessage = null;
+                    ClearErrorInfo();
                 }
             }
             catch (Exception ex)
             {
                 ServerStatusMessage = ConnectionStatus.OFFLINE.ToLower();
-                LastErrorType = ErrorType.Server;
-                ErrorMessage = ex.Message;
+                SetErrorInfo(ex.Message, ErrorType.Server);
             }
         }
 

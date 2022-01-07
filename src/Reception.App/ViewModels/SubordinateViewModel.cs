@@ -11,6 +11,7 @@ using Reception.Extension.Dictionaries;
 using Splat;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
@@ -22,6 +23,7 @@ namespace Reception.App.ViewModels
     public class SubordinateViewModel : BaseViewModel
     {
         #region Fields
+
         private readonly IClientService _clientService;
 
         private readonly INetworkService<Person> _networkServiceOfPersons;
@@ -29,9 +31,11 @@ namespace Reception.App.ViewModels
         private readonly INetworkService<FileData> _networkServiceOfFileData;
 
         private readonly ObservableAsPropertyHelper<IEnumerable<Person>> _searchedPersons;
+
         #endregion
 
         #region ctor
+
         public SubordinateViewModel(IScreen screen)
         {
             UrlPathSegment = nameof(SubordinateViewModel);
@@ -78,10 +82,13 @@ namespace Reception.App.ViewModels
             var canSendPerson =
                 this.WhenAnyValue(
                     x => x.Visitor,
-                    x => x.Visitor.Comment, x => x.Visitor.FirstName, x => x.Visitor.Message,
-                    x => x.Visitor.MiddleName, x => x.Visitor.Post, x => x.Visitor.SecondName,
-                    (person, _, __, ___, ____, _____, ______) =>
-                    !person.IsNullOrEmpty());
+                    x => x.Visitor.Comment,
+                    x => x.Visitor.FirstName,
+                    x => x.Visitor.Message,
+                    x => x.Visitor.MiddleName,
+                    x => x.Visitor.Post,
+                    x => x.Visitor.SecondName,
+                    selector: (person, _, __, ___, ____, _____, ______) => !person.IsNullOrEmpty());
             SendVisitorCommand = ReactiveCommand.CreateFromTask<Visitor, bool>(SendVisitor, canSendPerson);
             #endregion
 
@@ -92,6 +99,7 @@ namespace Reception.App.ViewModels
         #endregion
 
         #region Properties
+
         public IEnumerable<Person> Persons => _searchedPersons.Value ?? Array.Empty<Person>();
 
         [Reactive]
@@ -114,9 +122,11 @@ namespace Reception.App.ViewModels
         public ReactiveCommand<Person, bool> SelectPersonCommand { get; }
 
         public ReactiveCommand<Visitor, bool> SendVisitorCommand { get; }
+
         #endregion
 
         #region Methods
+
         private async Task<bool> ClearSearchPersons(Unit _)
         {
             await SearchPersonCommand.Execute();
@@ -130,10 +140,28 @@ namespace Reception.App.ViewModels
             {
                 Visitor.CopyFrom(person);
                 // TODO: Change to normal getting after person-photo chain realization
-                Visitor.ImageSource = (await _networkServiceOfFileData.SearchAsync("test")).FirstOrDefault()?.Data;
+                var visitorPhotoName = "test";
+                byte[] visitorImage = await GetVisitorPhoto(visitorPhotoName);
+                Visitor.ImageSource = visitorImage;
                 return true;
             }
             return false;
+
+
+            async Task<byte[]> GetDefaultVisitorPhoto()
+            {
+                using var fileStream = new FileStream("Images/Person.png", FileMode.Open);
+                using var memoryStream = new MemoryStream();
+                await fileStream.CopyToAsync(memoryStream);
+                return memoryStream.ToArray();
+            }
+
+            async Task<byte[]> GetVisitorPhoto(string visitorPhotoName)
+            {
+                var visitorImageSources = await _networkServiceOfFileData.SearchAsync(visitorPhotoName);
+                var visitorImageSource = visitorImageSources.FirstOrDefault()?.Data;
+                return visitorImageSource ?? await GetDefaultVisitorPhoto();
+            }
         }
 
         private void MessageReceived(int userId, Type messageType, object message)
@@ -175,8 +203,7 @@ namespace Reception.App.ViewModels
                     case ErrorType.System:
                     case ErrorType.Request:
                     case ErrorType.Connection:
-                        mainViewModel.LastErrorType = ErrorType.No;
-                        mainViewModel.ErrorMessage = string.Empty;
+                        mainViewModel.ClearErrorInfo();
                         break;
                     default:
                         break;
@@ -223,6 +250,7 @@ namespace Reception.App.ViewModels
         {
             MainVM.ShowError(new NotImplementedException($"{nameof(VisitorReceived)} not implemented"), properties: visitor);
         }
+
         #endregion
     }
 }

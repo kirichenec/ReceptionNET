@@ -1,19 +1,14 @@
 ﻿using Reception.App.Model.Base;
 using Reception.App.Model.Extensions;
+using Reception.Extension;
 using Reception.Model.Interface;
 
 namespace Reception.App.Model.PersonInfo
 {
     public class Person : BaseModel, IPerson<Post>
     {
-        #region Fields
-        private string _firstName;
-        private string _middleName;
-        private Post _post;
-        private string _secondName;
-        #endregion
-
         #region ctors
+
         public Person() { }
 
         public Person(Person value, bool fullLoad = true)
@@ -34,67 +29,23 @@ namespace Reception.App.Model.PersonInfo
             Comment = value.Comment;
             Id = value.Id;
         }
+
         #endregion
 
         #region Properties
-        public string FirstName
-        {
-            get => _firstName;
-            set
-            {
-                if (_firstName == value)
-                {
-                    return;
-                }
-                _firstName = value;
-                NotifyPropertyChanged();
-            }
-        }
 
-        public string MiddleName
-        {
-            get => _middleName;
-            set
-            {
-                if (_middleName == value)
-                {
-                    return;
-                }
-                _middleName = value;
-                NotifyPropertyChanged();
-            }
-        }
+        public string FirstName { get; set; }
 
-        public string SecondName
-        {
-            get => _secondName;
-            set
-            {
-                if (_secondName == value)
-                {
-                    return;
-                }
-                _secondName = value;
-                NotifyPropertyChanged();
-            }
-        }
+        public string MiddleName { get; set; }
 
-        public Post Post
-        {
-            get => _post;
-            set
-            {
-                if (_post == value)
-                {
-                    return;
-                }
-                _post = value;
-                NotifyPropertyChanged();
-            }
-        }
+        public string SecondName { get; set; }
+
+        public Post Post { get; set; }
+
         #endregion
 
         #region Methods
+
         public void CopyFrom(Person value, bool fullCopy = true)
         {
             if (value == null)
@@ -130,11 +81,12 @@ namespace Reception.App.Model.PersonInfo
         {
             return
                 base.IsEmpty()
-                && string.IsNullOrWhiteSpace(FirstName)
-                && string.IsNullOrWhiteSpace(MiddleName)
+                && FirstName.IsNullOrWhiteSpace()
+                && MiddleName.IsNullOrWhiteSpace()
                 && Post.IsNullOrEmpty()
-                && string.IsNullOrWhiteSpace(SecondName);
+                && SecondName.IsNullOrWhiteSpace();
         }
+
         #endregion
     }
 }

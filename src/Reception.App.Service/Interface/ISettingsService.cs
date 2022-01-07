@@ -6,6 +6,7 @@ namespace Reception.App.Service.Interface
     {
         string ChatServerPath { get; }
         string DataServerPath { get; }
+        string DefaultVisitorPhoto { get; }
         string FileServerPath { get; }
         bool IsBoss { get; }
         int PingDelay { get; }

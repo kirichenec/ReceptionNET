@@ -32,8 +32,8 @@ namespace Reception.Server.Auth.ConnectionLibrary
 
         private async Task<bool> CheckAuth(string authServerPath, IEnumerable<(string, string)> headers)
         {
-            var client = new RestClient($"{authServerPath}/User/IsAuthValid");
-            var request = new RestRequest(Method.GET);
+            var client = new RestClient(authServerPath);
+            var request = new RestRequest("User/IsAuthValid", Method.Get);
             AddHeaders(request, headers);
             var response = await client.ExecuteAsync(request);
             return response.IsSuccessful;
