@@ -6,6 +6,7 @@ using Reception.App.Model.FileInfo;
 using Reception.App.Model.PersonInfo;
 using Reception.App.Network.Chat;
 using Reception.App.Network.Server;
+using Reception.App.ViewModels.Enums;
 using Reception.Extension.Converters;
 using Reception.Extension.Dictionaries;
 using Splat;
@@ -16,7 +17,6 @@ using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
-using ErrorType = Reception.App.ViewModels.MainWindowViewModel.ErrorType;
 
 namespace Reception.App.ViewModels
 {

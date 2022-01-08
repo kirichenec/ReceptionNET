@@ -6,13 +6,13 @@
         xmlns:vm="clr-namespace:Reception.App.ViewModels;assembly=Reception.App"
         mc:Ignorable="d"
         x:Class="Reception.App.Views.MainWindow"
-        Icon="/Assets/avalonia-logo.ico"
+        Icon="/Assets/RClogo.png"
         Title="Reception.App">
 	<Design.DataContext>
 		<vm:MainWindowViewModel/>
 	</Design.DataContext>
 
-	<Grid RowDefinitions="Auto, *, Auto">
+	<Grid RowDefinitions="Auto, *, Auto, Auto">
 
 		<!--Header-->
 		<Grid Grid.Row="0" Background="LightGray">
@@ -22,22 +22,22 @@
 		<reactiveUi:RoutedViewHost Grid.Row="1" Router="{Binding Router}">
 			<reactiveUi:RoutedViewHost.DefaultContent>
 				<TextBlock Text="{Binding CenterMessage}"
-                   HorizontalAlignment="Center"
-                   VerticalAlignment="Center" />
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"/>
 			</reactiveUi:RoutedViewHost.DefaultContent>
 		</reactiveUi:RoutedViewHost>
 
+		<Separator Grid.Row="2" Margin="0"/>
+
 		<!--Footer-->
-		<Grid Grid.Row="2" Background="LightGray">
-			<StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-				<TextBlock Text="{Binding ErrorMessage}"/>
-				<Rectangle Fill="Black" Width="1" Opacity="0.5" Margin="{DynamicResource RightBottom}"/>
-				<TextBlock Text="Server status:"/>
-				<TextBlock Text="{Binding ServerStatusMessage}"/>
-				<Rectangle Fill="Black" Width="1" Opacity="0.5" Margin="{DynamicResource RightBottom}"/>
-				<TextBlock Text="Connection status:"/>
-				<TextBlock Text="{Binding StatusMessage}"/>
-			</StackPanel>
-		</Grid>
+		<StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right">
+			<TextBlock Text="{Binding ErrorMessage}"/>
+			<Separator/>
+			<TextBlock Text="Server status:"/>
+			<TextBlock Text="{Binding ServerStatusMessage}"/>
+			<Separator/>
+			<TextBlock Text="Connection status:"/>
+			<TextBlock Text="{Binding StatusMessage}"/>
+		</StackPanel>
 	</Grid>
 </Window>

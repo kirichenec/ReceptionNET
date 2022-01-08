@@ -8,6 +8,7 @@ using Reception.App.Model.PersonInfo;
 using Reception.App.Network.Exceptions;
 using Reception.App.Network.Server;
 using Reception.App.Service.Interface;
+using Reception.App.ViewModels.Enums;
 using Splat;
 using System;
 using System.Diagnostics.CodeAnalysis;
@@ -54,19 +55,6 @@ namespace Reception.App.ViewModels
             CenterMessage = string.Empty;
 
             NavigateToAuth();
-        }
-
-        #endregion
-
-        #region Enums
-
-        public enum ErrorType
-        {
-            No,
-            Server,
-            Connection,
-            System,
-            Request
         }
 
         #endregion

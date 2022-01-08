@@ -7,7 +7,7 @@ namespace Reception.App
 {
     public class ViewLocator : IDataTemplate
     {
-        public bool SupportsRecycling => false;
+        public static bool SupportsRecycling => false;
 
         public static MainWindowViewModel MainVM { get; set; }
 

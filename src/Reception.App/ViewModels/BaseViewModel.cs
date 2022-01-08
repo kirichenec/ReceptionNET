@@ -14,7 +14,7 @@ namespace Reception.App.ViewModels
 
         public IScreen HostScreen { get; set; }
 
-        public MainWindowViewModel MainVM => ViewLocator.MainVM;
+        public static MainWindowViewModel MainVM => ViewLocator.MainVM;
 
         public string UrlPathSegment { get; set; }
 
