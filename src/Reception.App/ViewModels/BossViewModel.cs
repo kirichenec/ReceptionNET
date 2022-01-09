@@ -1,5 +1,4 @@
-﻿using ReactiveUI;
-using ReactiveUI.Fody.Helpers;
+﻿using ReactiveUI.Fody.Helpers;
 using Reception.App.Service.Interface;
 using Splat;
 
@@ -10,20 +9,21 @@ namespace Reception.App.ViewModels
         private readonly ISettingsService _settingsService;
 
         #region ctor
-        public BossViewModel(IScreen screen)
+
+        public BossViewModel(IMainViewModel mainWindowViewModel) : base(nameof(BossViewModel), mainWindowViewModel.ShowError)
         {
             _settingsService ??= Locator.Current.GetService<ISettingsService>();
 
-            UrlPathSegment = nameof(BossViewModel);
-            HostScreen = screen;
-
             WelcomeMessage = _settingsService.WelcomeMessage;
         }
+
         #endregion
 
         #region Properties
+
         [Reactive]
         public string WelcomeMessage { get; set; }
+
         #endregion
     }
 }

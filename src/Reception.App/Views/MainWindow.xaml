@@ -12,14 +12,9 @@
 		<vm:MainWindowViewModel/>
 	</Design.DataContext>
 
-	<Grid RowDefinitions="Auto, *, Auto, Auto">
-
-		<!--Header-->
-		<Grid Grid.Row="0" Background="LightGray">
-		</Grid>
-
+	<Grid RowDefinitions="*, Auto, Auto">
 		<!--Content-->
-		<reactiveUi:RoutedViewHost Grid.Row="1" Router="{Binding Router}">
+		<reactiveUi:RoutedViewHost Grid.Row="0" Router="{Binding Router}">
 			<reactiveUi:RoutedViewHost.DefaultContent>
 				<TextBlock Text="{Binding CenterMessage}"
                            HorizontalAlignment="Center"
@@ -27,15 +22,25 @@
 			</reactiveUi:RoutedViewHost.DefaultContent>
 		</reactiveUi:RoutedViewHost>
 
-		<Separator Grid.Row="2" Margin="0"/>
+		<Separator Grid.Row="1"/>
 
 		<!--Footer-->
-		<StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right">
+		<StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
 			<TextBlock Text="{Binding ErrorMessage}"/>
-			<Separator/>
+			<LayoutTransformControl Margin="{DynamicResource RightBottom}">
+				<LayoutTransformControl.LayoutTransform>
+					<RotateTransform Angle="90" />
+				</LayoutTransformControl.LayoutTransform>
+				<Separator/>
+			</LayoutTransformControl>
 			<TextBlock Text="Server status:"/>
 			<TextBlock Text="{Binding ServerStatusMessage}"/>
-			<Separator/>
+			<LayoutTransformControl Margin="{DynamicResource RightBottom}">
+				<LayoutTransformControl.LayoutTransform>
+					<RotateTransform Angle="90" />
+				</LayoutTransformControl.LayoutTransform>
+				<Separator/>
+			</LayoutTransformControl>
 			<TextBlock Text="Connection status:"/>
 			<TextBlock Text="{Binding StatusMessage}"/>
 		</StackPanel>

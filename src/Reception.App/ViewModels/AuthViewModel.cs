@@ -13,22 +13,22 @@ namespace Reception.App.ViewModels
 {
     public class AuthViewModel : BaseViewModel
     {
+        private readonly IMainViewModel _mainWindowViewModel;
         private readonly IUserService _userService;
         private readonly ISettingsService _settingsService;
 
         #region ctor
-        public AuthViewModel(IScreen parentViewModel = null)
-        {
-            UrlPathSegment = nameof(AuthViewModel);
 
-            HostScreen = parentViewModel ?? Locator.Current.GetService<IScreen>();
+        public AuthViewModel(IMainViewModel mainWindowViewModel) : base(nameof(AuthViewModel), mainWindowViewModel.ShowError)
+        {
+            _mainWindowViewModel = mainWindowViewModel;
 
             _settingsService ??= Locator.Current.GetService<ISettingsService>();
             _userService ??= Locator.Current.GetService<IUserService>();
 
             #region Init NavigateCommand
             var canNavigate = this.WhenAnyValue(x => x.AuthData, aData => aData.IsAuthInfoCorrect());
-            NavigateCommand = ReactiveCommand.Create<AuthenticateResponse>(NavigateBack, canNavigate);
+            NavigateCommand = ReactiveCommand.Create<AuthenticateResponse>(_mainWindowViewModel.NavigateBack, canNavigate);
             this.WhenAnyValue(x => x.AuthData).InvokeCommand(NavigateCommand);
             #endregion
 
@@ -38,12 +38,13 @@ namespace Reception.App.ViewModels
                     x => x.Login, x => x.Password,
                     (login, password) => !login.IsNullOrWhiteSpace() && !password.IsNullOrWhiteSpace());
             LoginCommand = ReactiveCommand.CreateFromTask(LoginExecute, canLogin);
-            LoginCommand.ThrownExceptions.Subscribe(error => MainVM.ShowError(error, nameof(LoginExecute)));
+            LoginCommand.ThrownExceptions.Subscribe(error => _mainWindowViewModel.ShowError(error, nameof(LoginExecute)));
             #endregion
 
             Initialized += AuthViewModel_Initialized;
             OnInitialized();
         }
+
         #endregion
 
         #region Properties
@@ -90,13 +91,7 @@ namespace Reception.App.ViewModels
         {
             var request = new AuthenticateRequest { Password = Password, Login = Login };
             AuthData = await _userService.Authenticate(request);
-            _settingsService.Token = new Token { UserId = AuthData.Id,  Value = AuthData.Token };
-        }
-
-        private void NavigateBack(AuthenticateResponse authData)
-        {
-            MainVM.AuthData = authData;
-            MainVM.LoadIsBossMode();
+            _settingsService.Token = new Token { UserId = AuthData.Id, Value = AuthData.Token };
         }
         #endregion
     }

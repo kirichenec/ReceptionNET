@@ -55,6 +55,8 @@ namespace Reception.App.Network.Chat
         public event Func<Exception, Task> Reconnecting;
         #endregion
 
+        public HubConnectionState State => _client.State;
+
         #region Methods
         private Action<int, QueryResult<object>> OnReceive =>
             (userId, message) =>
@@ -70,6 +72,12 @@ namespace Reception.App.Network.Chat
         {
             await _client.StartAsync();
             Connected?.Invoke(true);
+        }
+
+        public async Task StopClientAsync()
+        {
+            await _client?.StopAsync();
+            Closed?.Invoke(null);
         }
 
         #region IDisposable Support

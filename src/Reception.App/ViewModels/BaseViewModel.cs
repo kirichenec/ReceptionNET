@@ -2,21 +2,22 @@
 using Reception.Extension;
 using System;
 using System.Threading.Tasks;
+using static Reception.App.ViewModels.IMainViewModel;
 
 namespace Reception.App.ViewModels
 {
     public abstract class BaseViewModel : ReactiveObject, IRoutableViewModel
     {
-        protected BaseViewModel()
+        protected BaseViewModel(string urlPathSegment, ShowErrorAction showError)
         {
-            this.ThrownExceptions.Subscribe(error => MainVM.ShowError(error));
+            UrlPathSegment = urlPathSegment;
+
+            ThrownExceptions.Subscribe(error => showError(error));
         }
 
-        public IScreen HostScreen { get; set; }
+        public IScreen HostScreen { get; }
 
-        public static MainWindowViewModel MainVM => ViewLocator.MainVM;
-
-        public string UrlPathSegment { get; set; }
+        public string UrlPathSegment { get; }
 
         public event Func<Task<bool>> Initialized;
 

@@ -27,6 +27,10 @@
 			<Setter Property="Stroke" Value="Black"/>
 		</Style>
 
+		<Style Selector="Separator">
+			<Setter Property="Margin" Value="0"/>
+		</Style>
+
 		<Style Selector="StackPanel">
 			<Setter Property="Margin" Value="{DynamicResource LeftTop}"/>
 		</Style>

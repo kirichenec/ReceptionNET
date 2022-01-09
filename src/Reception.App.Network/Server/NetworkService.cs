@@ -36,7 +36,7 @@ namespace Reception.App.Network.Server
                 return content.Data;
             }
 
-            throw new QueryException(response.StatusDescription);
+            throw new QueryException(response.StatusDescription, response.StatusCode);
         }
 
         public async Task<IEnumerable<T>> GetByIds(IEnumerable<int> ids)
@@ -53,7 +53,7 @@ namespace Reception.App.Network.Server
                 return content.Data;
             }
 
-            throw new QueryException(response.StatusDescription);
+            throw new QueryException(response.StatusDescription, response.StatusCode);
         }
 
         public async Task<IEnumerable<T>> SearchAsync(string searchText)
@@ -69,7 +69,7 @@ namespace Reception.App.Network.Server
                 return content.Data;
             }
 
-            throw new QueryException(response.StatusDescription);
+            throw new QueryException(response.StatusDescription, response.StatusCode);
         }
 
         private (string, string)[] GetDefaultHeaders()

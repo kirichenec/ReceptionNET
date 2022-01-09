@@ -39,7 +39,7 @@ namespace Reception.App.Network.Auth
                 return AuthData;
             }
 
-            throw new QueryException(response.StatusDescription);
+            throw new QueryException(response.StatusDescription, response.StatusCode);
         }
 
         public async Task<bool> IsAuthValid()
@@ -47,14 +47,14 @@ namespace Reception.App.Network.Auth
             var response = await Core.ExecuteGetTaskAsync(
                 baseUrl: UserRootUri,
                 methodUri: $"IsAuthValid",
-                headers: new (string, string)[] { (nameof(IUserService.Token),Token.ToJsonString()) });
+                headers: new (string, string)[] { (nameof(IUserService.Token), Token.ToJsonString()) });
 
             if (response.IsSuccessful)
             {
                 return true;
             }
 
-            throw new QueryException(response.StatusDescription);
+            throw new QueryException(response.StatusDescription, response.StatusCode);
         }
 
         public void SetUserAuth(int userId, string token)

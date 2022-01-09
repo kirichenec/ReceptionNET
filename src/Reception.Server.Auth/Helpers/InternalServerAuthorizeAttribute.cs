@@ -21,12 +21,12 @@ namespace Reception.Server.Auth.Helpers
             if (context.HttpContext.Request.Headers["Token"].FirstOrDefault() is string jsonToken
                 && await tokenService.CheckAsync(jsonToken.DeserializeMessage<Token>()))
             {
-                context.Result = new JsonResult(new { message = "Authorized" }) { StatusCode = StatusCodes.Status200OK };
+                context.Result = new JsonResult(new { Message = "Authorized" }) { StatusCode = StatusCodes.Status200OK };
                 return;
             }
 
             // not logged in
-            context.Result = new JsonResult(new { message = "Unauthorized" }) { StatusCode = StatusCodes.Status401Unauthorized };
+            context.Result = new JsonResult(new { Message = "Unauthorized" }) { StatusCode = StatusCodes.Status401Unauthorized };
         }
     }
 }
