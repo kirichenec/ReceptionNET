@@ -24,9 +24,16 @@ namespace Reception.App.Network.Chat
             _settingsService ??= Locator.Current.GetService<ISettingsService>();
             _userService ??= Locator.Current.GetService<IUserService>();
 
+#if DEBUG
+            if (_settingsService?.ChatServerPath == null)
+            {
+                return;
+            }
+#endif
+
             var hubBuilder =
                 new HubConnectionBuilder()
-                .WithUrl(Locator.Current.GetService<ISettingsService>().ChatServerPath)
+                .WithUrl(_settingsService.ChatServerPath)
                 .AddNewtonsoftJsonProtocol();
 
             if (_settingsService.WithReconnect)

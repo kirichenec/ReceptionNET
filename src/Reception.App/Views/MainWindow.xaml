@@ -8,31 +8,27 @@
         x:Class="Reception.App.Views.MainWindow"
         Icon="/Assets/RClogo.png"
         Title="Reception.App">
-	<Design.DataContext>
-		<vm:MainWindowViewModel/>
-	</Design.DataContext>
-
-	<Grid RowDefinitions="*, Auto, Auto">
-		<!--Content-->
-		<reactiveUi:RoutedViewHost Grid.Row="0" Router="{Binding Router}">
-			<reactiveUi:RoutedViewHost.DefaultContent>
-				<TextBlock Text="{Binding CenterMessage}"
+    <Grid RowDefinitions="*, Auto, Auto">
+        <!--Content-->
+        <reactiveUi:RoutedViewHost Grid.Row="0" Router="{Binding Router}">
+            <reactiveUi:RoutedViewHost.DefaultContent>
+                <TextBlock Text="{Binding CenterMessage}"
                            HorizontalAlignment="Center"
                            VerticalAlignment="Center"/>
-			</reactiveUi:RoutedViewHost.DefaultContent>
-		</reactiveUi:RoutedViewHost>
+            </reactiveUi:RoutedViewHost.DefaultContent>
+        </reactiveUi:RoutedViewHost>
 
-		<Separator Grid.Row="1"/>
+        <Separator Grid.Row="1"/>
 
-		<!--Footer-->
-		<StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
-			<TextBlock Text="{Binding ErrorMessage}"/>
-			<Separator Classes="Vertical"/>
-			<TextBlock Text="Server status:"/>
-			<TextBlock Text="{Binding ServerStatusMessage}"/>
-			<Separator Classes="Vertical"/>
-			<TextBlock Text="Connection status:"/>
-			<TextBlock Text="{Binding StatusMessage}"/>
-		</StackPanel>
-	</Grid>
+        <!--Footer-->
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
+            <TextBlock Text="{Binding ErrorMessage}"/>
+            <Separator Classes="Vertical"/>
+            <TextBlock Text="Server status:"/>
+            <TextBlock Text="{Binding ServerStatusMessage}"/>
+            <Separator Classes="Vertical"/>
+            <TextBlock Text="Connection status:"/>
+            <TextBlock Text="{Binding StatusMessage}"/>
+        </StackPanel>
+    </Grid>
 </Window>
