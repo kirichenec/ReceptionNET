@@ -12,10 +12,8 @@ using Reception.App.Service.Interface;
 using Reception.App.ViewModels.Enums;
 using Splat;
 using System;
-using System.Diagnostics.CodeAnalysis;
 using System.Net;
 using System.Reactive.Linq;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using static Reception.App.ViewModels.IMainViewModel;
 
@@ -123,8 +121,7 @@ namespace Reception.App.ViewModels
             Router.Navigate.Execute(new AuthViewModel(this));
         }
 
-        [SuppressMessage("Major Bug", "S3343:Caller information parameters should come at the end of the parameter list", Justification = "<Pending>")]
-        private async Task ShowErrorInternal(Exception error, [CallerMemberName] string sourceName = null, params object[] properties)
+        private async Task ShowErrorInternal(Exception error, string sourceName, params object[] properties)
         {
             Logger.Sink.LogException(sourceName, this, typeof(Exception), properties);
 
@@ -137,8 +134,8 @@ namespace Reception.App.ViewModels
             {
                 if (queryError.StatusCode == HttpStatusCode.Unauthorized)
                 {
-                    NavigateToAuth();
                     await _clientService.StopClientAsync();
+                    NavigateToAuth();
                     return;
                 }
                 errorType = ErrorType.Server;

@@ -8,7 +8,7 @@ namespace Reception.App.Network
     internal static class Core
     {
         internal static async Task<RestResponse> ExecuteGetTaskAsync(string baseUrl, string methodUri,
-                                                                     IEnumerable<(string, string)> headers = null)
+            IEnumerable<(string, string)> headers = null)
         {
             var client = new RestClient(baseUrl);
             var request = new RestRequest(methodUri, Method.Get);
@@ -18,7 +18,7 @@ namespace Reception.App.Network
         }
 
         internal static async Task<RestResponse> ExecutePostTaskAsync<T>(string baseUrl, string methodUri, T bodyValue,
-                                                                         IEnumerable<(string, string)> headers = null)
+            IEnumerable<(string, string)> headers = null) where T : class
         {
             var client = new RestClient(baseUrl);
             var request = new RestRequest(methodUri, Method.Post);
@@ -29,7 +29,7 @@ namespace Reception.App.Network
         }
 
         internal static async Task<RestResponse> ExecutePutTaskAsync<T>(string baseUrl, string methodUri, T bodyValue,
-                                                                        IEnumerable<(string, string)> headers = null)
+            IEnumerable<(string, string)> headers = null) where T : class
         {
             var client = new RestClient(baseUrl);
             var request = new RestRequest(methodUri, Method.Put);
