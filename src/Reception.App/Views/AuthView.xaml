@@ -10,6 +10,6 @@
               VerticalAlignment="Center">
         <TextBox Text="{Binding Login, Mode=TwoWay}" Watermark="Login"/>
         <TextBox Text="{Binding Password, Mode=TwoWay}" Watermark="Password" PasswordChar="*"/>
-        <Button Content="Login" Command="{Binding LoginCommand}"/>
+        <Button Content="Login" Command="{Binding LoginCommand}" IsDefault="True"/>
     </StackPanel>
 </UserControl>
