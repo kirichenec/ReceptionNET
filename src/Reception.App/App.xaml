@@ -31,21 +31,8 @@
             <Setter Property="Margin" Value="0"/>
         </Style>
 
-        <!--ToDo: Clear style after Material.Avalonia updated with my PR-->
         <Style Selector="Separator.Vertical">
-            <Setter Property="Height" Value="NaN"/>
             <Setter Property="Margin" Value="{DynamicResource RightBottom}"/>
-            <Setter Property="MinHeight" Value="0"/>
-            <Setter Property="MinWidth" Value="1"/>
-            <Setter Property="Width" Value="1"/>
-            <Setter Property="Template">
-                <ControlTemplate>
-                    <Border Background="{TemplateBinding Background}" BorderThickness="0">
-                        <Rectangle Width="1" Fill="{TemplateBinding BorderBrush}"
-                                   HorizontalAlignment="Center" VerticalAlignment="Stretch"/>
-                    </Border>
-                </ControlTemplate>
-            </Setter>
         </Style>
 
         <Style Selector="StackPanel">
