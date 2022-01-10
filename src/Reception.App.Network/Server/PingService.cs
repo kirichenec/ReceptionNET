@@ -17,7 +17,9 @@ namespace Reception.App.Network.Server
 
         public async Task<string> PingAsync()
         {
-            var response = await Core.ExecuteGetTaskAsync($"{ServerPath}/api/Helper/Ping");
+            var response = await Core.ExecuteGetTaskAsync(
+                baseUrl: $"{ServerPath}/api",
+                methodUri: "Helper/Ping");
             return response.Content;
         }
     }

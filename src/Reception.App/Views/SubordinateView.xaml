@@ -12,9 +12,9 @@
 
     <Grid RowDefinitions="*, Auto">
         <Grid Grid.Row="0"
-          HorizontalAlignment="Stretch"
-          Margin="16"
-          RowDefinitions="Auto, *, Auto">
+              HorizontalAlignment="Stretch"
+              Margin="16"
+              RowDefinitions="Auto, *, Auto">
 
             <Grid Grid.Row="0" ColumnDefinitions="*, Auto">
                 <StackPanel Grid.Column="0" x:Name="VisitorInfoStackPanel" >
@@ -27,9 +27,9 @@
                 </StackPanel>
 
                 <Image Grid.Column="1"
-               Height="{Binding #VisitorInfoStackPanel.Bounds.Height}"
-               MinWidth="150"
-               Source="{Binding Visitor.ImageSource, Converter={StaticResource ByteArrayToImage}}">
+                       Height="{Binding #VisitorInfoStackPanel.Bounds.Height}"
+                       MinWidth="150"
+                       Source="{Binding Visitor.ImageSource, Converter={StaticResource ByteArrayToImage}}">
                 </Image>
             </Grid>
 

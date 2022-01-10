@@ -7,10 +7,6 @@ namespace Reception.App
 {
     public class ViewLocator : IDataTemplate
     {
-        public bool SupportsRecycling => false;
-
-        public static MainWindowViewModel MainVM { get; set; }
-
         public IControl Build(object param)
         {
             var name = param.GetType().FullName.Replace("ViewModel", "View");

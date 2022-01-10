@@ -1,5 +1,7 @@
 ﻿using Reception.App.Service.Interface;
+using Reception.Extension;
 using System.Configuration;
+using System.Runtime.CompilerServices;
 
 namespace Reception.App.Service
 {
@@ -7,98 +9,66 @@ namespace Reception.App.Service
     {
         public string ChatServerPath
         {
-            get
-            {
-                return ConfigurationManager.AppSettings[nameof(ChatServerPath)];
-            }
-            set
-            {
-                ConfigurationManager.AppSettings[nameof(ChatServerPath)] = value;
-            }
+            get => GetAppSettingsParam();
+            set => SetAppSettingsParam(value);
         }
 
         public string DataServerPath
         {
-            get
-            {
-                return ConfigurationManager.AppSettings[nameof(DataServerPath)];
-            }
-            set
-            {
-                ConfigurationManager.AppSettings[nameof(DataServerPath)] = value;
-            }
+            get => GetAppSettingsParam();
+            set => SetAppSettingsParam(value);
+        }
+
+        public string DefaultVisitorPhoto
+        {
+            get => GetAppSettingsParam();
+            set => SetAppSettingsParam(value);
         }
 
         public string FileServerPath
         {
-            get
-            {
-                return ConfigurationManager.AppSettings[nameof(FileServerPath)];
-            }
-            set
-            {
-                ConfigurationManager.AppSettings[nameof(FileServerPath)] = value;
-            }
+            get => GetAppSettingsParam();
+            set => SetAppSettingsParam(value);
         }
 
         public bool IsBoss
         {
-            get
-            {
-                return bool.Parse(ConfigurationManager.AppSettings[nameof(IsBoss)]);
-            }
-            set
-            {
-                ConfigurationManager.AppSettings[nameof(IsBoss)] = value.ToString();
-            }
+            get => GetAppSettingsParam().ParseBool();
+            set => SetAppSettingsParam(value);
         }
 
         public int PingDelay
         {
-            get
-            {
-                return int.Parse(ConfigurationManager.AppSettings[nameof(PingDelay)]);
-            }
-            set
-            {
-                ConfigurationManager.AppSettings[nameof(PingDelay)] = value.ToString();
-            }
+            get => GetAppSettingsParam().ParseInt();
+            set => SetAppSettingsParam(value);
         }
 
         public string UserServerPath
         {
-            get
-            {
-                return ConfigurationManager.AppSettings[nameof(UserServerPath)];
-            }
-            set
-            {
-                ConfigurationManager.AppSettings[nameof(UserServerPath)] = value;
-            }
+            get => GetAppSettingsParam();
+            set => SetAppSettingsParam(value);
         }
 
         public string WelcomeMessage
         {
-            get
-            {
-                return ConfigurationManager.AppSettings[nameof(WelcomeMessage)];
-            }
-            set
-            {
-                ConfigurationManager.AppSettings[nameof(WelcomeMessage)] = value;
-            }
+            get => GetAppSettingsParam();
+            set => SetAppSettingsParam(value);
         }
 
         public bool WithReconnect
         {
-            get
-            {
-                return bool.Parse(ConfigurationManager.AppSettings[nameof(WithReconnect)]);
-            }
-            set
-            {
-                ConfigurationManager.AppSettings[nameof(WithReconnect)] = value.ToString();
-            }
+            get => GetAppSettingsParam().ParseBool();
+            set => SetAppSettingsParam(value);
+        }
+
+        private static string GetAppSettingsParam([CallerMemberName] string parameterName = null)
+        {
+            return ConfigurationManager.AppSettings[parameterName];
+        }
+
+        private static void SetAppSettingsParam<T>(T value, [CallerMemberName] string parameterName = null)
+        {
+            ConfigurationManager.AppSettings[parameterName] = value.ToString();
         }
     }
 }

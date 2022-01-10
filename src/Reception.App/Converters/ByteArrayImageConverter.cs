@@ -1,7 +1,6 @@
 ﻿using Avalonia.Data.Converters;
+using Avalonia.Media.Imaging;
 using System;
-using System.Drawing;
-using System.Drawing.Imaging;
 using System.Globalization;
 using System.IO;
 
@@ -27,7 +26,7 @@ namespace Reception.App.Converters
             if (value is Bitmap image)
             {
                 using var stream = new MemoryStream();
-                image.Save(stream, ImageFormat.Jpeg);
+                image.Save(stream);
                 data = stream.GetBuffer();
             }
 

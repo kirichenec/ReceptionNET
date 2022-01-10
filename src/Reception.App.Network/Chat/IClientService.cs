@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.SignalR.Client;
+using System;
 using System.Threading.Tasks;
 
 namespace Reception.App.Network.Chat
@@ -11,7 +12,10 @@ namespace Reception.App.Network.Chat
         public event Func<string, Task> Reconnected;
         public event Func<Exception, Task> Reconnecting;
 
+        HubConnectionState State { get; }
+
         Task SendAsync<T>(T value);
         Task StartClientAsync();
+        Task StopClientAsync();
     }
 }

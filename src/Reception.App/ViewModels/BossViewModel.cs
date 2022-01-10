@@ -1,24 +1,29 @@
-﻿using ReactiveUI;
-using ReactiveUI.Fody.Helpers;
-using Reception.App.Models;
+﻿using ReactiveUI.Fody.Helpers;
+using Reception.App.Service.Interface;
+using Splat;
 
 namespace Reception.App.ViewModels
 {
     public class BossViewModel : BaseViewModel
     {
-        #region ctor
-        public BossViewModel(IScreen screen)
-        {
-            UrlPathSegment = nameof(BossViewModel);
-            HostScreen = screen;
+        private readonly ISettingsService _settingsService;
 
-            WelcomeMessage = AppSettings.WelcomeMessage;
+        #region ctor
+
+        public BossViewModel(IMainViewModel mainWindowViewModel) : base(nameof(BossViewModel), mainWindowViewModel.ShowError)
+        {
+            _settingsService ??= Locator.Current.GetService<ISettingsService>();
+
+            WelcomeMessage = _settingsService.WelcomeMessage;
         }
+
         #endregion
 
         #region Properties
+
         [Reactive]
         public string WelcomeMessage { get; set; }
+
         #endregion
     }
 }

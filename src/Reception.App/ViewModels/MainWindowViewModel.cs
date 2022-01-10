@@ -5,23 +5,29 @@ using Reception.App.Constants;
 using Reception.App.Extensions;
 using Reception.App.Model.Auth;
 using Reception.App.Model.PersonInfo;
-using Reception.App.Models;
+using Reception.App.Network.Chat;
 using Reception.App.Network.Exceptions;
 using Reception.App.Network.Server;
+using Reception.App.Service.Interface;
+using Reception.App.ViewModels.Enums;
 using Splat;
 using System;
 using System.Diagnostics.CodeAnalysis;
+using System.Net;
 using System.Reactive.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using static Reception.App.ViewModels.IMainViewModel;
 
 namespace Reception.App.ViewModels
 {
-    public class MainWindowViewModel : ReactiveObject, IScreen
+    public class MainWindowViewModel : ReactiveObject, IMainViewModel
     {
         #region Fields
 
+        private readonly IClientService _clientService;
         private readonly IPingService _pingService;
+        private readonly ISettingsService _settingsService;
 
         #endregion
 
@@ -29,41 +35,25 @@ namespace Reception.App.ViewModels
 
         public MainWindowViewModel()
         {
-            ViewLocator.MainVM = this;
+            _clientService ??= Locator.Current.GetService<IClientService>();
+            _pingService ??= Locator.Current.GetService<IPingService>();
+            _settingsService ??= Locator.Current.GetService<ISettingsService>();
 
             CenterMessage = "Loading..";
 
-            #region Init VM
+            ShowError = async (error, sourceName, properties) => await ShowErrorInternal(error, sourceName, properties);
 
             ServerStatusMessage = ConnectionStatus.OFFLINE.ToLower();
             StatusMessage = ConnectionStatus.OFFLINE.ToLower();
 
             Router = new RoutingState();
 
-            _pingService ??= Locator.Current.GetService<IPingService>();
-
-            _ = Observable
-                .Timer(TimeSpan.Zero, TimeSpan.FromSeconds(AppSettings.PingDelay), RxApp.MainThreadScheduler)
-                .Subscribe(async x => await TryPing());
-
-            #endregion
+            _ = Observable.Timer(TimeSpan.Zero, TimeSpan.FromSeconds(_settingsService.PingDelay), RxApp.MainThreadScheduler)
+                          .Subscribe(async x => await TryPing());
 
             CenterMessage = string.Empty;
 
             NavigateToAuth();
-        }
-
-        #endregion
-
-        #region Enums
-
-        public enum ErrorType
-        {
-            No,
-            Server,
-            Connection,
-            System,
-            Request
         }
 
         #endregion
@@ -90,6 +80,8 @@ namespace Reception.App.ViewModels
         [Reactive]
         public string ServerStatusMessage { get; set; }
 
+        public ShowErrorAction ShowError { get; }
+
         [Reactive]
         public string StatusMessage { get; set; }
 
@@ -97,9 +89,26 @@ namespace Reception.App.ViewModels
 
         #region Methods
 
-        public void LoadIsBossMode()
+        public void ClearErrorInfo()
         {
-            if (AppSettings.IsBoss)
+            SetErrorInfo(null, ErrorType.No);
+        }
+
+        public void NavigateBack(AuthenticateResponse authData)
+        {
+            AuthData = authData;
+            LoadIsBossMode();
+        }
+
+        public void SetErrorInfo(string message, ErrorType type)
+        {
+            LastErrorType = type;
+            ErrorMessage = message;
+        }
+
+        private void LoadIsBossMode()
+        {
+            if (_settingsService.IsBoss)
             {
                 Router.Navigate.Execute(new BossViewModel(this));
             }
@@ -109,27 +118,32 @@ namespace Reception.App.ViewModels
             }
         }
 
-        [SuppressMessage("Major Bug", "S3343:Caller information parameters should come at the end of the parameter list", Justification = "<Pending>")]
-        public void ShowError(Exception error, [CallerMemberName] string name = null, params object[] properties)
-        {
-            Logger.Sink.LogException(name, this, typeof(Exception), properties);
-            ErrorMessage = error.Message;
-            if (error is NotFoundException<Person>)
-            {
-                LastErrorType = ErrorType.Request;
-                return;
-            }
-            if (error is QueryException)
-            {
-                LastErrorType = ErrorType.Server;
-                return;
-            }
-            LastErrorType = ErrorType.System;
-        }
-
         private void NavigateToAuth()
         {
             Router.Navigate.Execute(new AuthViewModel(this));
+        }
+
+        [SuppressMessage("Major Bug", "S3343:Caller information parameters should come at the end of the parameter list", Justification = "<Pending>")]
+        private async Task ShowErrorInternal(Exception error, [CallerMemberName] string sourceName = null, params object[] properties)
+        {
+            Logger.Sink.LogException(sourceName, this, typeof(Exception), properties);
+
+            var errorType = ErrorType.System;
+            if (error is NotFoundException<Person>)
+            {
+                errorType = ErrorType.Request;
+            }
+            else if (error is QueryException queryError)
+            {
+                if (queryError.StatusCode == HttpStatusCode.Unauthorized)
+                {
+                    NavigateToAuth();
+                    await _clientService.StopClientAsync();
+                    return;
+                }
+                errorType = ErrorType.Server;
+            }
+            SetErrorInfo($"{sourceName}: {error.Message}", errorType);
         }
 
         private async Task TryPing()
@@ -140,15 +154,13 @@ namespace Reception.App.ViewModels
                 ServerStatusMessage = ConnectionStatus.ONLINE.ToLower();
                 if (LastErrorType == ErrorType.Server)
                 {
-                    LastErrorType = ErrorType.No;
-                    ErrorMessage = null;
+                    ClearErrorInfo();
                 }
             }
             catch (Exception ex)
             {
                 ServerStatusMessage = ConnectionStatus.OFFLINE.ToLower();
-                LastErrorType = ErrorType.Server;
-                ErrorMessage = ex.Message;
+                SetErrorInfo(ex.Message, ErrorType.Server);
             }
         }
 

@@ -28,7 +28,10 @@ namespace Reception.App.Network.Auth
 
         public async Task<AuthenticateResponse> Authenticate(AuthenticateRequest request)
         {
-            var response = await Core.ExecutePostTaskAsync($"{UserRootUri}/authenticate", request);
+            var response = await Core.ExecutePostTaskAsync(
+                baseUrl: UserRootUri,
+                methodUri: "authenticate",
+                bodyValue: request);
 
             if (response.IsSuccessful)
             {
@@ -36,19 +39,22 @@ namespace Reception.App.Network.Auth
                 return AuthData;
             }
 
-            throw new QueryException(response.StatusDescription);
+            throw new QueryException(response.StatusDescription, response.StatusCode);
         }
 
         public async Task<bool> IsAuthValid()
         {
-            var response = await Core.ExecuteGetTaskAsync($"{UserRootUri}/IsAuthValid", new (string, string)[] { (nameof(IUserService.Token), Token.ToJsonString()) });
+            var response = await Core.ExecuteGetTaskAsync(
+                baseUrl: UserRootUri,
+                methodUri: $"IsAuthValid",
+                headers: new (string, string)[] { (nameof(IUserService.Token), Token.ToJsonString()) });
 
             if (response.IsSuccessful)
             {
                 return true;
             }
 
-            throw new QueryException(response.StatusDescription);
+            throw new QueryException(response.StatusDescription, response.StatusCode);
         }
 
         public void SetUserAuth(int userId, string token)

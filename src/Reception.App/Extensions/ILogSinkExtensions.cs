@@ -1,7 +1,6 @@
 ﻿using Avalonia.Logging;
 using Reception.Extension.Converters;
 using System;
-using System.Linq;
 using System.Text;
 
 namespace Reception.App.Extensions
@@ -17,8 +16,8 @@ namespace Reception.App.Extensions
 
         private static string GetMessageTemplate(object[] areaMethodParams)
         {
-            StringBuilder messageTemplateBuilder = new StringBuilder("ExceptionType: {0}");
-            switch (areaMethodParams?.Count())
+            var messageTemplateBuilder = new StringBuilder("ExceptionType: {0}");
+            switch (areaMethodParams?.Length)
             {
                 case null:
                 case 0:

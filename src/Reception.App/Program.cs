@@ -1,5 +1,4 @@
 ﻿using Avalonia;
-using Avalonia.Controls;
 using Avalonia.ReactiveUI;
 using ReactiveUI;
 using Reception.App.Model.FileInfo;
@@ -9,8 +8,6 @@ using Reception.App.Network.Chat;
 using Reception.App.Network.Server;
 using Reception.App.Service;
 using Reception.App.Service.Interface;
-using Reception.App.ViewModels;
-using Reception.App.Views;
 using Splat;
 using System.Reflection;
 
@@ -18,17 +15,6 @@ namespace Reception.App
 {
     static class Program
     {
-        private static void AppMain(Application app, string[] args)
-        {
-            var window =
-                new MainWindow
-                {
-                    DataContext = new MainWindowViewModel()
-                };
-
-            app.Run(window);
-        }
-
         public static AppBuilder BuildAvaloniaApp()
         {
             InitLocatorObjects();
@@ -55,7 +41,7 @@ namespace Reception.App
 
         public static void Main(string[] args)
         {
-            BuildAvaloniaApp().Start(AppMain, args);
+            BuildAvaloniaApp().StartWithClassicDesktopLifetime(args);
         }
     }
 }

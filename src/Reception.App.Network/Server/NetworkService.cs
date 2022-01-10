@@ -25,7 +25,10 @@ namespace Reception.App.Network.Server
 
         public async Task<T> GetById(int id)
         {
-            var response = await Core.ExecuteGetTaskAsync($"{_serverPath}/api/{typeof(T).Name}/{id}", GetDefaultHeaders());
+            var response = await Core.ExecuteGetTaskAsync(
+                baseUrl: $"{_serverPath}/api/",
+                methodUri: $"{typeof(T).Name}/{id}",
+                headers: GetDefaultHeaders());
 
             if (response.IsSuccessful)
             {
@@ -33,12 +36,16 @@ namespace Reception.App.Network.Server
                 return content.Data;
             }
 
-            throw new QueryException(response.StatusDescription);
+            throw new QueryException(response.StatusDescription, response.StatusCode);
         }
 
         public async Task<IEnumerable<T>> GetByIds(IEnumerable<int> ids)
         {
-            var response = await Core.ExecutePostTaskAsync($"{_serverPath}/api/{typeof(T).Name}/GetByIds", ids, GetDefaultHeaders());
+            var response = await Core.ExecutePostTaskAsync(
+                baseUrl: $"{_serverPath}/api",
+                methodUri: $"{typeof(T).Name}/GetByIds",
+                bodyValue: ids,
+                headers: GetDefaultHeaders());
 
             if (response.IsSuccessful)
             {
@@ -46,12 +53,15 @@ namespace Reception.App.Network.Server
                 return content.Data;
             }
 
-            throw new QueryException(response.StatusDescription);
+            throw new QueryException(response.StatusDescription, response.StatusCode);
         }
 
         public async Task<IEnumerable<T>> SearchAsync(string searchText)
         {
-            var response = await Core.ExecuteGetTaskAsync($"{_serverPath}/api/{typeof(T).Name}?searchText={searchText}", GetDefaultHeaders());
+            var response = await Core.ExecuteGetTaskAsync(
+                baseUrl: $"{_serverPath}/api/",
+                methodUri: $"{typeof(T).Name}?searchText={searchText}",
+                headers: GetDefaultHeaders());
 
             if (response.IsSuccessful)
             {
@@ -59,7 +69,7 @@ namespace Reception.App.Network.Server
                 return content.Data;
             }
 
-            throw new QueryException(response.StatusDescription);
+            throw new QueryException(response.StatusDescription, response.StatusCode);
         }
 
         private (string, string)[] GetDefaultHeaders()

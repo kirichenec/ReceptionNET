@@ -5,8 +5,8 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Reception.App.Views.BossView">
     <Grid RowDefinitions="Auto Auto Auto"
-        HorizontalAlignment="Center"
-        VerticalAlignment="Center">
+          HorizontalAlignment="Center"
+          VerticalAlignment="Center">
 
         <TextBlock Grid.Row="0" Text="{Binding WelcomeMessage}" TextAlignment="Center" HorizontalAlignment="Center"/>
 
