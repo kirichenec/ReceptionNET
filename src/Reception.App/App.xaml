@@ -31,6 +31,24 @@
 			<Setter Property="Margin" Value="0"/>
 		</Style>
 
+		<Style Selector="Separator.Vertical">
+			<Setter Property="BorderThickness" Value="1,0,0,0"/>
+			<Setter Property="Height" Value="NaN"/>
+			<Setter Property="HorizontalAlignment" Value="Center"/>
+			<Setter Property="Margin" Value="{DynamicResource RightBottom}"/>
+			<Setter Property="VerticalAlignment" Value="Stretch"/>
+			<Setter Property="Width" Value="1"/>
+			<Setter Property="Template">
+				<ControlTemplate>
+					<Rectangle Height="{TemplateBinding Height}"
+							   Fill="{TemplateBinding Background}"
+							   HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+							   VerticalAlignment="{TemplateBinding VerticalAlignment}"
+							   Width="{TemplateBinding Width}"/>
+				</ControlTemplate>
+			</Setter>
+		</Style>
+
 		<Style Selector="StackPanel">
 			<Setter Property="Margin" Value="{DynamicResource LeftTop}"/>
 		</Style>

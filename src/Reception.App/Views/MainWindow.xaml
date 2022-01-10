@@ -27,20 +27,10 @@
 		<!--Footer-->
 		<StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
 			<TextBlock Text="{Binding ErrorMessage}"/>
-			<LayoutTransformControl Margin="{DynamicResource RightBottom}">
-				<LayoutTransformControl.LayoutTransform>
-					<RotateTransform Angle="90" />
-				</LayoutTransformControl.LayoutTransform>
-				<Separator/>
-			</LayoutTransformControl>
+			<Separator Classes="Vertical"/>
 			<TextBlock Text="Server status:"/>
 			<TextBlock Text="{Binding ServerStatusMessage}"/>
-			<LayoutTransformControl Margin="{DynamicResource RightBottom}">
-				<LayoutTransformControl.LayoutTransform>
-					<RotateTransform Angle="90" />
-				</LayoutTransformControl.LayoutTransform>
-				<Separator/>
-			</LayoutTransformControl>
+			<Separator Classes="Vertical"/>
 			<TextBlock Text="Connection status:"/>
 			<TextBlock Text="{Binding StatusMessage}"/>
 		</StackPanel>
