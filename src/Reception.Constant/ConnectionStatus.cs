@@ -1,4 +1,4 @@
-﻿namespace Reception.App.Constants
+﻿namespace Reception.Constant
 {
     public static class ConnectionStatus
     {

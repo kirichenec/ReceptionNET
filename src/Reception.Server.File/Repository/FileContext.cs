@@ -1,6 +1,7 @@
 ﻿using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Reception.Server.File.Entities;
+using Reception.Server.File.Repository.Triggers;
 
 namespace Reception.Server.File.Repository
 {
@@ -16,16 +17,18 @@ namespace Reception.Server.File.Repository
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            var connectionStringBuilder = new SqliteConnectionStringBuilder { DataSource = $"{nameof(Reception)}.{nameof(Server)}.{nameof(File)}.db" };
+            var connectionStringBuilder = new SqliteConnectionStringBuilder
+            {
+                DataSource = $"{nameof(Reception)}.{nameof(Server)}.{nameof(File)}.db"
+            };
+
             var connectionString = connectionStringBuilder.ToString();
             var connection = new SqliteConnection(connectionString);
 
             optionsBuilder
                 .UseLoggerFactory(Startup.ReceptionLoggerFactory)
                 .UseSqlite(connection)
-                .UseTriggers(triggerOptions => {
-                    triggerOptions.AddTrigger<Triggers.FileDataBeforeSaveTrigger>();
-                }); 
+                .UseTriggers(triggerOptions => triggerOptions.AddTrigger<FileDataBeforeSaveTrigger>());
 
             base.OnConfiguring(optionsBuilder);
         }

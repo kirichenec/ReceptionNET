@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29123.88
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32014.148
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reception.App", "src\Reception.App\Reception.App.csproj", "{E1312754-3AE2-4794-913F-A782A159E970}"
 EndProject
@@ -11,6 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reception.Model.Network", "
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "solutionItems", "solutionItems", "{13F90241-20A2-4BA3-AC06-BAFA300468CA}"
 	ProjectSection(SolutionItems) = preProject
+		Directory.Build.props = Directory.Build.props
 		solutionItems\Order.txt = solutionItems\Order.txt
 		solutionItems\RC.svg = solutionItems\RC.svg
 		solutionItems\RCgit.png = solutionItems\RCgit.png
@@ -40,7 +41,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{AD2A5F91-93C
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reception.App.Service", "src\Reception.App.Service\Reception.App.Service.csproj", "{91529021-D067-4385-9CF1-DF25A62D7560}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reception.Server.Auth.ConnectionLibrary", "src\Reception.Server.Auth.ConnectionLibrary\Reception.Server.Auth.ConnectionLibrary.csproj", "{178F4715-E24E-4E69-8C5D-69AF78E2CFAF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reception.Server.Auth.ConnectionLibrary", "src\Reception.Server.Auth.ConnectionLibrary\Reception.Server.Auth.ConnectionLibrary.csproj", "{178F4715-E24E-4E69-8C5D-69AF78E2CFAF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reception.Constant", "src\Reception.Constant\Reception.Constant.csproj", "{ED482E8E-4FD4-42D6-BD0D-74690E971ECC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -104,6 +107,10 @@ Global
 		{178F4715-E24E-4E69-8C5D-69AF78E2CFAF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{178F4715-E24E-4E69-8C5D-69AF78E2CFAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{178F4715-E24E-4E69-8C5D-69AF78E2CFAF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ED482E8E-4FD4-42D6-BD0D-74690E971ECC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED482E8E-4FD4-42D6-BD0D-74690E971ECC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED482E8E-4FD4-42D6-BD0D-74690E971ECC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED482E8E-4FD4-42D6-BD0D-74690E971ECC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -123,6 +130,7 @@ Global
 		{5DDD5B34-5808-4EB1-A491-5DFCC7C239A5} = {AD2A5F91-93CF-42D8-A331-6CA299E9097E}
 		{91529021-D067-4385-9CF1-DF25A62D7560} = {AD2A5F91-93CF-42D8-A331-6CA299E9097E}
 		{178F4715-E24E-4E69-8C5D-69AF78E2CFAF} = {AD2A5F91-93CF-42D8-A331-6CA299E9097E}
+		{ED482E8E-4FD4-42D6-BD0D-74690E971ECC} = {AD2A5F91-93CF-42D8-A331-6CA299E9097E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D9C0D531-28FB-4D40-AFD0-658855890982}
