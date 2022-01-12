@@ -1,6 +1,6 @@
 ﻿using ReactiveUI;
+using Reception.App.Enums;
 using Reception.App.Model.Auth;
-using Reception.App.ViewModels.Enums;
 using System;
 using System.Runtime.CompilerServices;
 

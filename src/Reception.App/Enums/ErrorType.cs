@@ -1,4 +1,4 @@
-﻿namespace Reception.App.ViewModels.Enums
+﻿namespace Reception.App.Enums
 {
     public enum ErrorType
     {

@@ -24,10 +24,11 @@
 		<PackageReference Include="Avalonia.ReactiveUI" Version="0.10.11" />
 		<PackageReference Include="Material.Avalonia" Version="2.5.0.51-nightly" />
 		<PackageReference Include="ReactiveUI.Fody" Version="17.1.17" />
-		<PackageReference Include="RestSharp" Version="107.0.2" />
+		<PackageReference Include="RestSharp" Version="107.0.3" />
 		<PackageReference Include="System.Configuration.ConfigurationManager" Version="6.0.0" />
 	</ItemGroup>
 	<ItemGroup>
+		<ProjectReference Include="..\Reception.Constant\Reception.Constant.csproj" />
 		<ProjectReference Include="..\Reception.App.Model\Reception.App.Model.csproj" />
 		<ProjectReference Include="..\Reception.App.Network\Reception.App.Network.csproj" />
 		<ProjectReference Include="..\Reception.App.Service\Reception.App.Service.csproj" />

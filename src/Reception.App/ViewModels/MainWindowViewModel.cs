@@ -1,7 +1,7 @@
 ﻿using Avalonia.Logging;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
-using Reception.App.Constants;
+using Reception.App.Enums;
 using Reception.App.Extensions;
 using Reception.App.Model.Auth;
 using Reception.App.Model.PersonInfo;
@@ -9,7 +9,7 @@ using Reception.App.Network.Chat;
 using Reception.App.Network.Exceptions;
 using Reception.App.Network.Server;
 using Reception.App.Service.Interface;
-using Reception.App.ViewModels.Enums;
+using Reception.Constant;
 using Splat;
 using System;
 using System.Net;
