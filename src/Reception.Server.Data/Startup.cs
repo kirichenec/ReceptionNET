@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Reception.Server.Core;
 using Reception.Server.Data.Logic;
@@ -8,7 +6,7 @@ using Reception.Server.Data.Repository;
 
 namespace Reception.Server.Data
 {
-    public class Startup : StartupCore
+    public class Startup : AuthedStartup
     {
         public Startup(IConfiguration configuration) : base(configuration) { }
 
@@ -21,7 +19,5 @@ namespace Reception.Server.Data
             services.AddScoped<IDataService, DataService>();
             services.AddScoped<IPersonLogic, PersonLogic>();
         }
-
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env) => CoreConfigure(app, env);
     }
 }

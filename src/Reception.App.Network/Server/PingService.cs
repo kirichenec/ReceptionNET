@@ -19,7 +19,7 @@ namespace Reception.App.Network.Server
         {
             var response = await Core.ExecuteGetTaskAsync(
                 baseUrl: $"{ServerPath}/api",
-                methodUri: "Helper/Ping");
+                methodUri: "Ping");
             return response.Content;
         }
     }

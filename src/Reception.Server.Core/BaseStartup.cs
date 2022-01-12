@@ -5,20 +5,20 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using Reception.Server.Auth.ConnectionLibrary;
-using Reception.Server.Core.Extensions;
 
 namespace Reception.Server.Core
 {
-    public class StartupCore
+    public class BaseStartup
     {
+        public const string DEFAULT_OPEN_API_VERSION = "v1";
+        public const string DEFAULT_SWAGGER_URL = "/swagger/v1/swagger.json";
 
-        static StartupCore()
+        static BaseStartup()
         {
             ReceptionLoggerFactory = LoggerFactory.Create(builder => { builder.AddConsole(); });
         }
 
-        public StartupCore(IConfiguration configuration)
+        public BaseStartup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
@@ -27,7 +27,8 @@ namespace Reception.Server.Core
 
         public IConfiguration Configuration { get; }
 
-        public void ConfigureCoreServices(IServiceCollection services, string openApiTitle, string openApiVersion = "v1")
+        public virtual void ConfigureCoreServices(IServiceCollection services, string openApiTitle,
+            string openApiVersion = DEFAULT_OPEN_API_VERSION)
         {
             services.AddMvc().AddNewtonsoftJson();
 
@@ -35,33 +36,25 @@ namespace Reception.Server.Core
             {
                 c.SwaggerDoc(openApiVersion, new OpenApiInfo { Title = openApiTitle, Version = openApiVersion });
             });
-
-            // configure strongly typed settings object
-            services.ConfigureOptions<AuthSettings>(Configuration);
         }
 
-        public static void CoreConfigure(IApplicationBuilder app, IWebHostEnvironment env)
+        public virtual void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "WebApplication1 v1"));
             }
             else
             {
                 app.UseHsts();
             }
 
+            app.UseSwagger();
+            app.UseSwaggerUI(c => c.SwaggerEndpoint(DEFAULT_SWAGGER_URL, env.ApplicationName));
+
             app.UseHttpsRedirection();
 
             app.UseRouting();
-
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapDefaultControllerRoute();
-            });
         }
     }
 }

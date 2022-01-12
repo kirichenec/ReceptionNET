@@ -1,5 +1,3 @@
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Reception.Server.Core;
@@ -10,7 +8,7 @@ using Reception.Server.File.Repository;
 
 namespace Reception.Server.File
 {
-    public class Startup : StartupCore
+    public class Startup : AuthedStartup
     {
         public Startup(IConfiguration configuration) : base(configuration) { }
 
@@ -25,7 +23,5 @@ namespace Reception.Server.File
             services.AddScoped<IFileDataService, FileDataService>();
             services.AddScoped<IFileDataLogic, FileDataLogic>();
         }
-
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env) => CoreConfigure(app, env);
     }
 }
