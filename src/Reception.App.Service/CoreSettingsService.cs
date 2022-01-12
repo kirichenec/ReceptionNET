@@ -19,7 +19,7 @@ namespace Reception.App.Service
             set => SetAppSettingsParam(value);
         }
 
-        public string DefaultVisitorPhoto
+        public string DefaultVisitorPhotoPath
         {
             get => GetAppSettingsParam();
             set => SetAppSettingsParam(value);

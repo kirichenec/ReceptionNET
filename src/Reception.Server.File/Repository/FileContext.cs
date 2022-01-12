@@ -1,14 +1,24 @@
 ﻿using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+using Reception.Extension.Converters;
 using Reception.Server.File.Entities;
+using Reception.Server.File.Model;
 using Reception.Server.File.Repository.Triggers;
+using System;
+using System.Threading.Tasks;
+using static Reception.Model.Interface.IFileData;
 
 namespace Reception.Server.File.Repository
 {
     public class FileContext : DbContext
     {
-        public FileContext()
+        private readonly AppSettings _appSettings;
+
+        public FileContext(IOptions<AppSettings> appSettings)
         {
+            _appSettings = appSettings.Value;
+
             Database.EnsureCreated();
             Database.Migrate();
         }
@@ -32,5 +42,29 @@ namespace Reception.Server.File.Repository
 
             base.OnConfiguring(optionsBuilder);
         }
+
+#if DEBUG
+        protected override async void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<FileData>().HasData(new FileData
+            {
+                Id = 1,
+                Data = await GetDefaultPhotoData(),
+                Comment = "Default admin photo",
+                Extension = "png",
+                Name = "admin",
+                Type = FileType.Photo,
+                Version = Guid.NewGuid()
+            });
+
+
+            async Task<byte[]> GetDefaultPhotoData()
+            {
+                return await _appSettings.DefaultVisitorPhotoPath.GetFileBytesByPathAsync();
+            }
+        }
+#endif
     }
 }

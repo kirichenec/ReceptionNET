@@ -1,42 +1,46 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-	<PropertyGroup>
-		<OutputType>WinExe</OutputType>
-		<TargetFrameworks>net6.0</TargetFrameworks>
-		<ApplicationIcon />
-		<StartupObject />
-	</PropertyGroup>
-	<ItemGroup>
-		<Compile Update="**\*.xaml.cs">
-			<DependentUpon>%(Filename)</DependentUpon>
-		</Compile>
-		<AvaloniaResource Include="**\*.xaml">
-			<SubType>Designer</SubType>
-		</AvaloniaResource>
-		<AvaloniaResource Include="Assets\*" />
-	</ItemGroup>
-	<ItemGroup>
-	  <None Remove="Assets\RClogo.png" />
-	</ItemGroup>
-	<ItemGroup>
-		<PackageReference Include="Avalonia" Version="0.10.11" />
-		<PackageReference Include="Avalonia.Desktop" Version="0.10.11" />
-		<PackageReference Include="Avalonia.Diagnostics" Version="0.10.11" />
-		<PackageReference Include="Avalonia.ReactiveUI" Version="0.10.11" />
-		<PackageReference Include="Material.Avalonia" Version="2.5.0.51-nightly" />
-		<PackageReference Include="ReactiveUI.Fody" Version="17.1.17" />
-		<PackageReference Include="RestSharp" Version="107.0.3" />
-		<PackageReference Include="System.Configuration.ConfigurationManager" Version="6.0.0" />
-	</ItemGroup>
-	<ItemGroup>
-		<ProjectReference Include="..\Reception.Constant\Reception.Constant.csproj" />
-		<ProjectReference Include="..\Reception.App.Model\Reception.App.Model.csproj" />
-		<ProjectReference Include="..\Reception.App.Network\Reception.App.Network.csproj" />
-		<ProjectReference Include="..\Reception.App.Service\Reception.App.Service.csproj" />
-		<ProjectReference Include="..\Reception.Model.Network\Reception.Model.Network.csproj" />
-	</ItemGroup>
-	<ItemGroup>
-		<None Update="Images\Person.png">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-	</ItemGroup>
+    <PropertyGroup>
+        <OutputType>WinExe</OutputType>
+        <TargetFrameworks>net6.0</TargetFrameworks>
+        <ApplicationIcon />
+        <StartupObject />
+        <CodeAnalysisRuleSet>..\..\.sonarlint\kirichenec_receptionnetcsharp.ruleset</CodeAnalysisRuleSet>
+    </PropertyGroup>
+    <ItemGroup>
+        <Compile Update="**\*.xaml.cs">
+            <DependentUpon>%(Filename)</DependentUpon>
+        </Compile>
+        <AvaloniaResource Include="**\*.xaml">
+            <SubType>Designer</SubType>
+        </AvaloniaResource>
+        <AvaloniaResource Include="Assets\*" />
+    </ItemGroup>
+    <ItemGroup>
+        <None Remove="Assets\RClogo.png" />
+    </ItemGroup>
+    <ItemGroup>
+      <AdditionalFiles Include="..\..\.sonarlint\kirichenec_receptionnet\CSharp\SonarLint.xml" Link="SonarLint.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="Avalonia" Version="0.10.11" />
+        <PackageReference Include="Avalonia.Desktop" Version="0.10.11" />
+        <PackageReference Include="Avalonia.Diagnostics" Version="0.10.11" />
+        <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.11" />
+        <PackageReference Include="Material.Avalonia" Version="2.5.0.51-nightly" />
+        <PackageReference Include="ReactiveUI.Fody" Version="17.1.17" />
+        <PackageReference Include="RestSharp" Version="107.0.3" />
+        <PackageReference Include="System.Configuration.ConfigurationManager" Version="6.0.0" />
+    </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\Reception.Constant\Reception.Constant.csproj" />
+        <ProjectReference Include="..\Reception.App.Model\Reception.App.Model.csproj" />
+        <ProjectReference Include="..\Reception.App.Network\Reception.App.Network.csproj" />
+        <ProjectReference Include="..\Reception.App.Service\Reception.App.Service.csproj" />
+        <ProjectReference Include="..\Reception.Model.Network\Reception.Model.Network.csproj" />
+    </ItemGroup>
+    <ItemGroup>
+        <None Update="Images\Person.png">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+    </ItemGroup>
 </Project>

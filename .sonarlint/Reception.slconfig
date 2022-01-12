@@ -1,0 +1,15 @@
+{
+  "ServerUri": "https://sonarcloud.io/",
+  "Organization": {
+    "Key": "kirichenec-github",
+    "Name": "Igor Kirichenko"
+  },
+  "ProjectKey": "kirichenec_ReceptionNET",
+  "ProjectName": "ReceptionNET",
+  "Profiles": {
+    "CSharp": {
+      "ProfileKey": "AWsO3FNTrzkERloApuT7",
+      "ProfileTimestamp": "2021-11-22T10:44:23Z"
+    }
+  }
+}
