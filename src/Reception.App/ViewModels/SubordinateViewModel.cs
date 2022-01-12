@@ -8,12 +8,12 @@ using Reception.App.Model.FileInfo;
 using Reception.App.Model.PersonInfo;
 using Reception.App.Network.Chat;
 using Reception.App.Network.Server;
+using Reception.App.Service.Interface;
 using Reception.Extension.Converters;
 using Reception.Extension.Dictionaries;
 using Splat;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
@@ -35,6 +35,8 @@ namespace Reception.App.ViewModels
 
         private readonly ObservableAsPropertyHelper<IEnumerable<Person>> _searchedPersons;
 
+        private readonly ISettingsService _settingsService;
+
         #endregion
 
         #region ctor
@@ -47,6 +49,7 @@ namespace Reception.App.ViewModels
 
             _networkServiceOfPersons ??= Locator.Current.GetService<INetworkService<Person>>();
             _networkServiceOfFileData ??= Locator.Current.GetService<INetworkService<FileData>>();
+            _settingsService ??= Locator.Current.GetService<ISettingsService>();
 
             #region Init Chat service
             _clientService ??= Locator.Current.GetService<IClientService>();
@@ -144,7 +147,7 @@ namespace Reception.App.ViewModels
             {
                 Visitor.CopyFrom(person);
                 // TODO: Change to normal getting after person-photo chain realization
-                var visitorPhotoName = "test";
+                var visitorPhotoName = "admin";
                 byte[] visitorImage = await GetVisitorPhoto(visitorPhotoName);
                 Visitor.ImageSource = visitorImage;
                 return true;
@@ -154,10 +157,7 @@ namespace Reception.App.ViewModels
 
             async Task<byte[]> GetDefaultVisitorPhoto()
             {
-                using var fileStream = new FileStream("Images/Person.png", FileMode.Open);
-                using var memoryStream = new MemoryStream();
-                await fileStream.CopyToAsync(memoryStream);
-                return memoryStream.ToArray();
+                return await _settingsService.DefaultVisitorPhotoPath.GetFileBytesByPathAsync();
             }
 
             async Task<byte[]> GetVisitorPhoto(string visitorPhotoName)

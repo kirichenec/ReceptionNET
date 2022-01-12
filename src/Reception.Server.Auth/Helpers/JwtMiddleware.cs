@@ -5,6 +5,7 @@ using Reception.Extension;
 using Reception.Extension.Converters;
 using Reception.Model.Network;
 using Reception.Server.Auth.Logic;
+using Reception.Server.Auth.Model;
 using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;

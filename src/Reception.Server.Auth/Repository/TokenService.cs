@@ -5,7 +5,7 @@ using Microsoft.IdentityModel.Tokens;
 using Reception.Extension;
 using Reception.Model.Interface;
 using Reception.Server.Auth.Entities;
-using Reception.Server.Auth.Helpers;
+using Reception.Server.Auth.Model;
 using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;

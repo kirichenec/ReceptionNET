@@ -8,8 +8,10 @@ using Microsoft.OpenApi.Models;
 using Reception.Model.Interface;
 using Reception.Server.Auth.Helpers;
 using Reception.Server.Auth.Logic;
+using Reception.Server.Auth.Model;
 using Reception.Server.Auth.PasswordHelper;
 using Reception.Server.Auth.Repository;
+using Reception.Server.Core.Extensions;
 
 namespace Reception.Server.Auth
 {
@@ -38,8 +40,8 @@ namespace Reception.Server.Auth
             });
 
             // configure strongly typed settings object
-            services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
-            services.Configure<HashingOptions>(Configuration.GetSection("HashingOptions"));
+            services.ConfigureOptions<AppSettings>(Configuration);
+            services.ConfigureOptions<HashingOptions>(Configuration);
 
             // configure DI for application services
             services.AddEntityFrameworkSqlite().AddDbContext<UserContext>();
