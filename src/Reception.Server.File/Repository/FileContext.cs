@@ -43,7 +43,6 @@ namespace Reception.Server.File.Repository
             base.OnConfiguring(optionsBuilder);
         }
 
-#if DEBUG
         protected override async void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -65,6 +64,5 @@ namespace Reception.Server.File.Repository
                 return await _appSettings.DefaultVisitorPhotoPath.GetFileBytesByPathAsync();
             }
         }
-#endif
     }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Reception.Model.Interface;
 using Reception.Model.Network;
 using Reception.Server.Auth.ConnectionLibrary;
@@ -9,9 +10,11 @@ using System.Threading.Tasks;
 
 namespace Reception.Server.File.Controllers
 {
-    [Authorize]
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/[controller]")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [Authorize]
     public class FileDataController : ControllerBase, IBaseController
     {
         private readonly IFileDataLogic _fileDataLogic;
@@ -23,8 +26,6 @@ namespace Reception.Server.File.Controllers
 
         // GET api/FileData/5
         [HttpGet("{id}")]
-        [ProducesResponseType(200)]
-        [ProducesResponseType(500)]
         public async Task<IActionResult> Get(int id)
         {
             var fileData = await _fileDataLogic.GetAsync(id);
@@ -34,8 +35,6 @@ namespace Reception.Server.File.Controllers
 
         // POST api/FileData
         [HttpPost]
-        [ProducesResponseType(200)]
-        [ProducesResponseType(500)]
         public async Task<IActionResult> UploadAsync(string fileName, byte[] value)
         {
             var savedFileInfo = await _fileDataLogic.SaveAsync(fileName, value);
@@ -45,8 +44,6 @@ namespace Reception.Server.File.Controllers
 
         // DELETE api/FileData/5
         [HttpDelete("{id}")]
-        [ProducesResponseType(200)]
-        [ProducesResponseType(500)]
         public async Task<IActionResult> DeleteAsync(int id)
         {
             var isDeleteSuccess = await _fileDataLogic.DeleteAsync(id);
@@ -56,8 +53,6 @@ namespace Reception.Server.File.Controllers
 
         // GET api/FileData?searchText=5
         [HttpGet]
-        [ProducesResponseType(200)]
-        [ProducesResponseType(500)]
         public async Task<IActionResult> Search([FromQuery] string searchText)
         {
             var searchResult = await _fileDataLogic.SearchAsync(searchText);

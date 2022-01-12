@@ -2,48 +2,34 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Reception.App.Network.Chat;
 using Reception.Model.Network;
+using Reception.Server.Core;
 
 namespace Reception.Server.Chat
 {
-    public class Startup
+    public class Startup : BaseStartup
     {
-        public Startup(IConfiguration configuration)
-        {
-            Configuration = configuration;
-        }
-
-        public IConfiguration Configuration { get; }
+        public Startup(IConfiguration configuration) : base(configuration) { }
 
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
             services.AddSignalR().AddNewtonsoftJsonProtocol();
+
+            ConfigureCoreServices(services, "Reception chat server");
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public override void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-            else
-            {
-                app.UseExceptionHandler("/Error");
-                app.UseHsts();
-            }
-
-            app.UseHttpsRedirection();
-
-            app.UseRouting();
+            base.Configure(app, env);
 
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapHub<ChatHub<QueryResult<object>>>("/ChatHub");
+                endpoints.MapDefaultControllerRoute();
             });
         }
     }

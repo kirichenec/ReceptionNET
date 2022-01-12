@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Reception.Model.Dto;
 using Reception.Model.Interface;
 using Reception.Model.Network;
@@ -10,9 +11,11 @@ using System.Threading.Tasks;
 
 namespace Reception.Server.Data.Controllers
 {
-    [Authorize]
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/[controller]")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [Authorize]
     public class PersonController : ControllerBase, IBaseController
     {
         private readonly IPersonLogic _personLogic;
@@ -24,8 +27,6 @@ namespace Reception.Server.Data.Controllers
 
         // GET api/Person/5
         [HttpGet("{id}")]
-        [ProducesResponseType(200)]
-        [ProducesResponseType(500)]
         public async Task<IActionResult> Get(int id)
         {
             var person = await _personLogic.GetAsync(id);
@@ -35,8 +36,6 @@ namespace Reception.Server.Data.Controllers
 
         // POST api/Person/GetByIds
         [HttpPost("[action]")]
-        [ProducesResponseType(200)]
-        [ProducesResponseType(500)]
         public async Task<IActionResult> GetByIds([FromBody] int[] ids)
         {
             var persons = await _personLogic.GetByIdsAsync(ids);
@@ -46,8 +45,6 @@ namespace Reception.Server.Data.Controllers
 
         // GET api/Person?searchText=5
         [HttpGet]
-        [ProducesResponseType(200)]
-        [ProducesResponseType(500)]
         public async Task<IActionResult> Search([FromQuery] string searchText)
         {
             var persons = await _personLogic.SearchAsync(searchText);

@@ -1,15 +1,16 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
 
-namespace Reception.Server.Data.Controllers
+namespace Reception.Server.Core.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
     [AllowAnonymous]
-    public class HelperController : Controller
+    public class PingController : Controller
     {
-        // GET api/Helper/Ping
+        // GET api/Ping
         [HttpGet("Ping")]
         public async Task<IActionResult> Ping()
         {
