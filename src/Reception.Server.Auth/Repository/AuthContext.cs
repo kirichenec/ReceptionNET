@@ -6,11 +6,11 @@ using Reception.Server.Auth.PasswordHelper;
 
 namespace Reception.Server.Auth.Repository
 {
-    public class UserContext : DbContext
+    public class AuthContext : DbContext
     {
         private readonly IPasswordHasher _passwordHasher;
 
-        public UserContext(IOptions<HashingOptions> hashingOptions)
+        public AuthContext(IOptions<HashingOptions> hashingOptions)
         {
             _passwordHasher = new PasswordHasher(hashingOptions.Value);
 

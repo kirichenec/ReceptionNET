@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.Extensions.DependencyInjection;
-using Reception.App.Network.Auth;
 using Reception.App.Network.Chat.Constants;
 using Reception.App.Service.Interface;
 using Reception.Model.Network;
@@ -15,14 +14,12 @@ namespace Reception.App.Network.Chat
         #region Fields
         private readonly HubConnection _client;
         private readonly ISettingsService _settingsService;
-        private readonly IUserService _userService;
         #endregion
 
         #region ctor
         public ClientService()
         {
             _settingsService ??= Locator.Current.GetService<ISettingsService>();
-            _userService ??= Locator.Current.GetService<IUserService>();
 
 #if DEBUG
             if (_settingsService?.ChatServerPath == null)
@@ -72,7 +69,7 @@ namespace Reception.App.Network.Chat
         public async Task SendAsync<T>(T value)
         {
             var query = new QueryResult<T>(value);
-            await _client.SendAsync(ChatMethodNames.SEND_MESSAGE_BROADCAST, _userService.AuthData.Id, query);
+            await _client.SendAsync(ChatMethodNames.SEND_MESSAGE_BROADCAST, _settingsService.Token.UserId, query);
         }
 
         public async Task StartClientAsync()

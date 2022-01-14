@@ -1,9 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using Reception.Constant;
 using Reception.Extension;
-using Reception.Extension.Converters;
-using Reception.Model.Network;
 using Reception.Server.Auth.Logic;
 using Reception.Server.Auth.Model;
 using System;
@@ -27,9 +26,7 @@ namespace Reception.Server.Auth.Helpers
 
         public async Task Invoke(HttpContext context, IUserLogic userService)
         {
-            var token = context.Request.Headers["Token"].FirstOrDefault()?.DeserializeMessage<Token>().Value;
-
-            if (token != null)
+            if (context.Request.Headers[HttpHeaders.TOKEN].FirstOrDefault() is string token)
             {
                 await AttachUserToContext(context, userService, token);
             }
@@ -54,7 +51,7 @@ namespace Reception.Server.Auth.Helpers
                 }, out SecurityToken validatedToken);
 
                 var jwtToken = (JwtSecurityToken)validatedToken;
-                var userId = jwtToken.Claims.First(x => x.Type == "id").Value.ParseInt();
+                var userId = jwtToken.Claims.First(x => x.Type == Constants.ClaimTypes.USER_ID).Value.ParseInt();
 
                 // attach user to context on successful jwt validation
                 context.Items["User"] = await userService.GetAsync(userId);

@@ -2,7 +2,6 @@
 using ReactiveUI.Fody.Helpers;
 using Reception.App.Model.Auth;
 using Reception.App.Network.Auth;
-using Reception.App.Service.Interface;
 using Reception.Extension;
 using Splat;
 using System;
@@ -13,9 +12,8 @@ namespace Reception.App.ViewModels
 {
     public class AuthViewModel : BaseViewModel
     {
+        private readonly IAuthService _authService;
         private readonly IMainViewModel _mainWindowViewModel;
-        private readonly IUserService _userService;
-        private readonly ISettingsService _settingsService;
 
         #region ctor
 
@@ -23,8 +21,7 @@ namespace Reception.App.ViewModels
         {
             _mainWindowViewModel = mainWindowViewModel;
 
-            _settingsService ??= Locator.Current.GetService<ISettingsService>();
-            _userService ??= Locator.Current.GetService<IUserService>();
+            _authService ??= Locator.Current.GetService<IAuthService>();
 
             #region Init NavigateCommand
             var canNavigate = this.WhenAnyValue(x => x.AuthData, aData => aData.IsAuthInfoCorrect());
@@ -67,31 +64,17 @@ namespace Reception.App.ViewModels
         #region Methods
         private async Task<bool> AuthViewModel_Initialized()
         {
-            LoadAuthData();
-            if (await _userService.IsAuthValid())
+            if (await _authService.IsAuthValid())
             {
-                AuthData = _userService.AuthData;
+                AuthData = _authService.AuthData;
                 return true;
             }
             return false;
         }
 
-        private void LoadAuthData()
-        {
-            var authInfo = new AuthenticateResponse
-            {
-                Id = _settingsService.Token.UserId,
-                Token = _settingsService.Token.Value
-            };
-
-            _userService.SetUserAuth(authInfo.Id, authInfo.Token);
-        }
-
         private async Task LoginExecute()
         {
-            var request = new AuthenticateRequest { Password = Password, Login = Login };
-            AuthData = await _userService.Authenticate(request);
-            _settingsService.Token = new Token { UserId = AuthData.Id, Value = AuthData.Token };
+            AuthData = await _authService.Authenticate(Login, Password);
         }
         #endregion
     }

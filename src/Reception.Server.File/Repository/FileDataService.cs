@@ -21,6 +21,7 @@ namespace Reception.Server.File.Repository
             if (await GetAsync(id) is FileData dataToDelete)
             {
                 _context.FileDatas.Remove(dataToDelete);
+                _ = await _context.SaveChangesAsync();
                 return true;
             }
             return false;
@@ -39,7 +40,7 @@ namespace Reception.Server.File.Repository
         public async Task<FileData> SaveAsync(FileData value)
         {
             var trackedData = await _context.AddAsync(value);
-            await _context.SaveChangesAsync();
+            _ = await _context.SaveChangesAsync();
             return await GetAsync(trackedData.Entity.Id);
         }
 
@@ -50,8 +51,7 @@ namespace Reception.Server.File.Repository
 
         public async Task<IEnumerable<FileData>> SearchPagedAsync(string searchText, int count, int page)
         {
-            return await
-                SearchFileDataQuery(searchText)
+            return await SearchFileDataQuery(searchText)
                 .Paged(page, count)
                 .ToListAsync();
         }
@@ -59,10 +59,8 @@ namespace Reception.Server.File.Repository
         private IQueryable<FileData> SearchFileDataQuery(string searchText)
         {
             var likeSearchText = searchText.AsLike();
-            return
-                _context.FileDatas
-                .Where(
-                    fd =>
+            return _context.FileDatas
+                .Where(fd =>
                     EF.Functions.Like(fd.Comment, likeSearchText)
                     || EF.Functions.Like(fd.Name + "." + fd.Extension, likeSearchText));
         }

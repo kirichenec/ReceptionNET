@@ -30,7 +30,7 @@ namespace Reception.App
         private static void InitLocatorObjects()
         {
             Locator.CurrentMutable.RegisterConstant(new SettingsService(), typeof(ISettingsService));
-            Locator.CurrentMutable.RegisterConstant(new UserService(), typeof(IUserService));
+            Locator.CurrentMutable.RegisterConstant(new AuthService(), typeof(IAuthService));
             Locator.CurrentMutable.RegisterConstant(new PersonNetworkService(), typeof(INetworkService<Person>));
             Locator.CurrentMutable.RegisterConstant(new FileDataNetworkService(), typeof(INetworkService<FileData>));
             Locator.CurrentMutable.RegisterConstant(new PingService(), typeof(IPingService));

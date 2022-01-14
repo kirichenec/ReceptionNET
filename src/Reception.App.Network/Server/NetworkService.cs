@@ -1,8 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Reception.App.Network.Auth;
 using Reception.App.Network.Exceptions;
-using Reception.Extension.Converters;
-using Reception.Model.Interface;
 using Reception.Model.Network;
 using Splat;
 using System.Collections.Generic;
@@ -12,16 +10,14 @@ namespace Reception.App.Network.Server
 {
     public class NetworkService<T> : INetworkService<T>
     {
-        private readonly IUserService _userService;
+        private readonly IAuthService _authService;
         private readonly string _serverPath;
 
         public NetworkService(string serverPath)
         {
-            _userService = Locator.Current.GetService<IUserService>();
             _serverPath = serverPath;
+            _authService = Locator.Current.GetService<IAuthService>();
         }
-
-        public IToken Token => new Token { UserId = _userService.AuthData.Id, Value = _userService.AuthData.Token };
 
         public async Task<T> GetById(int id)
         {
@@ -72,9 +68,6 @@ namespace Reception.App.Network.Server
             throw new QueryException(response.StatusDescription, response.StatusCode);
         }
 
-        private (string, string)[] GetDefaultHeaders()
-        {
-            return new[] { ("Token", Token.ToJsonString()) };
-        }
+        private (string, string)[] GetDefaultHeaders() => _authService.GetDefaultHeaders();
     }
 }

@@ -16,6 +16,7 @@
     </ItemGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\Reception.Constant\Reception.Constant.csproj" />
         <ProjectReference Include="..\Reception.Extensions\Reception.Extension.csproj" />
     </ItemGroup>
 

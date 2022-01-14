@@ -12,15 +12,10 @@ namespace Reception.Model.Interface
         }
 
         byte[] Data { get; set; }
-
         string Extension { get; set; }
-
         string FullName { get; }
-
         string Name { get; set; }
-
         FileType Type { get; set; }
-
         Guid Version { get; set; }
     }
 

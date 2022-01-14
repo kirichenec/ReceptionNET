@@ -43,7 +43,7 @@ namespace Reception.App.Service
             set => SetAppSettingsParam(value);
         }
 
-        public string UserServerPath
+        public string AuthServerPath
         {
             get => GetAppSettingsParam();
             set => SetAppSettingsParam(value);

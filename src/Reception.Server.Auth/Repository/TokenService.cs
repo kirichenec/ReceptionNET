@@ -8,6 +8,7 @@ using Reception.Server.Auth.Entities;
 using Reception.Server.Auth.Model;
 using System;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,9 +18,9 @@ namespace Reception.Server.Auth.Repository
     public class TokenService : ITokenService
     {
         private readonly AppSettings _appSettings;
-        private readonly UserContext _context;
+        private readonly AuthContext _context;
 
-        public TokenService(IOptions<AppSettings> appSettings, UserContext userContext)
+        public TokenService(IOptions<AppSettings> appSettings, AuthContext userContext)
         {
             _appSettings = appSettings.Value;
             _context = userContext;
@@ -29,12 +30,14 @@ namespace Reception.Server.Auth.Repository
 
         #region public
 
-        public async Task<bool> CheckAsync(IToken token)
+        public async Task<bool> CheckAsync(string token)
         {
             return
                 token.HasValue()
-                && (await _context.Tokens.FirstOrDefaultAsync(t => t.UserId == token.UserId && t.Value == token.Value)).HasValue()
-                && IsJwtTokenNotExpired(token.Value);
+                && ReadToken(token) is JwtSecurityToken jwtToken
+                && GetUserId(jwtToken) is int userId
+                && (await _context.Tokens.SingleOrDefaultAsync(t => t.Value == token && t.UserId == userId)).HasValue()
+                && IsJwtTokenActual(jwtToken);
         }
 
         public async Task<IToken> GenerateAndSaveAsync(int userId)
@@ -47,11 +50,20 @@ namespace Reception.Server.Auth.Repository
 
         #region private
 
-        private static bool IsJwtTokenNotExpired(string value)
+        private static bool IsJwtTokenActual(JwtSecurityToken token)
         {
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var token = tokenHandler.ReadToken(value);
-            return DateTime.Now <= token.ValidTo;
+            return DateTime.Now.Between(token.ValidFrom, token.ValidTo);
+        }
+
+        private static int? GetUserId(JwtSecurityToken jwtToken)
+        {
+            var userClaim = jwtToken.Claims.FirstOrDefault(x => x.Type == Constants.ClaimTypes.USER_ID);
+            return userClaim?.Value.ParseInt();
+        }
+
+        private static JwtSecurityToken ReadToken(string value)
+        {
+            return new JwtSecurityTokenHandler().ReadJwtToken(value);
         }
 
         private string GenerateJwtToken(int userId)
@@ -60,7 +72,7 @@ namespace Reception.Server.Auth.Repository
             var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
             var tokenDescriptor = new SecurityTokenDescriptor
             {
-                Subject = new ClaimsIdentity(new[] { new Claim("id", userId.ToString()) }),
+                Subject = new ClaimsIdentity(new[] { new Claim(Constants.ClaimTypes.USER_ID, userId.ToString()) }),
                 Expires = DateTime.UtcNow.AddDays(_appSettings.ExpirationHours),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
