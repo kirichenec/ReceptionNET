@@ -23,12 +23,14 @@ namespace Reception.Server.Auth
 
             ConfigureCoreServices(services, openApiTitle: "Reception auth server");
 
+            services.ConfigureSwaggerAdditional<InternalServerAuthorizeAttribute>();
+
             // configure strongly typed settings object
             services.ConfigureOptions<AppSettings>(Configuration);
             services.ConfigureOptions<HashingOptions>(Configuration);
 
             // configure DI for application services
-            services.AddEntityFrameworkSqlite().AddDbContext<UserContext>();
+            services.AddEntityFrameworkSqlite().AddDbContext<AuthContext>();
             services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IUserLogic, UserLogic>();

@@ -16,6 +16,8 @@ namespace Reception.Server.Core
         {
             base.ConfigureCoreServices(services, openApiTitle, openApiVersion);
 
+            services.ConfigureSwaggerAdditional<AuthorizeAttribute>();
+
             // configure strongly typed settings object
             services.ConfigureOptions<AuthSettings>(Configuration);
         }

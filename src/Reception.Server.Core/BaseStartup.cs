@@ -32,9 +32,10 @@ namespace Reception.Server.Core
         {
             services.AddMvc().AddNewtonsoftJson();
 
-            services.AddSwaggerGen(c =>
+            services.AddSwaggerGen(swaggerOptions =>
             {
-                c.SwaggerDoc(openApiVersion, new OpenApiInfo { Title = openApiTitle, Version = openApiVersion });
+                swaggerOptions.SwaggerDoc(openApiVersion, new OpenApiInfo { Title = openApiTitle, Version = openApiVersion });
+                swaggerOptions.EnableAnnotations();
             });
         }
 

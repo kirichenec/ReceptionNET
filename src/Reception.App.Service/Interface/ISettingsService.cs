@@ -11,7 +11,7 @@ namespace Reception.App.Service.Interface
         bool IsBoss { get; }
         int PingDelay { get; }
         IToken Token { get; set; }
-        string UserServerPath { get; }
+        string AuthServerPath { get; }
         string WelcomeMessage { get; }
         bool WithReconnect { get; }
     }

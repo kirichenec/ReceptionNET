@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using Reception.Constant;
 using Reception.Extension;
 using RestSharp;
 using System;
@@ -19,11 +20,8 @@ namespace Reception.Server.Auth.ConnectionLibrary
         {
             var authSettings = context.HttpContext.RequestServices.GetRequiredService<IOptions<AuthSettings>>().Value;
 
-            var authCheckResult =
-                context.HttpContext.Request.Headers["Token"].FirstOrDefault() is string jsonToken
-                && await CheckAuth(authSettings.AuthServerPath, new[] { ("Token", jsonToken) });
-
-            if (!authCheckResult)
+            if (context.HttpContext.Request.Headers[HttpHeaders.TOKEN].FirstOrDefault() is not string token
+                || !await CheckAuth(authSettings.AuthServerPath, new[] { (HttpHeaders.TOKEN, token) }))
             {
                 // not logged in
                 context.Result = new JsonResult(new { message = "Unauthorized" }) { StatusCode = StatusCodes.Status401Unauthorized };

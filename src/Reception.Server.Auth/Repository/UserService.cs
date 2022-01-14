@@ -9,9 +9,9 @@ namespace Reception.Server.Auth.Repository
 {
     public class UserService : IUserService
     {
-        private readonly UserContext _context;
+        private readonly AuthContext _context;
 
-        public UserService(UserContext userContext)
+        public UserService(AuthContext userContext)
         {
             _context = userContext;
         }

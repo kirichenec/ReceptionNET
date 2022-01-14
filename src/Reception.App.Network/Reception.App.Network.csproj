@@ -23,6 +23,7 @@
     <ItemGroup>
         <ProjectReference Include="..\Reception.App.Model\Reception.App.Model.csproj" />
         <ProjectReference Include="..\Reception.App.Service\Reception.App.Service.csproj" />
+        <ProjectReference Include="..\Reception.Constant\Reception.Constant.csproj" />
         <ProjectReference Include="..\Reception.Model.Interfaces\Reception.Model.Interface.csproj" />
         <ProjectReference Include="..\Reception.Model.Network\Reception.Model.Network.csproj" />
     </ItemGroup>

@@ -41,8 +41,8 @@ namespace Reception.App.ViewModels
 
             ShowError = async (error, sourceName, properties) => await ShowErrorInternal(error, sourceName, properties);
 
-            ServerStatusMessage = ConnectionStatus.OFFLINE.ToLower();
-            StatusMessage = ConnectionStatus.OFFLINE.ToLower();
+            ServerStatusMessage = ConnectionStatuses.OFFLINE.ToLower();
+            StatusMessage = ConnectionStatuses.OFFLINE.ToLower();
 
             Router = new RoutingState();
 
@@ -148,7 +148,7 @@ namespace Reception.App.ViewModels
             try
             {
                 await _pingService.PingAsync();
-                ServerStatusMessage = ConnectionStatus.ONLINE.ToLower();
+                ServerStatusMessage = ConnectionStatuses.ONLINE.ToLower();
                 if (LastErrorType == ErrorType.Server)
                 {
                     ClearErrorInfo();
@@ -156,7 +156,7 @@ namespace Reception.App.ViewModels
             }
             catch (Exception ex)
             {
-                ServerStatusMessage = ConnectionStatus.OFFLINE.ToLower();
+                ServerStatusMessage = ConnectionStatuses.OFFLINE.ToLower();
                 SetErrorInfo(ex.Message, ErrorType.Server);
             }
         }
