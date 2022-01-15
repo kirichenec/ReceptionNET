@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Reception.Server.Data.Extensions
 {
-    public static class PersonExtension
+    public static class PersonExtensions
     {
         public static PersonDto ToDto(this Person person)
         {
@@ -17,6 +17,7 @@ namespace Reception.Server.Data.Extensions
                     Comment = person.Comment,
                     FirstName = person.FirstName,
                     MiddleName = person.MiddleName,
+                    PhotoId = person.AdditionalInfo.Id,
                     Post = person.Post.ToDto(),
                     SecondName = person.SecondName,
                     Id = person.Id

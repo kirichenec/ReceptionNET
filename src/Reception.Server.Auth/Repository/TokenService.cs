@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Reception.Extension;
-using Reception.Model.Interface;
 using Reception.Server.Auth.Entities;
 using Reception.Server.Auth.Model;
 using System;
@@ -40,7 +39,7 @@ namespace Reception.Server.Auth.Repository
                 && IsJwtTokenActual(jwtToken);
         }
 
-        public async Task<IToken> GenerateAndSaveAsync(int userId)
+        public async Task<Token> GenerateAndSaveAsync(int userId)
         {
             var tokenValue = GenerateJwtToken(userId);
             return await SaveOrUpdateAsync(userId, tokenValue);

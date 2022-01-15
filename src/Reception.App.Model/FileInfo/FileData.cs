@@ -1,10 +1,9 @@
 ﻿using Reception.Model.Interface;
 using System;
-using static Reception.Model.Interface.IFileData;
 
 namespace Reception.App.Model.FileInfo
 {
-    public class FileData : IFileData
+    public class FileData
     {
         public string Comment { get; set; }
 
@@ -12,7 +11,7 @@ namespace Reception.App.Model.FileInfo
 
         public string Extension { get; set; }
 
-        public string FullName => this.GetFullName();
+        public string FullName => string.Join('.', Name, Extension);
 
         public int Id { get; set; }
 

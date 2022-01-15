@@ -1,10 +1,10 @@
-﻿using Reception.Model.Interface;
+﻿using Reception.App.Model.Auth;
 
 namespace Reception.App.Service
 {
     public static class TokenSectionExtensions
     {
-        public static TokenSection CreateTokenSection(this IToken value)
+        public static TokenSection CreateTokenSection(this Token value)
         {
             return new TokenSection
             {
@@ -13,9 +13,9 @@ namespace Reception.App.Service
             };
         }
 
-        public static IToken ToIToken(this TokenSection value)
+        public static Token ToToken(this TokenSection value)
         {
-            return new TokenSettings
+            return new Token
             {
                 UserId = value.UserId,
                 Value = value.Token

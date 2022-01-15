@@ -146,9 +146,7 @@ namespace Reception.App.ViewModels
             if (!person.IsNull())
             {
                 Visitor.CopyFrom(person);
-                // TODO: Change to normal getting after person-photo chain realization
-                var visitorPhotoName = "admin";
-                byte[] visitorImage = await GetVisitorPhoto(visitorPhotoName);
+                byte[] visitorImage = await GetVisitorPhoto(person.PhotoId);
                 Visitor.ImageSource = visitorImage;
                 return true;
             }
@@ -160,11 +158,10 @@ namespace Reception.App.ViewModels
                 return await _settingsService.DefaultVisitorPhotoPath.GetFileBytesByPathAsync();
             }
 
-            async Task<byte[]> GetVisitorPhoto(string visitorPhotoName)
+            async Task<byte[]> GetVisitorPhoto(int photoId)
             {
-                var visitorImageSources = await _networkServiceOfFileData.SearchAsync(visitorPhotoName);
-                var visitorImageSource = visitorImageSources.FirstOrDefault()?.Data;
-                return visitorImageSource ?? await GetDefaultVisitorPhoto();
+                var visitorImageSource = await _networkServiceOfFileData.GetById(photoId);
+                return visitorImageSource?.Data ?? await GetDefaultVisitorPhoto();
             }
         }
 

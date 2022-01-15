@@ -1,4 +1,4 @@
-﻿using Reception.Model.Interface;
+﻿using Reception.App.Model.Auth;
 
 namespace Reception.App.Service.Interface
 {
@@ -10,7 +10,7 @@ namespace Reception.App.Service.Interface
         string FileServerPath { get; }
         bool IsBoss { get; }
         int PingDelay { get; }
-        IToken Token { get; set; }
+        Token Token { get; set; }
         string AuthServerPath { get; }
         string WelcomeMessage { get; }
         bool WithReconnect { get; }

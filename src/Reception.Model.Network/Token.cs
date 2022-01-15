@@ -1,8 +1,6 @@
-﻿using Reception.Model.Interface;
-
-namespace Reception.Model.Network
+﻿namespace Reception.Model.Network
 {
-    public class Token : IToken
+    public class Token
     {
         public int UserId { get; set; }
 

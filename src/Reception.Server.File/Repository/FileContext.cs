@@ -2,12 +2,12 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Reception.Extension.Converters;
+using Reception.Model.Interface;
 using Reception.Server.File.Entities;
 using Reception.Server.File.Model;
 using Reception.Server.File.Repository.Triggers;
 using System;
 using System.Threading.Tasks;
-using static Reception.Model.Interface.IFileData;
 
 namespace Reception.Server.File.Repository
 {

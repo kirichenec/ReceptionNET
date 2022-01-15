@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
 
-namespace Reception.Model.Interface
+namespace Reception.Server.Core.Interfaces
 {
     public interface IBaseController
     {

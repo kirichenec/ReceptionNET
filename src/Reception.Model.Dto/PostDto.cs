@@ -1,8 +1,6 @@
-﻿using Reception.Model.Interface;
-
-namespace Reception.Model.Dto
+﻿namespace Reception.Model.Dto
 {
-    public class PostDto : IPost
+    public class PostDto
     {
         public int Id { get; set; }
 

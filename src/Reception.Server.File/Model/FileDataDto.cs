@@ -1,6 +1,5 @@
 ﻿using Reception.Model.Interface;
 using System;
-using static Reception.Model.Interface.IFileData;
 
 namespace Reception.Server.File.Model.Dto
 {

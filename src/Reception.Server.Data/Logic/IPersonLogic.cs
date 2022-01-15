@@ -1,5 +1,5 @@
 ﻿using Reception.Model.Dto;
-using Reception.Model.Interface;
+using Reception.Server.Core.Interfaces;
 
 namespace Reception.Server.Data.Logic
 {

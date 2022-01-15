@@ -1,9 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Filters;
+﻿using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.DependencyInjection;
 using Reception.Constant;
-using Reception.Model.Interface;
+using Reception.Model.Network;
+using Reception.Server.Auth.Repository;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -21,7 +20,7 @@ namespace Reception.Server.Auth.Helpers
                 || !await tokenService.CheckAsync(token))
             {
                 // not logged in
-                context.Result = new JsonResult(new { Message = "Unauthorized" }) { StatusCode = StatusCodes.Status401Unauthorized };
+                context.Result = DefaultResponse.UNAUTHORIZED_RESULT;
             }
         }
     }

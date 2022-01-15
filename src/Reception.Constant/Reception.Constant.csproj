@@ -10,4 +10,8 @@
       <AdditionalFiles Include="..\..\.sonarlint\kirichenec_receptionnet\CSharp\SonarLint.xml" Link="SonarLint.xml" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\Reception.Extensions\Reception.Extension.csproj" />
+    </ItemGroup>
+
 </Project>
