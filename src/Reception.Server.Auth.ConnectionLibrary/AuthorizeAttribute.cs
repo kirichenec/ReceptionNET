@@ -1,10 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Filters;
+﻿using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Reception.Constant;
 using Reception.Extension;
+using Reception.Model.Network;
 using RestSharp;
 using System;
 using System.Collections.Generic;
@@ -24,7 +23,7 @@ namespace Reception.Server.Auth.ConnectionLibrary
                 || !await CheckAuth(authSettings.AuthServerPath, new[] { (HttpHeaders.TOKEN, token) }))
             {
                 // not logged in
-                context.Result = new JsonResult(new { message = "Unauthorized" }) { StatusCode = StatusCodes.Status401Unauthorized };
+                context.Result = DefaultResponse.UNAUTHORIZED_RESULT;
             }
         }
 

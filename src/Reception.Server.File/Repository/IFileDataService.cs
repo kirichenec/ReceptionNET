@@ -1,4 +1,4 @@
-﻿using Reception.Model.Interface;
+﻿using Reception.Server.Core.Interfaces;
 using Reception.Server.File.Entities;
 using System.Threading.Tasks;
 

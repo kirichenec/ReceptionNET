@@ -1,8 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace Reception.Model.Interface
+﻿namespace Reception.Server.Core.Interfaces
 {
     public interface IRepository<T>
     {

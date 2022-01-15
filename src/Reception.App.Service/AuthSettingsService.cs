@@ -1,6 +1,6 @@
-﻿using Reception.App.Service.Interface;
+﻿using Reception.App.Model.Auth;
+using Reception.App.Service.Interface;
 using Reception.Extension;
-using Reception.Model.Interface;
 
 namespace Reception.App.Service
 {
@@ -8,9 +8,9 @@ namespace Reception.App.Service
     {
         private const string TOKEN_SECTION_NAME = "tokenSettings";
 
-        public IToken Token
+        public Token Token
         {
-            get => TOKEN_SECTION_NAME.GetSection<TokenSection>().ToIToken();
+            get => TOKEN_SECTION_NAME.GetSection<TokenSection>().ToToken();
             set => value.CreateTokenSection().UpdateSection(TOKEN_SECTION_NAME);
         }
     }

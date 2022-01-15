@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Reception.Model.Interface;
 using Reception.Model.Network;
 using Reception.Server.Auth.ConnectionLibrary;
+using Reception.Server.Core.Interfaces;
 using Reception.Server.File.Logic;
 using Reception.Server.File.Model.Dto;
 using System.Collections.Generic;

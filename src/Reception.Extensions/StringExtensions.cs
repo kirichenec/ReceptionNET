@@ -1,4 +1,6 @@
-﻿namespace Reception.Extension
+﻿using System.Globalization;
+
+namespace Reception.Extension
 {
     public static class StringExtensions
     {
@@ -29,6 +31,11 @@
         public static int ParseInt(this string value)
         {
             return int.Parse(value);
+        }
+
+        public static string ToTitleCase(this string value, CultureInfo cultureInfo = null)
+        {
+            return (cultureInfo ?? CultureInfo.CurrentCulture).TextInfo.ToTitleCase(value);
         }
     }
 }

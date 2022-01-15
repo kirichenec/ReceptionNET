@@ -1,11 +1,10 @@
-﻿using Reception.Model.Interface;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Reception.Server.Auth.Entities
 {
     [Table("Token", Schema = "Auth")]
-    public class Token : IToken
+    public class Token
     {
         [Key]
         public int UserId { get; set; }

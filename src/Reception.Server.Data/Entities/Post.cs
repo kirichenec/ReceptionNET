@@ -1,11 +1,10 @@
-﻿using Reception.Model.Interface;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Reception.Server.Data.Entities
 {
     [Table("Post", Schema = "Person")]
-    public class Post : IPost
+    public class Post
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }

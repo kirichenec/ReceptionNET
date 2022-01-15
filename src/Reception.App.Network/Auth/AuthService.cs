@@ -42,7 +42,7 @@ namespace Reception.App.Network.Auth
             throw new QueryException(response.StatusDescription, response.StatusCode);
         }
 
-        public (string, string)[] GetDefaultHeaders() => new[] { (HttpHeaders.TOKEN, _settingsService.Token.Value) };
+        public (string, string)[] GetDefaultHeaders() => new[] { (HttpHeaders.TOKEN, _authData.Token) };
 
         public async Task<bool> IsAuthValid()
         {

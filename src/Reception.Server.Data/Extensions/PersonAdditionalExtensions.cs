@@ -1,26 +1,25 @@
 ﻿using Reception.Model.Dto;
-using Reception.Model.Interface;
+using Reception.Server.Data.Entities;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace Reception.Server.Data.Extensions
 {
-    public static class PostExtension
+    public static class PersonAdditionalExtensions
     {
-        public static PostDto ToDto(this IPost value)
+        public static PersonAdditionalDto ToDto(this PersonAdditional value)
         {
             return
                 value == null ?
                 null :
-                new PostDto
+                new PersonAdditionalDto
                 {
-                    Comment = value.Comment,
                     Id = value.Id,
-                    Name = value.Name
+                    PhotoId = value.PhotoId,
                 };
         }
 
-        public static List<PostDto> ToDto(this List<IPost> valueList)
+        public static List<PersonAdditionalDto> ToDto(this List<PersonAdditional> valueList)
         {
             return valueList.Select(value => value.ToDto()).ToList();
         }

@@ -2,12 +2,11 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using static Reception.Model.Interface.IFileData;
 
 namespace Reception.Server.File.Entities
 {
     [Table("FileData", Schema = "Files")]
-    public class FileData : IFileData
+    public class FileData
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
@@ -18,9 +17,6 @@ namespace Reception.Server.File.Entities
         public byte[] Data { get; set; }
 
         public string Extension { get; set; }
-
-        [NotMapped]
-        public string FullName => this.GetFullName();
 
         [Required]
         public string Name { get; set; }

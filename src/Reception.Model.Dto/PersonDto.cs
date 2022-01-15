@@ -1,8 +1,6 @@
-﻿using Reception.Model.Interface;
-
-namespace Reception.Model.Dto
+﻿namespace Reception.Model.Dto
 {
-    public class PersonDto : IPerson<PostDto>
+    public class PersonDto
     {
         public int Id { get; set; }
 
@@ -11,6 +9,8 @@ namespace Reception.Model.Dto
         public string FirstName { get; set; }
 
         public string MiddleName { get; set; }
+
+        public int PhotoId { get; set; }
 
         public PostDto Post { get; set; }
 

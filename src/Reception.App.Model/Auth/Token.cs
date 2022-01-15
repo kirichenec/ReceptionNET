@@ -1,8 +1,6 @@
-﻿using Reception.Model.Interface;
-
-namespace Reception.App.Model.Auth
+﻿namespace Reception.App.Model.Auth
 {
-    public class Token : IToken
+    public class Token
     {
         public int UserId { get; set; }
 

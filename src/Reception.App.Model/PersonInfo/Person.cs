@@ -1,34 +1,14 @@
 ﻿using Reception.App.Model.Base;
 using Reception.App.Model.Extensions;
 using Reception.Extension;
-using Reception.Model.Interface;
 
 namespace Reception.App.Model.PersonInfo
 {
-    public class Person : BaseModel, IPerson<Post>
+    public class Person : BaseModel
     {
         #region ctors
 
         public Person() { }
-
-        public Person(Person value, bool fullLoad = true)
-        {
-            if (value == null)
-            {
-                return;
-            }
-            FirstName = value.FirstName;
-            MiddleName = value.MiddleName;
-            Post = value.Post;
-            SecondName = value.SecondName;
-
-            if (!fullLoad)
-            {
-                return;
-            }
-            Comment = value.Comment;
-            Id = value.Id;
-        }
 
         #endregion
 
@@ -38,17 +18,19 @@ namespace Reception.App.Model.PersonInfo
 
         public string MiddleName { get; set; }
 
-        public string SecondName { get; set; }
+        public int PhotoId { get; set; }
 
         public Post Post { get; set; }
+
+        public string SecondName { get; set; }
 
         #endregion
 
         #region Methods
 
-        public void CopyFrom(Person value, bool fullCopy = true)
+        public void CopyFrom(Person value)
         {
-            if (value == null)
+            if (value.IsNullOrEmpty())
             {
                 Clear();
                 return;
@@ -57,13 +39,9 @@ namespace Reception.App.Model.PersonInfo
             MiddleName = value.MiddleName;
             Post = value.Post;
             SecondName = value.SecondName;
-
-            if (!fullCopy)
-            {
-                return;
-            }
             Comment = value.Comment;
             Id = value.Id;
+            PhotoId = value.PhotoId;
         }
 
         public void Clear()
@@ -72,9 +50,9 @@ namespace Reception.App.Model.PersonInfo
             MiddleName = null;
             Post = null;
             SecondName = null;
-
             Comment = null;
             Id = 0;
+            PhotoId = 0;
         }
 
         public override bool IsEmpty()

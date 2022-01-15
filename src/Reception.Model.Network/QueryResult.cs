@@ -12,7 +12,7 @@ namespace Reception.Model.Network
         public QueryResult(T data)
         {
             Data = data;
-            DataType = data.GetType();
+            DataType = typeof(T);
         }
 
         public T Data { get; set; }
