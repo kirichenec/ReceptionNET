@@ -1,5 +1,5 @@
-﻿using Reception.Server.File.Entities;
-using Reception.Server.File.Extensions;
+﻿using AutoMapper;
+using Reception.Server.File.Entities;
 using Reception.Server.File.Model.Dto;
 using Reception.Server.File.Repository;
 using System;
@@ -11,10 +11,12 @@ namespace Reception.Server.File.Logic
     public class FileDataLogic : IFileDataLogic
     {
         private readonly IFileDataService _dataService;
+        private readonly IMapper _mapper;
 
-        public FileDataLogic(IFileDataService dataService)
+        public FileDataLogic(IFileDataService dataService, IMapper mapper)
         {
             _dataService = dataService;
+            _mapper = mapper;
         }
 
         public async Task<bool> DeleteAsync(int id)
@@ -25,7 +27,7 @@ namespace Reception.Server.File.Logic
         public async Task<FileDataDto> GetAsync(int id)
         {
             var fileData = await _dataService.GetAsync(id);
-            return fileData.ToDto();
+            return _mapper.Map<FileDataDto>(fileData);
         }
 
         public Task<IEnumerable<FileDataDto>> GetByIdsAsync(IEnumerable<int> ids)
@@ -39,8 +41,7 @@ namespace Reception.Server.File.Logic
             {
                 Data = fileData
             };
-            var result = await _dataService.SaveAsync(data).ToDtoAsync();
-            return result;
+            return _mapper.Map<FileDataDto>(await _dataService.SaveAsync(data));
         }
 
         public Task<FileDataDto> SaveAsync(FileDataDto value)
@@ -52,7 +53,7 @@ namespace Reception.Server.File.Logic
 
         public async Task<IEnumerable<FileDataDto>> SearchAsync(string searchText)
         {
-            var searchedValues = await _dataService.SearchAsync(searchText).ToDtosAsync();
+            var searchedValues = _mapper.Map<IEnumerable<FileDataDto>>(await _dataService.SearchAsync(searchText));
             return searchedValues;
         }
     }

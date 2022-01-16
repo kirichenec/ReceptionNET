@@ -1,12 +1,14 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Reception.Extension;
 using Reception.Model.Dto;
 using Reception.Model.Network;
 using Reception.Server.Auth.Entities;
-using Reception.Server.Auth.Extensions;
+using Reception.Server.Auth.MapperProfiles;
 using Reception.Server.Auth.PasswordHelper;
 using Reception.Server.Auth.Repository;
+using Reception.Server.Core.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -15,12 +17,14 @@ namespace Reception.Server.Auth.Logic
 {
     public class UserLogic : IUserLogic
     {
+        private readonly IMapper _mapper;
         private readonly IPasswordHasher _passwordHasher;
         private readonly ITokenService _tokenService;
         private readonly IUserService _userService;
 
-        public UserLogic(IUserService userService, ITokenService tokenService, IOptions<HashingOptions> hashingOptions)
+        public UserLogic(IUserService userService, ITokenService tokenService, IOptions<HashingOptions> hashingOptions, IMapper mapper)
         {
+            _mapper = mapper;
             _passwordHasher = new PasswordHasher(hashingOptions.Value);
             _tokenService = tokenService;
             _userService = userService;
@@ -29,8 +33,7 @@ namespace Reception.Server.Auth.Logic
         public async Task<AuthenticateResponse> Authenticate(AuthenticateRequest requestModel)
         {
             var user = await _userService.Queryable()
-                .SingleOrDefaultAsync(x => x.Login == requestModel.Login)
-                .ToDtoAsync();
+                .SingleOrDefaultAsync(x => x.Login == requestModel.Login);
 
             // return null if user not found
             if (user.HasNoValue()) return null;
@@ -41,7 +44,7 @@ namespace Reception.Server.Auth.Logic
             // authentication successful so generate jwt token
             var token = await _tokenService.GenerateAndSaveAsync(user.Id);
 
-            return user.ToAuthenticateResponse(token.Value);
+            return _mapper.Map<User, AuthenticateResponse>(user, (AutoMapperProfile.TOKEN_OPTION_NAME, token.Value));
         }
 
         public async Task<UserDto> CreateUserAsync(string login, string password)
@@ -57,7 +60,7 @@ namespace Reception.Server.Auth.Logic
 
         public async Task<UserDto> GetAsync(int id)
         {
-            return await _userService.GetAsync(id).ToDtoAsync();
+            return _mapper.Map<UserDto>(await _userService.GetAsync(id));
         }
 
         public Task<IEnumerable<UserDto>> GetByIdsAsync(IEnumerable<int> ids)
@@ -75,13 +78,12 @@ namespace Reception.Server.Auth.Logic
                 MiddleName = value.MiddleName,
                 Password = _passwordHasher.Hash(value.Password)
             };
-            var result = await _userService.SaveAsync(data).ToDtoAsync();
-            return result;
+            return _mapper.Map<UserDto>(await _userService.SaveAsync(data));
         }
 
         public async Task<IEnumerable<UserDto>> SearchAsync(string searchText)
         {
-            return await _userService.SearchAsync(searchText).ToDtosAsync();
+            return _mapper.Map<IEnumerable<UserDto>>(await _userService.SearchAsync(searchText));
         }
     }
 }
