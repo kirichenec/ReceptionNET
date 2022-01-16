@@ -37,6 +37,8 @@ namespace Reception.Server.Core
                 swaggerOptions.SwaggerDoc(openApiVersion, new OpenApiInfo { Title = openApiTitle, Version = openApiVersion });
                 swaggerOptions.EnableAnnotations();
             });
+
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
         }
 
         public virtual void Configure(IApplicationBuilder app, IWebHostEnvironment env)
