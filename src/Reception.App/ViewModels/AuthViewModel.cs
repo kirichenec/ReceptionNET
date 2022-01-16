@@ -13,19 +13,16 @@ namespace Reception.App.ViewModels
     public class AuthViewModel : BaseViewModel
     {
         private readonly IAuthService _authService;
-        private readonly IMainViewModel _mainWindowViewModel;
 
         #region ctor
 
         public AuthViewModel(IMainViewModel mainWindowViewModel) : base(nameof(AuthViewModel), mainWindowViewModel.ShowError)
         {
-            _mainWindowViewModel = mainWindowViewModel;
-
             _authService ??= Locator.Current.GetService<IAuthService>();
 
             #region Init NavigateCommand
             var canNavigate = this.WhenAnyValue(x => x.AuthData, aData => aData.IsAuthInfoCorrect());
-            NavigateCommand = ReactiveCommand.Create<AuthenticateResponse>(_mainWindowViewModel.NavigateBack, canNavigate);
+            NavigateCommand = ReactiveCommand.Create<AuthenticateResponse>(mainWindowViewModel.NavigateBack, canNavigate);
             this.WhenAnyValue(x => x.AuthData).InvokeCommand(NavigateCommand);
             #endregion
 

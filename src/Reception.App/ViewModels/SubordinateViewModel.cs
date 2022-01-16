@@ -114,7 +114,7 @@ namespace Reception.App.ViewModels
         public Person SelectedPerson { get; set; }
 
         [Reactive]
-        public Visitor Visitor { get; set; } = new Visitor();
+        public Visitor Visitor { get; set; } = new();
 
         #endregion
 
