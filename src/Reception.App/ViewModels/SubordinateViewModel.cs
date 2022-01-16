@@ -9,6 +9,7 @@ using Reception.App.Model.PersonInfo;
 using Reception.App.Network.Chat;
 using Reception.App.Network.Server;
 using Reception.App.Service.Interface;
+using Reception.Extension;
 using Reception.Extension.Converters;
 using Reception.Extension.Dictionaries;
 using Splat;
@@ -69,7 +70,6 @@ namespace Reception.App.ViewModels
                 ReactiveCommand.CreateFromTask<string, IEnumerable<Person>>(
                     async query => await SearchPersons(query),
                     canSearch);
-            SearchPersonCommand.ThrownExceptions.Subscribe(error => _mainWindowViewModel.ShowError(error, nameof(SearchPersons)));
 
             _searchedPersons = SearchPersonCommand.ToProperty(this, x => x.Persons);
 
@@ -143,14 +143,10 @@ namespace Reception.App.ViewModels
 
         private async Task<bool> FillVisitorBySelected(Person person)
         {
-            if (!person.IsNull())
-            {
-                Visitor.CopyFrom(person);
-                byte[] visitorImage = await GetVisitorPhoto(person.PhotoId);
-                Visitor.ImageSource = visitorImage;
-                return true;
-            }
-            return false;
+            Visitor.CopyFrom(person);
+            byte[] visitorImage = await GetVisitorPhoto(person?.PhotoId);
+            Visitor.ImageSource = visitorImage;
+            return true;
 
 
             async Task<byte[]> GetDefaultVisitorPhoto()
@@ -158,10 +154,15 @@ namespace Reception.App.ViewModels
                 return await _settingsService.DefaultVisitorPhotoPath.GetFileBytesByPathAsync();
             }
 
-            async Task<byte[]> GetVisitorPhoto(int photoId)
+            async Task<byte[]> GetVisitorPhoto(int? photoId)
             {
-                var visitorImageSource = await _networkServiceOfFileData.GetById(photoId);
-                return visitorImageSource?.Data ?? await GetDefaultVisitorPhoto();
+                if (!photoId.HasValue
+                    || (await _networkServiceOfFileData.GetById(photoId.Value)) is not FileData visitorImageSource
+                    || visitorImageSource.Data.IsNullOrEmpty())
+                {
+                    return await GetDefaultVisitorPhoto();
+                }
+                return visitorImageSource.Data;
             }
         }
 
@@ -212,35 +213,18 @@ namespace Reception.App.ViewModels
 
         private async Task<bool> SendVisitor(Visitor visitor)
         {
-            try
-            {
-                visitor.IncomingDate = DateTime.Now;
-                await _clientService.SendAsync(visitor);
-                return true;
-            }
-            catch (Exception ex)
-            {
-                _mainWindowViewModel.ShowError(ex);
-                return false;
-            }
+            visitor.IncomingDate = DateTime.Now;
+            await _clientService.SendAsync(visitor);
+            return true;
         }
 
         private async Task<bool> StartClientAsync()
         {
-            try
+            if (_clientService.State == HubConnectionState.Disconnected)
             {
-                if (_clientService.State == HubConnectionState.Disconnected)
-                {
-                    await _clientService.StartClientAsync();
-                }
-                return true;
+                await _clientService.StartClientAsync();
             }
-            catch (Exception ex)
-            {
-
-                _mainWindowViewModel.ShowError(ex);
-                return false;
-            }
+            return true;
         }
 
         private async Task<bool> SubordinateViewModel_Initialized()

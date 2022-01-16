@@ -35,7 +35,6 @@ namespace Reception.App.ViewModels
                     x => x.Login, x => x.Password,
                     (login, password) => !login.IsNullOrWhiteSpace() && !password.IsNullOrWhiteSpace());
             LoginCommand = ReactiveCommand.CreateFromTask(LoginExecute, canLogin);
-            LoginCommand.ThrownExceptions.Subscribe(error => _mainWindowViewModel.ShowError(error, nameof(LoginExecute)));
             #endregion
 
             Initialized += AuthViewModel_Initialized;
