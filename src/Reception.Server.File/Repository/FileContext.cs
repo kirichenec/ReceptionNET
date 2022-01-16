@@ -19,7 +19,6 @@ namespace Reception.Server.File.Repository
         {
             _appSettings = appSettings.Value;
 
-            Database.EnsureCreated();
             Database.Migrate();
         }
 

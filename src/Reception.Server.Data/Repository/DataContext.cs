@@ -8,7 +8,6 @@ namespace Reception.Server.Data.Repository
     {
         public DataContext()
         {
-            Database.EnsureCreated();
             Database.Migrate();
         }
 
