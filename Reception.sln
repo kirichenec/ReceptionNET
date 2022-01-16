@@ -61,6 +61,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "logo", "logo", "{1508F19C-A
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "helpers", "helpers", "{023ACF03-F160-4E59-BDA0-A44154E15ECA}"
 	ProjectSection(SolutionItems) = preProject
+		solutionItems\MigrationCommands.txt = solutionItems\MigrationCommands.txt
 		solutionItems\Order.txt = solutionItems\Order.txt
 		README.md = README.md
 		solutionItems\Tasks.txt = solutionItems\Tasks.txt

@@ -14,7 +14,6 @@ namespace Reception.Server.Auth.Repository
         {
             _passwordHasher = new PasswordHasher(hashingOptions.Value);
 
-            Database.EnsureCreated();
             Database.Migrate();
         }
 
