@@ -1,4 +1,5 @@
 ﻿using ReactiveUI.Fody.Helpers;
+using Reception.App.Enums;
 using Reception.App.Service.Interface;
 using Splat;
 
@@ -10,11 +11,15 @@ namespace Reception.App.ViewModels
 
         #region ctor
 
-        public BossViewModel(IMainViewModel mainWindowViewModel) : base(nameof(BossViewModel), mainWindowViewModel.ShowError)
+        public BossViewModel(IMainViewModel mainWindowViewModel) : base(nameof(BossViewModel), mainWindowViewModel)
         {
+            SetNotification("Loading boss data", NotificationType.Refreshing);
+
             _settingsService ??= Locator.Current.GetService<ISettingsService>();
 
             WelcomeMessage = _settingsService.WelcomeMessage;
+
+            ClearNotification();
         }
 
         #endregion

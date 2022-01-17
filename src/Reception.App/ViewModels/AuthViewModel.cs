@@ -1,11 +1,15 @@
 ﻿using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
+using Reception.App.Enums;
 using Reception.App.Model.Auth;
 using Reception.App.Network.Auth;
+using Reception.App.Network.Exceptions;
 using Reception.Extension;
 using Splat;
 using System;
+using System.Net;
 using System.Reactive;
+using System.Reactive.Linq;
 using System.Threading.Tasks;
 
 namespace Reception.App.ViewModels
@@ -16,62 +20,96 @@ namespace Reception.App.ViewModels
 
         #region ctor
 
-        public AuthViewModel(IMainViewModel mainWindowViewModel) : base(nameof(AuthViewModel), mainWindowViewModel.ShowError)
+        public AuthViewModel(IMainViewModel mainWindowViewModel) : base(nameof(AuthViewModel), mainWindowViewModel)
         {
+            SetNotification("Loading auth data", NotificationType.Refreshing);
+
             _authService ??= Locator.Current.GetService<IAuthService>();
 
             #region Init NavigateCommand
             var canNavigate = this.WhenAnyValue(x => x.AuthData, aData => aData.IsAuthInfoCorrect());
             NavigateCommand = ReactiveCommand.Create<AuthenticateResponse>(mainWindowViewModel.NavigateBack, canNavigate);
             this.WhenAnyValue(x => x.AuthData).InvokeCommand(NavigateCommand);
+            NavigateCommand.ThrownExceptions.Subscribe(ErrorHandler(nameof(NavigateCommand)));
             #endregion
 
             #region Init LoginCommand
             var canLogin =
-                this.WhenAnyValue(
-                    x => x.Login, x => x.Password,
+                this.WhenAnyValue(x => x.Login, x => x.Password,
                     (login, password) => !login.IsNullOrWhiteSpace() && !password.IsNullOrWhiteSpace());
-            LoginCommand = ReactiveCommand.CreateFromTask(LoginExecute, canLogin);
+            LoginCommand = ReactiveCommand.CreateFromTask(LoginExecuteAsync, canLogin);
+            LoginCommand.ThrownExceptions.Subscribe(ErrorHandler(nameof(LoginCommand)));
             #endregion
 
-            Initialized += AuthViewModel_Initialized;
+            Initialized += OnAuthViewModelInitialized;
             OnInitialized();
         }
 
         #endregion
 
         #region Properties
+
         [Reactive]
         public AuthenticateResponse AuthData { get; set; }
 
         [Reactive]
         public string Login { get; set; }
 
-        [Reactive]
-        public string Password { get; set; }
-        #endregion
-
-        #region Commands
         public ReactiveCommand<Unit, Unit> LoginCommand { get; }
 
         public ReactiveCommand<AuthenticateResponse, Unit> NavigateCommand { get; set; }
+
+        [Reactive]
+        public string Password { get; set; }
+
         #endregion
 
         #region Methods
-        private async Task<bool> AuthViewModel_Initialized()
+
+        private async Task<bool> OnAuthViewModelInitialized()
         {
-            if (await _authService.IsAuthValid())
+            SetLoadingState(true);
+            var isAuthValid = false;
+            try
             {
-                AuthData = _authService.AuthData;
-                return true;
+                isAuthValid = await _authService.IsAuthValid();
+                if (isAuthValid)
+                {
+                    AuthData = _authService.AuthData;
+                }
             }
-            return false;
+            catch (QueryException ex) when (ex.StatusCode == HttpStatusCode.Unauthorized)
+            {
+                // it's normal here
+            }
+            catch (Exception ex)
+            {
+                ErrorHandler(nameof(OnAuthViewModelInitialized)).Invoke(ex);
+            }
+
+            SetLoadingState(false);
+            return isAuthValid;
         }
 
-        private async Task LoginExecute()
+        private void SetLoadingState(bool state)
         {
-            AuthData = await _authService.Authenticate(Login, Password);
+            var message = string.Empty;
+            var notificationType = NotificationType.No;
+            if (state)
+            {
+                message = "Auth checking. Please, wait..";
+                notificationType = NotificationType.Refreshing;
+            }
+            SetNotification(message, notificationType);
         }
+
+        private async Task LoginExecuteAsync()
+        {
+            SetLoadingState(true);
+            AuthData = await _authService.Authenticate(Login, Password);
+            SetLoadingState(false);
+        }
+
         #endregion
     }
 }

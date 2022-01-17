@@ -65,13 +65,13 @@ namespace Reception.App.ViewModels
         public string CenterMessage { get; set; }
 
         [Reactive]
-        public string ErrorMessage { get; set; }
-
-        [Reactive]
         public bool IsLogined { get; set; }
 
         [Reactive]
-        public ErrorType LastErrorType { get; set; }
+        public string NotificationMessage { get; set; }
+
+        [Reactive]
+        public NotificationType NotificationType { get; set; }
 
         public RoutingState Router { get; }
 
@@ -87,9 +87,9 @@ namespace Reception.App.ViewModels
 
         #region Methods
 
-        public void ClearErrorInfo()
+        public void ClearNotification()
         {
-            SetErrorInfo(null, ErrorType.No);
+            SetNotification(null, NotificationType.No);
         }
 
         public void NavigateBack(AuthenticateResponse authData)
@@ -98,10 +98,10 @@ namespace Reception.App.ViewModels
             LoadIsBossMode();
         }
 
-        public void SetErrorInfo(string message, ErrorType type)
+        public void SetNotification(string message, NotificationType type)
         {
-            LastErrorType = type;
-            ErrorMessage = message;
+            NotificationType = type;
+            NotificationMessage = message;
         }
 
         private void LoadIsBossMode()
@@ -125,10 +125,10 @@ namespace Reception.App.ViewModels
         {
             Logger.Sink.LogException(sourceName, this, typeof(Exception), properties);
 
-            var errorType = ErrorType.System;
+            var errorType = NotificationType.System;
             if (error is NotFoundException<Person>)
             {
-                errorType = ErrorType.Request;
+                errorType = NotificationType.Request;
             }
             else if (error is QueryException queryError)
             {
@@ -138,9 +138,9 @@ namespace Reception.App.ViewModels
                     NavigateToAuth();
                     return;
                 }
-                errorType = ErrorType.Server;
+                errorType = NotificationType.Server;
             }
-            SetErrorInfo($"{sourceName}: {error.Message}", errorType);
+            SetNotification($"{sourceName}: {error.Message}", errorType);
         }
 
         private async Task TryPing()
@@ -149,15 +149,15 @@ namespace Reception.App.ViewModels
             {
                 await _pingService.PingAsync();
                 ServerStatusMessage = ConnectionStatuses.ONLINE.ToLower();
-                if (LastErrorType == ErrorType.Server)
+                if (NotificationType == NotificationType.Server)
                 {
-                    ClearErrorInfo();
+                    ClearNotification();
                 }
             }
             catch (Exception ex)
             {
                 ServerStatusMessage = ConnectionStatuses.OFFLINE.ToLower();
-                SetErrorInfo(ex.Message, ErrorType.Server);
+                SetNotification(ex.Message, NotificationType.Server);
             }
         }
 

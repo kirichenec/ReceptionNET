@@ -1,11 +1,12 @@
 ﻿namespace Reception.App.Enums
 {
-    public enum ErrorType
+    public enum NotificationType
     {
         No,
         Server,
         Connection,
         System,
-        Request
+        Request,
+        Refreshing
     }
 }

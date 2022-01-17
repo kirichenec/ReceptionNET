@@ -28,7 +28,7 @@ namespace Reception.App.Model.PersonInfo
 
         #region Methods
 
-        public void CopyFrom(Person value)
+        public virtual void CopyFrom(Person value)
         {
             if (value.IsNullOrEmpty())
             {

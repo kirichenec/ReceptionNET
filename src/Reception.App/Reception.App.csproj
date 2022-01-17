@@ -26,7 +26,8 @@
         <PackageReference Include="Avalonia.Desktop" Version="0.10.11" />
         <PackageReference Include="Avalonia.Diagnostics" Version="0.10.11" />
         <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.11" />
-        <PackageReference Include="Material.Avalonia" Version="2.5.0.55-nightly" />
+        <PackageReference Include="Avalonia.Xaml.Behaviors" Version="0.10.11.5" />
+        <PackageReference Include="Material.Avalonia" Version="2.5.0.61-nightly" />
         <PackageReference Include="ReactiveUI.Fody" Version="17.1.17" />
         <PackageReference Include="RestSharp" Version="107.0.3" />
         <PackageReference Include="System.Configuration.ConfigurationManager" Version="6.0.0" />
