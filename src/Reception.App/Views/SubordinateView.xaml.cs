@@ -1,4 +1,5 @@
-﻿using Avalonia.Markup.Xaml;
+﻿using Avalonia.Controls;
+using Avalonia.Markup.Xaml;
 using Reception.App.ViewModels;
 
 namespace Reception.App.Views
@@ -8,6 +9,8 @@ namespace Reception.App.Views
         public SubordinateView()
         {
             AvaloniaXamlLoader.Load(this);
+
+            InitFirstFocusItem<TextBox>("FirstNameTB");
         }
     }
 }

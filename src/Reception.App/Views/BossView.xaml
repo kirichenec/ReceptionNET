@@ -15,7 +15,7 @@
         </Grid>
 
         <StackPanel Grid.Row="2" Orientation="Horizontal">
-            <Button>
+            <Button x:Name="InButton">
                 <TextBlock Text="In"/>
             </Button>
             <Button>

@@ -32,7 +32,7 @@ namespace Reception.Server.Auth.Repository
         public async Task<bool> CheckAsync(string token)
         {
             return
-                token.HasValue()
+                !token.IsNullOrWhiteSpace()
                 && ReadToken(token) is JwtSecurityToken jwtToken
                 && GetUserId(jwtToken) is int userId
                 && (await _context.Tokens.SingleOrDefaultAsync(t => t.Value == token && t.UserId == userId)).HasValue()

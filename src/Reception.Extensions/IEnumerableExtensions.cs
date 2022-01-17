@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Reception.Extension
 {
@@ -11,6 +12,11 @@ namespace Reception.Extension
             {
                 action(item);
             }
+        }
+
+        public static bool IsNullOrEmpty<T>(this IEnumerable<T> source)
+        {
+            return source.HasNoValue() || !source.Any();
         }
     }
 }

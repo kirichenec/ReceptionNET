@@ -10,7 +10,7 @@ namespace Reception.App.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is byte[] data)
+            if (value is byte[] data && data.Length > 0)
             {
                 using var ms = new MemoryStream(data);
                 return new Bitmap(ms);

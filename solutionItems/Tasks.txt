@@ -1,1 +1,1 @@
-- Automapper for client with photo receiver (Lazy maybe)
+- state machine for messages in footer

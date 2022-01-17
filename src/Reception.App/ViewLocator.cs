@@ -22,6 +22,8 @@ namespace Reception.App
             }
         }
 
+        public static bool SupportsRecycling => false;
+
         public bool Match(object data)
         {
             return data is BaseViewModel;

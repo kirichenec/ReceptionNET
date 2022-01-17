@@ -22,7 +22,7 @@
 
         <!--Footer-->
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
-            <TextBlock Text="{Binding ErrorMessage}"/>
+            <TextBlock Text="{Binding NotificationMessage}"/>
             <Separator Classes="Vertical"/>
             <TextBlock Text="Server status:"/>
             <TextBlock Text="{Binding ServerStatusMessage}"/>

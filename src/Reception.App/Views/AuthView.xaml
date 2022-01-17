@@ -2,14 +2,34 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:styles="clr-namespace:Material.Styles;assembly=Material.Styles"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Reception.App.Views.AuthView">
-    <StackPanel HorizontalAlignment="Center"
-              MinWidth="200"
-              Orientation="Vertical"
-              VerticalAlignment="Center">
-        <TextBox Text="{Binding Login, Mode=TwoWay}" Watermark="Login"/>
-        <TextBox Text="{Binding Password, Mode=TwoWay}" Watermark="Password" PasswordChar="*"/>
-        <Button Content="Login" Command="{Binding LoginCommand}" IsDefault="True"/>
-    </StackPanel>
+    <styles:Card VerticalAlignment="Center"
+                 HorizontalAlignment="Center"
+                 Padding="0">
+        <Grid RowDefinitions="Auto Auto">
+            <styles:ColorZone Mode="PrimaryMid" Grid.Row="0">
+                <StackPanel>
+                    <TextBlock Classes="Headline5">Вход в систему</TextBlock>
+                </StackPanel>
+            </styles:ColorZone>
+            <StackPanel Grid.Row="1"
+                        HorizontalAlignment="Center"
+                        IsEnabled="{Binding !IsLoading}"
+                        MinWidth="300"
+                        Orientation="Vertical"
+                        VerticalAlignment="Center">
+                <TextBox x:Name="LoginTB" Text="{Binding Login, Mode=TwoWay}" Watermark="Login"/>
+                <TextBox Text="{Binding Password, Mode=TwoWay}" Watermark="Password" PasswordChar="*"/>
+                <Button Content="Login" Command="{Binding LoginCommand}" IsDefault="True"/>
+            </StackPanel>
+            <Grid Grid.Row="1" Background="#BBFFFFFF">
+                <ProgressBar IsIndeterminate="True" Classes="Circle"
+                             IsVisible="{Binding IsLoading}"
+                             HorizontalAlignment="Center"
+                             VerticalAlignment="Center"/>
+            </Grid>
+        </Grid>
+    </styles:Card>
 </UserControl>

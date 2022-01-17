@@ -11,10 +11,11 @@ namespace Reception.App.ViewModels
         delegate void ShowErrorAction(Exception error, [CallerMemberName] string sourceName = null, params object[] properties);
 
         AuthenticateResponse AuthData { get; set; }
-        ErrorType LastErrorType { get; set; }
+        NotificationType NotificationType { get; set; }
         ShowErrorAction ShowError { get; }
 
-        void ClearErrorInfo();
+        void ClearNotification();
         void NavigateBack(AuthenticateResponse authData);
+        void SetNotification(string message, NotificationType type);
     }
 }
