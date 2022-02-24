@@ -26,18 +26,19 @@ namespace Reception.App.Views
 
         protected void InitFirstFocusItem<T>(string itemName) where T : class, IControl
         {
-            var hostTb = this.FindControl<T>(itemName);
-            if (hostTb != null)
+            if (this.FindControl<T>(itemName) is { } control)
             {
-                hostTb.AttachedToVisualTree += HostTb_AttachedToVisualTree;
+                control.AttachedToVisualTree += OnAttachedToVisualTree;
             }
         }
 
-        private void HostTb_AttachedToVisualTree(object sender, VisualTreeAttachmentEventArgs e)
+        private void OnAttachedToVisualTree(object sender, VisualTreeAttachmentEventArgs e)
         {
-            var tb = (InputElement)sender;
-            tb.Focus();
-            tb.AttachedToVisualTree -= HostTb_AttachedToVisualTree;
+            if (sender is IInputElement control)
+            {
+                control.AttachedToVisualTree -= OnAttachedToVisualTree;
+                control.Focus();
+            }
         }
     }
 }

@@ -6,27 +6,22 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Reception.App.Views.AuthView">
     <styles:Card VerticalAlignment="Center"
-                 HorizontalAlignment="Center"
-                 Padding="0">
+                 HorizontalAlignment="Center">
         <Grid RowDefinitions="Auto Auto">
-            <styles:ColorZone Mode="PrimaryMid" Grid.Row="0">
+            <styles:ColorZone Grid.Row="0" Mode="PrimaryMid" Padding="{DynamicResource LeftRight}">
                 <StackPanel>
-                    <TextBlock Classes="Headline5">Вход в систему</TextBlock>
+                    <TextBlock Classes="Headline6" Text="Welcome"/>
                 </StackPanel>
             </styles:ColorZone>
             <StackPanel Grid.Row="1"
-                        HorizontalAlignment="Center"
                         IsEnabled="{Binding !IsLoading}"
-                        MinWidth="300"
-                        Orientation="Vertical"
-                        VerticalAlignment="Center">
-                <TextBox x:Name="LoginTB" Text="{Binding Login, Mode=TwoWay}" Watermark="Login"/>
-                <TextBox Text="{Binding Password, Mode=TwoWay}" Watermark="Password" PasswordChar="*"/>
-                <Button Content="Login" Command="{Binding LoginCommand}" IsDefault="True"/>
+                        MinWidth="300">
+                <TextBox Text="{Binding Login, Mode=TwoWay}" Watermark="Username *" x:Name="LoginTB"/>
+                <TextBox Text="{Binding Password, Mode=TwoWay}" Watermark="Password *" PasswordChar="*"/>
+                <Button Content="LOG IN" Command="{Binding LoginCommand}" IsDefault="True"/>
             </StackPanel>
-            <Grid Grid.Row="1" Background="#BBFFFFFF">
+            <Grid Grid.Row="1" Background="#BBFFFFFF" IsVisible="{Binding IsLoading}">
                 <ProgressBar IsIndeterminate="True" Classes="Circle"
-                             IsVisible="{Binding IsLoading}"
                              HorizontalAlignment="Center"
                              VerticalAlignment="Center"/>
             </Grid>

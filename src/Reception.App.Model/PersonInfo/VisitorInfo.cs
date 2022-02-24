@@ -28,6 +28,12 @@ namespace Reception.App.Model.PersonInfo
 
         #region Methods
 
+        public override void Clear()
+        {
+            base.Clear();
+            ImageSource = null;
+        }
+
         public override void CopyFrom(Person value)
         {
             base.CopyFrom(value);

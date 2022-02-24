@@ -28,6 +28,17 @@ namespace Reception.App.Model.PersonInfo
 
         #region Methods
 
+        public virtual void Clear()
+        {
+            FirstName = null;
+            MiddleName = null;
+            Post = null;
+            SecondName = null;
+            Comment = null;
+            Id = 0;
+            PhotoId = 0;
+        }
+
         public virtual void CopyFrom(Person value)
         {
             if (value.IsNullOrEmpty())
@@ -42,17 +53,6 @@ namespace Reception.App.Model.PersonInfo
             Comment = value.Comment;
             Id = value.Id;
             PhotoId = value.PhotoId;
-        }
-
-        public void Clear()
-        {
-            FirstName = null;
-            MiddleName = null;
-            Post = null;
-            SecondName = null;
-            Comment = null;
-            Id = 0;
-            PhotoId = 0;
         }
 
         public override bool IsEmpty()
