@@ -46,7 +46,7 @@
 
         <StackPanel Grid.Row="2">
             <Grid Margin="0" ColumnDefinitions="*, Auto, Auto">
-                <TextBox Grid.Column="0" Text="{Binding SearchText, Mode=TwoWay}" Watermark="Search"/>
+                <TextBox Grid.Column="0" Text="{Binding SearchText, Mode=TwoWay}" Watermark="Search" IsReadOnly="{Binding IsSearching}"/>
                 <Button Grid.Column="1" Content="Search" Command="{Binding SearchPersonCommand}" CommandParameter="{Binding SearchText}"/>
                 <Button Grid.Column="2" Content="Clear" Command="{Binding ClearSearchPersonCommand}"/>
             </Grid>

@@ -28,6 +28,8 @@ namespace Reception.App.ViewModels
 
         private readonly IClientService _clientService;
 
+        private readonly ObservableAsPropertyHelper<bool> _isSearching;
+
         private readonly IMainViewModel _mainWindowViewModel;
 
         private readonly INetworkService<Person> _networkServiceOfPersons;
@@ -77,6 +79,7 @@ namespace Reception.App.ViewModels
                 ReactiveCommand.CreateFromTask<string, IEnumerable<Person>>(
                     async query => await SearchPersonExecuteAsync(query),
                     canSearch);
+            SearchPersonCommand.IsExecuting.ToProperty(this, x => x.IsSearching, out _isSearching);
             SearchPersonCommand.ThrownExceptions.Subscribe(ErrorHandler(nameof(SearchPersonCommand)));
             _searchedPersons = SearchPersonCommand.ToProperty(this, x => x.Persons);
 
@@ -120,6 +123,9 @@ namespace Reception.App.ViewModels
 
         [Reactive]
         public bool IsPhotoLoading { get; set; }
+
+        // ToDo: Change to old search kick
+        public bool IsSearching => _isSearching.Value;
 
         public IEnumerable<Person> Persons => _searchedPersons.Value ?? Array.Empty<Person>();
 
