@@ -4,6 +4,7 @@ using Avalonia.Input;
 using Avalonia.ReactiveUI;
 using ReactiveUI;
 using System.Reactive.Disposables;
+using static Reception.App.Constants.ControlNames;
 
 namespace Reception.App.Views
 {
@@ -24,9 +25,9 @@ namespace Reception.App.Views
             }
         }
 
-        protected void InitFirstFocusItem<T>(string itemName) where T : class, IControl
+        protected void InitFirstFocusItem<T>() where T : class, IControl
         {
-            if (this.FindControl<T>(itemName) is { } control)
+            if (this.FindControl<T>(FOCUSED_ITEM_NAME) is { } control)
             {
                 control.AttachedToVisualTree += OnAttachedToVisualTree;
             }

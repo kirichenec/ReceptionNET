@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.SignalR.Client;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
-using Reception.App.Enums;
 using Reception.App.Model;
 using Reception.App.Model.Extensions;
 using Reception.App.Model.FileInfo;
@@ -28,17 +27,17 @@ namespace Reception.App.ViewModels
 
         private readonly IClientService _clientService;
 
-        private readonly ObservableAsPropertyHelper<bool> _isSearching;
-
-        private readonly IMainViewModel _mainWindowViewModel;
+        private readonly IMainViewModel _mainViewModel;
 
         private readonly INetworkService<Person> _networkServiceOfPersons;
 
         private readonly INetworkService<FileData> _networkServiceOfFileData;
 
-        private readonly ObservableAsPropertyHelper<IEnumerable<Person>> _searchedPersons;
-
         private readonly ISettingsService _settingsService;
+
+        private ObservableAsPropertyHelper<bool> _isSearching;
+
+        private ObservableAsPropertyHelper<IEnumerable<Person>> _searchedPersons;
 
         private byte[] _defaultPhotoData;
 
@@ -46,11 +45,11 @@ namespace Reception.App.ViewModels
 
         #region ctor
 
-        public SubordinateViewModel(IMainViewModel mainWindowViewModel) : base(nameof(SubordinateViewModel), mainWindowViewModel)
+        public SubordinateViewModel(IMainViewModel mainViewModel) : base(nameof(SubordinateViewModel), mainViewModel)
         {
-            SetNotification("Loading subordinate data", NotificationType.Refreshing);
+            SetRefreshingNotification("Loading subordinate data");
 
-            _mainWindowViewModel = mainWindowViewModel;
+            _mainViewModel = mainViewModel;
 
             SearchText = string.Empty;
 
@@ -58,56 +57,10 @@ namespace Reception.App.ViewModels
             _networkServiceOfFileData ??= Locator.Current.GetService<INetworkService<FileData>>();
             _settingsService ??= Locator.Current.GetService<ISettingsService>();
 
-            #region Init Chat service
             _clientService ??= Locator.Current.GetService<IClientService>();
             _clientService.MessageReceived += MessageReceived;
-            #endregion
 
-            #region Init SelectPersonCommand
-            SelectPersonCommand = ReactiveCommand.CreateFromTask<Person, bool>(SelectPersonExecutedAsync);
-            SelectPersonCommand.ThrownExceptions.Subscribe(exception =>
-            {
-                IsPhotoLoading = false;
-                ErrorHandler(nameof(SelectPersonCommand)).Invoke(exception);
-            });
-            this.WhenAnyValue(x => x.SelectedPerson).InvokeCommand(SelectPersonCommand);
-            #endregion
-
-            #region Init SearchPersonCommand
-            var canSearch = this.WhenAnyValue(x => x.SearchText, query => !string.IsNullOrWhiteSpace(query));
-            SearchPersonCommand =
-                ReactiveCommand.CreateFromTask<string, IEnumerable<Person>>(
-                    async query => await SearchPersonExecuteAsync(query),
-                    canSearch);
-            SearchPersonCommand.IsExecuting.ToProperty(this, x => x.IsSearching, out _isSearching);
-            SearchPersonCommand.ThrownExceptions.Subscribe(ErrorHandler(nameof(SearchPersonCommand)));
-            _searchedPersons = SearchPersonCommand.ToProperty(this, x => x.Persons);
-
-            this.WhenAnyValue(x => x.SearchText)
-                .Throttle(TimeSpan.FromSeconds(1), RxApp.MainThreadScheduler)
-                .InvokeCommand(SearchPersonCommand);
-            #endregion
-
-            #region Init ClearSearchPersonCommand
-            var canClearSearch = this.WhenAnyValue(x => x.SearchText, query => !string.IsNullOrWhiteSpace(query) || Persons.Any());
-            ClearSearchPersonCommand = ReactiveCommand.CreateFromTask<Unit, bool>(ClearSearchPersonsAsync, canClearSearch);
-            ClearSearchPersonCommand.ThrownExceptions.Subscribe(ErrorHandler(nameof(ClearSearchPersonCommand)));
-            #endregion
-
-            #region Init SendPersonCommand
-            var canSendPerson =
-                this.WhenAnyValue(
-                    x => x.IsLoading,
-                    x => x.Visitor.Comment,
-                    x => x.Visitor.FirstName,
-                    x => x.Visitor.Message,
-                    x => x.Visitor.MiddleName,
-                    x => x.Visitor.Post,
-                    x => x.Visitor.SecondName,
-                    selector: (isLoading, _, __, ___, ____, _____, ______) => !Visitor.IsNullOrEmpty() && !isLoading);
-            SendVisitorCommand = ReactiveCommand.CreateFromTask<Visitor, bool>(SendVisitorExecuteAsync, canSendPerson);
-            SendVisitorCommand.ThrownExceptions.Subscribe(ErrorHandler(nameof(SendVisitorCommand)));
-            #endregion
+            InitCommands();
 
             Initialized += OnSubordinateViewModelInitialized;
             OnInitialized();
@@ -117,9 +70,7 @@ namespace Reception.App.ViewModels
 
         #region Properties
 
-        public ReactiveCommand<Unit, bool> ClearSearchPersonCommand { get; }
-
-        public ReactiveCommand<Unit, Unit> ChangeImageCommand { get; }
+        public ReactiveCommand<Unit, bool> ClearSearchPersonCommand { get; private set; }
 
         [Reactive]
         public bool IsPhotoLoading { get; set; }
@@ -129,7 +80,7 @@ namespace Reception.App.ViewModels
 
         public IEnumerable<Person> Persons => _searchedPersons.Value ?? Array.Empty<Person>();
 
-        public ReactiveCommand<string, IEnumerable<Person>> SearchPersonCommand { get; }
+        public ReactiveCommand<string, IEnumerable<Person>> SearchPersonCommand { get; private set; }
 
         [Reactive]
         public string SearchText { get; set; }
@@ -137,9 +88,9 @@ namespace Reception.App.ViewModels
         [Reactive]
         public Person SelectedPerson { get; set; }
 
-        public ReactiveCommand<Person, bool> SelectPersonCommand { get; }
+        public ReactiveCommand<Person, bool> SelectPersonCommand { get; private set; }
 
-        public ReactiveCommand<Visitor, bool> SendVisitorCommand { get; }
+        public ReactiveCommand<Visitor, bool> SendVisitorCommand { get; private set; }
 
         [Reactive]
         public Visitor Visitor { get; set; } = new();
@@ -155,6 +106,75 @@ namespace Reception.App.ViewModels
             return true;
         }
 
+        private void InitClearSearchPersonCommand()
+        {
+            var canClearSearch = this.WhenAnyValue(
+                x => x.SearchText,
+                selector: query => !string.IsNullOrWhiteSpace(query) || Persons.Any());
+
+            ClearSearchPersonCommand = ReactiveCommand
+                .CreateFromTask<Unit, bool>(ClearSearchPersonsAsync, canClearSearch);
+
+            ClearSearchPersonCommand.ThrownExceptions.Subscribe(ErrorHandler(nameof(ClearSearchPersonCommand)));
+        }
+
+        private void InitCommands()
+        {
+            InitSelectPersonCommand();
+            InitSearchPersonCommand();
+            InitClearSearchPersonCommand();
+            InitSendPersonCommand();
+        }
+
+        private void InitSearchPersonCommand()
+        {
+            var canSearch = this.WhenAnyValue(
+                x => x.SearchText,
+                selector: query => !string.IsNullOrWhiteSpace(query));
+
+            SearchPersonCommand = ReactiveCommand
+                .CreateFromTask<string, IEnumerable<Person>>(SearchPersonExecuteAsync, canSearch);
+
+            SearchPersonCommand.IsExecuting.ToProperty(this, x => x.IsSearching, out _isSearching);
+            SearchPersonCommand.ThrownExceptions.Subscribe(ErrorHandler(nameof(SearchPersonCommand)));
+
+            _searchedPersons = SearchPersonCommand.ToProperty(this, x => x.Persons);
+
+            this.WhenAnyValue(x => x.SearchText)
+                .Throttle(TimeSpan.FromSeconds(1), RxApp.MainThreadScheduler)
+                .InvokeCommand(SearchPersonCommand);
+        }
+
+        private void InitSelectPersonCommand()
+        {
+            SelectPersonCommand = ReactiveCommand
+                .CreateFromTask<Person, bool>(SelectPersonExecutedAsync);
+
+            SelectPersonCommand.ThrownExceptions.Subscribe(exception =>
+            {
+                IsPhotoLoading = false;
+                ErrorHandler(nameof(SelectPersonCommand)).Invoke(exception);
+            });
+
+            this.WhenAnyValue(x => x.SelectedPerson)
+                .InvokeCommand(SelectPersonCommand);
+        }
+
+        private void InitSendPersonCommand()
+        {
+            var canSendPerson = this.WhenAnyValue(
+                x => x.IsLoading,
+                x => x.Visitor.Comment,
+                x => x.Visitor.FirstName,
+                x => x.Visitor.Message,
+                x => x.Visitor.MiddleName,
+                x => x.Visitor.Post,
+                x => x.Visitor.SecondName,
+                selector: (isLoading, _, __, ___, ____, _____, ______) => !Visitor.IsNullOrEmpty() && !isLoading);
+            SendVisitorCommand = ReactiveCommand.CreateFromTask<Visitor, bool>(SendVisitorExecuteAsync, canSendPerson);
+            SendVisitorCommand.ThrownExceptions.Subscribe(ErrorHandler(nameof(SendVisitorCommand)));
+        }
+
         private void MessageReceived(int userId, Type messageType, object message)
         {
             switch (Types.Dictionary.TryGetValue(messageType))
@@ -166,19 +186,19 @@ namespace Reception.App.ViewModels
                     VisitorReceived(message.DeserializeMessage<Visitor>());
                     break;
                 default:
-                    _mainWindowViewModel.ShowError(new ArgumentException($"Unknown message data type {messageType?.FullName ?? "null-type"}"));
+                    _mainViewModel.ShowError(new ArgumentException($"Unknown message data type {messageType?.FullName ?? "null-type"}"));
                     break;
             }
         }
 
         private void PersonReceived(Person person)
         {
-            _mainWindowViewModel.ShowError(new NotImplementedException($"{nameof(PersonReceived)} not implemented"), properties: person);
+            _mainViewModel.ShowError(new NotImplementedException($"{nameof(PersonReceived)} not implemented"), properties: person);
         }
 
         private async Task<IEnumerable<Person>> SearchPersonExecuteAsync(string query)
         {
-            SetNotification("Searching..", NotificationType.Refreshing);
+            SetRefreshingNotification("Searching..");
             IEnumerable<Person> answer;
             if (query == null)
             {
@@ -199,7 +219,7 @@ namespace Reception.App.ViewModels
                 return false;
             }
 
-            SetNotification("Load photo..", NotificationType.Refreshing);
+            SetRefreshingNotification("Load photo..");
 
             IsPhotoLoading = true;
             Visitor.CopyFrom(person);
@@ -230,7 +250,7 @@ namespace Reception.App.ViewModels
 
         private async Task<bool> SendVisitorExecuteAsync(Visitor visitor)
         {
-            SetNotification("Visitor om the way..", NotificationType.Refreshing);
+            SetRefreshingNotification("Visitor on the way..");
 
             visitor.IncomingDate = DateTime.Now;
             await _clientService.SendAsync(visitor);
@@ -241,7 +261,7 @@ namespace Reception.App.ViewModels
 
         private async Task<bool> StartClientAsync()
         {
-            SetNotification("Connect to chat hub..", NotificationType.Refreshing);
+            SetRefreshingNotification("Connect to chat hub..");
             if (_clientService.State == HubConnectionState.Disconnected)
             {
                 try
@@ -264,7 +284,7 @@ namespace Reception.App.ViewModels
 
         private void VisitorReceived(Visitor visitor)
         {
-            _mainWindowViewModel.ShowError(new NotImplementedException($"{nameof(VisitorReceived)} not implemented"), properties: visitor);
+            _mainViewModel.ShowError(new NotImplementedException($"{nameof(VisitorReceived)} not implemented"), properties: visitor);
         }
 
         #endregion

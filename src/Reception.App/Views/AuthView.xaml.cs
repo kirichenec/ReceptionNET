@@ -10,7 +10,7 @@ namespace Reception.App.Views
         {
             AvaloniaXamlLoader.Load(this);
 
-            InitFirstFocusItem<TextBox>("LoginTB");
+            InitFirstFocusItem<TextBox>();
         }
     }
 }

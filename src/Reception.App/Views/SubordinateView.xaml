@@ -3,7 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:converters="clr-namespace:Reception.App.Converters;assembly=Reception.App"
+			 xmlns:const="using:Reception.App.Constants"
+             xmlns:converters="using:Reception.App.Converters"
+			 xmlns:local="using:Reception.App.Views"
              xmlns:styles="clr-namespace:Material.Styles;assembly=Material.Styles"
              mc:Ignorable="d"
              Design.Height="600" Design.Width="800">
@@ -17,7 +19,7 @@
 
         <Grid x:Name="VisitorInfoGrid" Grid.Row="0" ColumnDefinitions="*, Auto">
             <StackPanel Grid.Column="0">
-                <TextBox x:Name="FirstNameTB" Text="{Binding Visitor.FirstName, Mode=TwoWay}" Watermark="FirstName"/>
+                <TextBox Text="{Binding Visitor.FirstName, Mode=TwoWay}" Watermark="FirstName" x:Name="{x:Static const:ControlNames.FOCUSED_ITEM_NAME}"/>
                 <TextBox Text="{Binding Visitor.MiddleName, Mode=TwoWay}" Watermark="MiddleName"/>
                 <TextBox Text="{Binding Visitor.SecondName, Mode=TwoWay}" Watermark="SecondName"/>
                 <TextBox Text="{Binding Visitor.Post.Name, Mode=TwoWay}" Watermark="Post"/>
