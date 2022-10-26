@@ -22,15 +22,15 @@
       <AdditionalFiles Include="..\..\.sonarlint\kirichenec_receptionnet\CSharp\SonarLint.xml" Link="SonarLint.xml" />
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="Avalonia" Version="0.10.12" />
-        <PackageReference Include="Avalonia.Desktop" Version="0.10.12" />
-        <PackageReference Include="Avalonia.Diagnostics" Version="0.10.12" />
-        <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.12" />
-        <PackageReference Include="Avalonia.Xaml.Behaviors" Version="0.10.12.2" />
-        <PackageReference Include="Material.Avalonia" Version="2.5.0.78-nightly" />
-        <PackageReference Include="ReactiveUI.Fody" Version="17.1.50" />
-        <PackageReference Include="RestSharp" Version="107.3.0" />
-        <PackageReference Include="System.Configuration.ConfigurationManager" Version="6.0.0" />
+        <PackageReference Include="Avalonia" Version="0.10.18" />
+        <PackageReference Include="Avalonia.Desktop" Version="0.10.18" />
+        <PackageReference Include="Avalonia.Diagnostics" Version="0.10.18" />
+        <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.18" />
+        <PackageReference Include="Avalonia.Xaml.Behaviors" Version="0.10.18" />
+        <PackageReference Include="Material.Avalonia" Version="2.5.1" />
+        <PackageReference Include="ReactiveUI.Fody" Version="18.3.1" />
+        <PackageReference Include="RestSharp" Version="108.0.2" />
+        <PackageReference Include="System.Configuration.ConfigurationManager" Version="6.0.1" />
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\Reception.Constant\Reception.Constant.csproj" />
