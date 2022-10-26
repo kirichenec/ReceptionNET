@@ -4,21 +4,16 @@ using Reception.App.Enums;
 using Reception.Extension;
 using System;
 using System.Threading.Tasks;
-using static Reception.App.ViewModels.IMainViewModel;
 
 namespace Reception.App.ViewModels
 {
     public abstract class BaseViewModel : ReactiveObject, IRoutableViewModel
     {
-        private readonly Action _clearNotification;
-        private readonly ShowErrorAction _showErrorAction;
-        private readonly Action<string, NotificationType> _setNotification;
+        private readonly IMainViewModel _mainViewModel;
 
-        protected BaseViewModel(string urlPathSegment, IMainViewModel mainVM)
+        protected BaseViewModel(string urlPathSegment, IMainViewModel mainViewModel)
         {
-            _clearNotification = () => mainVM.ClearNotification();
-            _showErrorAction = mainVM.ShowError;
-            _setNotification = mainVM.SetNotification;
+            _mainViewModel = mainViewModel;
 
             UrlPathSegment = urlPathSegment;
 
@@ -36,7 +31,7 @@ namespace Reception.App.ViewModels
 
         protected void ClearNotification()
         {
-            _clearNotification.Invoke();
+            _mainViewModel.ClearNotification();
             IsLoading = false;
         }
 
@@ -45,7 +40,7 @@ namespace Reception.App.ViewModels
             return error =>
             {
                 IsLoading = false;
-                _showErrorAction(error, methodName);
+                _mainViewModel.ShowError(error, methodName);
             };
         }
 
@@ -57,8 +52,13 @@ namespace Reception.App.ViewModels
 
         protected void SetNotification(string message, NotificationType type)
         {
-            _setNotification?.Invoke(message, type);
+            _mainViewModel.SetNotification(message, type);
             IsLoading = type == NotificationType.Refreshing;
+        }
+
+        protected void SetRefreshingNotification(string message)
+        {
+            SetNotification(message, NotificationType.Refreshing);
         }
     }
 }
