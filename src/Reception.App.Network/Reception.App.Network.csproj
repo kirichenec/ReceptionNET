@@ -10,13 +10,13 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="6.0.2" />
-        <PackageReference Include="Microsoft.AspNetCore.SignalR.Core" Version="1.1.0" />
-        <PackageReference Include="Microsoft.AspNetCore.SignalR.Protocols.NewtonsoftJson" Version="6.0.2" />
+        <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="6.0.10" />
+		<PackageReference Include="Microsoft.AspNetCore.SignalR.Core" Version="1.1.0" />
+        <PackageReference Include="Microsoft.AspNetCore.SignalR.Protocols.NewtonsoftJson" Version="6.0.10" />
         <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-        <PackageReference Include="RestSharp" Version="107.3.0" />
-        <PackageReference Include="Splat" Version="14.1.45" />
-        <PackageReference Include="System.Configuration.ConfigurationManager" Version="6.0.0" />
+        <PackageReference Include="RestSharp" Version="108.0.2" />
+        <PackageReference Include="Splat" Version="14.4.1" />
+        <PackageReference Include="System.Configuration.ConfigurationManager" Version="6.0.1" />
         <PackageReference Include="System.Text.Encodings.Web" Version="6.0.0" />
     </ItemGroup>
 
@@ -27,5 +27,5 @@
         <ProjectReference Include="..\Reception.Model.Interfaces\Reception.Model.Interface.csproj" />
         <ProjectReference Include="..\Reception.Model.Network\Reception.Model.Network.csproj" />
     </ItemGroup>
-
+	
 </Project>
