@@ -25,9 +25,9 @@ namespace Reception.App.Views
             }
         }
 
-        protected void InitFirstFocusItem<T>() where T : class, IControl
+        protected void InitFirstFocusItem()
         {
-            if (this.FindControl<T>(FOCUSED_ITEM_NAME) is { } control)
+            if (this.FindControl<IControl>(FOCUSED_ITEM_NAME) is { } control)
             {
                 control.AttachedToVisualTree += OnAttachedToVisualTree;
             }

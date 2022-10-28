@@ -18,15 +18,9 @@ namespace Reception.App.ViewModels
     {
         private readonly IAuthService _authService;
 
-        private readonly IMainViewModel _mainViewModel;
-
-        #region ctor
-
         public AuthViewModel(IMainViewModel mainViewModel) : base(nameof(AuthViewModel), mainViewModel)
         {
             SetRefreshingNotification("Loading auth data");
-
-            _mainViewModel = mainViewModel;
 
             _authService ??= Locator.Current.GetService<IAuthService>();
 
@@ -36,6 +30,25 @@ namespace Reception.App.ViewModels
             Initialized += OnAuthViewModelInitialized;
             OnInitialized();
         }
+
+        #region Properties
+
+        [Reactive]
+        public AuthenticateResponse AuthData { get; set; }
+
+        [Reactive]
+        public string Login { get; set; }
+
+        public ReactiveCommand<Unit, Unit> LoginCommand { get; private set; }
+
+        public ReactiveCommand<AuthenticateResponse, Unit> NavigateCommand { get; private set; }
+
+        [Reactive]
+        public string Password { get; set; }
+
+        #endregion
+
+        #region Methods
 
         private void InitLoginCommand()
         {
@@ -60,26 +73,12 @@ namespace Reception.App.ViewModels
             NavigateCommand.ThrownExceptions.Subscribe(ErrorHandler(nameof(NavigateCommand)));
         }
 
-        #endregion
-
-        #region Properties
-
-        [Reactive]
-        public AuthenticateResponse AuthData { get; set; }
-
-        [Reactive]
-        public string Login { get; set; }
-
-        public ReactiveCommand<Unit, Unit> LoginCommand { get; private set; }
-
-        public ReactiveCommand<AuthenticateResponse, Unit> NavigateCommand { get; private set; }
-
-        [Reactive]
-        public string Password { get; set; }
-
-        #endregion
-
-        #region Methods
+        private async Task LoginExecuteAsync()
+        {
+            SetLoadingState(true);
+            AuthData = await _authService.Authenticate(Login, Password);
+            SetLoadingState(false);
+        }
 
         private async Task<bool> OnAuthViewModelInitialized()
         {
@@ -116,13 +115,6 @@ namespace Reception.App.ViewModels
                 notificationType = NotificationType.Refreshing;
             }
             SetNotification(message, notificationType);
-        }
-
-        private async Task LoginExecuteAsync()
-        {
-            SetLoadingState(true);
-            AuthData = await _authService.Authenticate(Login, Password);
-            SetLoadingState(false);
         }
 
         #endregion

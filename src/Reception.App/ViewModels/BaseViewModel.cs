@@ -9,7 +9,7 @@ namespace Reception.App.ViewModels
 {
     public abstract class BaseViewModel : ReactiveObject, IRoutableViewModel
     {
-        private readonly IMainViewModel _mainViewModel;
+        protected readonly IMainViewModel _mainViewModel;
 
         protected BaseViewModel(string urlPathSegment, IMainViewModel mainViewModel)
         {
@@ -20,6 +20,10 @@ namespace Reception.App.ViewModels
             ThrownExceptions.Subscribe(ErrorHandler(nameof(BaseViewModel)));
         }
 
+        public event Func<Task<bool>> Initialized;
+
+        #region Properties
+
         public IScreen HostScreen { get; }
 
         [Reactive]
@@ -27,7 +31,9 @@ namespace Reception.App.ViewModels
 
         public string UrlPathSegment { get; }
 
-        public event Func<Task<bool>> Initialized;
+        #endregion
+
+        #region Methods
 
         protected void ClearNotification()
         {
@@ -60,5 +66,7 @@ namespace Reception.App.ViewModels
         {
             SetNotification(message, NotificationType.Refreshing);
         }
+
+        #endregion
     }
 }

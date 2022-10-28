@@ -29,8 +29,6 @@ namespace Reception.App.ViewModels
 
         #endregion
 
-        #region ctor
-
         public MainWindowViewModel()
         {
             _clientService ??= Locator.Current.GetService<IClientService>();
@@ -53,8 +51,6 @@ namespace Reception.App.ViewModels
 
             NavigateToAuth();
         }
-
-        #endregion
 
         #region Properties
 
