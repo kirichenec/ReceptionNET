@@ -69,6 +69,10 @@
             <Setter Property="Margin" Value="8,0"/>
         </Style>
 
+		<Style Selector="ToggleSwitch">
+			<Setter Property="Margin" Value="{DynamicResource RightBottom}"/>
+		</Style>
+
         <Style Selector="ListBox">
             <Setter Property="Margin" Value="{DynamicResource RightBottom}"/>
         </Style>
