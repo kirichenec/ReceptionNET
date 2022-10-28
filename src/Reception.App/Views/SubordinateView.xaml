@@ -52,18 +52,20 @@
                 <Button Grid.Column="1" Content="Search" Command="{Binding SearchPersonCommand}" CommandParameter="{Binding SearchText}"/>
                 <Button Grid.Column="2" Content="Clear" Command="{Binding ClearSearchPersonCommand}"/>
             </Grid>
-            <ListBox Items="{Binding Persons, Mode=OneWay}" SelectedItem="{Binding SelectedPerson, Mode=TwoWay}">
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel Orientation="Vertical">
-                            <TextBlock Text="{Binding FirstName, Mode=OneWay}"/>
-                            <TextBlock Text="{Binding MiddleName, Mode=OneWay}"/>
-                            <TextBlock Text="{Binding SecondName, Mode=OneWay}"/>
-                            <TextBlock Text="{Binding Post.Name, Mode=OneWay}"/>
-                        </StackPanel>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
+			<styles:Card Margin="{DynamicResource RightBottom}">
+				<ListBox Items="{Binding Persons, Mode=OneWay}" SelectedItem="{Binding SelectedPerson, Mode=TwoWay}">
+					<ListBox.ItemTemplate>
+						<DataTemplate>
+							<StackPanel Orientation="Vertical">
+								<TextBlock Text="{Binding FirstName, Mode=OneWay}"/>
+								<TextBlock Text="{Binding MiddleName, Mode=OneWay}"/>
+								<TextBlock Text="{Binding SecondName, Mode=OneWay}"/>
+								<TextBlock Text="{Binding Post.Name, Mode=OneWay}"/>
+							</StackPanel>
+						</DataTemplate>
+					</ListBox.ItemTemplate>
+				</ListBox>
+			</styles:Card>
         </StackPanel>
     </Grid>
 
