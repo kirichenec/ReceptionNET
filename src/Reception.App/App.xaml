@@ -4,81 +4,81 @@
              xmlns:styles="clr-namespace:Material.Styles;assembly=Material.Styles"
              xmlns:themes="clr-namespace:Material.Styles.Themes;assembly=Material.Styles"
              x:Class="Reception.App.App">
-	<Application.DataTemplates>
-		<local:ViewLocator/>
-	</Application.DataTemplates>
+    <Application.DataTemplates>
+        <local:ViewLocator/>
+    </Application.DataTemplates>
 
-	<Application.Resources>
-		<themes:BundledTheme BaseTheme="Light" PrimaryColor="Blue" SecondaryColor="LightBlue"/>
+    <Application.Resources>
+        <themes:BundledTheme BaseTheme="Light" PrimaryColor="Blue" SecondaryColor="LightBlue"/>
 
-		<Thickness x:Key="Full">8</Thickness>
-		<Thickness x:Key="LeftRight">8,0</Thickness>
-		<Thickness x:Key="LeftTop">8,8,0,0</Thickness>
-		<Thickness x:Key="RightBottom">0,0,8,8</Thickness>
-	</Application.Resources>
+        <Thickness x:Key="Full">8</Thickness>
+        <Thickness x:Key="LeftRight">8,0</Thickness>
+        <Thickness x:Key="LeftTop">8,8,0,0</Thickness>
+        <Thickness x:Key="RightBottom">0,0,8,8</Thickness>
+    </Application.Resources>
 
-	<Application.Styles>
-		<StyleInclude Source="avares://Material.Avalonia/Material.Avalonia.Templates.xaml" />
+    <Application.Styles>
+        <StyleInclude Source="avares://Material.Avalonia/Material.Avalonia.Templates.xaml" />
 
-		<Style Selector="styles|Card">
-			<Setter Property="Padding" Value="0"/>
-		</Style>
+        <Style Selector="styles|Card">
+            <Setter Property="Padding" Value="0"/>
+        </Style>
 
-		<Style Selector="DrawingPresenter">
-			<Setter Property="Margin" Value="{DynamicResource RightBottom}"/>
-		</Style>
+        <Style Selector="DrawingPresenter">
+            <Setter Property="Margin" Value="{DynamicResource RightBottom}"/>
+        </Style>
 
-		<Style Selector="Image">
-			<Setter Property="Margin" Value="{DynamicResource Full}"/>
-		</Style>
+        <Style Selector="Image">
+            <Setter Property="Margin" Value="{DynamicResource Full}"/>
+        </Style>
 
-		<Style Selector="Path">
-			<Setter Property="Stroke" Value="Black"/>
-		</Style>
+        <Style Selector="Path">
+            <Setter Property="Stroke" Value="Black"/>
+        </Style>
 
-		<Style Selector="Separator">
-			<Setter Property="Margin" Value="0"/>
-		</Style>
+        <Style Selector="Separator">
+            <Setter Property="Margin" Value="0"/>
+        </Style>
 
-		<Style Selector="Separator.Vertical">
-			<Setter Property="Margin" Value="{DynamicResource RightBottom}"/>
-		</Style>
+        <Style Selector="Separator.Vertical">
+            <Setter Property="Margin" Value="{DynamicResource RightBottom}"/>
+        </Style>
 
-		<Style Selector="StackPanel">
-			<Setter Property="Margin" Value="{DynamicResource LeftTop}"/>
-		</Style>
+        <Style Selector="StackPanel">
+            <Setter Property="Margin" Value="{DynamicResource LeftTop}"/>
+        </Style>
 
-		<Style Selector="TextBlock">
-			<Setter Property="Margin" Value="{DynamicResource RightBottom}"/>
-			<Setter Property="VerticalAlignment" Value="Center"/>
-		</Style>
+        <Style Selector="TextBlock">
+            <Setter Property="Margin" Value="{DynamicResource RightBottom}"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
 
-		<Style Selector="TextBox">
-			<Setter Property="Margin" Value="{DynamicResource RightBottom}"/>
-			<Setter Property="BorderThickness" Value="0,0,0,1"/>
-		</Style>
+        <Style Selector="TextBox">
+            <Setter Property="Margin" Value="{DynamicResource RightBottom}"/>
+            <Setter Property="BorderThickness" Value="0,0,0,1"/>
+        </Style>
 
-		<Style Selector="TextBox TextBlock">
-			<Setter Property="Margin" Value="0"/>
-		</Style>
+        <Style Selector="TextBox TextBlock">
+            <Setter Property="Margin" Value="0"/>
+        </Style>
 
-		<Style Selector="Button">
-			<Setter Property="Margin" Value="{DynamicResource RightBottom}"/>
-		</Style>
-		<Style Selector="Button > TextBlock">
-			<Setter Property="Margin" Value="8,0"/>
-		</Style>
+        <Style Selector="Button">
+            <Setter Property="Margin" Value="{DynamicResource RightBottom}"/>
+        </Style>
+        <Style Selector="Button > TextBlock">
+            <Setter Property="Margin" Value="8,0"/>
+        </Style>
 
-		<Style Selector="ToggleSwitch">
-			<Setter Property="Margin" Value="{DynamicResource RightBottom}"/>
-		</Style>
+        <Style Selector="ToggleSwitch">
+            <Setter Property="Margin" Value="{DynamicResource RightBottom}"/>
+        </Style>
 
-		<Style Selector="ListBox">
-			<Setter Property="Margin" Value="{DynamicResource RightBottom}"/>
-		</Style>
+        <Style Selector="ListBox">
+            <Setter Property="Margin" Value="{DynamicResource RightBottom}"/>
+        </Style>
 
-		<Style Selector="styles|Card > ListBox">
-			<Setter Property="Margin" Value="0"/>
-		</Style>
-	</Application.Styles>
+        <Style Selector="styles|Card > ListBox">
+            <Setter Property="Margin" Value="0"/>
+        </Style>
+    </Application.Styles>
 </Application>
