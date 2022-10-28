@@ -8,8 +8,6 @@ namespace Reception.App.ViewModels
     {
         private readonly ISettingsService _settingsService;
 
-        #region ctor
-
         public BossViewModel(IMainViewModel mainViewModel) : base(nameof(BossViewModel), mainViewModel)
         {
             SetRefreshingNotification("Loading boss data");
@@ -21,13 +19,7 @@ namespace Reception.App.ViewModels
             ClearNotification();
         }
 
-        #endregion
-
-        #region Properties
-
         [Reactive]
         public string WelcomeMessage { get; set; }
-
-        #endregion
     }
 }

@@ -1,4 +1,5 @@
-﻿using Avalonia.Logging;
+﻿using Avalonia;
+using Avalonia.Logging;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using Reception.App.Enums;
@@ -13,6 +14,7 @@ using Reception.Constant;
 using Splat;
 using System;
 using System.Net;
+using System.Reactive;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using static Reception.App.ViewModels.IMainViewModel;
@@ -28,8 +30,6 @@ namespace Reception.App.ViewModels
         private readonly ISettingsService _settingsService;
 
         #endregion
-
-        #region ctor
 
         public MainWindowViewModel()
         {
@@ -51,15 +51,17 @@ namespace Reception.App.ViewModels
 
             CenterMessage = string.Empty;
 
+            InitChangeThemeCommand();
+
             NavigateToAuth();
         }
-
-        #endregion
 
         #region Properties
 
         [Reactive]
         public AuthenticateResponse AuthData { get; set; }
+
+        public ReactiveCommand<bool, Unit> ChangeThemeCommand { get; private set; }
 
         [Reactive]
         public string CenterMessage { get; set; }
@@ -104,6 +106,11 @@ namespace Reception.App.ViewModels
             NotificationMessage = message;
         }
 
+        private void InitChangeThemeCommand()
+        {
+            ChangeThemeCommand = ReactiveCommand.Create<bool>(SetTheme);
+        }
+
         private void LoadIsBossMode()
         {
             if (_settingsService.IsBoss)
@@ -119,6 +126,18 @@ namespace Reception.App.ViewModels
         private void NavigateToAuth()
         {
             Router.Navigate.Execute(new AuthViewModel(this));
+        }
+
+        private void SetTheme(bool isDark)
+        {
+            if (isDark)
+            {
+                GlobalCommand.UseMaterialUIDarkTheme();
+            }
+            else
+            {
+                GlobalCommand.UseMaterialUILightTheme();
+            }
         }
 
         private async Task ShowErrorInternal(Exception error, string sourceName, params object[] properties)

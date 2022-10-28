@@ -26,30 +26,19 @@ namespace Reception.App.ViewModels
         #region Fields
 
         private readonly IClientService _clientService;
-
-        private readonly IMainViewModel _mainViewModel;
-
         private readonly INetworkService<Person> _networkServiceOfPersons;
-
         private readonly INetworkService<FileData> _networkServiceOfFileData;
-
         private readonly ISettingsService _settingsService;
 
+        private byte[] _defaultPhotoData;
         private ObservableAsPropertyHelper<bool> _isSearching;
-
         private ObservableAsPropertyHelper<IEnumerable<Person>> _searchedPersons;
 
-        private byte[] _defaultPhotoData;
-
         #endregion
-
-        #region ctor
 
         public SubordinateViewModel(IMainViewModel mainViewModel) : base(nameof(SubordinateViewModel), mainViewModel)
         {
             SetRefreshingNotification("Loading subordinate data");
-
-            _mainViewModel = mainViewModel;
 
             SearchText = string.Empty;
 
@@ -65,8 +54,6 @@ namespace Reception.App.ViewModels
             Initialized += OnSubordinateViewModelInitialized;
             OnInitialized();
         }
-
-        #endregion
 
         #region Properties
 
