@@ -15,7 +15,9 @@ using Splat;
 using System;
 using System.Net;
 using System.Reactive;
-using System.Reactive.Linq;
+#if !DEBUG
+using System.Reactive.Linq; 
+#endif
 using System.Threading.Tasks;
 using static Reception.App.ViewModels.IMainViewModel;
 
@@ -26,7 +28,9 @@ namespace Reception.App.ViewModels
         #region Fields
 
         private readonly IClientService _clientService;
-        private readonly IPingService _pingService;
+#if !DEBUG
+        private readonly IPingService _pingService; 
+#endif
         private readonly ISettingsService _settingsService;
 
         #endregion
@@ -34,7 +38,9 @@ namespace Reception.App.ViewModels
         public MainWindowViewModel()
         {
             _clientService ??= Locator.Current.GetService<IClientService>();
-            _pingService ??= Locator.Current.GetService<IPingService>();
+#if !DEBUG
+            _pingService ??= Locator.Current.GetService<IPingService>(); 
+#endif
             _settingsService ??= Locator.Current.GetService<ISettingsService>();
 
             CenterMessage = "Loading..";
@@ -46,8 +52,10 @@ namespace Reception.App.ViewModels
 
             Router = new RoutingState();
 
+#if !DEBUG
             _ = Observable.Timer(TimeSpan.Zero, TimeSpan.FromSeconds(_settingsService.PingDelay), RxApp.MainThreadScheduler)
-                          .Subscribe(async x => await TryPing());
+                          .Subscribe(async x => await TryPing()); 
+#endif
 
             CenterMessage = string.Empty;
 
@@ -145,23 +153,27 @@ namespace Reception.App.ViewModels
             Logger.Sink.LogException(sourceName, this, typeof(Exception), properties);
 
             var errorType = NotificationType.System;
-            if (error is NotFoundException<Person>)
+            switch (error)
             {
-                errorType = NotificationType.Request;
-            }
-            else if (error is QueryException queryError)
-            {
-                if (queryError.StatusCode == HttpStatusCode.Unauthorized)
-                {
+                case NotFoundException<Person>:
+                    errorType = NotificationType.Request;
+                    break;
+                case QueryException unauthorizedError when unauthorizedError.StatusCode == HttpStatusCode.Unauthorized:
                     await _clientService.StopClientAsync();
                     NavigateToAuth();
                     return;
-                }
-                errorType = NotificationType.Server;
+                case QueryException:
+                    errorType = NotificationType.Server;
+                    break;
+                case OperationCanceledException:
+                    return;
+                default:
+                    break;
             }
             SetNotification($"{sourceName}: {error.Message}", errorType);
         }
 
+#if !DEBUG
         private async Task TryPing()
         {
             try
@@ -179,6 +191,7 @@ namespace Reception.App.ViewModels
                 SetNotification(ex.Message, NotificationType.Server);
             }
         }
+#endif
 
         #endregion
     }
