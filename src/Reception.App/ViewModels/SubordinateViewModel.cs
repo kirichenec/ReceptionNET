@@ -17,6 +17,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Reception.App.ViewModels
@@ -36,7 +37,8 @@ namespace Reception.App.ViewModels
 
         #endregion
 
-        public SubordinateViewModel(IMainViewModel mainViewModel) : base(nameof(SubordinateViewModel), mainViewModel)
+        public SubordinateViewModel(IMainViewModel mainViewModel)
+            : base(nameof(SubordinateViewModel), mainViewModel)
         {
             SetRefreshingNotification("Loading subordinate data");
 
@@ -134,8 +136,14 @@ namespace Reception.App.ViewModels
 
         private void InitSelectPersonCommand()
         {
+            var selectEntered = this.WhenAnyValue(x => x.SelectedPerson)
+                .Publish().RefCount();
+
             SelectPersonCommand = ReactiveCommand
-                .CreateFromTask<Person, bool>(SelectPersonExecutedAsync);
+                .CreateFromObservable<Person, bool>(
+                    (person) => Observable
+                        .StartAsync(ct => SelectPersonExecutedAsync(person, ct))
+                        .TakeUntil(selectEntered));
 
             SelectPersonCommand.ThrownExceptions.Subscribe(exception =>
             {
@@ -143,7 +151,13 @@ namespace Reception.App.ViewModels
                 ErrorHandler(nameof(SelectPersonCommand)).Invoke(exception);
             });
 
-            this.WhenAnyValue(x => x.SelectedPerson)
+            var selectTrigger = selectEntered
+                .Select(selectedPerson => SelectPersonCommand.IsExecuting.Where(e => !e).Take(1).Select(_ => selectedPerson))
+                .Publish()
+                .RefCount();
+
+            selectTrigger
+                .Switch()
                 .InvokeCommand(SelectPersonCommand);
         }
 
@@ -199,7 +213,7 @@ namespace Reception.App.ViewModels
             return answer;
         }
 
-        private async Task<bool> SelectPersonExecutedAsync(Person person)
+        private async Task<bool> SelectPersonExecutedAsync(Person person, CancellationToken cancellationToken = default)
         {
             if (person == null)
             {
@@ -210,7 +224,7 @@ namespace Reception.App.ViewModels
 
             IsPhotoLoading = true;
             Visitor.CopyFrom(person);
-            byte[] visitorImage = await GetVisitorPhoto(person?.PhotoId);
+            byte[] visitorImage = await GetVisitorPhoto(person?.PhotoId, cancellationToken);
             Visitor.ImageSource = visitorImage;
             IsPhotoLoading = false;
 
@@ -218,29 +232,29 @@ namespace Reception.App.ViewModels
             return true;
 
 
-            async Task<byte[]> GetDefaultVisitorPhoto()
+            async Task<byte[]> GetDefaultVisitorPhoto(CancellationToken cancellationToken = default)
             {
-                return _defaultPhotoData ??= await _settingsService.DefaultVisitorPhotoPath.GetFileBytesByPathAsync();
+                return _defaultPhotoData ??= await _settingsService.DefaultVisitorPhotoPath.GetFileBytesByPathAsync(cancellationToken);
             }
 
-            async Task<byte[]> GetVisitorPhoto(int? photoId)
+            async Task<byte[]> GetVisitorPhoto(int? photoId, CancellationToken cancellationToken = default)
             {
                 if (!photoId.HasValue
-                    || (await _networkServiceOfFileData.GetById(photoId.Value)) is not FileData visitorImageSource
+                    || (await _networkServiceOfFileData.GetByIdAsync(photoId.Value, cancellationToken)) is not FileData visitorImageSource
                     || visitorImageSource.Data.IsNullOrEmpty())
                 {
-                    return await GetDefaultVisitorPhoto();
+                    return await GetDefaultVisitorPhoto(cancellationToken);
                 }
                 return visitorImageSource.Data;
             }
         }
 
-        private async Task<bool> SendVisitorExecuteAsync(Visitor visitor)
+        private async Task<bool> SendVisitorExecuteAsync(Visitor visitor, CancellationToken cancellationToken = default)
         {
             SetRefreshingNotification("Visitor on the way..");
 
             visitor.IncomingDate = DateTime.Now;
-            await _clientService.SendAsync(visitor);
+            await _clientService.SendAsync(visitor, cancellationToken);
 
             ClearNotification();
             return true;

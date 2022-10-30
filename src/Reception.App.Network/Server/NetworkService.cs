@@ -4,6 +4,7 @@ using Reception.App.Network.Exceptions;
 using Reception.Model.Network;
 using Splat;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Reception.App.Network.Server
@@ -19,12 +20,13 @@ namespace Reception.App.Network.Server
             _authService = Locator.Current.GetService<IAuthService>();
         }
 
-        public async Task<T> GetById(int id)
+        public async Task<T> GetByIdAsync(int id, CancellationToken cancellationToken = default)
         {
             var response = await Core.ExecuteGetTaskAsync(
                 baseUrl: $"{_serverPath}/api/",
                 methodUri: $"{typeof(T).Name}/{id}",
-                headers: GetDefaultHeaders());
+                headers: GetDefaultHeaders(),
+                cancellationToken);
 
             if (response.IsSuccessful)
             {
@@ -35,13 +37,14 @@ namespace Reception.App.Network.Server
             throw new QueryException(response.StatusDescription, response.StatusCode);
         }
 
-        public async Task<IEnumerable<T>> GetByIds(IEnumerable<int> ids)
+        public async Task<IEnumerable<T>> GetByIdsAsync(IEnumerable<int> ids, CancellationToken cancellationToken = default)
         {
             var response = await Core.ExecutePostTaskAsync(
                 baseUrl: $"{_serverPath}/api",
                 methodUri: $"{typeof(T).Name}/GetByIds",
                 bodyValue: ids,
-                headers: GetDefaultHeaders());
+                headers: GetDefaultHeaders(),
+                cancellationToken);
 
             if (response.IsSuccessful)
             {
@@ -52,12 +55,13 @@ namespace Reception.App.Network.Server
             throw new QueryException(response.StatusDescription, response.StatusCode);
         }
 
-        public async Task<IEnumerable<T>> SearchAsync(string searchText)
+        public async Task<IEnumerable<T>> SearchAsync(string searchText, CancellationToken cancellationToken = default)
         {
             var response = await Core.ExecuteGetTaskAsync(
                 baseUrl: $"{_serverPath}/api/",
                 methodUri: $"{typeof(T).Name}?searchText={searchText}",
-                headers: GetDefaultHeaders());
+                headers: GetDefaultHeaders(),
+                cancellationToken);
 
             if (response.IsSuccessful)
             {

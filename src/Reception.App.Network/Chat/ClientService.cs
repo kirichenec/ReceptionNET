@@ -5,6 +5,7 @@ using Reception.App.Service.Interface;
 using Reception.Model.Network;
 using Splat;
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Reception.App.Network.Chat
@@ -66,10 +67,11 @@ namespace Reception.App.Network.Chat
             (userId, message) =>
             MessageReceived?.Invoke(userId, message.DataType, message.Data);
 
-        public async Task SendAsync<T>(T value)
+        public async Task SendAsync<T>(T value, CancellationToken cancellationToken = default)
         {
             var query = new QueryResult<T>(value);
-            await _client.SendAsync(ChatMethodNames.SEND_MESSAGE_BROADCAST, _settingsService.Token.UserId, query);
+            await _client.SendAsync(ChatMethodNames.SEND_MESSAGE_BROADCAST,
+                _settingsService.Token.UserId, query, cancellationToken);
         }
 
         public async Task StartClientAsync()
@@ -83,6 +85,8 @@ namespace Reception.App.Network.Chat
             await _client?.StopAsync();
             Closed?.Invoke(null);
         }
+
+        #endregion
 
         #region IDisposable Support
         private bool _disposedValue = false;
@@ -107,8 +111,6 @@ namespace Reception.App.Network.Chat
             Dispose(true);
             GC.SuppressFinalize(this);
         }
-        #endregion
-
         #endregion
     }
 }

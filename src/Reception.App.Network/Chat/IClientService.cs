@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.SignalR.Client;
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Reception.App.Network.Chat
@@ -14,7 +15,7 @@ namespace Reception.App.Network.Chat
 
         HubConnectionState State { get; }
 
-        Task SendAsync<T>(T value);
+        Task SendAsync<T>(T value, CancellationToken cancellationToken = default);
         Task StartClientAsync();
         Task StopClientAsync();
     }
