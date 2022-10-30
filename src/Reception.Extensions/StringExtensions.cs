@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System.Collections.Generic;
+using System.Globalization;
 
 namespace Reception.Extension
 {
@@ -31,6 +32,11 @@ namespace Reception.Extension
         public static int ParseInt(this string value)
         {
             return int.Parse(value);
+        }
+
+        public static string ToJoinString<T>(this IEnumerable<T> source, string separator)
+        {
+            return string.Join(separator, source);
         }
 
         public static string ToTitleCase(this string value, CultureInfo cultureInfo = null)
