@@ -3,6 +3,7 @@ using Reception.Extension;
 using Reception.Server.File.Entities;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Reception.Server.File.Repository
@@ -16,20 +17,20 @@ namespace Reception.Server.File.Repository
             _context = context;
         }
 
-        public async Task<bool> DeleteAsync(int id)
+        public async Task<bool> DeleteAsync(int id, CancellationToken cancellationToken = default)
         {
-            if (await GetAsync(id) is FileData dataToDelete)
+            if (await GetAsync(id, cancellationToken) is FileData dataToDelete)
             {
                 _context.FileDatas.Remove(dataToDelete);
-                _ = await _context.SaveChangesAsync();
+                _ = await _context.SaveChangesAsync(cancellationToken);
                 return true;
             }
             return false;
         }
 
-        public async Task<FileData> GetAsync(int id)
+        public async Task<FileData> GetAsync(int id, CancellationToken cancellationToken = default)
         {
-            return await _context.FileDatas.FirstOrDefaultAsync(fi => fi.Id == id);
+            return await _context.FileDatas.FirstOrDefaultAsync(fi => fi.Id == id, cancellationToken);
         }
 
         public IQueryable<FileData> Queryable()
@@ -37,23 +38,25 @@ namespace Reception.Server.File.Repository
             return _context.FileDatas.AsQueryable();
         }
 
-        public async Task<FileData> SaveAsync(FileData value)
+        public async Task<FileData> SaveAsync(FileData value, CancellationToken cancellationToken = default)
         {
-            var trackedData = await _context.AddAsync(value);
-            _ = await _context.SaveChangesAsync();
-            return await GetAsync(trackedData.Entity.Id);
+            var trackedData = await _context.AddAsync(value, cancellationToken);
+            _ = await _context.SaveChangesAsync(cancellationToken);
+            return await GetAsync(trackedData.Entity.Id, cancellationToken);
         }
 
-        public async Task<IEnumerable<FileData>> SearchAsync(string searchText)
+        public async Task<IEnumerable<FileData>> SearchAsync(string searchText,
+            CancellationToken cancellationToken = default)
         {
-            return await SearchFileDataQuery(searchText).ToListAsync();
+            return await SearchFileDataQuery(searchText).ToListAsync(cancellationToken);
         }
 
-        public async Task<IEnumerable<FileData>> SearchPagedAsync(string searchText, int count, int page)
+        public async Task<IEnumerable<FileData>> SearchPagedAsync(string searchText, int count, int page,
+            CancellationToken cancellationToken = default)
         {
             return await SearchFileDataQuery(searchText)
                 .Paged(page, count)
-                .ToListAsync();
+                .ToListAsync(cancellationToken);
         }
 
         private IQueryable<FileData> SearchFileDataQuery(string searchText)

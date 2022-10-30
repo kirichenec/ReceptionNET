@@ -7,6 +7,7 @@ using Reception.Server.Core.Interfaces;
 using Reception.Server.Data.Logic;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Reception.Server.Data.Controllers
@@ -27,27 +28,27 @@ namespace Reception.Server.Data.Controllers
 
         // GET api/Person/5
         [HttpGet("{id}")]
-        public async Task<IActionResult> Get(int id)
+        public async Task<IActionResult> Get(int id, CancellationToken cancellationToken = default)
         {
-            var person = await _personLogic.GetAsync(id);
+            var person = await _personLogic.GetAsync(id, cancellationToken);
             var info = new QueryResult<PersonDto>(person);
             return Ok(info);
         }
 
         // POST api/Person/GetByIds
         [HttpPost("[action]")]
-        public async Task<IActionResult> GetByIds([FromBody] int[] ids)
+        public async Task<IActionResult> GetByIds([FromBody] int[] ids, CancellationToken cancellationToken = default)
         {
-            var persons = await _personLogic.GetByIdsAsync(ids);
+            var persons = await _personLogic.GetByIdsAsync(ids, cancellationToken);
             var info = new QueryResult<IEnumerable<PersonDto>>(persons.ToList());
             return Ok(info);
         }
 
         // GET api/Person?searchText=5
         [HttpGet]
-        public async Task<IActionResult> Search([FromQuery] string searchText)
+        public async Task<IActionResult> Search([FromQuery] string searchText, CancellationToken cancellationToken = default)
         {
-            var persons = await _personLogic.SearchAsync(searchText);
+            var persons = await _personLogic.SearchAsync(searchText, cancellationToken);
             var info = new QueryResult<IEnumerable<PersonDto>>(persons);
             return Ok(info);
         }
