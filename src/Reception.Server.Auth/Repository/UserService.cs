@@ -67,6 +67,7 @@ namespace Reception.Server.Auth.Repository
                     user =>
                     EF.Functions.Like(user.FirstName, likeSearchText) ||
                     EF.Functions.Like(user.LastName, likeSearchText) ||
+                    EF.Functions.Like(user.MiddleName, likeSearchText) ||
                     EF.Functions.Like(user.Login, likeSearchText));
         }
 
