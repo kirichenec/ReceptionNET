@@ -1,7 +1,7 @@
 <Application xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:Reception.App"
-             xmlns:styles="clr-namespace:Material.Styles;assembly=Material.Styles"
+             xmlns:controls="clr-namespace:Material.Styles.Controls;assembly=Material.Styles"
              xmlns:themes="clr-namespace:Material.Styles.Themes;assembly=Material.Styles"
              x:Class="Reception.App.App">
     <Application.DataTemplates>
@@ -9,8 +9,6 @@
     </Application.DataTemplates>
 
     <Application.Resources>
-        <themes:BundledTheme BaseTheme="Light" PrimaryColor="Blue" SecondaryColor="LightBlue"/>
-
         <Thickness x:Key="Full">8</Thickness>
         <Thickness x:Key="LeftRight">8,0</Thickness>
         <Thickness x:Key="LeftTop">8,8,0,0</Thickness>
@@ -18,9 +16,12 @@
     </Application.Resources>
 
     <Application.Styles>
+		<themes:MaterialTheme BaseTheme="Light" PrimaryColor="Blue" SecondaryColor="LightBlue"/>
+		<StyleInclude Source="avares://Avalonia.Themes.Default/DefaultTheme.xaml" />
         <StyleInclude Source="avares://Material.Avalonia/Material.Avalonia.Templates.xaml" />
+		<StyleInclude Source="avares://Material.Icons.Avalonia/App.xaml" />
 
-        <Style Selector="styles|Card">
+        <Style Selector="controls|Card">
             <Setter Property="Padding" Value="0"/>
         </Style>
 
@@ -40,8 +41,9 @@
             <Setter Property="Margin" Value="0"/>
         </Style>
 
-        <Style Selector="Separator.Vertical">
+        <Style Selector="Separator.vertical">
             <Setter Property="Margin" Value="{DynamicResource RightBottom}"/>
+			<Setter Property="Background" Value="Transparent"/>
         </Style>
 
         <Style Selector="StackPanel">
@@ -77,7 +79,7 @@
             <Setter Property="Margin" Value="{DynamicResource RightBottom}"/>
         </Style>
 
-        <Style Selector="styles|Card > ListBox">
+        <Style Selector="controls|Card > ListBox">
             <Setter Property="Margin" Value="0"/>
         </Style>
     </Application.Styles>

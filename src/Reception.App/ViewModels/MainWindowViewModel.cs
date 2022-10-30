@@ -8,7 +8,9 @@ using Reception.App.Model.Auth;
 using Reception.App.Model.PersonInfo;
 using Reception.App.Network.Chat;
 using Reception.App.Network.Exceptions;
+#if !DEBUG
 using Reception.App.Network.Server;
+#endif
 using Reception.App.Service.Interface;
 using Reception.Constant;
 using Splat;
@@ -55,6 +57,8 @@ namespace Reception.App.ViewModels
 #if !DEBUG
             _ = Observable.Timer(TimeSpan.Zero, TimeSpan.FromSeconds(_settingsService.PingDelay), RxApp.MainThreadScheduler)
                           .Subscribe(async x => await TryPing()); 
+#else
+            ServerStatusMessage = ConnectionStatuses.ONLINE.ToLower();
 #endif
 
             CenterMessage = string.Empty;
