@@ -4,6 +4,7 @@ using Reception.Extension;
 using Reception.Model.Network;
 using Reception.Server.Auth.Helpers;
 using Reception.Server.Auth.Logic;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Reception.Server.Auth.Controllers
@@ -23,9 +24,9 @@ namespace Reception.Server.Auth.Controllers
 
         // POST User/Authenticate
         [HttpPost("Authenticate")]
-        public async Task<IActionResult> Authenticate([FromBody] AuthenticateRequest model)
+        public async Task<IActionResult> Authenticate([FromBody] AuthenticateRequest model, CancellationToken token = default)
         {
-            var response = await _userLogic.Authenticate(model);
+            var response = await _userLogic.AuthenticateAsync(model, token);
 
             return response.HasNoValue()
                 ? Unauthorized(new { message = "Username or password is incorrect" })
@@ -43,18 +44,18 @@ namespace Reception.Server.Auth.Controllers
         // PUT User
         [InternalServerAuthorize]
         [HttpPut]
-        public async Task<IActionResult> CreateUser([FromBody] AuthenticateRequest model)
+        public async Task<IActionResult> CreateUser([FromBody] AuthenticateRequest model, CancellationToken token = default)
         {
-            var savedUser = await _userLogic.CreateUserAsync(model.Login, model.Password);
+            var savedUser = await _userLogic.CreateUserAsync(model.Login, model.Password, token);
             return Ok(savedUser.ToQueryResult());
         }
 
         // GET User?searchText=5
         [InternalServerAuthorize]
         [HttpGet]
-        public async Task<IActionResult> Search([FromQuery] string searchText)
+        public async Task<IActionResult> Search([FromQuery] string searchText, CancellationToken token = default)
         {
-            var searchResult = await _userLogic.SearchAsync(searchText);
+            var searchResult = await _userLogic.SearchAsync(searchText, token);
             return Ok(searchResult.ToQueryResult());
         }
     }

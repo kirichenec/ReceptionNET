@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.SignalR.Client;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
+using Reception.App.Enums;
 using Reception.App.Model;
 using Reception.App.Model.Extensions;
 using Reception.App.Model.FileInfo;
@@ -17,6 +18,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Reception.App.ViewModels
@@ -31,12 +33,12 @@ namespace Reception.App.ViewModels
         private readonly ISettingsService _settingsService;
 
         private byte[] _defaultPhotoData;
-        private ObservableAsPropertyHelper<bool> _isSearching;
         private ObservableAsPropertyHelper<IEnumerable<Person>> _searchedPersons;
 
         #endregion
 
-        public SubordinateViewModel(IMainViewModel mainViewModel) : base(nameof(SubordinateViewModel), mainViewModel)
+        public SubordinateViewModel(IMainViewModel mainViewModel)
+            : base(nameof(SubordinateViewModel), mainViewModel)
         {
             SetRefreshingNotification("Loading subordinate data");
 
@@ -61,9 +63,6 @@ namespace Reception.App.ViewModels
 
         [Reactive]
         public bool IsPhotoLoading { get; set; }
-
-        // ToDo: Change to old search kick
-        public bool IsSearching => _isSearching.Value;
 
         public IEnumerable<Person> Persons => _searchedPersons.Value ?? Array.Empty<Person>();
 
@@ -115,27 +114,42 @@ namespace Reception.App.ViewModels
 
         private void InitSearchPersonCommand()
         {
+            var searchEntered = this.WhenAnyValue(x => x.SearchText)
+                .Throttle(TimeSpan.FromSeconds(1), RxApp.MainThreadScheduler)
+                .Publish().RefCount();
+
             var canSearch = this.WhenAnyValue(
                 x => x.SearchText,
                 selector: query => !string.IsNullOrWhiteSpace(query));
 
             SearchPersonCommand = ReactiveCommand
-                .CreateFromTask<string, IEnumerable<Person>>(SearchPersonExecuteAsync, canSearch);
+                .CreateFromObservable<string, IEnumerable<Person>>(
+                    execute: (searchQuery) => Observable
+                        .StartAsync(ct => SearchPersonExecuteAsync(searchQuery, ct))
+                        .TakeUntil(searchEntered),
+                    canExecute: canSearch);
 
-            SearchPersonCommand.IsExecuting.ToProperty(this, x => x.IsSearching, out _isSearching);
             SearchPersonCommand.ThrownExceptions.Subscribe(ErrorHandler(nameof(SearchPersonCommand)));
 
             _searchedPersons = SearchPersonCommand.ToProperty(this, x => x.Persons);
 
-            this.WhenAnyValue(x => x.SearchText)
-                .Throttle(TimeSpan.FromSeconds(1), RxApp.MainThreadScheduler)
-                .InvokeCommand(SearchPersonCommand);
+            var searchTrigger = searchEntered
+                .Select(searchQuery => SearchPersonCommand.IsExecuting.Where(e => !e).Take(1).Select(_ => searchQuery))
+                .Publish().RefCount();
+
+            searchTrigger.Switch().InvokeCommand(SearchPersonCommand);
         }
 
         private void InitSelectPersonCommand()
         {
+            var selectEntered = this.WhenAnyValue(x => x.SelectedPerson)
+                .Publish().RefCount();
+
             SelectPersonCommand = ReactiveCommand
-                .CreateFromTask<Person, bool>(SelectPersonExecutedAsync);
+                .CreateFromObservable<Person, bool>(
+                    (person) => Observable
+                        .StartAsync(ct => SelectPersonExecutedAsync(person, ct))
+                        .TakeUntil(selectEntered));
 
             SelectPersonCommand.ThrownExceptions.Subscribe(exception =>
             {
@@ -143,8 +157,11 @@ namespace Reception.App.ViewModels
                 ErrorHandler(nameof(SelectPersonCommand)).Invoke(exception);
             });
 
-            this.WhenAnyValue(x => x.SelectedPerson)
-                .InvokeCommand(SelectPersonCommand);
+            var selectTrigger = selectEntered
+                .Select(selectedPerson => SelectPersonCommand.IsExecuting.Where(e => !e).Take(1).Select(_ => selectedPerson))
+                .Publish().RefCount();
+
+            selectTrigger.Switch().InvokeCommand(SelectPersonCommand);
         }
 
         private void InitSendPersonCommand()
@@ -183,9 +200,9 @@ namespace Reception.App.ViewModels
             _mainViewModel.ShowError(new NotImplementedException($"{nameof(PersonReceived)} not implemented"), properties: person);
         }
 
-        private async Task<IEnumerable<Person>> SearchPersonExecuteAsync(string query)
+        private async Task<IEnumerable<Person>> SearchPersonExecuteAsync(string query, CancellationToken cancellationToken = default)
         {
-            SetRefreshingNotification("Searching..");
+            SetNotification("Searching..", NotificationType.Request);
             IEnumerable<Person> answer;
             if (query == null)
             {
@@ -193,13 +210,13 @@ namespace Reception.App.ViewModels
             }
             else
             {
-                answer = await _networkServiceOfPersons.SearchAsync(query);
+                answer = await _networkServiceOfPersons.SearchAsync(query, cancellationToken);
             }
             ClearNotification();
             return answer;
         }
 
-        private async Task<bool> SelectPersonExecutedAsync(Person person)
+        private async Task<bool> SelectPersonExecutedAsync(Person person, CancellationToken cancellationToken = default)
         {
             if (person == null)
             {
@@ -210,7 +227,7 @@ namespace Reception.App.ViewModels
 
             IsPhotoLoading = true;
             Visitor.CopyFrom(person);
-            byte[] visitorImage = await GetVisitorPhoto(person?.PhotoId);
+            byte[] visitorImage = await GetVisitorPhoto(person?.PhotoId, cancellationToken);
             Visitor.ImageSource = visitorImage;
             IsPhotoLoading = false;
 
@@ -218,29 +235,29 @@ namespace Reception.App.ViewModels
             return true;
 
 
-            async Task<byte[]> GetDefaultVisitorPhoto()
+            async Task<byte[]> GetDefaultVisitorPhoto(CancellationToken cancellationToken = default)
             {
-                return _defaultPhotoData ??= await _settingsService.DefaultVisitorPhotoPath.GetFileBytesByPathAsync();
+                return _defaultPhotoData ??= await _settingsService.DefaultVisitorPhotoPath.GetFileBytesByPathAsync(cancellationToken);
             }
 
-            async Task<byte[]> GetVisitorPhoto(int? photoId)
+            async Task<byte[]> GetVisitorPhoto(int? photoId, CancellationToken cancellationToken = default)
             {
                 if (!photoId.HasValue
-                    || (await _networkServiceOfFileData.GetById(photoId.Value)) is not FileData visitorImageSource
+                    || (await _networkServiceOfFileData.GetByIdAsync(photoId.Value, cancellationToken)) is not FileData visitorImageSource
                     || visitorImageSource.Data.IsNullOrEmpty())
                 {
-                    return await GetDefaultVisitorPhoto();
+                    return await GetDefaultVisitorPhoto(cancellationToken);
                 }
                 return visitorImageSource.Data;
             }
         }
 
-        private async Task<bool> SendVisitorExecuteAsync(Visitor visitor)
+        private async Task<bool> SendVisitorExecuteAsync(Visitor visitor, CancellationToken cancellationToken = default)
         {
             SetRefreshingNotification("Visitor on the way..");
 
             visitor.IncomingDate = DateTime.Now;
-            await _clientService.SendAsync(visitor);
+            await _clientService.SendAsync(visitor, cancellationToken);
 
             ClearNotification();
             return true;

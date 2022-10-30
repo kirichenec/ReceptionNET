@@ -10,6 +10,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Reception.Server.Auth.Repository
@@ -29,20 +30,26 @@ namespace Reception.Server.Auth.Repository
 
         #region public
 
-        public async Task<bool> CheckAsync(string token)
+        public async Task<bool> CheckAsync(string token, CancellationToken cancellationToken = default)
         {
             return
                 !token.IsNullOrWhiteSpace()
                 && ReadToken(token) is JwtSecurityToken jwtToken
                 && GetUserId(jwtToken) is int userId
-                && (await _context.Tokens.SingleOrDefaultAsync(t => t.Value == token && t.UserId == userId)).HasValue()
+                && (await GetTokenAsync(token, userId, cancellationToken)).HasValue()
                 && IsJwtTokenActual(jwtToken);
+
+
+            Task<Token> GetTokenAsync(string token, int userId, CancellationToken cancellationToken)
+            {
+                return _context.Tokens.SingleOrDefaultAsync(t => t.Value == token && t.UserId == userId, cancellationToken);
+            }
         }
 
-        public async Task<Token> GenerateAndSaveAsync(int userId)
+        public async Task<Token> GenerateAndSaveAsync(int userId, CancellationToken cancellationToken = default)
         {
             var tokenValue = GenerateJwtToken(userId);
-            return await SaveOrUpdateAsync(userId, tokenValue);
+            return await SaveOrUpdateAsync(userId, tokenValue, cancellationToken);
         }
 
         #endregion
@@ -79,10 +86,11 @@ namespace Reception.Server.Auth.Repository
             return tokenHandler.WriteToken(token);
         }
 
-        private async Task<Token> SaveOrUpdateAsync(int userId, string tokenValue)
+        private async Task<Token> SaveOrUpdateAsync(int userId, string tokenValue,
+            CancellationToken cancellationToken = default)
         {
             EntityEntry<Token> trackedData;
-            if (await GetTokenAsync(userId) is Token existedToken)
+            if (await GetTokenAsync(userId, cancellationToken) is Token existedToken)
             {
                 existedToken.Value = tokenValue;
                 trackedData = _context.Tokens.Update(existedToken);
@@ -90,15 +98,15 @@ namespace Reception.Server.Auth.Repository
             else
             {
                 var token = new Token { UserId = userId, Value = tokenValue };
-                trackedData = await _context.Tokens.AddAsync(token);
+                trackedData = await _context.Tokens.AddAsync(token, cancellationToken);
             }
-            await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync(cancellationToken);
             return trackedData.Entity;
 
 
-            async Task<Token> GetTokenAsync(int userId)
+            async Task<Token> GetTokenAsync(int userId, CancellationToken cancellationToken = default)
             {
-                return await _context.Tokens.FirstOrDefaultAsync(token => token.UserId == userId);
+                return await _context.Tokens.FirstOrDefaultAsync(token => token.UserId == userId, cancellationToken);
             }
         }
 

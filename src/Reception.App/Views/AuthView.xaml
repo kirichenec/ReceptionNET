@@ -2,31 +2,36 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:assists="clr-namespace:Material.Styles.Assists;assembly=Material.Styles"
 			 xmlns:const="using:Reception.App.Constants"
+             xmlns:controls="clr-namespace:Material.Styles.Controls;assembly=Material.Styles"
 			 xmlns:local="using:Reception.App.Views"
-             xmlns:styles="clr-namespace:Material.Styles;assembly=Material.Styles"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Reception.App.Views.AuthView">
-    <styles:Card VerticalAlignment="Center"
+	<controls:Card VerticalAlignment="Center"
                  HorizontalAlignment="Center">
-        <Grid RowDefinitions="Auto Auto">
-            <styles:ColorZone Grid.Row="0" Mode="PrimaryMid" Padding="{DynamicResource LeftRight}">
-                <StackPanel>
-                    <TextBlock Classes="Headline6" Text="Welcome"/>
-                </StackPanel>
-            </styles:ColorZone>
-            <StackPanel Grid.Row="1"
+		<Grid RowDefinitions="Auto Auto">
+			<controls:ColorZone Grid.Row="0" Mode="PrimaryMid" Padding="{DynamicResource LeftRight}">
+				<StackPanel>
+					<TextBlock Classes="Headline6" Text="Welcome"/>
+				</StackPanel>
+			</controls:ColorZone>
+			<StackPanel Grid.Row="1"
                         IsEnabled="{Binding !IsLoading}"
                         MinWidth="300">
-                <TextBox Text="{Binding Login, Mode=TwoWay}" Watermark="Username *" x:Name="{x:Static const:ControlNames.FOCUSED_ITEM_NAME}"/>
-                <TextBox Text="{Binding Password, Mode=TwoWay}" Watermark="Password *" PasswordChar="*"/>
-                <Button Content="LOG IN" Command="{Binding LoginCommand}" IsDefault="True"/>
-            </StackPanel>
-            <Grid Grid.Row="1" Background="#BBFFFFFF" IsVisible="{Binding IsLoading}">
-                <ProgressBar IsIndeterminate="True" Classes="Circle"
+				<TextBox Text="{Binding Login, Mode=TwoWay}"
+						 assists:TextFieldAssist.Label="Username" UseFloatingWatermark="True"
+						 x:Name="{x:Static const:ControlNames.FOCUSED_ITEM_NAME}"/>
+				<TextBox Text="{Binding Password, Mode=TwoWay}"
+						 assists:TextFieldAssist.Label="Password" UseFloatingWatermark="True"
+						 PasswordChar="*" Classes="revealPasswordButton"/>
+				<Button Content="LOG IN" Command="{Binding LoginCommand}" IsDefault="True"/>
+			</StackPanel>
+			<Grid Grid.Row="1" Background="#BBFFFFFF" IsVisible="{Binding IsLoading}">
+				<ProgressBar IsIndeterminate="True" Classes="circular"
                              HorizontalAlignment="Center"
                              VerticalAlignment="Center"/>
-            </Grid>
-        </Grid>
-    </styles:Card>
+			</Grid>
+		</Grid>
+	</controls:Card>
 </UserControl>

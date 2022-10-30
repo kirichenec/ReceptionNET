@@ -1,4 +1,4 @@
-﻿using Material.Colors;
+﻿using Avalonia;
 using Material.Styles.Themes;
 using Material.Styles.Themes.Base;
 
@@ -6,28 +6,22 @@ namespace Reception.App.ViewModels
 {
     public static class GlobalCommand
     {
-        private static PaletteHelper _paletteHelper;
-
-        private static PaletteHelper PaletteHelper => _paletteHelper ??= new PaletteHelper();
+        private static readonly MaterialTheme _materialThemeStyles =
+            Application.Current!.LocateMaterialTheme<MaterialTheme>();
 
         public static void UseMaterialUIDarkTheme()
         {
-            UseMaterialUiTheme(BaseThemeMode.Dark.GetBaseTheme());
+            UseMaterialUiTheme(BaseThemeMode.Dark);
         }
 
         public static void UseMaterialUILightTheme()
         {
-            UseMaterialUiTheme(BaseThemeMode.Light.GetBaseTheme());
+            UseMaterialUiTheme(BaseThemeMode.Light);
         }
 
-        private static void UseMaterialUiTheme(IBaseTheme baseTheme)
+        private static void UseMaterialUiTheme(BaseThemeMode baseThemeMode)
         {
-            var theme = PaletteHelper.GetTheme();
-            // ToDo: Get colors from settings
-            //theme.SetPrimaryColor(SwatchHelper.Lookup[MaterialColor.Blue])
-            //theme.SetSecondaryColor(SwatchHelper.Lookup[MaterialColor.LightBlue])
-            theme.SetBaseTheme(baseTheme);
-            PaletteHelper.SetTheme(theme);
+            _materialThemeStyles.BaseTheme = baseThemeMode;
         }
     }
 }

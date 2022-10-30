@@ -1,7 +1,9 @@
-﻿namespace Reception.Constant
+﻿using Reception.Extension;
+
+namespace Reception.Constant
 {
     public static class HttpHeaders
     {
-        public const string TOKEN = "Token";
+        public static readonly string TOKEN = nameof(TOKEN).ToTitleCase();
     }
 }

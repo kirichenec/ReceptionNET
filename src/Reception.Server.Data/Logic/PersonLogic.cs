@@ -2,8 +2,10 @@
 using Microsoft.EntityFrameworkCore;
 using Reception.Model.Dto;
 using Reception.Server.Data.Repository;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Reception.Server.Data.Logic
@@ -19,31 +21,35 @@ namespace Reception.Server.Data.Logic
             _mapper = mapper;
         }
 
-        public Task<bool> DeleteAsync(int id)
+        public Task<bool> DeleteAsync(int id, CancellationToken cancellationToken = default)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
-        public async Task<PersonDto> GetAsync(int id)
+        public async Task<PersonDto> GetAsync(int id, CancellationToken cancellationToken = default)
         {
-            var person = await _dataService.GetAsync(id);
+            var person = await _dataService.GetAsync(id, cancellationToken);
             return _mapper.Map<PersonDto>(person);
         }
 
-        public async Task<IEnumerable<PersonDto>> GetByIdsAsync(IEnumerable<int> ids)
+        public async Task<IEnumerable<PersonDto>> GetByIdsAsync(IEnumerable<int> ids,
+            CancellationToken cancellationToken = default)
         {
-            var queriedValues = await _dataService.Queryable().Where(p => ids.Contains(p.Id)).ToListAsync();
+            var queriedValues = await _dataService.Queryable()
+                .Where(p => ids.Contains(p.Id))
+                .ToListAsync(cancellationToken);
             return _mapper.Map<IEnumerable<PersonDto>>(queriedValues);
         }
 
-        public Task<PersonDto> SaveAsync(PersonDto value)
+        public Task<PersonDto> SaveAsync(PersonDto value, CancellationToken cancellationToken = default)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
-        public async Task<IEnumerable<PersonDto>> SearchAsync(string searchText)
+        public async Task<IEnumerable<PersonDto>> SearchAsync(string searchText,
+            CancellationToken cancellationToken = default)
         {
-            var searchedValues = await _dataService.SearchAsync(searchText);
+            var searchedValues = await _dataService.SearchAsync(searchText, cancellationToken);
             return _mapper.Map<IEnumerable<PersonDto>>(searchedValues);
         }
     }

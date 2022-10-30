@@ -10,16 +10,10 @@ namespace Reception.App
         public IControl Build(object param)
         {
             var name = param.GetType().FullName.Replace("ViewModel", "View");
-            var type = Type.GetType(name);
 
-            if (type != null)
-            {
-                return (Control)Activator.CreateInstance(type);
-            }
-            else
-            {
-                return new TextBlock { Text = "Not Found: " + name };
-            }
+            return Type.GetType(name) is Type type
+                ? (Control)Activator.CreateInstance(type)
+                : new TextBlock { Text = $"Not Found: {name}" };
         }
 
         public static bool SupportsRecycling => false;

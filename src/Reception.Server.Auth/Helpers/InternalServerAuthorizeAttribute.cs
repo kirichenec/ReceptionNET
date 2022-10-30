@@ -15,9 +15,10 @@ namespace Reception.Server.Auth.Helpers
         public async Task OnAuthorizationAsync(AuthorizationFilterContext context)
         {
             var tokenService = context.HttpContext.RequestServices.GetRequiredService<ITokenService>();
+            var cancellationToken = context.HttpContext.RequestAborted;
 
             if (context.HttpContext.Request.Headers[HttpHeaders.TOKEN].FirstOrDefault() is not string token
-                || !await tokenService.CheckAsync(token))
+                || !await tokenService.CheckAsync(token, cancellationToken))
             {
                 // not logged in
                 context.Result = DefaultResponse.UNAUTHORIZED_RESULT;

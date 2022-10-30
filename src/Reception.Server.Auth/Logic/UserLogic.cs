@@ -11,6 +11,7 @@ using Reception.Server.Auth.Repository;
 using Reception.Server.Core.Extensions;
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Reception.Server.Auth.Logic
@@ -30,10 +31,11 @@ namespace Reception.Server.Auth.Logic
             _userService = userService;
         }
 
-        public async Task<AuthenticateResponse> Authenticate(AuthenticateRequest requestModel)
+        public async Task<AuthenticateResponse> AuthenticateAsync(AuthenticateRequest requestModel,
+            CancellationToken cancellationToken = default)
         {
             var user = await _userService.Queryable()
-                .SingleOrDefaultAsync(x => x.Login == requestModel.Login);
+                .SingleOrDefaultAsync(x => x.Login == requestModel.Login, cancellationToken);
 
             // return null if user not found
             if (user.HasNoValue()) return null;
@@ -42,33 +44,36 @@ namespace Reception.Server.Auth.Logic
             if (!verified || needsUpgrade) return null;
 
             // authentication successful so generate jwt token
-            var token = await _tokenService.GenerateAndSaveAsync(user.Id);
+            var token = await _tokenService.GenerateAndSaveAsync(user.Id, cancellationToken);
 
             return _mapper.Map<User, AuthenticateResponse>(user, (AutoMapperProfile.TOKEN_OPTION_NAME, token.Value));
         }
 
-        public async Task<UserDto> CreateUserAsync(string login, string password)
+        public async Task<UserDto> CreateUserAsync(string login, string password,
+            CancellationToken cancellationToken = default)
         {
             var userDto = new UserDto { Login = login, Password = password };
-            return await SaveAsync(userDto);
+            return await SaveAsync(userDto, cancellationToken);
         }
 
-        public async Task<bool> DeleteAsync(int id)
-        {
-            return await Task.FromResult(true);
-        }
-
-        public async Task<UserDto> GetAsync(int id)
-        {
-            return _mapper.Map<UserDto>(await _userService.GetAsync(id));
-        }
-
-        public Task<IEnumerable<UserDto>> GetByIdsAsync(IEnumerable<int> ids)
+        public Task<bool> DeleteAsync(int id, CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<UserDto> SaveAsync(UserDto value)
+        public async Task<UserDto> GetAsync(int id,
+            CancellationToken cancellationToken = default)
+        {
+            return _mapper.Map<UserDto>(await _userService.GetAsync(id, cancellationToken));
+        }
+
+        public Task<IEnumerable<UserDto>> GetByIdsAsync(IEnumerable<int> ids,
+            CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<UserDto> SaveAsync(UserDto value, CancellationToken cancellationToken = default)
         {
             var data = new User
             {
@@ -78,12 +83,13 @@ namespace Reception.Server.Auth.Logic
                 MiddleName = value.MiddleName,
                 Password = _passwordHasher.Hash(value.Password)
             };
-            return _mapper.Map<UserDto>(await _userService.SaveAsync(data));
+            return _mapper.Map<UserDto>(await _userService.SaveAsync(data, cancellationToken));
         }
 
-        public async Task<IEnumerable<UserDto>> SearchAsync(string searchText)
+        public async Task<IEnumerable<UserDto>> SearchAsync(string searchText,
+            CancellationToken cancellationToken = default)
         {
-            return _mapper.Map<IEnumerable<UserDto>>(await _userService.SearchAsync(searchText));
+            return _mapper.Map<IEnumerable<UserDto>>(await _userService.SearchAsync(searchText, cancellationToken));
         }
     }
 }

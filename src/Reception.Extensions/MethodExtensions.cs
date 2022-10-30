@@ -7,10 +7,8 @@ namespace Reception.Extension
     {
         public static string GetMethodParametersNames(this MethodInfo method)
         {
-            if (method != null)
-                return string.Join(", ", method.GetParameters().Select(mParam => mParam.Name));
-
-            return string.Empty;
+            return method?.GetParameters().Select(mParam => mParam.Name).ToJoinString(", ")
+                ?? string.Empty;
         }
     }
 }
