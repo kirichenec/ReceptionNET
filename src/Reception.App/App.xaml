@@ -17,16 +17,11 @@
 
     <Application.Styles>
 		<themes:MaterialTheme BaseTheme="Light" PrimaryColor="Blue" SecondaryColor="LightBlue"/>
-		<StyleInclude Source="avares://Avalonia.Themes.Default/DefaultTheme.xaml" />
         <StyleInclude Source="avares://Material.Avalonia/Material.Avalonia.Templates.xaml" />
 		<StyleInclude Source="avares://Material.Icons.Avalonia/App.xaml" />
 
         <Style Selector="controls|Card">
             <Setter Property="Padding" Value="0"/>
-        </Style>
-
-        <Style Selector="DrawingPresenter">
-            <Setter Property="Margin" Value="{DynamicResource RightBottom}"/>
         </Style>
 
         <Style Selector="Image">
