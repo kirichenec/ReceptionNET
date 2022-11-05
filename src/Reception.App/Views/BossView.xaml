@@ -18,9 +18,9 @@
         </Grid>
 
         <StackPanel Grid.Row="2" Orientation="Horizontal">
-			<controls:FloatingButton Content="IN" Classes="outline" x:Name="{x:Static const:ControlNames.FOCUSED_ITEM_NAME}"/>
-			<controls:FloatingButton Content="WAIT" Classes="outline"/>
-			<controls:FloatingButton Content="DENY" Classes="outline"/>
+			<controls:FloatingButton Content="IN" Classes="Dark" x:Name="{x:Static const:ControlNames.FOCUSED_ITEM_NAME}"/>
+			<controls:FloatingButton Content="WAIT" Classes="Dark"/>
+			<controls:FloatingButton Content="DENY" Classes="Dark"/>
         </StackPanel>
 
     </Grid>

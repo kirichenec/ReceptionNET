@@ -11,7 +11,7 @@
 	<controls:Card VerticalAlignment="Center"
                  HorizontalAlignment="Center">
 		<Grid RowDefinitions="Auto Auto">
-			<controls:ColorZone Grid.Row="0" Mode="PrimaryMid" Padding="{DynamicResource LeftRight}">
+			<controls:ColorZone Grid.Row="0" Mode="PrimaryDark" Padding="{DynamicResource LeftRight}">
 				<StackPanel>
 					<TextBlock Classes="Headline6" Text="Welcome"/>
 				</StackPanel>
@@ -28,7 +28,8 @@
 				<controls:FloatingButton
 					Content="LOG IN"
 					Command="{Binding LoginCommand}"
-					IsDefault="True"/>
+					IsDefault="True"
+                    Classes="Dark"/>
 			</StackPanel>
 			<Grid Grid.Row="1" Background="#BBFFFFFF" IsVisible="{Binding IsLoading}">
 				<ProgressBar IsIndeterminate="True" Classes="circular"
