@@ -26,7 +26,7 @@
 				<TextBox Text="{Binding Visitor.SecondName, Mode=TwoWay}" assists:TextFieldAssist.Label="SecondName" UseFloatingWatermark="True"/>
 				<TextBox Text="{Binding Visitor.Post.Name, Mode=TwoWay}" assists:TextFieldAssist.Label="Post" UseFloatingWatermark="True"/>
 				<TextBox Text="{Binding Visitor.Message, Mode=TwoWay}" assists:TextFieldAssist.Label="Message" UseFloatingWatermark="True"/>
-				<Button Content="Send" Command="{Binding SendVisitorCommand}" CommandParameter="{Binding Visitor}"/>
+				<controls:FloatingButton Content="Send" Command="{Binding SendVisitorCommand}" CommandParameter="{Binding Visitor}" Classes="outline"/>
 			</StackPanel>
 
 			<Grid Grid.Column="1"

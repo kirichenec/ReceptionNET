@@ -25,7 +25,10 @@
 				<TextBox Text="{Binding Password, Mode=TwoWay}"
 						 assists:TextFieldAssist.Label="Password" UseFloatingWatermark="True"
 						 PasswordChar="*" Classes="revealPasswordButton"/>
-				<Button Content="LOG IN" Command="{Binding LoginCommand}" IsDefault="True"/>
+				<controls:FloatingButton
+					Content="LOG IN"
+					Command="{Binding LoginCommand}"
+					IsDefault="True"/>
 			</StackPanel>
 			<Grid Grid.Row="1" Background="#BBFFFFFF" IsVisible="{Binding IsLoading}">
 				<ProgressBar IsIndeterminate="True" Classes="circular"
