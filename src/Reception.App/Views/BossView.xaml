@@ -3,6 +3,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 			 xmlns:const="using:Reception.App.Constants"
+             xmlns:controls="clr-namespace:Material.Styles.Controls;assembly=Material.Styles"
 			 xmlns:local="using:Reception.App.Views"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Reception.App.Views.BossView">
@@ -17,15 +18,9 @@
         </Grid>
 
         <StackPanel Grid.Row="2" Orientation="Horizontal">
-            <Button x:Name="{x:Static const:ControlNames.FOCUSED_ITEM_NAME}">
-                <TextBlock Text="In"/>
-            </Button>
-            <Button>
-                <TextBlock Text="Wait"/>
-            </Button>
-            <Button>
-                <TextBlock Text="Deny"/>
-            </Button>
+			<controls:FloatingButton Content="IN" Classes="outline" x:Name="{x:Static const:ControlNames.FOCUSED_ITEM_NAME}"/>
+			<controls:FloatingButton Content="WAIT" Classes="outline"/>
+			<controls:FloatingButton Content="DENY" Classes="outline"/>
         </StackPanel>
 
     </Grid>
