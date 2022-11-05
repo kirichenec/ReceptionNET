@@ -16,10 +16,10 @@
     </Application.Resources>
 
     <Application.Styles>
-		<themes:MaterialTheme BaseTheme="Light" PrimaryColor="Blue" SecondaryColor="LightBlue"/>
-		<StyleInclude Source="avares://Avalonia.Themes.Default/DefaultTheme.xaml" />
+        <themes:MaterialTheme BaseTheme="Light" PrimaryColor="Blue" SecondaryColor="LightBlue"/>
+        <StyleInclude Source="avares://Avalonia.Themes.Default/DefaultTheme.xaml" />
         <StyleInclude Source="avares://Material.Avalonia/Material.Avalonia.Templates.xaml" />
-		<StyleInclude Source="avares://Material.Icons.Avalonia/App.xaml" />
+        <StyleInclude Source="avares://Material.Icons.Avalonia/App.xaml" />
 
         <Style Selector="controls|Card">
             <Setter Property="Padding" Value="0"/>
@@ -43,7 +43,7 @@
 
         <Style Selector="Separator.vertical">
             <Setter Property="Margin" Value="{DynamicResource RightBottom}"/>
-			<Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Background" Value="Transparent"/>
         </Style>
 
         <Style Selector="StackPanel">
@@ -71,21 +71,21 @@
             <Setter Property="Margin" Value="8,0"/>
         </Style>
 
-		<Style Selector="controls|FloatingButton">
-			<Setter Property="Margin" Value="{DynamicResource RightBottom}"/>
-			<Setter Property="IsExtended" Value="True"/>
-		</Style>
-		<Style Selector="controls|FloatingButton.outline">
-			<Setter Property="Background" Value="Transparent"/>
-			<Setter Property="BorderThickness" Value="1"/>
-			<Setter Property="Foreground" Value="{DynamicResource PrimaryHueMidBrush}"/>
-		</Style>
+        <Style Selector="controls|FloatingButton">
+            <Setter Property="Margin" Value="{DynamicResource RightBottom}"/>
+            <Setter Property="IsExtended" Value="True"/>
+        </Style>
+        <Style Selector="controls|FloatingButton.outline">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Foreground" Value="{DynamicResource PrimaryHueMidBrush}"/>
+        </Style>
         <Style Selector="controls|FloatingButton > TextBlock">
             <Setter Property="Margin" Value="8,0"/>
-			<Setter Property="MinWidth" Value="50"/>
-			<Setter Property="HorizontalAlignment" Value="Center"/>
-			<Setter Property="TextAlignment" Value="Center"/>
-			<Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="MinWidth" Value="50"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="TextAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
         </Style>
 
         <Style Selector="ToggleSwitch">
