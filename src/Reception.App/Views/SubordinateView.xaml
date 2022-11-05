@@ -4,82 +4,82 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:assists="clr-namespace:Material.Styles.Assists;assembly=Material.Styles"
-			 xmlns:const="using:Reception.App.Constants"
+             xmlns:const="using:Reception.App.Constants"
              xmlns:controls="clr-namespace:Material.Styles.Controls;assembly=Material.Styles"
              xmlns:converters="using:Reception.App.Converters"
              xmlns:icons="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
-			 xmlns:local="using:Reception.App.Views"
+             xmlns:local="using:Reception.App.Views"
              mc:Ignorable="d"
              Design.Height="600" Design.Width="800">
-	<UserControl.Resources>
-		<converters:ByteArrayImageConverter x:Key="ByteArrayToImage"/>
-	</UserControl.Resources>
+    <UserControl.Resources>
+        <converters:ByteArrayImageConverter x:Key="ByteArrayToImage"/>
+    </UserControl.Resources>
 
-	<Grid HorizontalAlignment="Stretch"
+    <Grid HorizontalAlignment="Stretch"
           Margin="16"
           RowDefinitions="Auto, *, Auto">
 
-		<Grid x:Name="VisitorInfoGrid" Grid.Row="0" ColumnDefinitions="*, Auto">
-			<StackPanel Grid.Column="0">
-				<TextBox Text="{Binding Visitor.FirstName, Mode=TwoWay}" assists:TextFieldAssist.Label="FirstName" UseFloatingWatermark="True"/>
-				<TextBox Text="{Binding Visitor.MiddleName, Mode=TwoWay}" assists:TextFieldAssist.Label="MiddleName" UseFloatingWatermark="True"/>
-				<TextBox Text="{Binding Visitor.SecondName, Mode=TwoWay}" assists:TextFieldAssist.Label="SecondName" UseFloatingWatermark="True"/>
-				<TextBox Text="{Binding Visitor.Post.Name, Mode=TwoWay}" assists:TextFieldAssist.Label="Post" UseFloatingWatermark="True"/>
-				<TextBox Text="{Binding Visitor.Message, Mode=TwoWay}" assists:TextFieldAssist.Label="Message" UseFloatingWatermark="True"/>
-				<controls:FloatingButton Content="Send" Command="{Binding SendVisitorCommand}" CommandParameter="{Binding Visitor}" Classes="outline"/>
-			</StackPanel>
+        <Grid x:Name="VisitorInfoGrid" Grid.Row="0" ColumnDefinitions="*, Auto">
+            <StackPanel Grid.Column="0">
+                <TextBox Text="{Binding Visitor.FirstName, Mode=TwoWay}" assists:TextFieldAssist.Label="FirstName" UseFloatingWatermark="True"/>
+                <TextBox Text="{Binding Visitor.MiddleName, Mode=TwoWay}" assists:TextFieldAssist.Label="MiddleName" UseFloatingWatermark="True"/>
+                <TextBox Text="{Binding Visitor.SecondName, Mode=TwoWay}" assists:TextFieldAssist.Label="SecondName" UseFloatingWatermark="True"/>
+                <TextBox Text="{Binding Visitor.Post.Name, Mode=TwoWay}" assists:TextFieldAssist.Label="Post" UseFloatingWatermark="True"/>
+                <TextBox Text="{Binding Visitor.Message, Mode=TwoWay}" assists:TextFieldAssist.Label="Message" UseFloatingWatermark="True"/>
+                <controls:FloatingButton Content="Send" Command="{Binding SendVisitorCommand}" CommandParameter="{Binding Visitor}" Classes="Dark"/>
+            </StackPanel>
 
-			<Grid Grid.Column="1"
+            <Grid Grid.Column="1"
                   Height="{Binding #VisitorInfoGrid.Bounds.Height}"
                   Width="{Binding #VisitorInfoGrid.Bounds.Height}">
-				<Grid Margin="{DynamicResource LeftTop}">
-					<controls:Card Margin="{DynamicResource RightBottom}">
-						<Grid>
-							<Image Source="{Binding Visitor.ImageSource, Converter={StaticResource ByteArrayToImage}}"/>
-							<ProgressBar IsIndeterminate="True" Classes="circular"
+                <Grid Margin="{DynamicResource LeftTop}">
+                    <controls:Card Margin="{DynamicResource RightBottom}">
+                        <Grid>
+                            <Image Source="{Binding Visitor.ImageSource, Converter={StaticResource ByteArrayToImage}}"/>
+                            <ProgressBar IsIndeterminate="True" Classes="circular"
                                          IsVisible="{Binding IsPhotoLoading}"
                                          HorizontalAlignment="Center"
                                          VerticalAlignment="Center"/>
-						</Grid>
-					</controls:Card>
-				</Grid>
-			</Grid>
-		</Grid>
+                        </Grid>
+                    </controls:Card>
+                </Grid>
+            </Grid>
+        </Grid>
 
-		<Grid Grid.Row="1"/>
+        <Grid Grid.Row="1"/>
 
-		<StackPanel Grid.Row="2">
-			<controls:Card Margin="{DynamicResource RightBottom}" Padding="0 1 1 0">
-				<TextBox Text="{Binding SearchText, Mode=TwoWay}"
-						 Classes="Solo"
-						 Watermark="Search"
-						 Margin="0"
-						 x:Name="{x:Static const:ControlNames.FOCUSED_ITEM_NAME}">
-					<TextBox.InnerRightContent>
-						<Button Width="{Binding $self.Bounds.Height}"
-								Classes="Flat"
-								Content="{icons:MaterialIconExt Close, Size=24}"
-								Command="{Binding ClearSearchPersonCommand}"
-								Margin="0"
-								ToolTip.Tip="Clear"/>
-					</TextBox.InnerRightContent>
-				</TextBox>
-			</controls:Card>
-			<controls:Card Margin="{DynamicResource RightBottom}">
-				<ListBox Items="{Binding Persons, Mode=OneWay}" SelectedItem="{Binding SelectedPerson, Mode=TwoWay}">
-					<ListBox.ItemTemplate>
-						<DataTemplate>
-							<StackPanel Orientation="Vertical">
-								<TextBlock Text="{Binding FirstName, Mode=OneWay}"/>
-								<TextBlock Text="{Binding MiddleName, Mode=OneWay}"/>
-								<TextBlock Text="{Binding SecondName, Mode=OneWay}"/>
-								<TextBlock Text="{Binding Post.Name, Mode=OneWay}"/>
-							</StackPanel>
-						</DataTemplate>
-					</ListBox.ItemTemplate>
-				</ListBox>
-			</controls:Card>
-		</StackPanel>
-	</Grid>
+        <StackPanel Grid.Row="2">
+            <controls:Card Margin="{DynamicResource RightBottom}" Padding="0 1 1 0">
+                <TextBox Text="{Binding SearchText, Mode=TwoWay}"
+                         Classes="Solo"
+                         Watermark="Search"
+                         Margin="0"
+                         x:Name="{x:Static const:ControlNames.FOCUSED_ITEM_NAME}">
+                    <TextBox.InnerRightContent>
+                        <Button Width="{Binding $self.Bounds.Height}"
+                                Classes="Flat"
+                                Content="{icons:MaterialIconExt Close, Size=24}"
+                                Command="{Binding ClearSearchPersonCommand}"
+                                Margin="0"
+                                ToolTip.Tip="Clear"/>
+                    </TextBox.InnerRightContent>
+                </TextBox>
+            </controls:Card>
+            <controls:Card Margin="{DynamicResource RightBottom}">
+                <ListBox Items="{Binding Persons, Mode=OneWay}" SelectedItem="{Binding SelectedPerson, Mode=TwoWay}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Vertical">
+                                <TextBlock Text="{Binding FirstName, Mode=OneWay}"/>
+                                <TextBlock Text="{Binding MiddleName, Mode=OneWay}"/>
+                                <TextBlock Text="{Binding SecondName, Mode=OneWay}"/>
+                                <TextBlock Text="{Binding Post.Name, Mode=OneWay}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </controls:Card>
+        </StackPanel>
+    </Grid>
 
 </UserControl>
