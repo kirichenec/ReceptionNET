@@ -2,9 +2,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-			 xmlns:const="using:Reception.App.Constants"
+             xmlns:const="using:Reception.App.Constants"
              xmlns:controls="clr-namespace:Material.Styles.Controls;assembly=Material.Styles"
-			 xmlns:local="using:Reception.App.Views"
+             xmlns:local="using:Reception.App.Views"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Reception.App.Views.BossView">
     <Grid RowDefinitions="Auto Auto Auto"
@@ -18,9 +18,9 @@
         </Grid>
 
         <StackPanel Grid.Row="2" Orientation="Horizontal">
-			<controls:FloatingButton Content="IN" Classes="Dark" x:Name="{x:Static const:ControlNames.FOCUSED_ITEM_NAME}"/>
-			<controls:FloatingButton Content="WAIT" Classes="Dark"/>
-			<controls:FloatingButton Content="DENY" Classes="Dark"/>
+            <controls:FloatingButton Content="IN" Classes="Dark" x:Name="{x:Static const:ControlNames.FOCUSED_ITEM_NAME}"/>
+            <controls:FloatingButton Content="WAIT" Classes="Dark"/>
+            <controls:FloatingButton Content="DENY" Classes="Dark"/>
         </StackPanel>
 
     </Grid>

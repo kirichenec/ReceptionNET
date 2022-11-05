@@ -29,10 +29,10 @@
             <Separator Classes="vertical"/>
             <TextBlock Text="Connection status:"/>
             <TextBlock Text="{Binding StatusMessage}"/>
-			<Separator Classes="vertical"/>
-			<TextBlock Text="Dark theme:"/>
-			<ToggleSwitch Command="{Binding ChangeThemeCommand}"
-						  CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}"/>
+            <Separator Classes="vertical"/>
+            <TextBlock Text="Dark theme:"/>
+            <ToggleSwitch Command="{Binding ChangeThemeCommand}"
+                          CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}"/>
         </StackPanel>
     </Grid>
 </Window>
