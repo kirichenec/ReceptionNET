@@ -237,7 +237,8 @@ namespace Reception.App.ViewModels
 
             async Task<byte[]> GetDefaultVisitorPhoto(CancellationToken cancellationToken = default)
             {
-                return _defaultPhotoData ??= await _settingsService.DefaultVisitorPhotoPath.GetFileBytesByPathAsync(cancellationToken);
+                return _defaultPhotoData ??= await _settingsService.DefaultVisitorPhotoPath
+                    .GetFileBytesByPathAsync(cancellationToken);
             }
 
             async Task<byte[]> GetVisitorPhoto(int? photoId, CancellationToken cancellationToken = default)

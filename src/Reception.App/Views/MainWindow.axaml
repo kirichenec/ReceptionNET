@@ -1,0 +1,59 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:reactiveUi="http://reactiveui.net"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:const="using:Reception.App.Constants"
+        xmlns:controls="using:Reception.App.Controls"
+        xmlns:dialogHost="clr-namespace:DialogHostAvalonia;assembly=DialogHost.Avalonia"
+        xmlns:icons="using:Material.Icons.Avalonia"
+        xmlns:local="clr-namespace:Reception.App.Views;assembly=Reception.App"
+        xmlns:vms="using:Reception.App.ViewModels"
+        mc:Ignorable="d"
+        x:Class="Reception.App.Views.MainWindow"
+        Icon="/Assets/RClogo.png"
+        Title="Reception.App"
+        d:DesignWidth="400" d:DesignHeight="300">    
+    <dialogHost:DialogHost Identifier="{x:Static const:ControlNames.DIALOG_HOST_NAME}">
+        <dialogHost:DialogHost.DialogContent>
+            <controls:SettingsControl
+                CloseSettingsCommand="{Binding $parent[local:MainWindow].ViewModel.CloseSettingsCommand}"
+                ChangeThemeCommand="{Binding $parent[local:MainWindow].ViewModel.ChangeThemeCommand}"
+                IsBoss="{Binding $parent[local:MainWindow].ViewModel.IsBoss}"
+                IsDark="{Binding $parent[local:MainWindow].ViewModel.IsDark}"
+                SaveSettingsCommand="{Binding $parent[local:MainWindow].ViewModel.SaveSettingsCommand}"
+                Version="{Binding $parent[local:MainWindow].ViewModel.AppVersion}"/>
+        </dialogHost:DialogHost.DialogContent>
+        
+        <Grid RowDefinitions="*, Auto, Auto">
+            <!--Content-->
+            <reactiveUi:RoutedViewHost Grid.Row="0" Router="{Binding Router}">
+                <reactiveUi:RoutedViewHost.DefaultContent>
+                    <TextBlock Text="{Binding CenterMessage}"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"/>
+                </reactiveUi:RoutedViewHost.DefaultContent>
+            </reactiveUi:RoutedViewHost>
+
+            <Separator Grid.Row="1"/>
+
+            <!--Footer-->
+            <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
+                <TextBlock Text="{Binding NotificationMessage}"/>
+                <Separator Classes="vertical"/>
+                <TextBlock Text="Server status:"/>
+                <TextBlock Text="{Binding ServerStatusMessage}"/>
+                <Separator Classes="vertical"/>
+                <TextBlock Text="Connection status:"/>
+                <TextBlock Text="{Binding StatusMessage}"/>
+                <Separator Classes="vertical"/>
+                <Button Classes="Flat"
+                        Command="{Binding $parent[dialogHost:DialogHost].OpenDialogCommand}"
+                        Content="{icons:MaterialIconExt Settings, Size=12}"
+                        Padding="0"
+                        ToolTip.Tip="Settings"
+                        Width="{Binding $self.Bounds.Height}"/>
+            </StackPanel>
+        </Grid>
+    </dialogHost:DialogHost>
+</Window>

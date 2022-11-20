@@ -4,15 +4,16 @@ namespace Reception.App.Service.Interface
 {
     public interface ISettingsService
     {
-        string ChatServerPath { get; }
-        string DataServerPath { get; }
-        string DefaultVisitorPhotoPath { get; }
-        string FileServerPath { get; }
-        bool IsBoss { get; }
-        int PingDelay { get; }
+        string ChatServerPath { get; set; }
+        string DataServerPath { get; set; }
+        string DefaultVisitorPhotoPath { get; set; }
+        string FileServerPath { get; set; }
+        bool IsBoss { get; set; }
+        bool IsDark { get; set; }
+        int PingDelay { get; set; }
         Token Token { get; set; }
-        string AuthServerPath { get; }
-        string WelcomeMessage { get; }
-        bool WithReconnect { get; }
+        string AuthServerPath { get; set; }
+        string WelcomeMessage { get; set; }
+        bool WithReconnect { get; set; }
     }
 }
