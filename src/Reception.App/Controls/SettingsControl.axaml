@@ -1,0 +1,51 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             x:Class="Reception.App.Controls.SettingsControl"
+             xmlns:controls="clr-namespace:Material.Styles.Controls;assembly=Material.Styles"
+             xmlns:local="clr-namespace:Reception.App.Controls;assembly=Reception.App"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
+             MinWidth="250">
+    <Grid RowDefinitions="Auto * Auto">
+        <controls:ColorZone Mode="PrimaryDark">
+            <Grid Margin="{DynamicResource LeftTop}">
+                <TextBlock Classes="Headline6" Text="Settings"/>
+                <TextBlock Text="{Binding $parent[local:SettingsControl].Version, StringFormat='v{0}'}"
+                           FontStyle="Italic"
+                           Opacity="{DynamicResource ButtonDisabledOpacity}"
+                           HorizontalAlignment="Right" VerticalAlignment="Top"/>
+            </Grid>
+        </controls:ColorZone>
+
+        <Grid Margin="16" Grid.Row="1"
+              ColumnDefinitions="Auto *"
+              RowDefinitions="Auto Auto Auto">
+            <TextBlock
+                Text="Dark theme"
+                Grid.Row="0" Grid.Column="0"
+                HorizontalAlignment="Right"/>
+            <ToggleSwitch
+                Grid.Row="0" Grid.Column="1"
+                IsChecked="{Binding $parent[local:SettingsControl].IsDark}"
+                Command="{Binding $parent[local:SettingsControl].ChangeThemeCommand}"
+                CommandParameter="{Binding $self.IsChecked}"/>
+
+            <TextBlock
+                Text="Boss mode"
+                Grid.Row="1" Grid.Column="0"
+                HorizontalAlignment="Right"/>
+            <ToggleSwitch
+                Grid.Row="1" Grid.Column="1"
+                IsChecked="{Binding $parent[local:SettingsControl].IsBoss}"/>
+        </Grid>
+
+        <StackPanel Orientation="Horizontal" Grid.Row="2"
+                    HorizontalAlignment="Right">
+            <Button Content="CANCEL" Classes="flat"
+                    Command="{Binding $parent[local:SettingsControl].CloseSettingsCommand}"/>
+            <Button Content="SAVE" Classes="flat"
+                    Command="{Binding $parent[local:SettingsControl].SaveSettingsCommand}"
+                    IsDefault="True"/>
+        </StackPanel>
+    </Grid>
+</UserControl>
