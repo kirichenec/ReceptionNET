@@ -1,6 +1,5 @@
 ﻿using Reception.App.Service.Interface;
 using Splat;
-using System.Threading.Tasks;
 
 namespace Reception.App.Network.Server
 {

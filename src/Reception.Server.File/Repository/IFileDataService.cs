@@ -1,7 +1,5 @@
 ﻿using Reception.Server.Core.Interfaces;
 using Reception.Server.File.Entities;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Reception.Server.File.Repository
 {

@@ -1,8 +1,5 @@
 ﻿using EntityFrameworkCore.Triggered;
 using Reception.Server.File.Entities;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Reception.Server.File.Repository.Triggers
 {

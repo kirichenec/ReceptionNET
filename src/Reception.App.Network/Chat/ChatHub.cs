@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.SignalR;
 using Reception.App.Network.Chat.Constants;
-using System.Threading.Tasks;
 
 namespace Reception.App.Network.Chat
 {

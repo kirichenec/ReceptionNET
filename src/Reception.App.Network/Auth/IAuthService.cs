@@ -1,5 +1,4 @@
 ﻿using Reception.App.Model.Auth;
-using System.Threading.Tasks;
 
 namespace Reception.App.Network.Auth
 {

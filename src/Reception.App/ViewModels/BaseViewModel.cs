@@ -2,8 +2,6 @@
 using ReactiveUI.Fody.Helpers;
 using Reception.App.Enums;
 using Reception.Extension;
-using System;
-using System.Threading.Tasks;
 
 namespace Reception.App.ViewModels
 {

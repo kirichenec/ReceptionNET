@@ -1,15 +1,11 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Reception.Constant;
 using Reception.Extension;
 using Reception.Server.Auth.Logic;
 using Reception.Server.Auth.Model;
-using System;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Reception.Server.Auth.Helpers
 {

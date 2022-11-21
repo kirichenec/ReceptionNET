@@ -6,11 +6,9 @@ using Reception.App.Network.Auth;
 using Reception.App.Network.Exceptions;
 using Reception.Extension;
 using Splat;
-using System;
 using System.Net;
 using System.Reactive;
 using System.Reactive.Linq;
-using System.Threading.Tasks;
 
 namespace Reception.App.ViewModels
 {

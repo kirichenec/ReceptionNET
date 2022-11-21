@@ -1,11 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.Extensions.DependencyInjection;
 using Reception.Constant;
 using Reception.Model.Network;
 using Reception.Server.Auth.Repository;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Reception.Server.Auth.Helpers
 {

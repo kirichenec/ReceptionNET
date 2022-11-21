@@ -1,8 +1,6 @@
 ﻿using Avalonia.Data.Converters;
 using Avalonia.Media.Imaging;
-using System;
 using System.Globalization;
-using System.IO;
 
 namespace Reception.App.Converters
 {

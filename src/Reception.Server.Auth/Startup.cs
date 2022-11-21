@@ -1,7 +1,3 @@
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Reception.Server.Auth.Helpers;
 using Reception.Server.Auth.Logic;
 using Reception.Server.Auth.Model;
