@@ -15,25 +15,36 @@ namespace Reception.Extension
             return (T)ConfigurationManager.GetSection(sectionName);
         }
 
-        public static void SetAppSettingsParam<T>(this T value, [CallerMemberName] string parameterName = null)
+        public static void UpdateAppSettingsParam<T>(this T value, [CallerMemberName] string parameterName = null)
         {
-            var config = GetConfiguration();
-            config.AppSettings.Settings[parameterName].Value = value.ToString();
-            config.Save(ConfigurationSaveMode.Modified);
-            ConfigurationManager.RefreshSection("appSettings");
+            UpdateSectionInternal(value, parameterName, "appSettings", UpdateSection);
+
+
+            static void UpdateSection(T value, string parameterName, Configuration config)
+            {
+                config.AppSettings.Settings[parameterName].Value = value.ToString();
+            }
         }
 
         public static void UpdateSection(this ConfigurationSection value, string sectionName)
         {
-            var config = GetConfiguration();
-            config.Sections.Remove(sectionName);
-            config.Sections.Add(sectionName, value);
-            config.Save(ConfigurationSaveMode.Modified);
+            UpdateSectionInternal(value, sectionName, sectionName, UpdateSection);
+
+
+            static void UpdateSection(ConfigurationSection value, string sectionName, Configuration config)
+            {
+                config.Sections.Remove(sectionName);
+                config.Sections.Add(sectionName, value);
+            }
         }
 
-        private static Configuration GetConfiguration()
+        private static void UpdateSectionInternal<Tin>(Tin value, string parameterName, string sectionName,
+            Action<Tin, string, Configuration> updateAction)
         {
-            return ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+            var config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+            updateAction(value, parameterName, config);
+            config.Save(ConfigurationSaveMode.Modified);
+            ConfigurationManager.RefreshSection(sectionName);
         }
     }
 }

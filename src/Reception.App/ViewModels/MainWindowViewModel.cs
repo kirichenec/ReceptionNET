@@ -174,7 +174,7 @@ namespace Reception.App.ViewModels
 
             if (bossModeChanged)
             {
-                LoadIsBossMode();
+                NavigateToAuth();
             }
         }
 
