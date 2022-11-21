@@ -1,6 +1,4 @@
-﻿using System.Linq;
-
-namespace Reception.Extension
+﻿namespace Reception.Extension
 {
     public static class IQueryableExtensions
     {

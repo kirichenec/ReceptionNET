@@ -1,7 +1,5 @@
 ﻿using Reception.Server.Core.Interfaces;
 using Reception.Server.File.Model.Dto;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Reception.Server.File.Logic
 {

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace Reception.Extension
+﻿namespace Reception.Extension
 {
     public static class IEnumerableExtensions
     {

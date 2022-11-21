@@ -1,5 +1,3 @@
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Reception.Server.Core;
 using Reception.Server.Core.Extensions;
 using Reception.Server.File.Logic;

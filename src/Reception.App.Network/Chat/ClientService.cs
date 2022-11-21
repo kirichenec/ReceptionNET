@@ -4,9 +4,6 @@ using Reception.App.Network.Chat.Constants;
 using Reception.App.Service.Interface;
 using Reception.Model.Network;
 using Splat;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Reception.App.Network.Chat
 {

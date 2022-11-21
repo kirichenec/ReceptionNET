@@ -1,8 +1,6 @@
 ﻿using Reception.Model.Dto;
 using Reception.Model.Network;
 using Reception.Server.Core.Interfaces;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Reception.Server.Auth.Logic
 {

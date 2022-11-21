@@ -1,7 +1,6 @@
 using Avalonia.Controls;
 using Avalonia.Controls.Templates;
 using Reception.App.ViewModels;
-using System;
 
 namespace Reception.App
 {

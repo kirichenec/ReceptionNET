@@ -4,10 +4,6 @@ using Reception.App.Network.Exceptions;
 using Reception.Model.Network;
 using RestSharp;
 using Splat;
-using System;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Reception.App.Network.Server
 {

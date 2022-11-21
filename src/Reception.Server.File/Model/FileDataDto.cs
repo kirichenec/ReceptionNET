@@ -1,5 +1,4 @@
 ﻿using Reception.Model.Interface;
-using System;
 
 namespace Reception.Server.File.Model.Dto
 {

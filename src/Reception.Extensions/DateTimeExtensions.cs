@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Reception.Extension
+﻿namespace Reception.Extension
 {
     public static class DateTimeExtensions
     {

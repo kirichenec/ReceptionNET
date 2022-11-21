@@ -9,10 +9,6 @@ using Reception.Server.Auth.MapperProfiles;
 using Reception.Server.Auth.PasswordHelper;
 using Reception.Server.Auth.Repository;
 using Reception.Server.Core.Extensions;
-using System;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Reception.Server.Auth.Logic
 {

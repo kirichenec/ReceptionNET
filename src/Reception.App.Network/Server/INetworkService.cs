@@ -1,8 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
-
-namespace Reception.App.Network.Server
+﻿namespace Reception.App.Network.Server
 {
     public interface INetworkService<T>
     {

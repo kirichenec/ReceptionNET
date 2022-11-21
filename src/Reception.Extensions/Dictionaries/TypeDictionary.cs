@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Reception.Extension.Dictionaries
+﻿namespace Reception.Extension.Dictionaries
 {
     public static class TypeDictionary
     {

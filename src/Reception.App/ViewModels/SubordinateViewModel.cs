@@ -13,13 +13,8 @@ using Reception.Extension;
 using Reception.Extension.Converters;
 using Reception.Extension.Dictionaries;
 using Splat;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Reception.App.ViewModels
 {

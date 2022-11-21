@@ -5,10 +5,6 @@ using Reception.Constant;
 using Reception.Extension;
 using Reception.Model.Network;
 using RestSharp;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Reception.Server.Auth.ConnectionLibrary
 {
