@@ -8,26 +8,27 @@ namespace Reception.App.Controls
 {
     public partial class SettingsControl : UserControl
     {
-        public static readonly StyledProperty<ICommand> ChangeThemeCommandProperty;
-        public static readonly StyledProperty<ICommand> CloseSettingsCommandProperty;
-        public static readonly StyledProperty<bool> IsBossProperty;
-        public static readonly StyledProperty<bool> IsDarkProperty;
-        public static readonly StyledProperty<ICommand> SaveSettingsCommandProperty;
-        public static readonly StyledProperty<string> VersionProperty;
+        public static readonly StyledProperty<ICommand> ChangeThemeCommandProperty =
+            AvaloniaProperty.Register<SettingsControl, ICommand>(nameof(ChangeThemeCommand));
+
+        public static readonly StyledProperty<ICommand> CloseSettingsCommandProperty =
+            AvaloniaProperty.Register<SettingsControl, ICommand>(nameof(CloseSettingsCommand));
+
+        public static readonly StyledProperty<bool> IsBossProperty =
+            AvaloniaProperty.Register<SettingsControl, bool>(nameof(IsBoss), defaultBindingMode: BindingMode.TwoWay);
+
+        public static readonly StyledProperty<bool> IsDarkProperty =
+            AvaloniaProperty.Register<SettingsControl, bool>(nameof(IsDark), defaultBindingMode: BindingMode.TwoWay);
+
+        public static readonly StyledProperty<ICommand> SaveSettingsCommandProperty =
+            AvaloniaProperty.Register<SettingsControl, ICommand>(nameof(SaveSettingsCommand));
+
+        public static readonly StyledProperty<string> VersionProperty =
+            AvaloniaProperty.Register<SettingsControl, string>(nameof(Version));
 
         public SettingsControl()
         {
             AvaloniaXamlLoader.Load(this);
-        }
-
-        static SettingsControl()
-        {
-            ChangeThemeCommandProperty = AvaloniaProperty.Register<SettingsControl, ICommand>(nameof(ChangeThemeCommand));
-            CloseSettingsCommandProperty = AvaloniaProperty.Register<SettingsControl, ICommand>(nameof(CloseSettingsCommand));
-            IsBossProperty = AvaloniaProperty.Register<SettingsControl, bool>(nameof(IsBoss), defaultBindingMode: BindingMode.TwoWay);
-            IsDarkProperty = AvaloniaProperty.Register<SettingsControl, bool>(nameof(IsDark), defaultBindingMode: BindingMode.TwoWay);
-            SaveSettingsCommandProperty = AvaloniaProperty.Register<SettingsControl, ICommand>(nameof(SaveSettingsCommand));
-            VersionProperty = AvaloniaProperty.Register<SettingsControl, string>(nameof(Version));
         }
 
         public ICommand ChangeThemeCommand
