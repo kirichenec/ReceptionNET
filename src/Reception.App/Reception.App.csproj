@@ -26,11 +26,15 @@
         <PackageReference Include="Material.Avalonia" Version="3.0.0-avalonia11-preview2.119-nightly" />
         <PackageReference Include="Material.Icons.Avalonia" Version="1.2.0" />
         <PackageReference Include="DialogHost.Avalonia" Version="0.6.0" />
+        <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.3">
+          <PrivateAssets>all</PrivateAssets>
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
         <PackageReference Include="Microsoft.VisualStudio.SlowCheetah" Version="4.0.8">
           <PrivateAssets>all</PrivateAssets>
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="ReactiveUI.Fody" Version="18.3.1" />
+        <PackageReference Include="ReactiveUI.Fody" Version="18.4.1" />
         <PackageReference Include="RestSharp" Version="108.0.3" />
         <PackageReference Include="System.Configuration.ConfigurationManager" Version="7.0.0" />
     </ItemGroup>
