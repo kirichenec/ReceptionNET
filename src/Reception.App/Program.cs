@@ -1,6 +1,7 @@
 ﻿using Avalonia;
 using Avalonia.ReactiveUI;
 using ReactiveUI;
+using Reception.App.Extensions;
 using Reception.App.Model.FileInfo;
 using Reception.App.Model.PersonInfo;
 using Reception.App.Network.Auth;
@@ -19,12 +20,12 @@ namespace Reception.App
         {
             InitLocatorObjects();
 
-            return
-                AppBuilder
-                    .Configure<App>()
-                    .UsePlatformDetect()
-                    .LogToTrace()
-                    .UseReactiveUI();
+            return AppBuilder
+                .Configure<App>()
+                .UsePlatformDetect()
+                .UsePlatformCrutches()
+                .LogToTrace()
+                .UseReactiveUI();
         }
 
         private static void InitLocatorObjects()
