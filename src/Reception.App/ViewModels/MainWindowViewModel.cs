@@ -1,26 +1,25 @@
 ﻿using Avalonia;
 using Avalonia.Logging;
+using DialogHostAvalonia;
+using Material.Styles.Themes;
+using Material.Styles.Themes.Base;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
+using Reception.App.Constants;
 using Reception.App.Enums;
 using Reception.App.Extensions;
 using Reception.App.Model.Auth;
 using Reception.App.Model.PersonInfo;
 using Reception.App.Network.Chat;
 using Reception.App.Network.Exceptions;
-#if !DEBUG
 using Reception.App.Network.Server;
-#endif
 using Reception.App.Service.Interface;
 using Reception.Constant;
 using Splat;
-using System;
 using System.Net;
 using System.Reactive;
-#if !DEBUG
-using System.Reactive.Linq; 
-#endif
-using System.Threading.Tasks;
+using System.Reactive.Linq;
+using System.Reflection;
 using static Reception.App.ViewModels.IMainViewModel;
 
 namespace Reception.App.ViewModels
@@ -30,9 +29,8 @@ namespace Reception.App.ViewModels
         #region Fields
 
         private readonly IClientService _clientService;
-#if !DEBUG
-        private readonly IPingService _pingService; 
-#endif
+        private readonly MaterialTheme _materialThemeStyles;
+        private readonly IPingService _pingService;
         private readonly ISettingsService _settingsService;
 
         #endregion
@@ -40,10 +38,10 @@ namespace Reception.App.ViewModels
         public MainWindowViewModel()
         {
             _clientService ??= Locator.Current.GetService<IClientService>();
-#if !DEBUG
-            _pingService ??= Locator.Current.GetService<IPingService>(); 
-#endif
+            _pingService ??= Locator.Current.GetService<IPingService>();
             _settingsService ??= Locator.Current.GetService<ISettingsService>();
+
+            _materialThemeStyles = Application.Current!.LocateMaterialTheme<MaterialTheme>();
 
             CenterMessage = "Loading..";
 
@@ -54,16 +52,18 @@ namespace Reception.App.ViewModels
 
             Router = new RoutingState();
 
-#if !DEBUG
             _ = Observable.Timer(TimeSpan.Zero, TimeSpan.FromSeconds(_settingsService.PingDelay), RxApp.MainThreadScheduler)
-                          .Subscribe(async x => await TryPing()); 
-#else
-            ServerStatusMessage = ConnectionStatuses.ONLINE.ToLower();
-#endif
+                          .Subscribe(async x => await TryPing());
+
+            ChangeThemeCommand = ReactiveCommand.Create<bool>(UseMaterialUiTheme);
+            CloseSettingsCommand = ReactiveCommand.Create(CloseSettings);
+            SaveSettingsCommand = ReactiveCommand.Create(SaveSettings);
+
+            AppVersion = Assembly.GetExecutingAssembly().GetName().Version.ToString();
+
+            RestoreSettings();
 
             CenterMessage = string.Empty;
-
-            InitChangeThemeCommand();
 
             NavigateToAuth();
         }
@@ -73,10 +73,18 @@ namespace Reception.App.ViewModels
         [Reactive]
         public AuthenticateResponse AuthData { get; set; }
 
-        public ReactiveCommand<bool, Unit> ChangeThemeCommand { get; private set; }
-
         [Reactive]
         public string CenterMessage { get; set; }
+
+        public ReactiveCommand<bool, Unit> ChangeThemeCommand { get; }
+
+        public ReactiveCommand<Unit, Unit> CloseSettingsCommand { get; }
+
+        [Reactive]
+        public bool IsBoss { get; set; }
+
+        [Reactive]
+        public bool IsDark { get; set; }
 
         [Reactive]
         public bool IsLogined { get; set; }
@@ -89,6 +97,8 @@ namespace Reception.App.ViewModels
 
         public RoutingState Router { get; }
 
+        public ReactiveCommand<Unit, Unit> SaveSettingsCommand { get; }
+
         [Reactive]
         public string ServerStatusMessage { get; set; }
 
@@ -97,19 +107,21 @@ namespace Reception.App.ViewModels
         [Reactive]
         public string StatusMessage { get; set; }
 
+        public string AppVersion { get; }
+
         #endregion
 
         #region Methods
 
-        public void ClearNotification()
-        {
-            SetNotification(null, NotificationType.No);
-        }
-
-        public void NavigateBack(AuthenticateResponse authData)
+        public void ApplyAuthData(AuthenticateResponse authData)
         {
             AuthData = authData;
             LoadIsBossMode();
+        }
+
+        public void ClearNotification()
+        {
+            SetNotification(null, NotificationType.No);
         }
 
         public void SetNotification(string message, NotificationType type)
@@ -118,9 +130,15 @@ namespace Reception.App.ViewModels
             NotificationMessage = message;
         }
 
-        private void InitChangeThemeCommand()
+        private static void CloseDialog()
         {
-            ChangeThemeCommand = ReactiveCommand.Create<bool>(SetTheme);
+            DialogHost.Close(ControlNames.DIALOG_HOST_NAME);
+        }
+
+        private void CloseSettings()
+        {
+            RestoreSettings();
+            CloseDialog();
         }
 
         private void LoadIsBossMode()
@@ -140,15 +158,23 @@ namespace Reception.App.ViewModels
             Router.Navigate.Execute(new AuthViewModel(this));
         }
 
-        private void SetTheme(bool isDark)
+        private void RestoreSettings()
         {
-            if (isDark)
+            IsBoss = _settingsService.IsBoss;
+            IsDark = _settingsService.IsDark;
+            UseMaterialUiTheme(IsDark);
+        }
+
+        private void SaveSettings()
+        {
+            var bossModeChanged = _settingsService.IsBoss != IsBoss;
+            _settingsService.IsBoss = IsBoss;
+            _settingsService.IsDark = IsDark;
+            CloseDialog();
+
+            if (bossModeChanged)
             {
-                GlobalCommand.UseMaterialUIDarkTheme();
-            }
-            else
-            {
-                GlobalCommand.UseMaterialUILightTheme();
+                NavigateToAuth();
             }
         }
 
@@ -177,7 +203,6 @@ namespace Reception.App.ViewModels
             SetNotification($"{sourceName}: {error.Message}", errorType);
         }
 
-#if !DEBUG
         private async Task TryPing()
         {
             try
@@ -195,7 +220,11 @@ namespace Reception.App.ViewModels
                 SetNotification(ex.Message, NotificationType.Server);
             }
         }
-#endif
+
+        private void UseMaterialUiTheme(bool isDark)
+        {
+            _materialThemeStyles.BaseTheme = isDark ? BaseThemeMode.Dark : BaseThemeMode.Light;
+        }
 
         #endregion
     }

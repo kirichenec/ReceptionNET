@@ -1,7 +1,5 @@
 ﻿using Reception.Server.Auth.Entities;
 using Reception.Server.Core.Interfaces;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Reception.Server.Auth.Repository
 {

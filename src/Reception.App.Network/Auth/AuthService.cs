@@ -4,7 +4,6 @@ using Reception.App.Network.Exceptions;
 using Reception.App.Service.Interface;
 using Reception.Constant;
 using Splat;
-using System.Threading.Tasks;
 
 namespace Reception.App.Network.Auth
 {

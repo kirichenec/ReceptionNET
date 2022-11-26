@@ -6,11 +6,9 @@ using Reception.App.Network.Auth;
 using Reception.App.Network.Exceptions;
 using Reception.Extension;
 using Splat;
-using System;
 using System.Net;
 using System.Reactive;
 using System.Reactive.Linq;
-using System.Threading.Tasks;
 
 namespace Reception.App.ViewModels
 {
@@ -24,7 +22,7 @@ namespace Reception.App.ViewModels
 
             _authService ??= Locator.Current.GetService<IAuthService>();
 
-            InitNavigateCommand();
+            InitApplyAuthCommand();
             InitLoginCommand();
 
             Initialized += OnAuthViewModelInitialized;
@@ -32,6 +30,8 @@ namespace Reception.App.ViewModels
         }
 
         #region Properties
+
+        public ReactiveCommand<AuthenticateResponse, Unit> ApplyAuthCommand { get; private set; }
 
         [Reactive]
         public AuthenticateResponse AuthData { get; set; }
@@ -41,14 +41,24 @@ namespace Reception.App.ViewModels
 
         public ReactiveCommand<Unit, Unit> LoginCommand { get; private set; }
 
-        public ReactiveCommand<AuthenticateResponse, Unit> NavigateCommand { get; private set; }
-
         [Reactive]
         public string Password { get; set; }
 
         #endregion
 
         #region Methods
+
+        private void InitApplyAuthCommand()
+        {
+            var canNavigate = this.WhenAnyValue(
+                x => x.AuthData,
+                selector: aData => aData.IsAuthInfoCorrect());
+
+            ApplyAuthCommand = ReactiveCommand.Create<AuthenticateResponse>(_mainViewModel.ApplyAuthData, canNavigate);
+            this.WhenAnyValue(x => x.AuthData)
+                .InvokeCommand(ApplyAuthCommand);
+            ApplyAuthCommand.ThrownExceptions.Subscribe(ErrorHandler(nameof(ApplyAuthCommand)));
+        }
 
         private void InitLoginCommand()
         {
@@ -59,18 +69,6 @@ namespace Reception.App.ViewModels
 
             LoginCommand = ReactiveCommand.CreateFromTask(LoginExecuteAsync, canLogin);
             LoginCommand.ThrownExceptions.Subscribe(ErrorHandler(nameof(LoginCommand)));
-        }
-
-        private void InitNavigateCommand()
-        {
-            var canNavigate = this.WhenAnyValue(
-                x => x.AuthData,
-                selector: aData => aData.IsAuthInfoCorrect());
-
-            NavigateCommand = ReactiveCommand.Create<AuthenticateResponse>(_mainViewModel.NavigateBack, canNavigate);
-            this.WhenAnyValue(x => x.AuthData)
-                .InvokeCommand(NavigateCommand);
-            NavigateCommand.ThrownExceptions.Subscribe(ErrorHandler(nameof(NavigateCommand)));
         }
 
         private async Task LoginExecuteAsync()

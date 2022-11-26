@@ -1,6 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Reception.Server.Core;
+﻿using Reception.Server.Core;
 using Reception.Server.Data.Logic;
 using Reception.Server.Data.Repository;
 

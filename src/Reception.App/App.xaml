@@ -2,6 +2,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:Reception.App"
              xmlns:controls="clr-namespace:Material.Styles.Controls;assembly=Material.Styles"
+             xmlns:dialogHost="clr-namespace:DialogHostAvalonia;assembly=DialogHost.Avalonia"
              xmlns:themes="clr-namespace:Material.Styles.Themes;assembly=Material.Styles"
              x:Class="Reception.App.App">
     <Application.DataTemplates>
@@ -20,6 +21,7 @@
         <StyleInclude Source="avares://Material.Avalonia/Material.Avalonia.Templates.xaml" />
         <StyleInclude Source="avares://Material.Icons.Avalonia/App.xaml" />
         <StyleInclude Source="avares://Material.Styles/Resources/Compatibility/Index.axaml"/>
+        <StyleInclude Source="avares://DialogHost.Avalonia/Styles.xaml"/>
 
         <Style Selector="controls|Card">
             <Setter Property="Padding" Value="0"/>
@@ -36,7 +38,6 @@
         <Style Selector="Separator">
             <Setter Property="Margin" Value="0"/>
         </Style>
-
         <Style Selector="Separator.vertical">
             <Setter Property="Margin" Value="{DynamicResource RightBottom}"/>
             <Setter Property="Background" Value="Transparent"/>
@@ -55,7 +56,6 @@
             <Setter Property="Margin" Value="{DynamicResource RightBottom}"/>
             <Setter Property="BorderThickness" Value="0,0,0,1"/>
         </Style>
-
         <Style Selector="TextBox TextBlock">
             <Setter Property="Margin" Value="0"/>
         </Style>
@@ -81,13 +81,22 @@
         <Style Selector="ToggleSwitch">
             <Setter Property="Margin" Value="{DynamicResource RightBottom}"/>
         </Style>
+        
+        <Style Selector="ToolTip TextBlock">
+            <Setter Property="Margin" Value="0"/>
+        </Style>
 
         <Style Selector="ListBox">
             <Setter Property="Margin" Value="{DynamicResource RightBottom}"/>
         </Style>
-
         <Style Selector="controls|Card > ListBox">
             <Setter Property="Margin" Value="0"/>
+        </Style>
+
+        <Style Selector="dialogHost|DialogHost">
+            <Setter Property="DialogMargin" Value="0"/>
+            <Setter Property="dialogHost:DialogHostStyle.CornerRadius" Value="4"/>
+            <Setter Property="dialogHost:DialogHostStyle.ClipToBounds" Value="True"/>
         </Style>
     </Application.Styles>
 </Application>

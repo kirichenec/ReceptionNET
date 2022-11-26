@@ -1,5 +1,4 @@
 ﻿using Reception.Extension;
-using System;
 
 namespace Reception.App.Model.PersonInfo
 {

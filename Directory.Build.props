@@ -1,5 +1,13 @@
 <Project>
     <PropertyGroup>
-        <LangVersion>10.0</LangVersion>
+        <TargetFramework>net7.0</TargetFramework>
+        <LangVersion>latest</LangVersion>
+        <Nullable>disable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <CodeAnalysisRuleSet>..\..\.sonarlint\kirichenec_receptionnetcsharp.ruleset</CodeAnalysisRuleSet>
     </PropertyGroup>
+    
+    <ItemGroup>
+      <AdditionalFiles Include="..\..\.sonarlint\kirichenec_receptionnet\CSharp\SonarLint.xml" Link="SonarLint.xml" />
+    </ItemGroup>
 </Project>

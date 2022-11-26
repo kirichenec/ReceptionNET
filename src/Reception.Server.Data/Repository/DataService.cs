@@ -1,10 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Reception.Extension;
 using Reception.Server.Data.Entities;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Reception.Server.Data.Repository
 {

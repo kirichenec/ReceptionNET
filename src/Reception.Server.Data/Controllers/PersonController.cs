@@ -1,14 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Reception.Model.Dto;
 using Reception.Model.Network;
 using Reception.Server.Auth.ConnectionLibrary;
 using Reception.Server.Core.Interfaces;
 using Reception.Server.Data.Logic;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Reception.Server.Data.Controllers
 {

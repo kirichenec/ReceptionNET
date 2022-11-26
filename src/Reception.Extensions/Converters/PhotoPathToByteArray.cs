@@ -1,8 +1,4 @@
-﻿using System.IO;
-using System.Threading;
-using System.Threading.Tasks;
-
-namespace Reception.Extension.Converters
+﻿namespace Reception.Extension.Converters
 {
     public static class FilePathToByteArrayConverter
     {

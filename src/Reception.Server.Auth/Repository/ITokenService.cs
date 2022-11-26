@@ -1,6 +1,4 @@
 ﻿using Reception.Server.Auth.Entities;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Reception.Server.Auth.Repository
 {

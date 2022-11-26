@@ -1,7 +1,6 @@
 ﻿using Avalonia.Logging;
 using Reception.Extension;
 using Reception.Extension.Converters;
-using System;
 using System.Text;
 
 namespace Reception.App.Extensions

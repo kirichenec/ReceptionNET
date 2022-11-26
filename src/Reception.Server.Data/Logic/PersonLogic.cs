@@ -2,11 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using Reception.Model.Dto;
 using Reception.Server.Data.Repository;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Reception.Server.Data.Logic
 {

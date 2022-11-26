@@ -1,7 +1,5 @@
 ﻿using Newtonsoft.Json;
 using Reception.Extension.Converters;
-using System;
-using System.Threading.Tasks;
 
 namespace Reception.Model.Network
 {

@@ -2,10 +2,6 @@
 using Reception.Server.File.Entities;
 using Reception.Server.File.Model.Dto;
 using Reception.Server.File.Repository;
-using System;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Reception.Server.File.Logic
 {
