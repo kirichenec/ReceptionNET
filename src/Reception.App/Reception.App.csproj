@@ -18,14 +18,14 @@
         <None Remove="Assets\RClogo.png" />
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="Avalonia" Version="0.10.18" />
-        <PackageReference Include="Avalonia.Desktop" Version="0.10.18" />
-        <PackageReference Include="Avalonia.Diagnostics" Version="0.10.18" />
-        <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.18" />
-        <PackageReference Include="Avalonia.Xaml.Behaviors" Version="0.10.18" />
-        <PackageReference Include="DialogHost.Avalonia" Version="0.6.0-avalonia10" />
-        <PackageReference Include="Material.Avalonia" Version="3.0.0-avalonia10-preview2" />
-        <PackageReference Include="Material.Icons.Avalonia" Version="1.1.10" />
+        <PackageReference Include="Avalonia" Version="11.0.0-preview3" />
+        <PackageReference Include="Avalonia.Desktop" Version="11.0.0-preview3" />
+        <PackageReference Include="Avalonia.Diagnostics" Version="11.0.0-preview3" />
+        <PackageReference Include="Avalonia.ReactiveUI" Version="11.0.0-preview3" />
+        <PackageReference Include="Avalonia.Xaml.Behaviors" Version="11.0.0-preview3" />
+        <PackageReference Include="Material.Avalonia" Version="3.0.0-avalonia11-preview2.119-nightly" />
+        <PackageReference Include="Material.Icons.Avalonia" Version="1.2.0" />
+        <PackageReference Include="DialogHost.Avalonia" Version="0.6.0" />
         <PackageReference Include="Microsoft.VisualStudio.SlowCheetah" Version="4.0.8">
           <PrivateAssets>all</PrivateAssets>
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -42,11 +42,6 @@
         <ProjectReference Include="..\Reception.Model.Network\Reception.Model.Network.csproj" />
     </ItemGroup>
     <ItemGroup>
-      <Reference Include="DialogHost.Avalonia">
-        <HintPath>..\..\solutionItems\DialogHost.Avalonia\DialogHost.Avalonia.dll</HintPath>
-      </Reference>
-    </ItemGroup>
-    <ItemGroup>
         <None Update="App.config">
           <TransformOnBuild>true</TransformOnBuild>
         </None>
@@ -61,9 +56,6 @@
         <None Update="Images\Person.png">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-    </ItemGroup>
-    <ItemGroup>
-      <Folder Include="MapperProfiles\" />
     </ItemGroup>
     <ItemGroup>
       <None Include="..\..\solutionItems\RClogo.png">
