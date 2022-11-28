@@ -126,11 +126,6 @@ namespace Reception.App.ViewModels
             SetNotification(null, NotificationType.No);
         }
 
-        public void NavigateToAuth()
-        {
-            Router.Navigate.Execute(new AuthViewModel());
-        }
-
         public void SetNotification(string message, NotificationType type)
         {
             NotificationType = type;
@@ -158,6 +153,11 @@ namespace Reception.App.ViewModels
             {
                 Router.Navigate.Execute(new SubordinateViewModel());
             }
+        }
+
+        private void NavigateToAuth()
+        {
+            Router.Navigate.Execute(new AuthViewModel());
         }
 
         private void RestoreSettings()
