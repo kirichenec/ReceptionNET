@@ -3,17 +3,16 @@ using ReactiveUI.Fody.Helpers;
 using Reception.App.Enums;
 using Reception.Extension;
 using Reception.Extension.Helpers;
-using Splat;
 
 namespace Reception.App.ViewModels
 {
     public abstract class BaseViewModel : ReactiveObject, IRoutableViewModel
     {
-        protected readonly IMainViewModel _mainViewModel;
+        protected readonly MainViewModel _mainViewModel;
 
-        protected BaseViewModel()
+        protected BaseViewModel(MainViewModel mainViewModel)
         {
-            _mainViewModel = Locator.Current.GetService<IViewFor<MainWindowViewModel>>().ViewModel;
+            _mainViewModel = mainViewModel;
 
             UrlPathSegment = CallingClass.GetName();
 

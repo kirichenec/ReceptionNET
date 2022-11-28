@@ -5,7 +5,6 @@ using Reception.App.Model.Auth;
 using Reception.App.Network.Auth;
 using Reception.App.Network.Exceptions;
 using Reception.Extension;
-using Splat;
 using System.Net;
 using System.Reactive;
 using System.Reactive.Linq;
@@ -16,11 +15,12 @@ namespace Reception.App.ViewModels
     {
         private readonly IAuthService _authService;
 
-        public AuthViewModel()
+        public AuthViewModel(IAuthService authService, MainViewModel mainViewModel)
+            : base(mainViewModel)
         {
             SetRefreshingNotification("Loading auth data");
 
-            _authService = Locator.Current.GetService<IAuthService>();
+            _authService = authService;
 
             InitApplyAuthCommand();
             InitLoginCommand();

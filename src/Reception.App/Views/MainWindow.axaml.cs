@@ -7,8 +7,7 @@ using System.Reactive.Disposables;
 
 namespace Reception.App.Views
 {
-    [SingleInstanceView]
-    public class MainWindow : ReactiveWindow<MainWindowViewModel>
+    public class MainWindow : ReactiveWindow<MainViewModel>
     {
         public MainWindow()
         {

@@ -16,7 +16,7 @@
         d:DesignWidth="400" d:DesignHeight="300">
     <Interaction.Behaviors>
         <EventTriggerBehavior EventName="Loaded">
-            <InvokeCommandAction Command="{Binding NavigateToAuthCommand}"/>
+            <InvokeCommandAction Command="{Binding InitCommand}"/>
         </EventTriggerBehavior>
     </Interaction.Behaviors>
     <dialogHost:DialogHost Identifier="{x:Static const:ControlNames.DIALOG_HOST_NAME}">

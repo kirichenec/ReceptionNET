@@ -20,11 +20,11 @@ using System.Net;
 using System.Reactive;
 using System.Reactive.Linq;
 using System.Reflection;
-using static Reception.App.ViewModels.IMainViewModel;
+using System.Runtime.CompilerServices;
 
 namespace Reception.App.ViewModels
 {
-    public class MainWindowViewModel : ReactiveObject, IMainViewModel
+    public class MainViewModel : ReactiveObject, IScreen
     {
         #region Fields
 
@@ -35,11 +35,11 @@ namespace Reception.App.ViewModels
 
         #endregion
 
-        public MainWindowViewModel()
+        public MainViewModel(IClientService clientService, IPingService pingService, ISettingsService settingsService)
         {
-            _clientService = Locator.Current.GetService<IClientService>();
-            _pingService = Locator.Current.GetService<IPingService>();
-            _settingsService = Locator.Current.GetService<ISettingsService>();
+            _clientService = clientService;
+            _pingService = pingService;
+            _settingsService = settingsService;
 
             _materialThemeStyles = Application.Current!.LocateMaterialTheme<MaterialTheme>();
 
@@ -59,7 +59,7 @@ namespace Reception.App.ViewModels
             CloseSettingsCommand = ReactiveCommand.Create(CloseSettings);
             SaveSettingsCommand = ReactiveCommand.Create(SaveSettings);
 
-            NavigateToAuthCommand = ReactiveCommand.Create(NavigateToAuth);
+            InitCommand = ReactiveCommand.Create(NavigateToAuth);
 
             AppVersion = Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
@@ -67,6 +67,8 @@ namespace Reception.App.ViewModels
 
             CenterMessage = string.Empty;
         }
+
+        public delegate void ShowErrorAction(Exception error, [CallerMemberName] string sourceName = null, params object[] properties);
 
         #region Properties
 
@@ -89,7 +91,7 @@ namespace Reception.App.ViewModels
         [Reactive]
         public bool IsLogined { get; set; }
 
-        public ReactiveCommand<Unit, Unit> NavigateToAuthCommand { get; }
+        public ReactiveCommand<Unit, Unit> InitCommand { get; }
 
         [Reactive]
         public string NotificationMessage { get; set; }
@@ -118,7 +120,7 @@ namespace Reception.App.ViewModels
         public void ApplyAuthData(AuthenticateResponse authData)
         {
             AuthData = authData;
-            LoadIsBossMode();
+            NavigateToUserInterface();
         }
 
         public void ClearNotification()
@@ -143,21 +145,26 @@ namespace Reception.App.ViewModels
             CloseDialog();
         }
 
-        private void LoadIsBossMode()
+        private void NavigateTo<T>() where T : BaseViewModel
         {
-            if (_settingsService.IsBoss)
-            {
-                Router.Navigate.Execute(new BossViewModel());
-            }
-            else
-            {
-                Router.Navigate.Execute(new SubordinateViewModel());
-            }
+            Router.Navigate.Execute(Locator.Current.GetService<T>());
         }
 
         private void NavigateToAuth()
         {
-            Router.Navigate.Execute(new AuthViewModel());
+            NavigateTo<AuthViewModel>();
+        }
+
+        private void NavigateToUserInterface()
+        {
+            if (_settingsService.IsBoss)
+            {
+                NavigateTo<BossViewModel>();
+            }
+            else
+            {
+                NavigateTo<SubordinateViewModel>();
+            }
         }
 
         private void RestoreSettings()
