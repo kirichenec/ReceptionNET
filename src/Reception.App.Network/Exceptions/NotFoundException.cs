@@ -1,5 +1,4 @@
 ﻿using System.Runtime.Serialization;
-using System.Security.Permissions;
 
 namespace Reception.App.Network.Exceptions
 {
@@ -24,13 +23,11 @@ namespace Reception.App.Network.Exceptions
             ExceptionObject = exceptionObject;
         }
 
-        [SecurityPermission(SecurityAction.Demand, SerializationFormatter = true)]
         protected NotFoundException(SerializationInfo info, StreamingContext context) : base(info, context)
         {
             ExceptionObject = (T)info.GetValue(nameof(ExceptionObject), typeof(T));
         }
 
-        [SecurityPermission(SecurityAction.Demand, SerializationFormatter = true)]
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             if (info == null)

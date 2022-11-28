@@ -1,20 +1,16 @@
 ﻿using ReactiveUI.Fody.Helpers;
 using Reception.App.Service.Interface;
-using Splat;
 
 namespace Reception.App.ViewModels
 {
     public class BossViewModel : BaseViewModel
     {
-        private readonly ISettingsService _settingsService;
-
-        public BossViewModel(IMainViewModel mainViewModel) : base(nameof(BossViewModel), mainViewModel)
+        public BossViewModel(ISettingsService settingsService, MainViewModel mainViewModel)
+            : base(mainViewModel)
         {
             SetRefreshingNotification("Loading boss data");
 
-            _settingsService ??= Locator.Current.GetService<ISettingsService>();
-
-            WelcomeMessage = _settingsService.WelcomeMessage;
+            WelcomeMessage = settingsService.WelcomeMessage;
 
             ClearNotification();
         }

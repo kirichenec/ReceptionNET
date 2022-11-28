@@ -2,18 +2,19 @@
 using ReactiveUI.Fody.Helpers;
 using Reception.App.Enums;
 using Reception.Extension;
+using Reception.Extension.Helpers;
 
 namespace Reception.App.ViewModels
 {
     public abstract class BaseViewModel : ReactiveObject, IRoutableViewModel
     {
-        protected readonly IMainViewModel _mainViewModel;
+        protected readonly MainViewModel _mainViewModel;
 
-        protected BaseViewModel(string urlPathSegment, IMainViewModel mainViewModel)
+        protected BaseViewModel(MainViewModel mainViewModel)
         {
             _mainViewModel = mainViewModel;
 
-            UrlPathSegment = urlPathSegment;
+            UrlPathSegment = CallingClass.GetName();
 
             ThrownExceptions.Subscribe(ErrorHandler(nameof(BaseViewModel)));
         }

@@ -36,6 +36,10 @@
         </PackageReference>
         <PackageReference Include="ReactiveUI.Fody" Version="18.4.1" />
         <PackageReference Include="RestSharp" Version="108.0.3" />
+        <PackageReference Include="Splat.DependencyInjection.SourceGenerator" Version="1.1.69">
+          <PrivateAssets>all</PrivateAssets>
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
         <PackageReference Include="System.Configuration.ConfigurationManager" Version="7.0.0" />
     </ItemGroup>
     <ItemGroup>
@@ -66,5 +70,6 @@
         <Pack>True</Pack>
         <PackagePath>\</PackagePath>
       </None>
+      <None Include="FodyWeavers.xsd" />
     </ItemGroup>
 </Project>

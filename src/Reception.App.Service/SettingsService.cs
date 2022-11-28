@@ -5,7 +5,7 @@ using static Reception.Extension.ConfigurationManagerExtensions;
 
 namespace Reception.App.Service
 {
-    public partial class SettingsService : ISettingsService
+    public class SettingsService : ISettingsService
     {
         private const string TOKEN_SECTION_NAME = "tokenSettings";
 

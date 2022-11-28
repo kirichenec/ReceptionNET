@@ -13,7 +13,12 @@
         x:Class="Reception.App.Views.MainWindow"
         Icon="/Assets/RClogo.png"
         Title="Reception.App"
-        d:DesignWidth="400" d:DesignHeight="300">    
+        d:DesignWidth="400" d:DesignHeight="300">
+    <Interaction.Behaviors>
+        <EventTriggerBehavior EventName="Loaded">
+            <InvokeCommandAction Command="{Binding InitCommand}"/>
+        </EventTriggerBehavior>
+    </Interaction.Behaviors>
     <dialogHost:DialogHost Identifier="{x:Static const:ControlNames.DIALOG_HOST_NAME}">
         <dialogHost:DialogHost.DialogContent>
             <controls:SettingsControl
@@ -24,7 +29,7 @@
                 SaveSettingsCommand="{Binding $parent[local:MainWindow].ViewModel.SaveSettingsCommand}"
                 Version="{Binding $parent[local:MainWindow].ViewModel.AppVersion}"/>
         </dialogHost:DialogHost.DialogContent>
-        
+
         <Grid RowDefinitions="*, Auto, Auto">
             <!--Content-->
             <reactiveUi:RoutedViewHost Grid.Row="0" Router="{Binding Router}">
