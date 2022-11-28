@@ -32,18 +32,17 @@ namespace Reception.App.ViewModels
 
         #endregion
 
-        public SubordinateViewModel(IMainViewModel mainViewModel)
-            : base(nameof(SubordinateViewModel), mainViewModel)
+        public SubordinateViewModel()
         {
             SetRefreshingNotification("Loading subordinate data");
 
             SearchText = string.Empty;
 
-            _networkServiceOfPersons ??= Locator.Current.GetService<INetworkService<Person>>();
-            _networkServiceOfFileData ??= Locator.Current.GetService<INetworkService<FileData>>();
-            _settingsService ??= Locator.Current.GetService<ISettingsService>();
+            _networkServiceOfPersons = Locator.Current.GetService<INetworkService<Person>>();
+            _networkServiceOfFileData = Locator.Current.GetService<INetworkService<FileData>>();
+            _settingsService = Locator.Current.GetService<ISettingsService>();
 
-            _clientService ??= Locator.Current.GetService<IClientService>();
+            _clientService = Locator.Current.GetService<IClientService>();
             _clientService.MessageReceived += MessageReceived;
 
             InitCommands();
@@ -232,7 +231,7 @@ namespace Reception.App.ViewModels
 
             async Task<byte[]> GetDefaultVisitorPhoto(CancellationToken cancellationToken = default)
             {
-                return _defaultPhotoData ??= await _settingsService.DefaultVisitorPhotoPath
+                return _defaultPhotoData = await _settingsService.DefaultVisitorPhotoPath
                     .GetFileBytesByPathAsync(cancellationToken);
             }
 

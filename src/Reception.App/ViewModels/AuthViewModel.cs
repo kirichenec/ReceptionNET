@@ -16,11 +16,11 @@ namespace Reception.App.ViewModels
     {
         private readonly IAuthService _authService;
 
-        public AuthViewModel(IMainViewModel mainViewModel) : base(nameof(AuthViewModel), mainViewModel)
+        public AuthViewModel()
         {
             SetRefreshingNotification("Loading auth data");
 
-            _authService ??= Locator.Current.GetService<IAuthService>();
+            _authService = Locator.Current.GetService<IAuthService>();
 
             InitApplyAuthCommand();
             InitLoginCommand();

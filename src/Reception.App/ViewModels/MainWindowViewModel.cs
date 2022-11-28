@@ -37,9 +37,9 @@ namespace Reception.App.ViewModels
 
         public MainWindowViewModel()
         {
-            _clientService ??= Locator.Current.GetService<IClientService>();
-            _pingService ??= Locator.Current.GetService<IPingService>();
-            _settingsService ??= Locator.Current.GetService<ISettingsService>();
+            _clientService = Locator.Current.GetService<IClientService>();
+            _pingService = Locator.Current.GetService<IPingService>();
+            _settingsService = Locator.Current.GetService<ISettingsService>();
 
             _materialThemeStyles = Application.Current!.LocateMaterialTheme<MaterialTheme>();
 
@@ -59,13 +59,13 @@ namespace Reception.App.ViewModels
             CloseSettingsCommand = ReactiveCommand.Create(CloseSettings);
             SaveSettingsCommand = ReactiveCommand.Create(SaveSettings);
 
+            NavigateToAuthCommand = ReactiveCommand.Create(NavigateToAuth);
+
             AppVersion = Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
             RestoreSettings();
 
             CenterMessage = string.Empty;
-
-            NavigateToAuth();
         }
 
         #region Properties
@@ -88,6 +88,8 @@ namespace Reception.App.ViewModels
 
         [Reactive]
         public bool IsLogined { get; set; }
+
+        public ReactiveCommand<Unit, Unit> NavigateToAuthCommand { get; }
 
         [Reactive]
         public string NotificationMessage { get; set; }
@@ -124,6 +126,11 @@ namespace Reception.App.ViewModels
             SetNotification(null, NotificationType.No);
         }
 
+        public void NavigateToAuth()
+        {
+            Router.Navigate.Execute(new AuthViewModel());
+        }
+
         public void SetNotification(string message, NotificationType type)
         {
             NotificationType = type;
@@ -145,17 +152,12 @@ namespace Reception.App.ViewModels
         {
             if (_settingsService.IsBoss)
             {
-                Router.Navigate.Execute(new BossViewModel(this));
+                Router.Navigate.Execute(new BossViewModel());
             }
             else
             {
-                Router.Navigate.Execute(new SubordinateViewModel(this));
+                Router.Navigate.Execute(new SubordinateViewModel());
             }
-        }
-
-        private void NavigateToAuth()
-        {
-            Router.Navigate.Execute(new AuthViewModel(this));
         }
 
         private void RestoreSettings()

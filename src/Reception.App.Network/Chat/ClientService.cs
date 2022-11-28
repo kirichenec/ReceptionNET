@@ -18,7 +18,7 @@ namespace Reception.App.Network.Chat
         #region ctor
         public ClientService()
         {
-            _settingsService ??= Locator.Current.GetService<ISettingsService>();
+            _settingsService = Locator.Current.GetService<ISettingsService>();
 
 #if DEBUG
             if (_settingsService?.ChatServerPath == null)

@@ -30,12 +30,15 @@ namespace Reception.App
 
         private static void InitLocatorObjects()
         {
-            Locator.CurrentMutable.RegisterConstant(new SettingsService(), typeof(ISettingsService));
-            Locator.CurrentMutable.RegisterConstant(new AuthService(), typeof(IAuthService));
-            Locator.CurrentMutable.RegisterConstant(new PersonNetworkService(), typeof(INetworkService<Person>));
-            Locator.CurrentMutable.RegisterConstant(new FileDataNetworkService(), typeof(INetworkService<FileData>));
-            Locator.CurrentMutable.RegisterConstant(new PingService(), typeof(IPingService));
-            Locator.CurrentMutable.RegisterConstant(new ClientService(), typeof(IClientService));
+            // Register a singleton which won't get created until the first user accesses it
+            Locator.CurrentMutable.RegisterLazySingleton(() => new SettingsService(), typeof(ISettingsService));
+            Locator.CurrentMutable.RegisterLazySingleton(() => new AuthService(), typeof(IAuthService));
+            Locator.CurrentMutable.RegisterLazySingleton(() => new PingService(), typeof(IPingService));
+            Locator.CurrentMutable.RegisterLazySingleton(() => new ClientService(), typeof(IClientService));
+
+            // Create a new any time someone asks
+            Locator.CurrentMutable.Register(() => new PersonNetworkService(), typeof(INetworkService<Person>));
+            Locator.CurrentMutable.Register(() => new FileDataNetworkService(), typeof(INetworkService<FileData>));
 
             Locator.CurrentMutable.RegisterViewsForViewModels(Assembly.GetCallingAssembly());
         }

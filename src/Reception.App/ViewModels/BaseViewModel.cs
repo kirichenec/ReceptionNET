@@ -2,6 +2,8 @@
 using ReactiveUI.Fody.Helpers;
 using Reception.App.Enums;
 using Reception.Extension;
+using Reception.Extension.Helpers;
+using Splat;
 
 namespace Reception.App.ViewModels
 {
@@ -9,11 +11,11 @@ namespace Reception.App.ViewModels
     {
         protected readonly IMainViewModel _mainViewModel;
 
-        protected BaseViewModel(string urlPathSegment, IMainViewModel mainViewModel)
+        protected BaseViewModel()
         {
-            _mainViewModel = mainViewModel;
+            _mainViewModel = Locator.Current.GetService<IViewFor<MainWindowViewModel>>().ViewModel;
 
-            UrlPathSegment = urlPathSegment;
+            UrlPathSegment = CallingClass.GetName();
 
             ThrownExceptions.Subscribe(ErrorHandler(nameof(BaseViewModel)));
         }

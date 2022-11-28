@@ -8,11 +8,11 @@ namespace Reception.App.ViewModels
     {
         private readonly ISettingsService _settingsService;
 
-        public BossViewModel(IMainViewModel mainViewModel) : base(nameof(BossViewModel), mainViewModel)
+        public BossViewModel()
         {
             SetRefreshingNotification("Loading boss data");
 
-            _settingsService ??= Locator.Current.GetService<ISettingsService>();
+            _settingsService = Locator.Current.GetService<ISettingsService>();
 
             WelcomeMessage = _settingsService.WelcomeMessage;
 

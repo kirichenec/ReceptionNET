@@ -1,8 +1,10 @@
 using Avalonia;
+using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
+using ReactiveUI;
 using Reception.App.ViewModels;
-using Reception.App.Views;
+using Splat;
 
 namespace Reception.App
 {
@@ -17,10 +19,9 @@ namespace Reception.App
         {
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktopLifetime)
             {
-                desktopLifetime.MainWindow = new MainWindow
-                {
-                    DataContext = new MainWindowViewModel()
-                };
+                var view = Locator.Current.GetService<IViewFor<MainWindowViewModel>>();
+                desktopLifetime.MainWindow = view as Window;
+                desktopLifetime.MainWindow.DataContext = view.ViewModel = new MainWindowViewModel();
             }
 
             base.OnFrameworkInitializationCompleted();
