@@ -4,7 +4,7 @@ using Splat;
 
 namespace Reception.App.Network.Server
 {
-    public class FileDataNetworkService : NetworkService<FileData>
+    public class FileDataNetworkService : NetworkService<FileData>, IFileDataNetworkService
     {
         public FileDataNetworkService() : base(Locator.Current.GetService<ISettingsService>().FileServerPath)
         {

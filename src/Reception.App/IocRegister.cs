@@ -24,8 +24,8 @@ namespace Reception.App
             SplatRegistrations.RegisterLazySingleton<IClientService, ClientService>();
 
             // Services, new each request
-            SplatRegistrations.Register<INetworkService<Person>, PersonNetworkService>();
-            SplatRegistrations.Register<INetworkService<FileData>, FileDataNetworkService>();
+            SplatRegistrations.Register<IPersonNetworkService, PersonNetworkService>();
+            SplatRegistrations.Register<IFileDataNetworkService, FileDataNetworkService>();
 
             // View models
             SplatRegistrations.RegisterLazySingleton<MainViewModel>();
