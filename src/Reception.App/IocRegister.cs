@@ -1,6 +1,4 @@
-﻿using Reception.App.Model.FileInfo;
-using Reception.App.Model.PersonInfo;
-using Reception.App.Network.Auth;
+﻿using Reception.App.Network.Auth;
 using Reception.App.Network.Chat;
 using Reception.App.Network.Server;
 using Reception.App.Service;

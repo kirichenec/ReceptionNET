@@ -16,11 +16,13 @@ namespace Reception.App
 
         public override void OnFrameworkInitializationCompleted()
         {
-            if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktopLifetime)
+            var mainViewModel = Locator.Current.GetService<MainViewModel>();
+
+            switch (ApplicationLifetime)
             {
-                var mainViewModel = Locator.Current.GetService<MainViewModel>();
-                var mainView = new MainWindow { DataContext = mainViewModel };
-                desktopLifetime.MainWindow = mainView;
+                case IClassicDesktopStyleApplicationLifetime desktopLifetime:
+                    desktopLifetime.MainWindow = new MainWindow { DataContext = mainViewModel };
+                    break;
             }
 
             base.OnFrameworkInitializationCompleted();
