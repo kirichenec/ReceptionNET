@@ -56,6 +56,7 @@ namespace Reception.App.ViewModels
                           .Subscribe(async x => await TryPing());
 
             ChangeThemeCommand = ReactiveCommand.Create<bool>(UseMaterialUiTheme);
+            ChangeSystemThemeCommand = ReactiveCommand.Create<bool>(UseSystemTheme);
             CloseSettingsCommand = ReactiveCommand.Create(CloseSettings);
             SaveSettingsCommand = ReactiveCommand.Create(SaveSettings);
 
@@ -78,9 +79,13 @@ namespace Reception.App.ViewModels
         [Reactive]
         public string CenterMessage { get; set; }
 
+        public ReactiveCommand<bool, Unit> ChangeSystemThemeCommand { get; }
+
         public ReactiveCommand<bool, Unit> ChangeThemeCommand { get; }
 
         public ReactiveCommand<Unit, Unit> CloseSettingsCommand { get; }
+
+        public ReactiveCommand<Unit, Unit> InitCommand { get; }
 
         [Reactive]
         public bool IsBoss { get; set; }
@@ -91,7 +96,8 @@ namespace Reception.App.ViewModels
         [Reactive]
         public bool IsLogined { get; set; }
 
-        public ReactiveCommand<Unit, Unit> InitCommand { get; }
+        [Reactive]
+        public bool IsSystemTheme { get; set; }
 
         [Reactive]
         public string NotificationMessage { get; set; }
@@ -145,6 +151,11 @@ namespace Reception.App.ViewModels
             CloseDialog();
         }
 
+        private static BaseThemeMode GetDarkThemeMode(bool isDark)
+        {
+            return isDark ? BaseThemeMode.Dark : BaseThemeMode.Light;
+        }
+
         private void NavigateTo<T>() where T : BaseViewModel
         {
             if (Router.NavigationStack.LastOrDefault() is not T)
@@ -175,7 +186,8 @@ namespace Reception.App.ViewModels
         {
             IsBoss = _settingsService.IsBoss;
             IsDark = _settingsService.IsDark;
-            UseMaterialUiTheme(IsDark);
+            IsSystemTheme = _settingsService.IsSystemTheme;
+            UseSystemTheme(IsSystemTheme);
         }
 
         private void SaveSettings()
@@ -183,6 +195,7 @@ namespace Reception.App.ViewModels
             var bossModeChanged = _settingsService.IsBoss != IsBoss;
             _settingsService.IsBoss = IsBoss;
             _settingsService.IsDark = IsDark;
+            _settingsService.IsSystemTheme = IsSystemTheme;
             CloseDialog();
 
             if (bossModeChanged)
@@ -236,7 +249,12 @@ namespace Reception.App.ViewModels
 
         private void UseMaterialUiTheme(bool isDark)
         {
-            _materialThemeStyles.BaseTheme = isDark ? BaseThemeMode.Dark : BaseThemeMode.Light;
+            _materialThemeStyles.BaseTheme = GetDarkThemeMode(isDark);
+        }
+
+        private void UseSystemTheme(bool isSystemTheme)
+        {
+            _materialThemeStyles.BaseTheme = isSystemTheme ? BaseThemeMode.Inherit : GetDarkThemeMode(IsDark);
         }
 
         #endregion
