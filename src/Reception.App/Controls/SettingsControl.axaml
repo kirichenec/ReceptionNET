@@ -21,21 +21,32 @@
               ColumnDefinitions="Auto *"
               RowDefinitions="Auto Auto Auto">
             <TextBlock
-                Text="Dark theme"
+                Text="System theme"
                 Grid.Row="0" Grid.Column="0"
                 HorizontalAlignment="Right"/>
             <ToggleSwitch
                 Grid.Row="0" Grid.Column="1"
+                IsChecked="{Binding $parent[local:SettingsControl].IsSystemTheme}"
+                Command="{Binding $parent[local:SettingsControl].ChangeSystemThemeCommand}"
+                CommandParameter="{Binding $self.IsChecked}"/>
+            
+            <TextBlock
+                Text="Dark theme"
+                Grid.Row="1" Grid.Column="0"
+                HorizontalAlignment="Right"/>
+            <ToggleSwitch
+                Grid.Row="1" Grid.Column="1"
                 IsChecked="{Binding $parent[local:SettingsControl].IsDark}"
+                IsEnabled="{Binding !$parent[local:SettingsControl].IsSystemTheme}"
                 Command="{Binding $parent[local:SettingsControl].ChangeThemeCommand}"
                 CommandParameter="{Binding $self.IsChecked}"/>
 
             <TextBlock
                 Text="Boss mode"
-                Grid.Row="1" Grid.Column="0"
+                Grid.Row="2" Grid.Column="0"
                 HorizontalAlignment="Right"/>
             <ToggleSwitch
-                Grid.Row="1" Grid.Column="1"
+                Grid.Row="2" Grid.Column="1"
                 IsChecked="{Binding $parent[local:SettingsControl].IsBoss}"/>
         </Grid>
 

@@ -11,6 +11,9 @@ namespace Reception.App.Controls
         public static readonly StyledProperty<ICommand> ChangeThemeCommandProperty =
             AvaloniaProperty.Register<SettingsControl, ICommand>(nameof(ChangeThemeCommand));
 
+        public static readonly StyledProperty<ICommand> ChangeSystemThemeCommandProperty =
+            AvaloniaProperty.Register<SettingsControl, ICommand>(nameof(ChangeSystemThemeCommand));
+
         public static readonly StyledProperty<ICommand> CloseSettingsCommandProperty =
             AvaloniaProperty.Register<SettingsControl, ICommand>(nameof(CloseSettingsCommand));
 
@@ -19,6 +22,9 @@ namespace Reception.App.Controls
 
         public static readonly StyledProperty<bool> IsDarkProperty =
             AvaloniaProperty.Register<SettingsControl, bool>(nameof(IsDark), defaultBindingMode: BindingMode.TwoWay);
+
+        public static readonly StyledProperty<bool> IsSystemThemeProperty =
+            AvaloniaProperty.Register<SettingsControl, bool>(nameof(IsSystemTheme), defaultBindingMode: BindingMode.TwoWay);
 
         public static readonly StyledProperty<ICommand> SaveSettingsCommandProperty =
             AvaloniaProperty.Register<SettingsControl, ICommand>(nameof(SaveSettingsCommand));
@@ -29,6 +35,12 @@ namespace Reception.App.Controls
         public SettingsControl()
         {
             AvaloniaXamlLoader.Load(this);
+        }
+
+        public ICommand ChangeSystemThemeCommand
+        {
+            get => GetValue(ChangeSystemThemeCommandProperty);
+            set => SetValue(ChangeSystemThemeCommandProperty, value);
         }
 
         public ICommand ChangeThemeCommand
@@ -53,6 +65,12 @@ namespace Reception.App.Controls
         {
             get => GetValue(IsDarkProperty);
             set => SetValue(IsDarkProperty, value);
+        }
+
+        public bool IsSystemTheme
+        {
+            get => GetValue(IsSystemThemeProperty);
+            set => SetValue(IsSystemThemeProperty, value);
         }
 
         public ICommand SaveSettingsCommand

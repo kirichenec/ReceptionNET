@@ -24,8 +24,10 @@
             <controls:SettingsControl
                 CloseSettingsCommand="{Binding $parent[local:MainWindow].ViewModel.CloseSettingsCommand}"
                 ChangeThemeCommand="{Binding $parent[local:MainWindow].ViewModel.ChangeThemeCommand}"
+                ChangeSystemThemeCommand="{Binding $parent[local:MainWindow].ViewModel.ChangeSystemThemeCommand}"
                 IsBoss="{Binding $parent[local:MainWindow].ViewModel.IsBoss}"
                 IsDark="{Binding $parent[local:MainWindow].ViewModel.IsDark}"
+                IsSystemTheme="{Binding $parent[local:MainWindow].ViewModel.IsSystemTheme}"
                 SaveSettingsCommand="{Binding $parent[local:MainWindow].ViewModel.SaveSettingsCommand}"
                 Version="{Binding $parent[local:MainWindow].ViewModel.AppVersion}"/>
         </dialogHost:DialogHost.DialogContent>

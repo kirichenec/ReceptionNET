@@ -17,12 +17,21 @@ namespace Reception.Extension
 
         public static void UpdateAppSettingsParam<T>(this T value, [CallerMemberName] string parameterName = null)
         {
-            UpdateSectionInternal(value, parameterName, "appSettings", UpdateSection);
+            UpdateSectionInternal(value, parameterName, "appSettings", UpdateOrCreateSection);
 
 
-            static void UpdateSection(T value, string parameterName, Configuration config)
+            static void UpdateOrCreateSection(T value, string parameterName, Configuration config)
             {
-                config.AppSettings.Settings[parameterName].Value = value.ToString();
+                var stringValue = value.ToString();
+
+                if (config.AppSettings.Settings[parameterName] is KeyValueConfigurationElement setting)
+                {
+                    setting.Value = stringValue;
+                }
+                else
+                {
+                    config.AppSettings.Settings.Add(new KeyValueConfigurationElement(parameterName, stringValue));
+                }
             }
         }
 

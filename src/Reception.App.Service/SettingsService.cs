@@ -51,6 +51,12 @@ namespace Reception.App.Service
             set => value.UpdateAppSettingsParam();
         }
 
+        public bool IsSystemTheme
+        {
+            get => GetAppSettingsParam().ParseBool();
+            set => value.UpdateAppSettingsParam();
+        }
+
         public int PingDelay
         {
             get => GetAppSettingsParam().ParseInt();
