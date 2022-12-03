@@ -1,6 +1,4 @@
-﻿using Reception.App.Model.FileInfo;
-using Reception.App.Model.PersonInfo;
-using Reception.App.Network.Auth;
+﻿using Reception.App.Network.Auth;
 using Reception.App.Network.Chat;
 using Reception.App.Network.Server;
 using Reception.App.Service;
@@ -24,8 +22,8 @@ namespace Reception.App
             SplatRegistrations.RegisterLazySingleton<IClientService, ClientService>();
 
             // Services, new each request
-            SplatRegistrations.Register<INetworkService<Person>, PersonNetworkService>();
-            SplatRegistrations.Register<INetworkService<FileData>, FileDataNetworkService>();
+            SplatRegistrations.Register<IPersonNetworkService, PersonNetworkService>();
+            SplatRegistrations.Register<IFileDataNetworkService, FileDataNetworkService>();
 
             // View models
             SplatRegistrations.RegisterLazySingleton<MainViewModel>();

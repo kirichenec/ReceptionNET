@@ -147,7 +147,11 @@ namespace Reception.App.ViewModels
 
         private void NavigateTo<T>() where T : BaseViewModel
         {
-            Router.Navigate.Execute(Locator.Current.GetService<T>());
+            if (Router.NavigationStack.LastOrDefault() is not T)
+            {
+                Router.NavigationStack.Clear();
+                Router.Navigate.Execute(Locator.Current.GetService<T>());
+            }
         }
 
         private void NavigateToAuth()

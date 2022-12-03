@@ -4,7 +4,7 @@ using Splat;
 
 namespace Reception.App.Network.Server
 {
-    public class PersonNetworkService : NetworkService<Person>
+    public class PersonNetworkService : NetworkService<Person>, IPersonNetworkService
     {
         public PersonNetworkService() : base(Locator.Current.GetService<ISettingsService>().DataServerPath)
         {

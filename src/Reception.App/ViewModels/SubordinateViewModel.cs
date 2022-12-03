@@ -22,8 +22,8 @@ namespace Reception.App.ViewModels
         #region Fields
 
         private readonly IClientService _clientService;
-        private readonly INetworkService<Person> _networkServiceOfPersons;
-        private readonly INetworkService<FileData> _networkServiceOfFileData;
+        private readonly IPersonNetworkService _networkServiceOfPersons;
+        private readonly IFileDataNetworkService _networkServiceOfFileData;
         private readonly ISettingsService _settingsService;
 
         private byte[] _defaultPhotoData;
@@ -31,7 +31,7 @@ namespace Reception.App.ViewModels
 
         #endregion
 
-        public SubordinateViewModel(INetworkService<Person> personNetworkService, INetworkService<FileData> fileDataNetworkService,
+        public SubordinateViewModel(IPersonNetworkService personNetworkService, IFileDataNetworkService fileDataNetworkService,
             ISettingsService settingsService, IClientService clientService, MainViewModel mainViewModel)
             : base(mainViewModel)
         {
