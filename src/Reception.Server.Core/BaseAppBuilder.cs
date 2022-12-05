@@ -11,38 +11,7 @@ namespace Reception.Server.Core
 {
     public static class BaseAppBuilder
     {
-        public static void BuildAndRunApp(Type appType, Action<WebApplicationBuilder> configureServices,
-            Action<WebApplication, WebApplicationBuilder> configure, string[] args)
-        {
-            BuildAndRunAppInternal(() => AppBuilder(appType, configureServices, configure, args));
-        }
-
-        internal static void BuildAndRunAppInternal(Action appBuilder)
-        {
-            Log.Logger = GetConsoleLogger();
-
-            try
-            {
-                Log.Information("Starting web application");
-                appBuilder();
-            }
-            catch (Exception ex)
-            {
-                Log.Fatal(ex, "Application terminated unexpectedly");
-            }
-            finally
-            {
-                Log.CloseAndFlush();
-            }
-        }
-
-        private static void AppBuilder(Type appType, Action<WebApplicationBuilder> configureServices,
-            Action<WebApplication, WebApplicationBuilder> configure, string[] args)
-        {
-            AppBuilderInternal(appType, configureServices, configure, args);
-        }
-
-        internal static void AppBuilderInternal(Type appType, Action<WebApplicationBuilder> configureServices,
+        public static void AppBuilder(Type appType, Action<WebApplicationBuilder> configureServices,
             Action<WebApplication, WebApplicationBuilder> configure, string[] args)
         {
             var appName = appType.Assembly.GetName().Name;
@@ -67,6 +36,31 @@ namespace Reception.Server.Core
             Log.Information("Swagger: {swaggerUrl}", DEFAULT_SWAGGER_URL);
 
             app.Run();
+        }
+
+        public static void BuildAndRunApp(Action appBuilder)
+        {
+            Log.Logger = GetConsoleLogger();
+
+            try
+            {
+                Log.Information("Starting web application");
+                appBuilder();
+            }
+            catch (Exception ex)
+            {
+                Log.Fatal(ex, "Application terminated unexpectedly");
+            }
+            finally
+            {
+                Log.CloseAndFlush();
+            }
+        }
+
+        public static void BuildAndRunApp(Type appType, Action<WebApplicationBuilder> configureServices,
+            Action<WebApplication, WebApplicationBuilder> configure, string[] args)
+        {
+            BuildAndRunApp(() => AppBuilder(appType, configureServices, configure, args));
         }
 
         public static void Configure(WebApplication app, WebApplicationBuilder builder)
