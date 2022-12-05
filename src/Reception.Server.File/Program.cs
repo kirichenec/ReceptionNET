@@ -1,16 +1,20 @@
-using Microsoft.AspNetCore;
+using Reception.Server.Core;
+using Reception.Server.Core.Extensions;
+using Reception.Server.File.Logic;
+using Reception.Server.File.Model;
+using Reception.Server.File.Repository;
 
-namespace Reception.Server.File
+
+AuthedAppBuilder.BuildAndRunApp(typeof(Program), ConfigureServices, args);
+
+static void ConfigureServices(WebApplicationBuilder builder)
 {
-    public static class Program
-    {
-        public static void Main(string[] args)
-        {
-            CreateWebHostBuilder(args).Build().Run();
-        }
+    AuthedAppBuilder.ConfigureServices(builder, "Reception files server");
 
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>();
-    }
+    builder.Services.ConfigureOptions<AppSettings>(builder.Configuration);
+
+    // configure DI for application services
+    builder.Services.AddEntityFrameworkSqlite().AddDbContext<FileContext>();
+    builder.Services.AddScoped<IFileDataService, FileDataService>();
+    builder.Services.AddScoped<IFileDataLogic, FileDataLogic>();
 }

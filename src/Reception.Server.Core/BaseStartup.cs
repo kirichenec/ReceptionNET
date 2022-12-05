@@ -11,19 +11,12 @@ namespace Reception.Server.Core
     public class BaseStartup
     {
         public const string DEFAULT_OPEN_API_VERSION = "v1";
-        public const string DEFAULT_SWAGGER_URL = "/swagger/v1/swagger.json";
-
-        static BaseStartup()
-        {
-            ReceptionLoggerFactory = LoggerFactory.Create(builder => { builder.AddConsole(); });
-        }
+        public const string DEFAULT_SWAGGER_URL = $"/swagger/{DEFAULT_OPEN_API_VERSION}/swagger.json";
 
         public BaseStartup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
-
-        public static ILoggerFactory ReceptionLoggerFactory { get; }
 
         public IConfiguration Configuration { get; }
 
@@ -41,7 +34,7 @@ namespace Reception.Server.Core
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
         }
 
-        public virtual void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        protected void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILogger<BaseStartup> logger)
         {
             if (env.IsDevelopment())
             {
@@ -56,8 +49,10 @@ namespace Reception.Server.Core
             app.UseSwaggerUI(c => c.SwaggerEndpoint(DEFAULT_SWAGGER_URL, env.ApplicationName));
 
             app.UseHttpsRedirection();
-
             app.UseRouting();
+
+            logger.LogInformation("{appName} started", Configuration.GetValue<string>("appName"));
+            logger.LogInformation("Swagger: {swaggerUrl}", DEFAULT_SWAGGER_URL);
         }
     }
 }

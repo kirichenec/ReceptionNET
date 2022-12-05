@@ -27,9 +27,7 @@ namespace Reception.Server.Auth.Repository
             var connectionString = connectionStringBuilder.ToString();
             var connection = new SqliteConnection(connectionString);
 
-            optionsBuilder
-                .UseLoggerFactory(Startup.ReceptionLoggerFactory)
-                .UseSqlite(connection);
+            optionsBuilder.UseSqlite(connection);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

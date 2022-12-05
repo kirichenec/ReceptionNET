@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Reception.Server.Auth.ConnectionLibrary;
 using Reception.Server.Core.Extensions;
 
@@ -22,9 +23,9 @@ namespace Reception.Server.Core
             services.ConfigureOptions<AuthSettings>(Configuration);
         }
 
-        public override void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILogger<AuthedStartup> logger)
         {
-            base.Configure(app, env);
+            base.Configure(app, env, logger);
 
             app.UseEndpoints(endpoints =>
             {

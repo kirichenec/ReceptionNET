@@ -24,9 +24,7 @@ namespace Reception.Server.Data.Repository
             var connectionString = connectionStringBuilder.ToString();
             var connection = new SqliteConnection(connectionString);
 
-            optionsBuilder
-                .UseLoggerFactory(Startup.ReceptionLoggerFactory)
-                .UseSqlite(connection);
+            optionsBuilder.UseSqlite(connection);
         }
 
 #if DEBUG
