@@ -1,16 +1,15 @@
-﻿using Microsoft.AspNetCore;
+﻿using Reception.Server.Core;
+using Reception.Server.Data.Logic;
+using Reception.Server.Data.Repository;
 
-namespace Reception.Server.Data
+AuthedAppBuilder.BuildAndRunApp(typeof(Program), ConfigureServices, args);
+
+static void ConfigureServices(WebApplicationBuilder builder)
 {
-    public static class Program
-    {
-        public static void Main(string[] args)
-        {
-            CreateWebHostBuilder(args).Build().Run();
-        }
+    AuthedAppBuilder.ConfigureServices(builder, "Reception data server");
 
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>();
-    }
+    // configure DI for application services
+    builder.Services.AddEntityFrameworkSqlite().AddDbContext<DataContext>();
+    builder.Services.AddScoped<IDataService, DataService>();
+    builder.Services.AddScoped<IPersonLogic, PersonLogic>();
 }

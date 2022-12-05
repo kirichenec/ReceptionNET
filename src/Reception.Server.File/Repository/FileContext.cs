@@ -33,7 +33,6 @@ namespace Reception.Server.File.Repository
             var connection = new SqliteConnection(connectionString);
 
             optionsBuilder
-                .UseLoggerFactory(Startup.ReceptionLoggerFactory)
                 .UseSqlite(connection)
                 .UseTriggers(triggerOptions => triggerOptions.AddTrigger<FileDataBeforeSaveTrigger>());
 
