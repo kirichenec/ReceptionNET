@@ -2,7 +2,7 @@
 using Reception.Server.Data.Logic;
 using Reception.Server.Data.Repository;
 
-AuthedAppBuilder.BuildAndRunApp(typeof(Program), ConfigureServices,  args);
+AuthedAppBuilder.BuildAndRunApp(typeof(Program), ConfigureServices, args);
 
 static void ConfigureServices(WebApplicationBuilder builder)
 {
