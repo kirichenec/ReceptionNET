@@ -3,7 +3,6 @@ using Reception.App.Model.Auth;
 using Reception.App.Network.Exceptions;
 using Reception.App.Service.Interface;
 using Reception.Constant;
-using Splat;
 
 namespace Reception.App.Network.Auth
 {
@@ -13,9 +12,9 @@ namespace Reception.App.Network.Auth
 
         private readonly ISettingsService _settingsService;
 
-        public AuthService()
+        public AuthService(ISettingsService settingsService)
         {
-            _settingsService = Locator.Current.GetService<ISettingsService>();
+            _settingsService = settingsService;
         }
 
         public AuthenticateResponse AuthData => _authData;

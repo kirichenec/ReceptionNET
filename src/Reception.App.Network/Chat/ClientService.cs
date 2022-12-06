@@ -4,7 +4,6 @@ using Reception.App.Network.Chat.Constants;
 using Reception.App.Network.Extensions;
 using Reception.App.Service.Interface;
 using Reception.Model.Network;
-using Splat;
 
 namespace Reception.App.Network.Chat
 {
@@ -16,9 +15,9 @@ namespace Reception.App.Network.Chat
         #endregion
 
         #region ctor
-        public ClientService()
+        public ClientService(ISettingsService settingsService)
         {
-            _settingsService = Locator.Current.GetService<ISettingsService>();
+            _settingsService = settingsService;
 
 #if DEBUG
             if (_settingsService?.ChatServerPath == null)

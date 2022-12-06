@@ -3,7 +3,6 @@ using Reception.App.Network.Auth;
 using Reception.App.Network.Exceptions;
 using Reception.Model.Network;
 using RestSharp;
-using Splat;
 
 namespace Reception.App.Network.Server
 {
@@ -12,10 +11,10 @@ namespace Reception.App.Network.Server
         private readonly IAuthService _authService;
         private readonly string _serverPath;
 
-        public NetworkService(string serverPath)
+        public NetworkService(string serverPath, IAuthService authService)
         {
             _serverPath = serverPath;
-            _authService = Locator.Current.GetService<IAuthService>();
+            _authService = authService;
         }
 
         public async Task<T> GetByIdAsync(int id, CancellationToken cancellationToken = default)
