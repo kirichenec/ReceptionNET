@@ -1,12 +1,13 @@
 ﻿using Reception.App.Model.FileInfo;
+using Reception.App.Network.Auth;
 using Reception.App.Service.Interface;
-using Splat;
 
 namespace Reception.App.Network.Server
 {
     public class FileDataNetworkService : NetworkService<FileData>, IFileDataNetworkService
     {
-        public FileDataNetworkService() : base(Locator.Current.GetService<ISettingsService>().FileServerPath)
+        public FileDataNetworkService(ISettingsService settingsService, IAuthService authService)
+            : base(settingsService.FileServerPath, authService)
         {
         }
     }

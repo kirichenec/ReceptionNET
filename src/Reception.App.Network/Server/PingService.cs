@@ -1,5 +1,4 @@
 ﻿using Reception.App.Service.Interface;
-using Splat;
 
 namespace Reception.App.Network.Server
 {
@@ -7,9 +6,9 @@ namespace Reception.App.Network.Server
     {
         private readonly ISettingsService _settingsService;
 
-        public PingService()
+        public PingService(ISettingsService settingsService)
         {
-            _settingsService = Locator.Current.GetService<ISettingsService>();
+            _settingsService = settingsService;
         }
 
         public string ServerPath => _settingsService.DataServerPath;
