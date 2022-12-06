@@ -9,7 +9,7 @@ namespace Reception.Server.Core
     {
         public static void BuildAndRunApp(Type appType, Action<WebApplicationBuilder> configureServices, string[] args)
         {
-            BaseAppBuilder.BuildAndRunApp(() => BaseAppBuilder.AppBuilder(appType, configureServices, Configure, args));
+            BaseAppBuilder.BuildAndRunApp(appType, configureServices, Configure, args);
         }
 
         private static void Configure(WebApplication app, WebApplicationBuilder builder)

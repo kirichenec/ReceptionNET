@@ -2,16 +2,14 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using Reception.Server.Core.Extensions;
+using Reception.Server.Core.Constants;
 using Serilog;
-using static Reception.Server.Core.Constants.SwaggerConstants;
-using static Reception.Server.Core.Extensions.LoggerExtensions;
 
 namespace Reception.Server.Core
 {
     public static class BaseAppBuilder
     {
-        public static void AppBuilder(Type appType, Action<WebApplicationBuilder> configureServices,
+        public static void BuildAndRunApp(Type appType, Action<WebApplicationBuilder> configureServices,
             Action<WebApplication, WebApplicationBuilder> configure, string[] args)
         {
             var appName = appType.Assembly.GetName().Name;
@@ -26,41 +24,21 @@ namespace Reception.Server.Core
 
             configureServices(builder);
 
-            builder.Host.UseLogger();
+            builder.Host.UseSerilog((context, services, configuration) => configuration
+                .ReadFrom.Configuration(context.Configuration)
+                .ReadFrom.Services(services)
+                .Enrich.FromLogContext()
+                .WriteTo.Console())
+                ;
 
             var app = builder.Build();
 
             configure(app, builder);
 
             Log.Information("{appName} started", builder.Environment.ApplicationName);
-            Log.Information("Swagger: {swaggerUrl}", DEFAULT_SWAGGER_URL);
+            Log.Information("Swagger: {swaggerUrl}", SwaggerConstants.DEFAULT_SWAGGER_URL);
 
             app.Run();
-        }
-
-        public static void BuildAndRunApp(Action appBuilder)
-        {
-            Log.Logger = GetConsoleLogger();
-
-            try
-            {
-                Log.Information("Starting web application");
-                appBuilder();
-            }
-            catch (Exception ex)
-            {
-                Log.Fatal(ex, "Application terminated unexpectedly");
-            }
-            finally
-            {
-                Log.CloseAndFlush();
-            }
-        }
-
-        public static void BuildAndRunApp(Type appType, Action<WebApplicationBuilder> configureServices,
-            Action<WebApplication, WebApplicationBuilder> configure, string[] args)
-        {
-            BuildAndRunApp(() => AppBuilder(appType, configureServices, configure, args));
         }
 
         public static void Configure(WebApplication app, WebApplicationBuilder builder)
@@ -75,7 +53,7 @@ namespace Reception.Server.Core
             }
 
             app.UseSwagger();
-            app.UseSwaggerUI(options => options.SwaggerEndpoint(DEFAULT_SWAGGER_URL, builder.Environment.ApplicationName));
+            app.UseSwaggerUI(options => options.SwaggerEndpoint(SwaggerConstants.DEFAULT_SWAGGER_URL, builder.Environment.ApplicationName));
 
             app.UseHttpsRedirection();
             app.UseRouting();
@@ -88,8 +66,8 @@ namespace Reception.Server.Core
             builder.Services.AddSwaggerGen(swaggerOptions =>
             {
                 swaggerOptions.SwaggerDoc(
-                    name: DEFAULT_OPEN_API_VERSION,
-                    info: new OpenApiInfo { Title = openApiTitle, Version = DEFAULT_OPEN_API_VERSION });
+                    name: SwaggerConstants.DEFAULT_OPEN_API_VERSION,
+                    info: new OpenApiInfo { Title = openApiTitle, Version = SwaggerConstants.DEFAULT_OPEN_API_VERSION });
                 swaggerOptions.EnableAnnotations();
             });
 
