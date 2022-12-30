@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.Extensions.DependencyInjection;
-using Reception.App.Network.Chat.Constants;
 using Reception.App.Network.Extensions;
 using Reception.App.Service.Interface;
+using Reception.Constant;
 using Reception.Model.Network;
 
 namespace Reception.App.Network.Chat
@@ -61,9 +61,8 @@ namespace Reception.App.Network.Chat
 
         public async Task SendAsync<T>(T value, CancellationToken cancellationToken = default)
         {
-            var query = new QueryResult<T>(value);
-            await _client.SendAsync(ChatMethodNames.SEND_MESSAGE_BROADCAST,
-                _settingsService.Token.UserId, query, cancellationToken);
+            await _client.SendAsync("SendMessageBroadcast", _settingsService.Token.UserId,
+                new QueryResult<T>(value), cancellationToken);
         }
 
         public async Task StartClientAsync()

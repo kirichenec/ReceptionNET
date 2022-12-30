@@ -9,18 +9,15 @@ namespace Reception.App.Extensions
             return appBuilder
                 .With(new X11PlatformOptions
                 {
-                    EnableMultiTouch = true,
-                    UseDBusMenu = true,
                     EnableIme = true,
+                    EnableMultiTouch = true,
+                    UseCompositor = false,
+                    UseDBusMenu = true,
                 })
                 .With(new Win32PlatformOptions
                 {
                     // Avalonia 11.0.0-preview1 issue: CornerRadius not clipping,
                     // Avalonia 11.0.0-preview1 issue: sometimes might crash by collection enumerate fail
-                    UseCompositor = false,
-                })
-                .With(new X11PlatformOptions
-                {
                     UseCompositor = false,
                 })
                 .With(new AvaloniaNativePlatformOptions
