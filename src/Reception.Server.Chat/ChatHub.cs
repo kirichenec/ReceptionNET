@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.SignalR;
-using Reception.App.Network.Chat.Constants;
+using Reception.Constant;
 
-namespace Reception.App.Network.Chat
+namespace Reception.Server.Chat
 {
     public class ChatHub<TData> : Hub where TData : class, new()
     {

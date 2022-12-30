@@ -1,5 +1,5 @@
-using Reception.App.Network.Chat;
 using Reception.Model.Network;
+using Reception.Server.Chat;
 using Reception.Server.Core;
 
 BaseAppBuilder.BuildAndRunApp(typeof(Program), ConfigureServices, Configure, args);
