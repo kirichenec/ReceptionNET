@@ -1,3 +1,2 @@
 - visitors history
 - rework ShowError by MainWindowVM link to MessageBus or something looks like di
-- make console logger by config (serilog for eaxample)
