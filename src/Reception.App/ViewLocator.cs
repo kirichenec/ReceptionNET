@@ -6,7 +6,7 @@ namespace Reception.App
 {
     public class ViewLocator : IDataTemplate
     {
-        public IControl Build(object param)
+        public Control Build(object param)
         {
             var name = param.GetType().FullName.Replace("ViewModel", "View");
 

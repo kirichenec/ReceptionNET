@@ -3,7 +3,7 @@ using Reception.App.ViewModels;
 
 namespace Reception.App.Views
 {
-    public class BossView : BaseControl<BossViewModel>
+    public partial class BossView : BaseControl<BossViewModel>
     {
         public BossView()
         {

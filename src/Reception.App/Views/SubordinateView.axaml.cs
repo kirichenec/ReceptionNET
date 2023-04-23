@@ -3,7 +3,7 @@ using Reception.App.ViewModels;
 
 namespace Reception.App.Views
 {
-    public class SubordinateView : BaseControl<SubordinateViewModel>
+    public partial class SubordinateView : BaseControl<SubordinateViewModel>
     {
         public SubordinateView()
         {

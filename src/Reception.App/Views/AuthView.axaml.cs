@@ -3,7 +3,7 @@ using Reception.App.ViewModels;
 
 namespace Reception.App.Views
 {
-    public class AuthView : BaseControl<AuthViewModel>
+    public partial class AuthView : BaseControl<AuthViewModel>
     {
         public AuthView()
         {
