@@ -1,6 +1,5 @@
 ﻿using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Input;
 using Avalonia.ReactiveUI;
 using ReactiveUI;
 using System.Reactive.Disposables;
@@ -27,7 +26,7 @@ namespace Reception.App.Views
 
         protected void InitFirstFocusItem()
         {
-            if (this.FindControl<IControl>(FOCUSED_ITEM_NAME) is { } control)
+            if (this.FindControl<Control>(FOCUSED_ITEM_NAME) is { } control)
             {
                 control.AttachedToVisualTree += OnAttachedToVisualTree;
             }
@@ -35,7 +34,7 @@ namespace Reception.App.Views
 
         private void OnAttachedToVisualTree(object sender, VisualTreeAttachmentEventArgs e)
         {
-            if (sender is IInputElement control)
+            if (sender is Control control)
             {
                 control.AttachedToVisualTree -= OnAttachedToVisualTree;
                 control.Focus();

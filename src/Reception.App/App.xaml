@@ -19,7 +19,6 @@
     <Application.Styles>
         <themes:MaterialTheme BaseTheme="Light" PrimaryColor="Blue" SecondaryColor="LightBlue"/>
         <StyleInclude Source="avares://DialogHost.Avalonia/Styles.xaml"/>
-        <StyleInclude Source="avares://Material.Avalonia/Material.Avalonia.Templates.xaml" />
         <StyleInclude Source="avares://Material.Icons.Avalonia/App.xaml" />
         <StyleInclude Source="avares://Material.Styles/Resources/Compatibility/Index.axaml"/>
 

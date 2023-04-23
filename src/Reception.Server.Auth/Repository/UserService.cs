@@ -25,7 +25,8 @@ namespace Reception.Server.Auth.Repository
 
         public async Task<User> GetAsync(int id, CancellationToken cancellationToken = default)
         {
-            return await _context.Users.FirstOrDefaultAsync(user => user.Id == id, cancellationToken);
+            return await _context.Users
+                .FirstOrDefaultAsync(user => user.Id == id, cancellationToken);
         }
 
         public IQueryable<User> Queryable()
@@ -48,8 +49,7 @@ namespace Reception.Server.Auth.Repository
         public async Task<IEnumerable<User>> SearchPagedAsync(string searchText, int count, int page,
             CancellationToken cancellationToken = default)
         {
-            return await
-                SearchUserQuery(searchText)
+            return await SearchUserQuery(searchText)
                 .Paged(page, count)
                 .ToListAsync(cancellationToken);
         }
@@ -57,8 +57,7 @@ namespace Reception.Server.Auth.Repository
         private IQueryable<User> SearchUserQuery(string searchText)
         {
             var likeSearchText = searchText.AsLike();
-            return
-                _context.Users
+            return _context.Users
                 .Where(
                     user =>
                     EF.Functions.Like(user.FirstName, likeSearchText) ||
