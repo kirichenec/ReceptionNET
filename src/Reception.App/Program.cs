@@ -1,15 +1,28 @@
 ﻿using Avalonia;
 using Avalonia.Controls;
 using Avalonia.ReactiveUI;
-using Reception.App;
 using Reception.App.Extensions;
 
-IocRegister.RegisterDependencies();
+namespace Reception.App
+{
+    internal static class Program
+    {
+        private static void Main(string[] args)
+        {
+            IocRegister.RegisterDependencies();
 
-AppBuilder
-    .Configure<App>()
-    .UsePlatformDetect()
-    .UsePlatformCrutches()
-    .LogToTrace()
-    .UseReactiveUI()
-    .StartWithClassicDesktopLifetime(args, ShutdownMode.OnMainWindowClose);
+            BuildAvaloniaApp()
+                .StartWithClassicDesktopLifetime(args, ShutdownMode.OnMainWindowClose);
+        }
+
+        public static AppBuilder BuildAvaloniaApp()
+        {
+            return AppBuilder
+                .Configure<App>()
+                .UsePlatformDetect()
+                .UsePlatformCrutches()
+                .LogToTrace()
+                .UseReactiveUI();
+        }
+    }
+}
