@@ -5,5 +5,4 @@
         <ProjectReference Include="..\Reception.Server.Core\Reception.Server.Core.csproj" />
     </ItemGroup>
 
-
 </Project>
