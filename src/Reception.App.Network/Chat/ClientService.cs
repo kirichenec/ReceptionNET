@@ -73,7 +73,7 @@ namespace Reception.App.Network.Chat
 
         public async Task StopClientAsync()
         {
-            await _client?.StopAsync();
+            await _client.StopAsync();
             Closed?.Invoke(null);
         }
 
