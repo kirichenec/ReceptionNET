@@ -23,18 +23,18 @@ namespace Reception.Server.Auth.ConnectionLibrary
             }
         }
 
-        private async Task<bool> CheckAuth(string authServerPath, IEnumerable<(string, string)> headers)
+        private static void AddHeaders(RestRequest request, IEnumerable<(string, string)> headers)
+        {
+            headers?.ForEach(header => request.AddHeader(header.Item1, header.Item2));
+        }
+
+        private static async Task<bool> CheckAuth(string authServerPath, IEnumerable<(string, string)> headers)
         {
             var client = new RestClient(authServerPath);
             var request = new RestRequest("User/IsAuthValid", Method.Get);
             AddHeaders(request, headers);
             var response = await client.ExecuteAsync(request);
             return response.IsSuccessful;
-        }
-
-        private static void AddHeaders(RestRequest request, IEnumerable<(string, string)> headers)
-        {
-            headers?.ForEach(header => request.AddHeader(header.Item1, header.Item2));
         }
     }
 }
