@@ -9,7 +9,7 @@
         <PackageReference Include="Microsoft.AspNetCore.SignalR.Protocols.NewtonsoftJson" Version="7.0.5" />
         <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
         <PackageReference Include="RestSharp" Version="110.2.0" />
-        <PackageReference Include="Splat" Version="14.6.8" />
+        <PackageReference Include="Splat" Version="14.6.37" />
         <PackageReference Include="System.Configuration.ConfigurationManager" Version="7.0.0" />
         <PackageReference Include="System.Text.Encodings.Web" Version="7.0.0" />
     </ItemGroup>

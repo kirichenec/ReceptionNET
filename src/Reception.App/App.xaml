@@ -3,6 +3,7 @@
              xmlns:local="clr-namespace:Reception.App"
              xmlns:controls="clr-namespace:Material.Styles.Controls;assembly=Material.Styles"
              xmlns:dialogHost="clr-namespace:DialogHostAvalonia;assembly=DialogHost.Avalonia"
+             xmlns:materialIcons="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
              xmlns:themes="clr-namespace:Material.Styles.Themes;assembly=Material.Styles"
              x:Class="Reception.App.App">
     <Application.DataTemplates>
@@ -18,8 +19,8 @@
 
     <Application.Styles>
         <themes:MaterialTheme BaseTheme="Light" PrimaryColor="Blue" SecondaryColor="LightBlue"/>
+        <materialIcons:MaterialIconStyles />
         <StyleInclude Source="avares://DialogHost.Avalonia/Styles.xaml"/>
-        <StyleInclude Source="avares://Material.Icons.Avalonia/App.xaml" />
         <StyleInclude Source="avares://Material.Styles/Resources/Compatibility/Index.axaml"/>
 
         <Style Selector="controls|Card">

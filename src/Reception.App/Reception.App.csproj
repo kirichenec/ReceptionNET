@@ -18,27 +18,27 @@
         <None Remove="Assets\RClogo.png" />
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="Avalonia" Version="11.0.999-cibuild0034206-beta" />
-        <PackageReference Include="Avalonia.Desktop" Version="11.0.999-cibuild0034206-beta" />
-        <PackageReference Include="Avalonia.Diagnostics" Version="11.0.999-cibuild0034206-beta" />
-        <PackageReference Include="Avalonia.ReactiveUI" Version="11.0.999-cibuild0034206-beta" />
-        <PackageReference Include="Avalonia.Xaml.Behaviors" Version="11.0.0-preview7" />
-        <PackageReference Include="DialogHost.Avalonia" Version="0.7.3" />
-        <PackageReference Include="Material.Avalonia" Version="3.0.0-avalonia11-preview4.159-nightly" />
-        <PackageReference Include="Material.Icons.Avalonia" Version="2.0.0-preview3" />
-        <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.5-beta1.23165.1">
-          <PrivateAssets>all</PrivateAssets>
-          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        <PackageReference Include="Avalonia" Version="11.0.0-rc1.1" />
+        <PackageReference Include="Avalonia.Desktop" Version="11.0.0-rc1.1" />
+        <PackageReference Include="Avalonia.Diagnostics" Version="11.0.0-rc1.1" />
+        <PackageReference Include="Avalonia.ReactiveUI" Version="11.0.0-rc1.1" />
+        <PackageReference Include="Avalonia.Xaml.Behaviors" Version="11.0.0-rc1.1" />
+        <PackageReference Include="DialogHost.Avalonia" Version="0.7.4" />
+        <PackageReference Include="Material.Avalonia" Version="3.0.0-avalonia11-preview4.179-nightly" />
+        <PackageReference Include="Material.Icons.Avalonia" Version="2.0.1" />
+        <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.5-beta1.23225.2">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="Microsoft.VisualStudio.SlowCheetah" Version="4.0.30">
-          <PrivateAssets>all</PrivateAssets>
-          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        <PackageReference Include="Microsoft.VisualStudio.SlowCheetah" Version="4.0.50">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="ReactiveUI.Fody" Version="18.4.34" />
+        <PackageReference Include="ReactiveUI.Fody" Version="19.2.1" />
         <PackageReference Include="RestSharp" Version="110.2.0" />
         <PackageReference Include="Splat.DependencyInjection.SourceGenerator" Version="1.1.93">
-          <PrivateAssets>all</PrivateAssets>
-          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
         <PackageReference Include="System.Configuration.ConfigurationManager" Version="7.0.0" />
     </ItemGroup>
@@ -51,25 +51,25 @@
     </ItemGroup>
     <ItemGroup>
         <None Update="App.config">
-          <TransformOnBuild>true</TransformOnBuild>
+            <TransformOnBuild>true</TransformOnBuild>
         </None>
         <None Update="App.Debug.config">
-          <IsTransformFile>true</IsTransformFile>
-          <DependentUpon>App.config</DependentUpon>
+            <IsTransformFile>true</IsTransformFile>
+            <DependentUpon>App.config</DependentUpon>
         </None>
         <None Update="App.Release.config">
-          <IsTransformFile>true</IsTransformFile>
-          <DependentUpon>App.config</DependentUpon>
+            <IsTransformFile>true</IsTransformFile>
+            <DependentUpon>App.config</DependentUpon>
         </None>
         <None Update="Images\Person.png">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
     </ItemGroup>
     <ItemGroup>
-      <None Include="..\..\solutionItems\RClogo.png">
-        <Pack>True</Pack>
-        <PackagePath>\</PackagePath>
-      </None>
-      <None Include="FodyWeavers.xsd" />
+        <None Include="..\..\solutionItems\RClogo.png">
+            <Pack>True</Pack>
+            <PackagePath>\</PackagePath>
+        </None>
+        <None Include="FodyWeavers.xsd" />
     </ItemGroup>
 </Project>
