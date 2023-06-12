@@ -117,6 +117,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AuthChecking" xml:space="preserve">
+    <value>Проверка авторизации. Пожалуйста, подождите..</value>
+  </data>
+  <data name="AuthLoadData" xml:space="preserve">
+    <value>Загрузка данных авторизации</value>
+  </data>
   <data name="AuthLogin" xml:space="preserve">
     <value>ВХОД</value>
   </data>
@@ -135,11 +141,17 @@
   <data name="BossDeny" xml:space="preserve">
     <value>ОТКАЗАТЬ</value>
   </data>
+  <data name="BossLoadData" xml:space="preserve">
+    <value>Загрузка данных режима начальника</value>
+  </data>
   <data name="BossWait" xml:space="preserve">
     <value>ПОДОЖДАТЬ</value>
   </data>
   <data name="MainConnectionStatus" xml:space="preserve">
     <value>Статус подключения:</value>
+  </data>
+  <data name="MainLoading" xml:space="preserve">
+    <value>Загрузка..</value>
   </data>
   <data name="MainServerStatus" xml:space="preserve">
     <value>Доступность серверов:</value>
@@ -168,8 +180,17 @@
   <data name="SettingsTitle" xml:space="preserve">
     <value>Настройки</value>
   </data>
+  <data name="SubordinateConnectToChat" xml:space="preserve">
+    <value>Подключение к сервису отправки сообщений..</value>
+  </data>
   <data name="SubordinateFirstName" xml:space="preserve">
     <value>Имя</value>
+  </data>
+  <data name="SubordinateLoadData" xml:space="preserve">
+    <value>Загрузка данных режима подчинённого</value>
+  </data>
+  <data name="SubordinateLoadPhoto" xml:space="preserve">
+    <value>Загрузка фотографии..</value>
   </data>
   <data name="SubordinateMessage" xml:space="preserve">
     <value>Сообщение</value>
@@ -183,10 +204,16 @@
   <data name="SubordinateSearch" xml:space="preserve">
     <value>Искать</value>
   </data>
+  <data name="SubordinateSearching" xml:space="preserve">
+    <value>Поиск..</value>
+  </data>
   <data name="SubordinateSecondName" xml:space="preserve">
     <value>Фамилия</value>
   </data>
   <data name="SubordinateSend" xml:space="preserve">
     <value>Отправить</value>
+  </data>
+  <data name="SubordinateSendVisitor" xml:space="preserve">
+    <value>Данные о посетителе отправлены..</value>
   </data>
 </root>

@@ -61,6 +61,24 @@ namespace Reception.App.Localization.Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Auth checking. Please, wait...
+        /// </summary>
+        internal static string AuthChecking {
+            get {
+                return ResourceManager.GetString("AuthChecking", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Loading auth data.
+        /// </summary>
+        internal static string AuthLoadData {
+            get {
+                return ResourceManager.GetString("AuthLoadData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to LOG IN.
         /// </summary>
         internal static string AuthLogin {
@@ -115,6 +133,15 @@ namespace Reception.App.Localization.Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Loading boss data.
+        /// </summary>
+        internal static string BossLoadData {
+            get {
+                return ResourceManager.GetString("BossLoadData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to WAIT.
         /// </summary>
         internal static string BossWait {
@@ -129,6 +156,15 @@ namespace Reception.App.Localization.Languages {
         internal static string MainConnectionStatus {
             get {
                 return ResourceManager.GetString("MainConnectionStatus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Loading...
+        /// </summary>
+        internal static string MainLoading {
+            get {
+                return ResourceManager.GetString("MainLoading", resourceCulture);
             }
         }
         
@@ -214,11 +250,38 @@ namespace Reception.App.Localization.Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Connect to chat hub...
+        /// </summary>
+        internal static string SubordinateConnectToChat {
+            get {
+                return ResourceManager.GetString("SubordinateConnectToChat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to First name.
         /// </summary>
         internal static string SubordinateFirstName {
             get {
                 return ResourceManager.GetString("SubordinateFirstName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Loading subordinate data.
+        /// </summary>
+        internal static string SubordinateLoadData {
+            get {
+                return ResourceManager.GetString("SubordinateLoadData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Load photo...
+        /// </summary>
+        internal static string SubordinateLoadPhoto {
+            get {
+                return ResourceManager.GetString("SubordinateLoadPhoto", resourceCulture);
             }
         }
         
@@ -259,6 +322,15 @@ namespace Reception.App.Localization.Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Searching...
+        /// </summary>
+        internal static string SubordinateSearching {
+            get {
+                return ResourceManager.GetString("SubordinateSearching", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Second name.
         /// </summary>
         internal static string SubordinateSecondName {
@@ -273,6 +345,15 @@ namespace Reception.App.Localization.Languages {
         internal static string SubordinateSend {
             get {
                 return ResourceManager.GetString("SubordinateSend", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Visitor on the way...
+        /// </summary>
+        internal static string SubordinateSendVisitor {
+            get {
+                return ResourceManager.GetString("SubordinateSendVisitor", resourceCulture);
             }
         }
     }

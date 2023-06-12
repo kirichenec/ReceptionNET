@@ -2,6 +2,7 @@
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using Reception.App.Enums;
+using Reception.App.Localization;
 using Reception.App.Model;
 using Reception.App.Model.Extensions;
 using Reception.App.Model.FileInfo;
@@ -35,7 +36,7 @@ namespace Reception.App.ViewModels
             ISettingsService settingsService, IClientService clientService, MainViewModel mainViewModel)
             : base(mainViewModel)
         {
-            SetRefreshingNotification("Loading subordinate data");
+            SetRefreshingNotification(Localizer.Instance["SubordinateLoadData"]);
 
             SearchText = string.Empty;
 
@@ -197,16 +198,10 @@ namespace Reception.App.ViewModels
 
         private async Task<IEnumerable<Person>> SearchPersonExecuteAsync(string query, CancellationToken cancellationToken = default)
         {
-            SetNotification("Searching..", NotificationType.Request);
-            IEnumerable<Person> answer;
-            if (query == null)
-            {
-                answer = Array.Empty<Person>();
-            }
-            else
-            {
-                answer = await _networkServiceOfPersons.SearchAsync(query, cancellationToken);
-            }
+            SetNotification(Localizer.Instance["SubordinateSearching"], NotificationType.Request);
+            var answer = query == null
+                ? Array.Empty<Person>()
+                : await _networkServiceOfPersons.SearchAsync(query, cancellationToken);
             ClearNotification();
             return answer;
         }
@@ -218,7 +213,7 @@ namespace Reception.App.ViewModels
                 return false;
             }
 
-            SetRefreshingNotification("Load photo..");
+            SetRefreshingNotification(Localizer.Instance["SubordinateLoadPhoto"]);
 
             IsPhotoLoading = true;
             Visitor.CopyFrom(person);
@@ -250,7 +245,7 @@ namespace Reception.App.ViewModels
 
         private async Task<bool> SendVisitorExecuteAsync(Visitor visitor, CancellationToken cancellationToken = default)
         {
-            SetRefreshingNotification("Visitor on the way..");
+            SetRefreshingNotification(Localizer.Instance["SubordinateSendVisitor"]);
 
             visitor.IncomingDate = DateTime.Now;
             await _clientService.SendAsync(visitor, cancellationToken);
@@ -261,7 +256,7 @@ namespace Reception.App.ViewModels
 
         private async Task<bool> StartClientAsync()
         {
-            SetRefreshingNotification("Connect to chat hub..");
+            SetRefreshingNotification(Localizer.Instance["SubordinateConnectToChat"]);
             if (_clientService.State == HubConnectionState.Disconnected)
             {
                 try

@@ -117,6 +117,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AuthChecking" xml:space="preserve">
+    <value>Auth checking. Please, wait..</value>
+  </data>
+  <data name="AuthLoadData" xml:space="preserve">
+    <value>Loading auth data</value>
+  </data>
   <data name="AuthTitle" xml:space="preserve">
     <value>Welcome</value>
   </data>
@@ -134,6 +140,9 @@
   </data>
   <data name="BossDeny" xml:space="preserve">
     <value>DENY</value>
+  </data>
+  <data name="BossLoadData" xml:space="preserve">
+    <value>Loading boss data</value>
   </data>
   <data name="BossWait" xml:space="preserve">
     <value>WAIT</value>
@@ -162,14 +171,26 @@
   <data name="MainConnectionStatus" xml:space="preserve">
     <value>Connection status:</value>
   </data>
+  <data name="MainLoading" xml:space="preserve">
+    <value>Loading..</value>
+  </data>
   <data name="MainServerStatus" xml:space="preserve">
     <value>Server status:</value>
   </data>
   <data name="MainSettingsTooltip" xml:space="preserve">
     <value>Settings</value>
   </data>
+  <data name="SubordinateConnectToChat" xml:space="preserve">
+    <value>Connect to chat hub..</value>
+  </data>
   <data name="SubordinateFirstName" xml:space="preserve">
     <value>First name</value>
+  </data>
+  <data name="SubordinateLoadData" xml:space="preserve">
+    <value>Loading subordinate data</value>
+  </data>
+  <data name="SubordinateLoadPhoto" xml:space="preserve">
+    <value>Load photo..</value>
   </data>
   <data name="SubordinateMessage" xml:space="preserve">
     <value>Message</value>
@@ -183,10 +204,16 @@
   <data name="SubordinateSearch" xml:space="preserve">
     <value>Search</value>
   </data>
+  <data name="SubordinateSearching" xml:space="preserve">
+    <value>Searching..</value>
+  </data>
   <data name="SubordinateSecondName" xml:space="preserve">
     <value>Second name</value>
   </data>
   <data name="SubordinateSend" xml:space="preserve">
     <value>Send</value>
+  </data>
+  <data name="SubordinateSendVisitor" xml:space="preserve">
+    <value>Visitor on the way..</value>
   </data>
 </root>

@@ -3,6 +3,7 @@ using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using Reception.App.Enums;
 using Reception.App.Extensions;
+using Reception.App.Localization;
 using Reception.App.Model.Auth;
 using Reception.App.Model.PersonInfo;
 using Reception.App.Network.Chat;
@@ -35,7 +36,7 @@ namespace Reception.App.ViewModels
             _pingService = pingService;
             _settingsService = settingsService;
 
-            CenterMessage = "Loading..";
+            CenterMessage = Localizer.Instance["MainLoading"];
 
             ShowError = async (error, sourceName, properties) => await ShowErrorInternal(error, sourceName, properties);
 
