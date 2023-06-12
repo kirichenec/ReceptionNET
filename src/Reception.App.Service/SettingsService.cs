@@ -57,6 +57,12 @@ namespace Reception.App.Service
             set => value.UpdateAppSettingsParam();
         }
 
+        public string Language
+        {
+            get => GetAppSettingsParam();
+            set => value.UpdateAppSettingsParam();
+        }
+
         public int PingDelay
         {
             get => GetAppSettingsParam().ParseInt();

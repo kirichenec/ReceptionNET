@@ -6,27 +6,28 @@
              xmlns:const="using:Reception.App.Constants"
              xmlns:controls="clr-namespace:Material.Styles.Controls;assembly=Material.Styles"
              xmlns:local="using:Reception.App.Views"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             xmlns:localization="clr-namespace:Reception.App.Localization;assembly=Reception.App.Localization"
+             mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="400"
              x:Class="Reception.App.Views.AuthView">
     <controls:Card VerticalAlignment="Center"
                  HorizontalAlignment="Center">
         <Grid RowDefinitions="Auto Auto">
             <controls:ColorZone Grid.Row="0" Mode="PrimaryDark" Padding="{DynamicResource LeftRight}">
                 <StackPanel>
-                    <TextBlock Classes="Headline6" Text="Welcome"/>
+                    <TextBlock Classes="Headline6" Text="{localization:Localize AuthTitle}"/>
                 </StackPanel>
             </controls:ColorZone>
             <StackPanel Grid.Row="1"
                         IsEnabled="{Binding !IsLoading}"
                         MinWidth="300">
                 <TextBox Text="{Binding Login, Mode=TwoWay}"
-                         assists:TextFieldAssist.Label="Username" UseFloatingWatermark="True"
+                         assists:TextFieldAssist.Label="{localization:Localize AuthUsername}" UseFloatingWatermark="True"
                          x:Name="{x:Static const:ControlNames.FOCUSED_ITEM_NAME}"/>
                 <TextBox Text="{Binding Password, Mode=TwoWay}"
-                         assists:TextFieldAssist.Label="Password" UseFloatingWatermark="True"
+                         assists:TextFieldAssist.Label="{localization:Localize AuthPassword}" UseFloatingWatermark="True"
                          PasswordChar="*" Classes="revealPasswordButton"/>
                 <controls:FloatingButton
-                    Content="LOG IN"
+                    Content="{localization:Localize AuthLogin}"
                     Command="{Binding LoginCommand}"
                     IsDefault="True"
                     Classes="Dark"/>

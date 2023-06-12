@@ -74,6 +74,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "settings", "settings", "{15
 		.github\workflows\dotnet.yml = .github\workflows\dotnet.yml
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reception.App.Localization", "src\Reception.App.Localization\Reception.App.Localization.csproj", "{709F4C84-27CB-4D8F-8BC2-72B89770C0FB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -144,6 +146,10 @@ Global
 		{4C7CF28C-C28B-46ED-8896-74E324797609}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4C7CF28C-C28B-46ED-8896-74E324797609}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4C7CF28C-C28B-46ED-8896-74E324797609}.Release|Any CPU.Build.0 = Release|Any CPU
+		{709F4C84-27CB-4D8F-8BC2-72B89770C0FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{709F4C84-27CB-4D8F-8BC2-72B89770C0FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{709F4C84-27CB-4D8F-8BC2-72B89770C0FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{709F4C84-27CB-4D8F-8BC2-72B89770C0FB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -172,6 +178,7 @@ Global
 		{1508F19C-AADF-48F1-BB06-CF401A3C34DF} = {13F90241-20A2-4BA3-AC06-BAFA300468CA}
 		{023ACF03-F160-4E59-BDA0-A44154E15ECA} = {13F90241-20A2-4BA3-AC06-BAFA300468CA}
 		{15A2C76C-FCA0-473D-A815-39FD52522E27} = {13F90241-20A2-4BA3-AC06-BAFA300468CA}
+		{709F4C84-27CB-4D8F-8BC2-72B89770C0FB} = {3A88485A-3BBB-4F79-8C73-AA76E8E6E499}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D9C0D531-28FB-4D40-AFD0-658855890982}

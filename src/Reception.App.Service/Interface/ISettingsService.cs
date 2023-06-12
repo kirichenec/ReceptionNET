@@ -11,6 +11,7 @@ namespace Reception.App.Service.Interface
         bool IsBoss { get; set; }
         bool IsDark { get; set; }
         bool IsSystemTheme { get; set; }
+        string Language { get; set; }
         int PingDelay { get; set; }
         Token Token { get; set; }
         string AuthServerPath { get; set; }

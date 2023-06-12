@@ -5,6 +5,7 @@
              xmlns:const="using:Reception.App.Constants"
              xmlns:controls="clr-namespace:Material.Styles.Controls;assembly=Material.Styles"
              xmlns:local="using:Reception.App.Views"
+             xmlns:localization="clr-namespace:Reception.App.Localization;assembly=Reception.App.Localization"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Reception.App.Views.BossView">
     <Grid RowDefinitions="Auto Auto Auto"
@@ -18,9 +19,9 @@
         </Grid>
 
         <StackPanel Grid.Row="2" Orientation="Horizontal">
-            <controls:FloatingButton Content="IN" Classes="Dark" x:Name="{x:Static const:ControlNames.FOCUSED_ITEM_NAME}"/>
-            <controls:FloatingButton Content="WAIT" Classes="Dark"/>
-            <controls:FloatingButton Content="DENY" Classes="Dark"/>
+            <controls:FloatingButton Content="{localization:Localize BossAllow}" Classes="Dark" x:Name="{x:Static const:ControlNames.FOCUSED_ITEM_NAME}"/>
+            <controls:FloatingButton Content="{localization:Localize BossWait}" Classes="Dark"/>
+            <controls:FloatingButton Content="{localization:Localize BossDeny}" Classes="Dark"/>
         </StackPanel>
 
     </Grid>
