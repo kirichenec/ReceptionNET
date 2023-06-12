@@ -1,4 +1,5 @@
 ﻿using ReactiveUI.Fody.Helpers;
+using Reception.App.Localization;
 using Reception.App.Service.Interface;
 
 namespace Reception.App.ViewModels
@@ -8,7 +9,7 @@ namespace Reception.App.ViewModels
         public BossViewModel(ISettingsService settingsService, MainViewModel mainViewModel)
             : base(mainViewModel)
         {
-            SetRefreshingNotification("Loading boss data");
+            SetRefreshingNotification(Localizer.Instance["BossLoadData"]);
 
             WelcomeMessage = settingsService.WelcomeMessage;
 

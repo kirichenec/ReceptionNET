@@ -8,6 +8,7 @@
         xmlns:dialogHost="clr-namespace:DialogHostAvalonia;assembly=DialogHost.Avalonia"
         xmlns:icons="using:Material.Icons.Avalonia"
         xmlns:local="clr-namespace:Reception.App.Views;assembly=Reception.App"
+        xmlns:localization="clr-namespace:Reception.App.Localization;assembly=Reception.App.Localization"
         xmlns:vms="using:Reception.App.ViewModels"
         mc:Ignorable="d"
         x:Class="Reception.App.Views.MainWindow"
@@ -22,13 +23,15 @@
     <dialogHost:DialogHost Identifier="{x:Static const:ControlNames.DIALOG_HOST_NAME}">
         <dialogHost:DialogHost.DialogContent>
             <controls:SettingsControl
-                CloseSettingsCommand="{Binding $parent[local:MainWindow].ViewModel.CloseSettingsCommand}"
-                ChangeThemeCommand="{Binding $parent[local:MainWindow].ViewModel.ChangeThemeCommand}"
-                ChangeSystemThemeCommand="{Binding $parent[local:MainWindow].ViewModel.ChangeSystemThemeCommand}"
-                IsBoss="{Binding $parent[local:MainWindow].ViewModel.IsBoss}"
-                IsDark="{Binding $parent[local:MainWindow].ViewModel.IsDark}"
-                IsSystemTheme="{Binding $parent[local:MainWindow].ViewModel.IsSystemTheme}"
-                SaveSettingsCommand="{Binding $parent[local:MainWindow].ViewModel.SaveSettingsCommand}"
+                CloseSettingsCommand="{Binding $parent[local:MainWindow].ViewModel.Settings.CloseSettingsCommand}"
+                ChangeThemeCommand="{Binding $parent[local:MainWindow].ViewModel.Settings.ChangeThemeCommand}"
+                ChangeSystemThemeCommand="{Binding $parent[local:MainWindow].ViewModel.Settings.ChangeSystemThemeCommand}"
+                IsBoss="{Binding $parent[local:MainWindow].ViewModel.Settings.IsBoss}"
+                IsDark="{Binding $parent[local:MainWindow].ViewModel.Settings.IsDark}"
+                IsSystemTheme="{Binding $parent[local:MainWindow].ViewModel.Settings.IsSystemTheme}"
+                Language="{Binding $parent[local:MainWindow].ViewModel.Settings.Language}"
+                Languages="{Binding $parent[local:MainWindow].ViewModel.Settings.Languages}"
+                SaveSettingsCommand="{Binding $parent[local:MainWindow].ViewModel.Settings.SaveSettingsCommand}"
                 Version="{Binding $parent[local:MainWindow].ViewModel.AppVersion}"/>
         </dialogHost:DialogHost.DialogContent>
 
@@ -48,17 +51,17 @@
             <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
                 <TextBlock Text="{Binding NotificationMessage}"/>
                 <Separator Classes="vertical"/>
-                <TextBlock Text="Server status:"/>
+                <TextBlock Text="{localization:Localize MainServerStatus}"/>
                 <TextBlock Text="{Binding ServerStatusMessage}"/>
                 <Separator Classes="vertical"/>
-                <TextBlock Text="Connection status:"/>
+                <TextBlock Text="{localization:Localize MainConnectionStatus}"/>
                 <TextBlock Text="{Binding StatusMessage}"/>
                 <Separator Classes="vertical"/>
                 <Button Classes="Flat"
                         Command="{Binding $parent[dialogHost:DialogHost].OpenDialogCommand}"
                         Content="{icons:MaterialIconExt Settings, Size=12}"
                         Padding="0"
-                        ToolTip.Tip="Settings"
+                        ToolTip.Tip="{localization:Localize MainSettingsTooltip}"
                         Width="{Binding $self.Bounds.Height}"/>
             </StackPanel>
         </Grid>

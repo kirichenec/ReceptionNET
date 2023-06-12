@@ -1,13 +1,9 @@
-﻿using Avalonia;
-using Avalonia.Logging;
-using DialogHostAvalonia;
-using Material.Styles.Themes;
-using Material.Styles.Themes.Base;
+﻿using Avalonia.Logging;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
-using Reception.App.Constants;
 using Reception.App.Enums;
 using Reception.App.Extensions;
+using Reception.App.Localization;
 using Reception.App.Model.Auth;
 using Reception.App.Model.PersonInfo;
 using Reception.App.Network.Chat;
@@ -29,7 +25,6 @@ namespace Reception.App.ViewModels
         #region Fields
 
         private readonly IClientService _clientService;
-        private readonly MaterialTheme _materialThemeStyles;
         private readonly IPingService _pingService;
         private readonly ISettingsService _settingsService;
 
@@ -41,9 +36,7 @@ namespace Reception.App.ViewModels
             _pingService = pingService;
             _settingsService = settingsService;
 
-            _materialThemeStyles = Application.Current!.LocateMaterialTheme<MaterialTheme>();
-
-            CenterMessage = "Loading..";
+            CenterMessage = Localizer.Instance["MainLoading"];
 
             ShowError = async (error, sourceName, properties) => await ShowErrorInternal(error, sourceName, properties);
 
@@ -55,16 +48,11 @@ namespace Reception.App.ViewModels
             _ = Observable.Timer(TimeSpan.Zero, TimeSpan.FromSeconds(_settingsService.PingDelay), RxApp.MainThreadScheduler)
                           .Subscribe(async x => await TryPing());
 
-            ChangeThemeCommand = ReactiveCommand.Create<bool>(UseMaterialUiTheme);
-            ChangeSystemThemeCommand = ReactiveCommand.Create<bool>(UseSystemTheme);
-            CloseSettingsCommand = ReactiveCommand.Create(CloseSettings);
-            SaveSettingsCommand = ReactiveCommand.Create(SaveSettings);
+            Settings = new SettingsViewModel(_settingsService, NavigateToAuth);
 
             InitCommand = ReactiveCommand.Create(NavigateToAuth);
 
             AppVersion = Assembly.GetExecutingAssembly().GetName().Version.ToString();
-
-            RestoreSettings();
 
             CenterMessage = string.Empty;
         }
@@ -73,31 +61,18 @@ namespace Reception.App.ViewModels
 
         #region Properties
 
+        public string AppVersion { get; }
+
         [Reactive]
         public AuthenticateResponse AuthData { get; set; }
 
         [Reactive]
         public string CenterMessage { get; set; }
 
-        public ReactiveCommand<bool, Unit> ChangeSystemThemeCommand { get; }
-
-        public ReactiveCommand<bool, Unit> ChangeThemeCommand { get; }
-
-        public ReactiveCommand<Unit, Unit> CloseSettingsCommand { get; }
-
         public ReactiveCommand<Unit, Unit> InitCommand { get; }
 
         [Reactive]
-        public bool IsBoss { get; set; }
-
-        [Reactive]
-        public bool IsDark { get; set; }
-
-        [Reactive]
         public bool IsLogined { get; set; }
-
-        [Reactive]
-        public bool IsSystemTheme { get; set; }
 
         [Reactive]
         public string NotificationMessage { get; set; }
@@ -107,17 +82,16 @@ namespace Reception.App.ViewModels
 
         public RoutingState Router { get; }
 
-        public ReactiveCommand<Unit, Unit> SaveSettingsCommand { get; }
-
         [Reactive]
         public string ServerStatusMessage { get; set; }
+
+        [Reactive]
+        public SettingsViewModel Settings { get; set; }
 
         public ShowErrorAction ShowError { get; }
 
         [Reactive]
         public string StatusMessage { get; set; }
-
-        public string AppVersion { get; }
 
         #endregion
 
@@ -138,22 +112,6 @@ namespace Reception.App.ViewModels
         {
             NotificationType = type;
             NotificationMessage = message;
-        }
-
-        private static void CloseDialog()
-        {
-            DialogHost.Close(ControlNames.DIALOG_HOST_NAME);
-        }
-
-        private void CloseSettings()
-        {
-            RestoreSettings();
-            CloseDialog();
-        }
-
-        private static BaseThemeMode GetDarkThemeMode(bool isDark)
-        {
-            return isDark ? BaseThemeMode.Dark : BaseThemeMode.Light;
         }
 
         private void NavigateTo<T>() where T : BaseViewModel
@@ -179,28 +137,6 @@ namespace Reception.App.ViewModels
             else
             {
                 NavigateTo<SubordinateViewModel>();
-            }
-        }
-
-        private void RestoreSettings()
-        {
-            IsBoss = _settingsService.IsBoss;
-            IsDark = _settingsService.IsDark;
-            IsSystemTheme = _settingsService.IsSystemTheme;
-            UseSystemTheme(IsSystemTheme);
-        }
-
-        private void SaveSettings()
-        {
-            var bossModeChanged = _settingsService.IsBoss != IsBoss;
-            _settingsService.IsBoss = IsBoss;
-            _settingsService.IsDark = IsDark;
-            _settingsService.IsSystemTheme = IsSystemTheme;
-            CloseDialog();
-
-            if (bossModeChanged)
-            {
-                NavigateToAuth();
             }
         }
 
@@ -245,16 +181,6 @@ namespace Reception.App.ViewModels
                 ServerStatusMessage = ConnectionStatuses.OFFLINE.ToLower();
                 SetNotification(ex.Message, NotificationType.Server);
             }
-        }
-
-        private void UseMaterialUiTheme(bool isDark)
-        {
-            _materialThemeStyles.BaseTheme = GetDarkThemeMode(isDark);
-        }
-
-        private void UseSystemTheme(bool isSystemTheme)
-        {
-            _materialThemeStyles.BaseTheme = isSystemTheme ? BaseThemeMode.Inherit : GetDarkThemeMode(IsDark);
         }
 
         #endregion

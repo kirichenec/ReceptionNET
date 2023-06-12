@@ -1,6 +1,7 @@
 ﻿using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using Reception.App.Enums;
+using Reception.App.Localization;
 using Reception.App.Model.Auth;
 using Reception.App.Network.Auth;
 using Reception.App.Network.Exceptions;
@@ -18,7 +19,7 @@ namespace Reception.App.ViewModels
         public AuthViewModel(IAuthService authService, MainViewModel mainViewModel)
             : base(mainViewModel)
         {
-            SetRefreshingNotification("Loading auth data");
+            SetRefreshingNotification(Localizer.Instance["AuthLoadData"]);
 
             _authService = authService;
 
@@ -109,7 +110,7 @@ namespace Reception.App.ViewModels
             var notificationType = NotificationType.No;
             if (state)
             {
-                message = "Auth checking. Please, wait..";
+                message = Localizer.Instance["AuthChecking"];
                 notificationType = NotificationType.Refreshing;
             }
             SetNotification(message, notificationType);

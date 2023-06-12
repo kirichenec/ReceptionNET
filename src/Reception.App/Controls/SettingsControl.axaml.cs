@@ -26,6 +26,12 @@ namespace Reception.App.Controls
         public static readonly StyledProperty<bool> IsSystemThemeProperty =
             AvaloniaProperty.Register<SettingsControl, bool>(nameof(IsSystemTheme), defaultBindingMode: BindingMode.TwoWay);
 
+        public static readonly StyledProperty<string> LanguageProperty =
+            AvaloniaProperty.Register<SettingsControl, string>(nameof(Language), defaultBindingMode: BindingMode.TwoWay);
+
+        public static readonly StyledProperty<string[]> LanguagesProperty =
+            AvaloniaProperty.Register<SettingsControl, string[]>(nameof(Languages));
+
         public static readonly StyledProperty<ICommand> SaveSettingsCommandProperty =
             AvaloniaProperty.Register<SettingsControl, ICommand>(nameof(SaveSettingsCommand));
 
@@ -71,6 +77,18 @@ namespace Reception.App.Controls
         {
             get => GetValue(IsSystemThemeProperty);
             set => SetValue(IsSystemThemeProperty, value);
+        }
+
+        public string Language
+        {
+            get => GetValue(LanguageProperty);
+            set => SetValue(LanguageProperty, value);
+        }
+
+        public string[] Languages
+        {
+            get => GetValue(LanguagesProperty);
+            set => SetValue(LanguagesProperty, value);
         }
 
         public ICommand SaveSettingsCommand

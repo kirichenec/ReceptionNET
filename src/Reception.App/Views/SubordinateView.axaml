@@ -9,6 +9,7 @@
              xmlns:converters="using:Reception.App.Converters"
              xmlns:icons="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
              xmlns:local="using:Reception.App.Views"
+             xmlns:localization="clr-namespace:Reception.App.Localization;assembly=Reception.App.Localization"
              mc:Ignorable="d"
              Design.Height="600" Design.Width="800">
     <UserControl.Resources>
@@ -21,12 +22,12 @@
 
         <Grid x:Name="VisitorInfoGrid" Grid.Row="0" ColumnDefinitions="*, Auto">
             <StackPanel Grid.Column="0">
-                <TextBox Text="{Binding Visitor.FirstName, Mode=TwoWay}" assists:TextFieldAssist.Label="FirstName" UseFloatingWatermark="True"/>
-                <TextBox Text="{Binding Visitor.MiddleName, Mode=TwoWay}" assists:TextFieldAssist.Label="MiddleName" UseFloatingWatermark="True"/>
-                <TextBox Text="{Binding Visitor.SecondName, Mode=TwoWay}" assists:TextFieldAssist.Label="SecondName" UseFloatingWatermark="True"/>
-                <TextBox Text="{Binding Visitor.Post.Name, Mode=TwoWay}" assists:TextFieldAssist.Label="Post" UseFloatingWatermark="True"/>
-                <TextBox Text="{Binding Visitor.Message, Mode=TwoWay}" assists:TextFieldAssist.Label="Message" UseFloatingWatermark="True"/>
-                <controls:FloatingButton Content="Send" Command="{Binding SendVisitorCommand}" CommandParameter="{Binding Visitor}" Classes="Dark"/>
+                <TextBox Text="{Binding Visitor.FirstName, Mode=TwoWay}" assists:TextFieldAssist.Label="{localization:Localize SubordinateFirstName}" UseFloatingWatermark="True"/>
+                <TextBox Text="{Binding Visitor.MiddleName, Mode=TwoWay}" assists:TextFieldAssist.Label="{localization:Localize SubordinateMiddleName}" UseFloatingWatermark="True"/>
+                <TextBox Text="{Binding Visitor.SecondName, Mode=TwoWay}" assists:TextFieldAssist.Label="{localization:Localize SubordinateSecondName}" UseFloatingWatermark="True"/>
+                <TextBox Text="{Binding Visitor.Post.Name, Mode=TwoWay}" assists:TextFieldAssist.Label="{localization:Localize SubordinatePost}" UseFloatingWatermark="True"/>
+                <TextBox Text="{Binding Visitor.Message, Mode=TwoWay}" assists:TextFieldAssist.Label="{localization:Localize SubordinateMessage}" UseFloatingWatermark="True"/>
+                <controls:FloatingButton Content="{localization:Localize SubordinateSend}" Command="{Binding SendVisitorCommand}" CommandParameter="{Binding Visitor}" Classes="Dark"/>
             </StackPanel>
 
             <Grid Grid.Column="1"
@@ -52,7 +53,7 @@
             <controls:Card Margin="{DynamicResource RightBottom}" Padding="0 1 1 0">
                 <TextBox Text="{Binding SearchText, Mode=TwoWay}"
                          Classes="Solo"
-                         Watermark="Search"
+                         Watermark="{localization:Localize SubordinateSearch}"
                          Margin="0"
                          x:Name="{x:Static const:ControlNames.FOCUSED_ITEM_NAME}">
                     <TextBox.InnerRightContent>

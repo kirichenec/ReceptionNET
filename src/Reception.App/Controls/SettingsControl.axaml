@@ -4,12 +4,13 @@
              x:Class="Reception.App.Controls.SettingsControl"
              xmlns:controls="clr-namespace:Material.Styles.Controls;assembly=Material.Styles"
              xmlns:local="clr-namespace:Reception.App.Controls;assembly=Reception.App"
+             xmlns:localization="clr-namespace:Reception.App.Localization;assembly=Reception.App.Localization"
              xmlns:system="clr-namespace:System;assembly=mscorlib"
-             MinWidth="250">
+             MinWidth="300">
     <Grid RowDefinitions="Auto * Auto">
         <controls:ColorZone Mode="PrimaryDark">
             <Grid Margin="{DynamicResource LeftTop}">
-                <TextBlock Classes="Headline6" Text="Settings"/>
+                <TextBlock Classes="Headline6" Text="{localization:Localize SettingsTitle}"/>
                 <TextBlock Text="{Binding $parent[local:SettingsControl].Version, StringFormat='v{0}'}"
                            FontStyle="Italic"
                            Opacity="{DynamicResource ButtonDisabledOpacity}"
@@ -19,9 +20,9 @@
 
         <Grid Margin="16" Grid.Row="1"
               ColumnDefinitions="Auto *"
-              RowDefinitions="Auto Auto Auto">
+              RowDefinitions="Auto Auto Auto Auto">
             <TextBlock
-                Text="System theme"
+                Text="{localization:Localize SettingsSystemTheme}"
                 Grid.Row="0" Grid.Column="0"
                 HorizontalAlignment="Right"/>
             <ToggleSwitch
@@ -31,7 +32,7 @@
                 CommandParameter="{Binding $self.IsChecked}"/>
             
             <TextBlock
-                Text="Dark theme"
+                Text="{localization:Localize SettingsDarkTheme}"
                 Grid.Row="1" Grid.Column="0"
                 HorizontalAlignment="Right"/>
             <ToggleSwitch
@@ -42,19 +43,29 @@
                 CommandParameter="{Binding $self.IsChecked}"/>
 
             <TextBlock
-                Text="Boss mode"
+                Text="{localization:Localize SettingsBossMode}"
                 Grid.Row="2" Grid.Column="0"
                 HorizontalAlignment="Right"/>
             <ToggleSwitch
                 Grid.Row="2" Grid.Column="1"
                 IsChecked="{Binding $parent[local:SettingsControl].IsBoss}"/>
+            
+            <TextBlock
+                Text="{localization:Localize SettingsLanguage}"
+                Grid.Row="3" Grid.Column="0"
+                HorizontalAlignment="Right"/>
+            <ComboBox
+                Grid.Row="3" Grid.Column="1"
+                AutoScrollToSelectedItem="True"
+                ItemsSource="{Binding $parent[local:SettingsControl].Languages}"
+                SelectedItem="{Binding $parent[local:SettingsControl].Language}"/>
         </Grid>
 
         <StackPanel Orientation="Horizontal" Grid.Row="2"
                     HorizontalAlignment="Right">
-            <Button Content="CANCEL" Classes="flat"
+            <Button Content="{localization:Localize SettingsCancel}" Classes="flat"
                     Command="{Binding $parent[local:SettingsControl].CloseSettingsCommand}"/>
-            <Button Content="SAVE" Classes="flat"
+            <Button Content="{localization:Localize SettingsSave}" Classes="flat"
                     Command="{Binding $parent[local:SettingsControl].SaveSettingsCommand}"
                     IsDefault="True"/>
         </StackPanel>
