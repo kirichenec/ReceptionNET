@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <ItemGroup>
-    <PackageReference Include="Avalonia" Version="11.0.999-cibuild0036346-beta" />
+    <PackageReference Include="Avalonia" Version="11.0.999-cibuild0037349-beta" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Languages\Language.Designer.cs">
