@@ -36,8 +36,6 @@ namespace Reception.App.ViewModels
             ISettingsService settingsService, IClientService clientService, MainViewModel mainViewModel)
             : base(mainViewModel)
         {
-            SetRefreshingNotification(Localizer.Instance["SubordinateLoadData"]);
-
             SearchText = string.Empty;
 
             _networkServiceOfPersons = personNetworkService;
@@ -49,7 +47,6 @@ namespace Reception.App.ViewModels
 
             InitCommands();
 
-            Initialized += OnSubordinateViewModelInitialized;
             OnInitialized();
         }
 
@@ -80,6 +77,11 @@ namespace Reception.App.ViewModels
         #endregion
 
         #region Methods
+
+        protected override async Task OnViewModelInitialized()
+        {
+            await StartClientAsync();
+        }
 
         private async Task<bool> ClearSearchPersonsAsync(Unit _)
         {
@@ -193,7 +195,7 @@ namespace Reception.App.ViewModels
 
         private void PersonReceived(Person person)
         {
-            _mainViewModel.ShowError(new NotImplementedException($"{nameof(PersonReceived)} not implemented"), properties: person);
+            SetNotImplementedMessage(person);
         }
 
         private async Task<IEnumerable<Person>> SearchPersonExecuteAsync(string query, CancellationToken cancellationToken = default)
@@ -254,7 +256,7 @@ namespace Reception.App.ViewModels
             return true;
         }
 
-        private async Task<bool> StartClientAsync()
+        private async Task StartClientAsync()
         {
             SetRefreshingNotification(Localizer.Instance["SubordinateConnectToChat"]);
             if (_clientService.State == HubConnectionState.Disconnected)
@@ -269,17 +271,11 @@ namespace Reception.App.ViewModels
                     ErrorHandler(nameof(StartClientAsync)).Invoke(ex);
                 }
             }
-            return true;
-        }
-
-        private async Task<bool> OnSubordinateViewModelInitialized()
-        {
-            return await StartClientAsync();
         }
 
         private void VisitorReceived(Visitor visitor)
         {
-            _mainViewModel.ShowError(new NotImplementedException($"{nameof(VisitorReceived)} not implemented"), properties: visitor);
+            SetNotImplementedMessage(visitor);
         }
 
         #endregion

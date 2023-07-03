@@ -1,8 +1,12 @@
 ﻿using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
+using Reception.App.Constants;
 using Reception.App.Enums;
+using Reception.App.Localization;
 using Reception.Extension;
 using Reception.Extension.Helpers;
+using System.Reactive.Linq;
+using System.Runtime.CompilerServices;
 
 namespace Reception.App.ViewModels
 {
@@ -17,9 +21,14 @@ namespace Reception.App.ViewModels
             UrlPathSegment = CallingClass.GetName();
 
             ThrownExceptions.Subscribe(ErrorHandler(nameof(BaseViewModel)));
+
+            Initialized += OnViewModelInitialized;
+
+            var initMessageKey = GetType().Name.Replace(AppSystem.VIEW_MODEL, AppSystem.LOAD_DATA);
+            SetRefreshingNotification(Localizer.Instance[initMessageKey]);
         }
 
-        public event Func<Task<bool>> Initialized;
+        public event Func<Task> Initialized;
 
         #region Properties
 
@@ -52,13 +61,23 @@ namespace Reception.App.ViewModels
         protected void OnInitialized()
         {
             Initialized?.Invoke();
-            Initialized?.GetInvocationList().ForEach(d => Initialized -= (Func<Task<bool>>)d);
+            Initialized?.GetInvocationList().ForEach(d => Initialized -= (Func<Task>)d);
+        }
+
+        protected virtual Task OnViewModelInitialized()
+        {
+            throw new NotImplementedException();
         }
 
         protected void SetNotification(string message, NotificationType type)
         {
             _mainViewModel.SetNotification(message, type);
             IsLoading = type == NotificationType.Refreshing;
+        }
+
+        protected void SetNotImplementedMessage<T>(T value, [CallerMemberName] string methodName = null)
+        {
+            _mainViewModel.ShowError(new NotImplementedException($"{methodName} not implemented"), properties: value);
         }
 
         protected void SetRefreshingNotification(string message)

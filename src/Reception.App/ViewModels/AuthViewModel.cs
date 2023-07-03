@@ -19,14 +19,11 @@ namespace Reception.App.ViewModels
         public AuthViewModel(IAuthService authService, MainViewModel mainViewModel)
             : base(mainViewModel)
         {
-            SetRefreshingNotification(Localizer.Instance["AuthLoadData"]);
-
             _authService = authService;
 
             InitApplyAuthCommand();
             InitLoginCommand();
 
-            Initialized += OnAuthViewModelInitialized;
             OnInitialized();
         }
 
@@ -48,6 +45,28 @@ namespace Reception.App.ViewModels
         #endregion
 
         #region Methods
+
+        protected override async Task OnViewModelInitialized()
+        {
+            try
+            {
+                SetLoadingState(true);
+                if (await _authService.IsAuthValid())
+                {
+                    AuthData = _authService.AuthData;
+                }
+                SetLoadingState(false);
+            }
+            catch (QueryException ex) when (ex.StatusCode == HttpStatusCode.Unauthorized)
+            {
+                // it's normal here
+                SetLoadingState(false);
+            }
+            catch (Exception ex)
+            {
+                ErrorHandler(nameof(OnViewModelInitialized)).Invoke(ex);
+            }
+        }
 
         private void InitApplyAuthCommand()
         {
@@ -77,31 +96,6 @@ namespace Reception.App.ViewModels
             SetLoadingState(true);
             AuthData = await _authService.Authenticate(Login, Password);
             SetLoadingState(false);
-        }
-
-        private async Task<bool> OnAuthViewModelInitialized()
-        {
-            SetLoadingState(true);
-            var isAuthValid = false;
-            try
-            {
-                isAuthValid = await _authService.IsAuthValid();
-                if (isAuthValid)
-                {
-                    AuthData = _authService.AuthData;
-                }
-            }
-            catch (QueryException ex) when (ex.StatusCode == HttpStatusCode.Unauthorized)
-            {
-                // it's normal here
-            }
-            catch (Exception ex)
-            {
-                ErrorHandler(nameof(OnAuthViewModelInitialized)).Invoke(ex);
-            }
-
-            SetLoadingState(false);
-            return isAuthValid;
         }
 
         private void SetLoadingState(bool state)

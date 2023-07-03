@@ -4,6 +4,7 @@
 */
 
 using Reception.App.Localization.Languages;
+using Reception.Extension;
 using System.Collections.Immutable;
 using System.ComponentModel;
 using System.Globalization;
@@ -38,18 +39,7 @@ namespace Reception.App.Localization
 
         public static Localizer Instance { get; set; } = new Localizer();
 
-        public string this[string key]
-        {
-            get
-            {
-                var ret = _resources?.GetString(key)?.Replace(@"\\n", "\n");
-                if (string.IsNullOrEmpty(ret))
-                {
-                    ret = $"Localize:{key}";
-                }
-                return ret;
-            }
-        }
+        public string this[string key] => GetValueOrDefault(key);
 
         public void Invalidate()
         {
@@ -73,6 +63,12 @@ namespace Reception.App.Localization
 
             CultureInfo.CurrentUICulture = new CultureInfo(Languages[language]);
             LoadLanguage();
+        }
+
+        private string GetValueOrDefault(string key)
+        {
+            var ret = _resources?.GetString(key)?.Replace(@"\\n", "\n");
+            return ret.IsNullOrEmpty() ? $"Localize:{key}" : ret;
         }
 
         private static string TryUseSystemLanguageFallbackEnglish()

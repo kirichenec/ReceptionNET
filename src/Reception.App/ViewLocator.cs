@@ -1,5 +1,6 @@
 using Avalonia.Controls;
 using Avalonia.Controls.Templates;
+using Reception.App.Constants;
 using Reception.App.ViewModels;
 
 namespace Reception.App
@@ -8,7 +9,7 @@ namespace Reception.App
     {
         public Control Build(object param)
         {
-            var name = param.GetType().FullName.Replace("ViewModel", "View");
+            var name = param.GetType().FullName.Replace(AppSystem.VIEW_MODEL, AppSystem.VIEW);
 
             return Type.GetType(name) is Type type
                 ? (Control)Activator.CreateInstance(type)
