@@ -1,6 +1,4 @@
--   visitors history
--   rework ShowError by MainWindowVM link to MessageBus or something looks like di
--   localization for default controls (passwordbox without it now)
+-   localization
     samples:
     -   var authTitle = Localization.Localizer.Instance["AuthTitle"];
     -   xmlns:localization="clr-namespace:Reception.App.Localization;assembly=Reception.App.Localization"

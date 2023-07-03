@@ -65,7 +65,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "helpers", "helpers", "{023A
 		solutionItems\MigrationCommands.txt = solutionItems\MigrationCommands.txt
 		solutionItems\Order.txt = solutionItems\Order.txt
 		README.md = README.md
-		solutionItems\Tasks.txt = solutionItems\Tasks.txt
+		solutionItems\Samples.txt = solutionItems\Samples.txt
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "settings", "settings", "{15A2C76C-FCA0-473D-A815-39FD52522E27}"
@@ -74,7 +74,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "settings", "settings", "{15
 		.github\workflows\dotnet.yml = .github\workflows\dotnet.yml
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reception.App.Localization", "src\Reception.App.Localization\Reception.App.Localization.csproj", "{709F4C84-27CB-4D8F-8BC2-72B89770C0FB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reception.App.Localization", "src\Reception.App.Localization\Reception.App.Localization.csproj", "{709F4C84-27CB-4D8F-8BC2-72B89770C0FB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
