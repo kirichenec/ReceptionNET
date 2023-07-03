@@ -43,7 +43,9 @@ jobs:
           New-Item -Path .\.sonar\scanner -ItemType Directory
           dotnet tool update dotnet-sonarscanner --tool-path .\.sonar\scanner
       - name: Add avaloniaui.net as nuget package source
-        run: dotnet nuget add source https://nuget.avaloniaui.net/repository/avalonia-all/index.json --name AvaloniaUI
+        run: |
+            dotnet nuget add source https://nuget-feed-all.avaloniaui.net/v3/index.json --name "AvaloniaUI stable"
+            dotnet nuget add source https://nuget-feed-nightly.avaloniaui.net/v3/index.json --name "AvaloniaUI nightly"
       - name: Build and analyze
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
