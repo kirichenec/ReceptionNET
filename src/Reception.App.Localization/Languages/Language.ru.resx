@@ -144,6 +144,9 @@
   <data name="BossLoadData" xml:space="preserve">
     <value>Загрузка данных режима начальника</value>
   </data>
+  <data name="BossNoVisitors" xml:space="preserve">
+    <value>На данный момент посетителей нет</value>
+  </data>
   <data name="BossWait" xml:space="preserve">
     <value>ПОДОЖДАТЬ</value>
   </data>

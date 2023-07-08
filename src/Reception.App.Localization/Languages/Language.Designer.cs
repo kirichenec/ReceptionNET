@@ -142,11 +142,29 @@ namespace Reception.App.Localization.Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to There is no visitors.
+        /// </summary>
+        internal static string BossNoVisitors {
+            get {
+                return ResourceManager.GetString("BossNoVisitors", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to WAIT.
         /// </summary>
         internal static string BossWait {
             get {
                 return ResourceManager.GetString("BossWait", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Connect to chat hub...
+        /// </summary>
+        internal static string ConnectToChat {
+            get {
+                return ResourceManager.GetString("ConnectToChat", resourceCulture);
             }
         }
         
@@ -246,15 +264,6 @@ namespace Reception.App.Localization.Languages {
         internal static string SettingsTitle {
             get {
                 return ResourceManager.GetString("SettingsTitle", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Connect to chat hub...
-        /// </summary>
-        internal static string SubordinateConnectToChat {
-            get {
-                return ResourceManager.GetString("SubordinateConnectToChat", resourceCulture);
             }
         }
         

@@ -20,6 +20,19 @@ namespace Reception.App.ViewModels
         }
 
         [Reactive]
+        public Visitor Visitor { get; set; }
+
+        [Reactive]
         public string WelcomeMessage { get; set; }
+
+        protected override void PersonReceived(Person person)
+        {
+            SetNotImplementedMessage(person);
+        }
+
+        protected override void VisitorReceived(Visitor visitor)
+        {
+            Visitor = visitor;
+        }
     }
 }
