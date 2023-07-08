@@ -10,6 +10,7 @@ using Reception.App.Network.Chat;
 using Reception.App.Network.Exceptions;
 using Reception.App.Network.Server;
 using Reception.App.Service.Interface;
+using Reception.App.ViewModels.Abstract;
 using Reception.Constant;
 using Splat;
 using System.Net;

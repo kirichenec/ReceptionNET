@@ -2,6 +2,7 @@
 using Avalonia.Controls;
 using Avalonia.ReactiveUI;
 using ReactiveUI;
+using Reception.App.ViewModels.Abstract;
 using System.Reactive.Disposables;
 using static Reception.App.Constants.ControlNames;
 
@@ -19,8 +20,18 @@ namespace Reception.App.Views
             {
                 this.WhenActivated(disposables =>
                 {
-                    Disposable.Create(() => { }).DisposeWith(disposables);
+                    Disposable
+                        .Create(HandleDisposing)
+                        .DisposeWith(disposables);
                 });
+            }
+        }
+
+        private void HandleDisposing()
+        {
+            if (ViewModel is IClientViewModel icvm)
+            {
+                icvm.StopClientListening();
             }
         }
 

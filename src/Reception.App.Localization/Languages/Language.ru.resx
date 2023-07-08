@@ -147,6 +147,9 @@
   <data name="BossWait" xml:space="preserve">
     <value>ПОДОЖДАТЬ</value>
   </data>
+  <data name="ConnectToChat" xml:space="preserve">
+    <value>Подключение к сервису отправки сообщений..</value>
+  </data>
   <data name="MainConnectionStatus" xml:space="preserve">
     <value>Статус подключения:</value>
   </data>
@@ -179,9 +182,6 @@
   </data>
   <data name="SettingsTitle" xml:space="preserve">
     <value>Настройки</value>
-  </data>
-  <data name="SubordinateConnectToChat" xml:space="preserve">
-    <value>Подключение к сервису отправки сообщений..</value>
   </data>
   <data name="SubordinateFirstName" xml:space="preserve">
     <value>Имя</value>

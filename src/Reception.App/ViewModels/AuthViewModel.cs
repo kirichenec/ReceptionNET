@@ -5,6 +5,7 @@ using Reception.App.Localization;
 using Reception.App.Model.Auth;
 using Reception.App.Network.Auth;
 using Reception.App.Network.Exceptions;
+using Reception.App.ViewModels.Abstract;
 using Reception.Extension;
 using System.Net;
 using System.Reactive;

@@ -1,18 +1,17 @@
 ﻿using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
-using Reception.App.Constants;
 using Reception.App.Enums;
 using Reception.App.Localization;
 using Reception.Extension;
 using Reception.Extension.Helpers;
 using System.Reactive.Linq;
-using System.Runtime.CompilerServices;
 
-namespace Reception.App.ViewModels
+namespace Reception.App.ViewModels.Abstract
 {
     public abstract class BaseViewModel : ReactiveObject, IRoutableViewModel
     {
         protected readonly MainViewModel _mainViewModel;
+
 
         protected BaseViewModel(MainViewModel mainViewModel)
         {
@@ -24,13 +23,13 @@ namespace Reception.App.ViewModels
 
             Initialized += OnViewModelInitialized;
 
-            var initMessageKey = GetType().Name.Replace(AppSystem.VIEW_MODEL, AppSystem.LOAD_DATA);
+            var initMessageKey = GetType().Name.Replace("ViewModel", "LoadData");
             SetRefreshingNotification(Localizer.Instance[initMessageKey]);
         }
 
+
         public event Func<Task> Initialized;
 
-        #region Properties
 
         public IScreen HostScreen { get; }
 
@@ -39,9 +38,6 @@ namespace Reception.App.ViewModels
 
         public string UrlPathSegment { get; }
 
-        #endregion
-
-        #region Methods
 
         protected void ClearNotification()
         {
@@ -64,10 +60,7 @@ namespace Reception.App.ViewModels
             Initialized?.GetInvocationList().ForEach(d => Initialized -= (Func<Task>)d);
         }
 
-        protected virtual Task OnViewModelInitialized()
-        {
-            throw new NotImplementedException();
-        }
+        protected abstract Task OnViewModelInitialized();
 
         protected void SetNotification(string message, NotificationType type)
         {
@@ -75,16 +68,9 @@ namespace Reception.App.ViewModels
             IsLoading = type == NotificationType.Refreshing;
         }
 
-        protected void SetNotImplementedMessage<T>(T value, [CallerMemberName] string methodName = null)
-        {
-            _mainViewModel.ShowError(new NotImplementedException($"{methodName} not implemented"), properties: value);
-        }
-
         protected void SetRefreshingNotification(string message)
         {
             SetNotification(message, NotificationType.Refreshing);
         }
-
-        #endregion
     }
 }

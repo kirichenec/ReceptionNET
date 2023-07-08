@@ -31,12 +31,7 @@ namespace Reception.App.Model.PersonInfo
         {
             base.Clear();
             ImageSource = null;
-        }
-
-        public override void CopyFrom(Person value)
-        {
-            base.CopyFrom(value);
-            ImageSource = null;
+            Message = null;
         }
 
         public override bool IsEmpty()
