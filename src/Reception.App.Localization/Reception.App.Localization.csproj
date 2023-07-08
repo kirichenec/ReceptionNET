@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <ItemGroup>
-    <PackageReference Include="Avalonia" Version="11.0.999-cibuild0037349-beta" />
+    <PackageReference Include="Avalonia" Version="11.0.999-cibuild0037550-beta" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Reception.Extensions\Reception.Extension.csproj" />
