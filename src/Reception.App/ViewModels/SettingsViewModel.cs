@@ -18,6 +18,7 @@ namespace Reception.App.ViewModels
         private readonly Action _navigateToAuth;
         private readonly ISettingsService _settingsService;
 
+
         public SettingsViewModel(ISettingsService settingsService, Action navigateToAuth)
         {
             _settingsService = settingsService;
@@ -61,6 +62,7 @@ namespace Reception.App.ViewModels
 
         public ReactiveCommand<Unit, Unit> SaveSettingsCommand { get; }
 
+
         private static void CloseDialog()
         {
             DialogHost.Close(ControlNames.DIALOG_HOST_NAME);
@@ -87,7 +89,7 @@ namespace Reception.App.ViewModels
             IsBoss = _settingsService.IsBoss;
             IsDark = _settingsService.IsDark;
             IsSystemTheme = _settingsService.IsSystemTheme;
-            Language = _settingsService.Language.IsNullOrWhiteSpace() ? Languages.First() : _settingsService.Language;
+            Language = _settingsService.Language.IsNullOrWhiteSpace() ? Languages[0] : _settingsService.Language;
             UseSystemTheme(IsSystemTheme);
         }
 

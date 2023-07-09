@@ -16,7 +16,7 @@ namespace Reception.App.Model
         }
 
         /// <summary>
-        /// null = -1;
+        /// <see langword="null"/> = -1;
         /// <see cref="object"/> = 0;
         /// <see cref="Person"/> = 1;
         /// <see cref="Visitor"/> = 2;
