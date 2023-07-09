@@ -147,6 +147,9 @@
   <data name="BossNoVisitors" xml:space="preserve">
     <value>There is no visitors</value>
   </data>
+  <data name="BossSendDecision" xml:space="preserve">
+    <value>Decision on the way..</value>
+  </data>
   <data name="BossWait" xml:space="preserve">
     <value>WAIT</value>
   </data>

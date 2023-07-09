@@ -151,6 +151,15 @@ namespace Reception.App.Localization.Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Decision on the way...
+        /// </summary>
+        internal static string BossSendDecision {
+            get {
+                return ResourceManager.GetString("BossSendDecision", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to WAIT.
         /// </summary>
         internal static string BossWait {

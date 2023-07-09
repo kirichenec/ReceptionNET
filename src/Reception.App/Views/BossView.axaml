@@ -33,9 +33,19 @@
             </StackPanel>
 
             <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
-                <controls:FloatingButton Content="{localization:Localize BossAllow}" Classes="Dark" x:Name="{x:Static const:ControlNames.FOCUSED_ITEM_NAME}"/>
-                <controls:FloatingButton Content="{localization:Localize BossWait}" Classes="Dark"/>
-                <controls:FloatingButton Content="{localization:Localize BossDeny}" Classes="Dark"/>
+                <controls:FloatingButton Content="{localization:Localize BossAllow}"
+                                         Command="{Binding AllowCommand}"
+                                         CommandParameter="{Binding Visitor}"
+                                         Classes="Dark"
+                                         x:Name="{x:Static const:ControlNames.FOCUSED_ITEM_NAME}"/>
+                <controls:FloatingButton Content="{localization:Localize BossWait}"
+                                         Command="{Binding WaitCommand}"
+                                         CommandParameter="{Binding Visitor}"
+                                         Classes="Dark"/>
+                <controls:FloatingButton Content="{localization:Localize BossDeny}"
+                                         Command="{Binding DenyCommand}"
+                                         CommandParameter="{Binding Visitor}"
+                                         Classes="Dark"/>
             </StackPanel>
 
         </Grid>

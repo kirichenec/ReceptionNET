@@ -37,11 +37,16 @@ namespace Reception.App.ViewModels.Abstract
                 case 2:
                     VisitorReceived(message.DeserializeMessage<Visitor>());
                     break;
+                case 3:
+                    BossDecisionReceived(message.DeserializeMessage<BossDecision>());
+                    break;
                 default:
                     _mainViewModel.ShowError(new ArgumentException($"Unknown message data type {messageType?.FullName ?? "null-type"}"));
                     break;
             }
         }
+
+        protected abstract void BossDecisionReceived(BossDecision bossDecision);
 
         protected override async Task OnViewModelInitialized()
         {

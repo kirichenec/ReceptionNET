@@ -17,8 +17,6 @@ namespace Reception.App.ViewModels
 {
     public class SubordinateViewModel : ClientViewModel
     {
-        #region Fields
-
         private readonly IPersonNetworkService _networkServiceOfPersons;
         private readonly IFileDataNetworkService _networkServiceOfFileData;
         private readonly ISettingsService _settingsService;
@@ -26,10 +24,10 @@ namespace Reception.App.ViewModels
         private byte[] _defaultPhotoData;
         private ObservableAsPropertyHelper<IEnumerable<Person>> _searchedPersons;
 
-        #endregion
 
-        public SubordinateViewModel(IPersonNetworkService personNetworkService, IFileDataNetworkService fileDataNetworkService,
-            ISettingsService settingsService, IClientService clientService, MainViewModel mainViewModel)
+        public SubordinateViewModel(ISettingsService settingsService,
+            MainViewModel mainViewModel, IClientService clientService,
+            IPersonNetworkService personNetworkService, IFileDataNetworkService fileDataNetworkService)
             : base(mainViewModel, clientService)
         {
             _networkServiceOfPersons = personNetworkService;
@@ -41,7 +39,6 @@ namespace Reception.App.ViewModels
             OnInitialized();
         }
 
-        #region Properties
 
         public ReactiveCommand<Unit, bool> ClearSearchPersonCommand { get; private set; }
 
@@ -65,9 +62,11 @@ namespace Reception.App.ViewModels
         [Reactive]
         public Visitor Visitor { get; set; }
 
-        #endregion
-
-        #region Methods
+        protected override void BossDecisionReceived(BossDecision bossDecision)
+        {
+            // ToDo: Visualize decision + history
+            SetNotImplementedMessage(bossDecision);
+        }
 
         protected override void PersonReceived(Person person)
         {
@@ -223,13 +222,11 @@ namespace Reception.App.ViewModels
         {
             SetRefreshingNotification(Localizer.Instance["SubordinateSendVisitor"]);
 
-            visitor.IncomingDate = DateTime.Now;
+            visitor.SetIncomingInformation();
             await _clientService.SendAsync(visitor, cancellationToken);
 
             ClearNotification();
             return true;
         }
-
-        #endregion
     }
 }

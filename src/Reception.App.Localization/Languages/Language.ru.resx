@@ -147,6 +147,9 @@
   <data name="BossNoVisitors" xml:space="preserve">
     <value>На данный момент посетителей нет</value>
   </data>
+  <data name="BossSendDecision" xml:space="preserve">
+    <value>Решение доставляется..</value>
+  </data>
   <data name="BossWait" xml:space="preserve">
     <value>ПОДОЖДАТЬ</value>
   </data>
@@ -217,6 +220,6 @@
     <value>Отправить</value>
   </data>
   <data name="SubordinateSendVisitor" xml:space="preserve">
-    <value>Данные о посетителе отправлены..</value>
+    <value>Данные о посетителе доставляются..</value>
   </data>
 </root>
