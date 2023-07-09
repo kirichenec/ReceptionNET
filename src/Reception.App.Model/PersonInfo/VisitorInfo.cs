@@ -4,8 +4,6 @@ namespace Reception.App.Model.PersonInfo
 {
     public class Visitor : Person
     {
-        #region ctor
-
         public Visitor() { }
 
         public Visitor(Person value)
@@ -13,9 +11,8 @@ namespace Reception.App.Model.PersonInfo
             CopyFrom(value);
         }
 
-        #endregion
 
-        #region Properties
+        public Guid Guid { get; set; }
 
         public byte[] ImageSource { get; set; }
 
@@ -23,20 +20,12 @@ namespace Reception.App.Model.PersonInfo
 
         public string Message { get; set; }
 
-        #endregion
-
-        #region Methods
 
         public override void Clear()
         {
             base.Clear();
             ImageSource = null;
-        }
-
-        public override void CopyFrom(Person value)
-        {
-            base.CopyFrom(value);
-            ImageSource = null;
+            Message = null;
         }
 
         public override bool IsEmpty()
@@ -46,6 +35,10 @@ namespace Reception.App.Model.PersonInfo
                 && Message.IsNullOrWhiteSpace();
         }
 
-        #endregion
+        public void SetIncomingInformation()
+        {
+            IncomingDate = DateTime.Now;
+            Guid = Guid.NewGuid();
+        }
     }
 }

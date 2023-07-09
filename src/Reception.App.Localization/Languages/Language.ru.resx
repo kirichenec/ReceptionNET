@@ -144,8 +144,17 @@
   <data name="BossLoadData" xml:space="preserve">
     <value>Загрузка данных режима начальника</value>
   </data>
+  <data name="BossNoVisitors" xml:space="preserve">
+    <value>На данный момент посетителей нет</value>
+  </data>
+  <data name="BossSendDecision" xml:space="preserve">
+    <value>Решение доставляется..</value>
+  </data>
   <data name="BossWait" xml:space="preserve">
     <value>ПОДОЖДАТЬ</value>
+  </data>
+  <data name="ConnectToChat" xml:space="preserve">
+    <value>Подключение к сервису отправки сообщений..</value>
   </data>
   <data name="MainConnectionStatus" xml:space="preserve">
     <value>Статус подключения:</value>
@@ -180,9 +189,6 @@
   <data name="SettingsTitle" xml:space="preserve">
     <value>Настройки</value>
   </data>
-  <data name="SubordinateConnectToChat" xml:space="preserve">
-    <value>Подключение к сервису отправки сообщений..</value>
-  </data>
   <data name="SubordinateFirstName" xml:space="preserve">
     <value>Имя</value>
   </data>
@@ -214,6 +220,6 @@
     <value>Отправить</value>
   </data>
   <data name="SubordinateSendVisitor" xml:space="preserve">
-    <value>Данные о посетителе отправлены..</value>
+    <value>Данные о посетителе доставляются..</value>
   </data>
 </root>

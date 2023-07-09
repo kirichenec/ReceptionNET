@@ -1,28 +1,22 @@
-﻿using Microsoft.AspNetCore.SignalR.Client;
-using ReactiveUI;
+﻿using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using Reception.App.Enums;
 using Reception.App.Localization;
-using Reception.App.Model;
 using Reception.App.Model.Extensions;
-using Reception.App.Model.FileInfo;
 using Reception.App.Model.PersonInfo;
 using Reception.App.Network.Chat;
 using Reception.App.Network.Server;
 using Reception.App.Service.Interface;
+using Reception.App.ViewModels.Abstract;
 using Reception.Extension;
 using Reception.Extension.Converters;
-using Reception.Extension.Dictionaries;
 using System.Reactive;
 using System.Reactive.Linq;
 
 namespace Reception.App.ViewModels
 {
-    public class SubordinateViewModel : BaseViewModel
+    public class SubordinateViewModel : ClientViewModel
     {
-        #region Fields
-
-        private readonly IClientService _clientService;
         private readonly IPersonNetworkService _networkServiceOfPersons;
         private readonly IFileDataNetworkService _networkServiceOfFileData;
         private readonly ISettingsService _settingsService;
@@ -30,27 +24,21 @@ namespace Reception.App.ViewModels
         private byte[] _defaultPhotoData;
         private ObservableAsPropertyHelper<IEnumerable<Person>> _searchedPersons;
 
-        #endregion
 
-        public SubordinateViewModel(IPersonNetworkService personNetworkService, IFileDataNetworkService fileDataNetworkService,
-            ISettingsService settingsService, IClientService clientService, MainViewModel mainViewModel)
-            : base(mainViewModel)
+        public SubordinateViewModel(ISettingsService settingsService,
+            MainViewModel mainViewModel, IClientService clientService,
+            IPersonNetworkService personNetworkService, IFileDataNetworkService fileDataNetworkService)
+            : base(mainViewModel, clientService)
         {
-            SearchText = string.Empty;
-
             _networkServiceOfPersons = personNetworkService;
             _networkServiceOfFileData = fileDataNetworkService;
             _settingsService = settingsService;
-
-            _clientService = clientService;
-            _clientService.MessageReceived += MessageReceived;
 
             InitCommands();
 
             OnInitialized();
         }
 
-        #region Properties
 
         public ReactiveCommand<Unit, bool> ClearSearchPersonCommand { get; private set; }
 
@@ -72,15 +60,22 @@ namespace Reception.App.ViewModels
         public ReactiveCommand<Visitor, bool> SendVisitorCommand { get; private set; }
 
         [Reactive]
-        public Visitor Visitor { get; set; } = new();
+        public Visitor Visitor { get; set; }
 
-        #endregion
-
-        #region Methods
-
-        protected override async Task OnViewModelInitialized()
+        protected override void BossDecisionReceived(BossDecision bossDecision)
         {
-            await StartClientAsync();
+            // ToDo: Visualize decision + history
+            SetNotImplementedMessage(bossDecision);
+        }
+
+        protected override void PersonReceived(Person person)
+        {
+            SetNotImplementedMessage(person);
+        }
+
+        protected override void VisitorReceived(Visitor visitor)
+        {
+            SetNotImplementedMessage(visitor);
         }
 
         private async Task<bool> ClearSearchPersonsAsync(Unit _)
@@ -177,27 +172,6 @@ namespace Reception.App.ViewModels
             SendVisitorCommand.ThrownExceptions.Subscribe(ErrorHandler(nameof(SendVisitorCommand)));
         }
 
-        private void MessageReceived(int userId, Type messageType, object message)
-        {
-            switch (Types.Dictionary.TryGetValue(messageType))
-            {
-                case 1:
-                    PersonReceived(message.DeserializeMessage<Person>());
-                    break;
-                case 2:
-                    VisitorReceived(message.DeserializeMessage<Visitor>());
-                    break;
-                default:
-                    _mainViewModel.ShowError(new ArgumentException($"Unknown message data type {messageType?.FullName ?? "null-type"}"));
-                    break;
-            }
-        }
-
-        private void PersonReceived(Person person)
-        {
-            SetNotImplementedMessage(person);
-        }
-
         private async Task<IEnumerable<Person>> SearchPersonExecuteAsync(string query, CancellationToken cancellationToken = default)
         {
             SetNotification(Localizer.Instance["SubordinateSearching"], NotificationType.Request);
@@ -218,9 +192,10 @@ namespace Reception.App.ViewModels
             SetRefreshingNotification(Localizer.Instance["SubordinateLoadPhoto"]);
 
             IsPhotoLoading = true;
-            Visitor.CopyFrom(person);
-            byte[] visitorImage = await GetVisitorPhoto(person?.PhotoId, cancellationToken);
-            Visitor.ImageSource = visitorImage;
+            Visitor = new(person)
+            {
+                ImageSource = await GetVisitorPhoto(person?.PhotoId, cancellationToken)
+            };
             IsPhotoLoading = false;
 
             ClearNotification();
@@ -229,19 +204,17 @@ namespace Reception.App.ViewModels
 
             async Task<byte[]> GetDefaultVisitorPhoto(CancellationToken cancellationToken = default)
             {
-                return _defaultPhotoData = await _settingsService.DefaultVisitorPhotoPath
+                return _defaultPhotoData ??= await _settingsService.DefaultVisitorPhotoPath
                     .GetFileBytesByPathAsync(cancellationToken);
             }
 
             async Task<byte[]> GetVisitorPhoto(int? photoId, CancellationToken cancellationToken = default)
             {
-                if (!photoId.HasValue
-                    || (await _networkServiceOfFileData.GetByIdAsync(photoId.Value, cancellationToken)) is not FileData visitorImageSource
-                    || visitorImageSource.Data.IsNullOrEmpty())
-                {
-                    return await GetDefaultVisitorPhoto(cancellationToken);
-                }
-                return visitorImageSource.Data;
+                return photoId.HasValue
+                    && (await _networkServiceOfFileData.GetByIdAsync(photoId.Value, cancellationToken)) is { } visitorImageSource
+                    && !visitorImageSource.Data.IsNullOrEmpty()
+                    ? visitorImageSource.Data
+                    : await GetDefaultVisitorPhoto(cancellationToken);
             }
         }
 
@@ -249,35 +222,11 @@ namespace Reception.App.ViewModels
         {
             SetRefreshingNotification(Localizer.Instance["SubordinateSendVisitor"]);
 
-            visitor.IncomingDate = DateTime.Now;
+            visitor.SetIncomingInformation();
             await _clientService.SendAsync(visitor, cancellationToken);
 
             ClearNotification();
             return true;
         }
-
-        private async Task StartClientAsync()
-        {
-            SetRefreshingNotification(Localizer.Instance["SubordinateConnectToChat"]);
-            if (_clientService.State == HubConnectionState.Disconnected)
-            {
-                try
-                {
-                    await _clientService.StartClientAsync();
-                    ClearNotification();
-                }
-                catch (Exception ex)
-                {
-                    ErrorHandler(nameof(StartClientAsync)).Invoke(ex);
-                }
-            }
-        }
-
-        private void VisitorReceived(Visitor visitor)
-        {
-            SetNotImplementedMessage(visitor);
-        }
-
-        #endregion
     }
 }

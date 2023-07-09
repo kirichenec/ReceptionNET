@@ -9,10 +9,18 @@ A project for notifying the boss about visitors.
 Uses .NET, Avalonia, SignalR
 
 ## Roadmap
-- [ ] Boss logic
+- [X] Boss logic
+- [ ] Boss welcome message to settings
+- [X] Visitor guid/order number
 - [ ] Visitors history
+- [ ] One-to-one instead of one-to-many for Hub boss-subordinate connections
 - [ ] Rework ShowError by MainWindowVM link to MessageBus or something looks like di
+- [ ] Up data after reconnection
+
+## Known issues
+- [ ] Client reconnection
 - [ ] Localization for default controls (passwordbox without it now)
+- [ ] Scroll for search result
 
 ## Project status
 Prealphabetagamma :)

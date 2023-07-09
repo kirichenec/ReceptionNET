@@ -144,8 +144,17 @@
   <data name="BossLoadData" xml:space="preserve">
     <value>Loading boss data</value>
   </data>
+  <data name="BossNoVisitors" xml:space="preserve">
+    <value>There is no visitors</value>
+  </data>
+  <data name="BossSendDecision" xml:space="preserve">
+    <value>Decision on the way..</value>
+  </data>
   <data name="BossWait" xml:space="preserve">
     <value>WAIT</value>
+  </data>
+  <data name="ConnectToChat" xml:space="preserve">
+    <value>Connect to chat hub..</value>
   </data>
   <data name="SettingsTitle" xml:space="preserve">
     <value>Settings</value>
@@ -179,9 +188,6 @@
   </data>
   <data name="MainSettingsTooltip" xml:space="preserve">
     <value>Settings</value>
-  </data>
-  <data name="SubordinateConnectToChat" xml:space="preserve">
-    <value>Connect to chat hub..</value>
   </data>
   <data name="SubordinateFirstName" xml:space="preserve">
     <value>First name</value>
