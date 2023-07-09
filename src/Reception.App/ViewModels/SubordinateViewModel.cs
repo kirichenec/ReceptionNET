@@ -40,7 +40,7 @@ namespace Reception.App.ViewModels
         }
 
 
-        public ReactiveCommand<Unit, bool> ClearSearchPersonCommand { get; private set; }
+        public ReactiveCommand<Unit, Unit> ClearSearchPersonCommand { get; private set; }
 
         [Reactive]
         public bool IsPhotoLoading { get; set; }
@@ -62,6 +62,7 @@ namespace Reception.App.ViewModels
         [Reactive]
         public Visitor Visitor { get; set; }
 
+
         protected override void BossDecisionReceived(BossDecision bossDecision)
         {
             // ToDo: Visualize decision + history
@@ -78,11 +79,10 @@ namespace Reception.App.ViewModels
             SetNotImplementedMessage(visitor);
         }
 
-        private async Task<bool> ClearSearchPersonsAsync(Unit _)
+        private async Task ClearSearchPersonsAsync()
         {
             await SearchPersonCommand.Execute();
             SearchText = string.Empty;
-            return true;
         }
 
         private void InitClearSearchPersonCommand()
@@ -92,7 +92,7 @@ namespace Reception.App.ViewModels
                 selector: query => !string.IsNullOrWhiteSpace(query) || Persons.Any());
 
             ClearSearchPersonCommand = ReactiveCommand
-                .CreateFromTask<Unit, bool>(ClearSearchPersonsAsync, canClearSearch);
+                .CreateFromTask(ClearSearchPersonsAsync, canClearSearch);
 
             ClearSearchPersonCommand.ThrownExceptions.Subscribe(ErrorHandler(nameof(ClearSearchPersonCommand)));
         }
