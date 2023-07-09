@@ -63,17 +63,17 @@ namespace Reception.App.ViewModels.Abstract
         protected async Task StartClientAsync()
         {
             SetRefreshingNotification(Localizer.Instance["ConnectToChat"]);
-            if (_clientService.State == HubConnectionState.Disconnected)
+            try
             {
-                try
+                if (_clientService.State == HubConnectionState.Disconnected)
                 {
                     await _clientService.StartClientAsync();
-                    ClearNotification();
                 }
-                catch (Exception ex)
-                {
-                    ErrorHandler(nameof(StartClientAsync)).Invoke(ex);
-                }
+                ClearNotification();
+            }
+            catch (Exception ex)
+            {
+                ErrorHandler(nameof(StartClientAsync)).Invoke(ex);
             }
         }
 
