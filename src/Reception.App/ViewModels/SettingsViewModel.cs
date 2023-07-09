@@ -18,6 +18,7 @@ namespace Reception.App.ViewModels
         private readonly Action _navigateToAuth;
         private readonly ISettingsService _settingsService;
 
+
         public SettingsViewModel(ISettingsService settingsService, Action navigateToAuth)
         {
             _settingsService = settingsService;
@@ -60,6 +61,7 @@ namespace Reception.App.ViewModels
         public string[] Languages { get; }
 
         public ReactiveCommand<Unit, Unit> SaveSettingsCommand { get; }
+
 
         private static void CloseDialog()
         {

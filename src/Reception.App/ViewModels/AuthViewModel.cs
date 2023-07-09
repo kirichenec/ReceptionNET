@@ -17,18 +17,17 @@ namespace Reception.App.ViewModels
     {
         private readonly IAuthService _authService;
 
+
         public AuthViewModel(IAuthService authService, MainViewModel mainViewModel)
             : base(mainViewModel)
         {
             _authService = authService;
 
-            InitApplyAuthCommand();
-            InitLoginCommand();
+            InitCommands();
 
             OnInitialized();
         }
 
-        #region Properties
 
         public ReactiveCommand<AuthenticateResponse, Unit> ApplyAuthCommand { get; private set; }
 
@@ -43,9 +42,6 @@ namespace Reception.App.ViewModels
         [Reactive]
         public string Password { get; set; }
 
-        #endregion
-
-        #region Methods
 
         protected override async Task OnViewModelInitialized()
         {
@@ -69,27 +65,34 @@ namespace Reception.App.ViewModels
             }
         }
 
-        private void InitApplyAuthCommand()
+        private void InitCommands()
         {
-            var canNavigate = this.WhenAnyValue(
-                x => x.AuthData,
-                selector: aData => aData.IsAuthInfoCorrect());
+            InitApplyAuthCommand();
+            InitLoginCommand();
 
-            ApplyAuthCommand = ReactiveCommand.Create<AuthenticateResponse>(_mainViewModel.ApplyAuthData, canNavigate);
-            this.WhenAnyValue(x => x.AuthData)
-                .InvokeCommand(ApplyAuthCommand);
-            ApplyAuthCommand.ThrownExceptions.Subscribe(ErrorHandler(nameof(ApplyAuthCommand)));
-        }
 
-        private void InitLoginCommand()
-        {
-            var canLogin = this.WhenAnyValue(
-                x => x.Login,
-                x => x.Password,
-                selector: (login, password) => !login.IsNullOrWhiteSpace() && !password.IsNullOrWhiteSpace());
+            void InitApplyAuthCommand()
+            {
+                var canNavigate = this.WhenAnyValue(
+                    x => x.AuthData,
+                    selector: aData => aData.IsAuthInfoCorrect());
 
-            LoginCommand = ReactiveCommand.CreateFromTask(LoginExecuteAsync, canLogin);
-            LoginCommand.ThrownExceptions.Subscribe(ErrorHandler(nameof(LoginCommand)));
+                ApplyAuthCommand = ReactiveCommand.Create<AuthenticateResponse>(_mainViewModel.ApplyAuthData, canNavigate);
+                this.WhenAnyValue(x => x.AuthData)
+                    .InvokeCommand(ApplyAuthCommand);
+                ApplyAuthCommand.ThrownExceptions.Subscribe(ErrorHandler(nameof(ApplyAuthCommand)));
+            }
+
+            void InitLoginCommand()
+            {
+                var canLogin = this.WhenAnyValue(
+                    x => x.Login,
+                    x => x.Password,
+                    selector: (login, password) => !login.IsNullOrWhiteSpace() && !password.IsNullOrWhiteSpace());
+
+                LoginCommand = ReactiveCommand.CreateFromTask(LoginExecuteAsync, canLogin);
+                LoginCommand.ThrownExceptions.Subscribe(ErrorHandler(nameof(LoginCommand)));
+            }
         }
 
         private async Task LoginExecuteAsync()
@@ -110,7 +113,5 @@ namespace Reception.App.ViewModels
             }
             SetNotification(message, notificationType);
         }
-
-        #endregion
     }
 }

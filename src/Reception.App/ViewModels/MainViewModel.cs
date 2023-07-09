@@ -23,13 +23,10 @@ namespace Reception.App.ViewModels
 {
     public class MainViewModel : ReactiveObject, IScreen
     {
-        #region Fields
-
         private readonly IClientService _clientService;
         private readonly IPingService _pingService;
         private readonly ISettingsService _settingsService;
 
-        #endregion
 
         public MainViewModel(IClientService clientService, IPingService pingService, ISettingsService settingsService)
         {
@@ -58,9 +55,9 @@ namespace Reception.App.ViewModels
             CenterMessage = string.Empty;
         }
 
+
         public delegate void ShowErrorAction(Exception error, [CallerMemberName] string sourceName = null, params object[] properties);
 
-        #region Properties
 
         public string AppVersion { get; }
 
@@ -94,9 +91,6 @@ namespace Reception.App.ViewModels
         [Reactive]
         public string StatusMessage { get; set; }
 
-        #endregion
-
-        #region Methods
 
         public void ApplyAuthData(AuthenticateResponse authData)
         {
@@ -183,7 +177,5 @@ namespace Reception.App.ViewModels
                 SetNotification(ex.Message, NotificationType.Server);
             }
         }
-
-        #endregion
     }
 }

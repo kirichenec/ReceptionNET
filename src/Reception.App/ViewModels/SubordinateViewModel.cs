@@ -63,9 +63,9 @@ namespace Reception.App.ViewModels
         public Visitor Visitor { get; set; }
 
 
+        // ToDo: Visualize decision + history
         protected override void BossDecisionReceived(BossDecision bossDecision)
         {
-            // ToDo: Visualize decision + history
             SetNotImplementedMessage(bossDecision);
         }
 
@@ -85,91 +85,92 @@ namespace Reception.App.ViewModels
             SearchText = string.Empty;
         }
 
-        private void InitClearSearchPersonCommand()
-        {
-            var canClearSearch = this.WhenAnyValue(
-                x => x.SearchText,
-                selector: query => !string.IsNullOrWhiteSpace(query) || Persons.Any());
-
-            ClearSearchPersonCommand = ReactiveCommand
-                .CreateFromTask(ClearSearchPersonsAsync, canClearSearch);
-
-            ClearSearchPersonCommand.ThrownExceptions.Subscribe(ErrorHandler(nameof(ClearSearchPersonCommand)));
-        }
-
         private void InitCommands()
         {
             InitSelectPersonCommand();
             InitSearchPersonCommand();
             InitClearSearchPersonCommand();
             InitSendPersonCommand();
-        }
 
-        private void InitSearchPersonCommand()
-        {
-            var searchEntered = this.WhenAnyValue(x => x.SearchText)
-                .Throttle(TimeSpan.FromSeconds(1), RxApp.MainThreadScheduler)
-                .Publish().RefCount();
 
-            var canSearch = this.WhenAnyValue(
-                x => x.SearchText,
-                selector: query => !string.IsNullOrWhiteSpace(query));
-
-            SearchPersonCommand = ReactiveCommand
-                .CreateFromObservable<string, IEnumerable<Person>>(
-                    execute: (searchQuery) => Observable
-                        .StartAsync(ct => SearchPersonExecuteAsync(searchQuery, ct))
-                        .TakeUntil(searchEntered),
-                    canExecute: canSearch);
-
-            SearchPersonCommand.ThrownExceptions.Subscribe(ErrorHandler(nameof(SearchPersonCommand)));
-
-            _searchedPersons = SearchPersonCommand.ToProperty(this, x => x.Persons);
-
-            var searchTrigger = searchEntered
-                .Select(searchQuery => SearchPersonCommand.IsExecuting.Where(e => !e).Take(1).Select(_ => searchQuery))
-                .Publish().RefCount();
-
-            searchTrigger.Switch().InvokeCommand(SearchPersonCommand);
-        }
-
-        private void InitSelectPersonCommand()
-        {
-            var selectEntered = this.WhenAnyValue(x => x.SelectedPerson)
-                .Publish().RefCount();
-
-            SelectPersonCommand = ReactiveCommand
-                .CreateFromObservable<Person, bool>(
-                    (person) => Observable
-                        .StartAsync(ct => SelectPersonExecutedAsync(person, ct))
-                        .TakeUntil(selectEntered));
-
-            SelectPersonCommand.ThrownExceptions.Subscribe(exception =>
+            void InitClearSearchPersonCommand()
             {
-                IsPhotoLoading = false;
-                ErrorHandler(nameof(SelectPersonCommand)).Invoke(exception);
-            });
+                var canClearSearch = this.WhenAnyValue(
+                    x => x.SearchText,
+                    selector: query => !string.IsNullOrWhiteSpace(query) || Persons.Any());
 
-            var selectTrigger = selectEntered
-                .Select(selectedPerson => SelectPersonCommand.IsExecuting.Where(e => !e).Take(1).Select(_ => selectedPerson))
-                .Publish().RefCount();
+                ClearSearchPersonCommand = ReactiveCommand
+                    .CreateFromTask(ClearSearchPersonsAsync, canClearSearch);
 
-            selectTrigger.Switch().InvokeCommand(SelectPersonCommand);
-        }
+                ClearSearchPersonCommand.ThrownExceptions.Subscribe(ErrorHandler(nameof(ClearSearchPersonCommand)));
+            }
 
-        private void InitSendPersonCommand()
-        {
-            var canSendPerson = this.WhenAnyValue(
-                x => x.IsLoading,
-                x => x.Visitor.Comment,
-                x => x.Visitor.FirstName,
-                x => x.Visitor.Message,
-                x => x.Visitor.MiddleName,
-                x => x.Visitor.Post,
-                x => x.Visitor.SecondName,
-                selector: (isLoading, _, __, ___, ____, _____, ______) => !Visitor.IsNullOrEmpty() && !isLoading);
-            SendVisitorCommand = ReactiveCommand.CreateFromTask<Visitor, bool>(SendVisitorExecuteAsync, canSendPerson);
-            SendVisitorCommand.ThrownExceptions.Subscribe(ErrorHandler(nameof(SendVisitorCommand)));
+            void InitSearchPersonCommand()
+            {
+                var searchEntered = this.WhenAnyValue(x => x.SearchText)
+                    .Throttle(TimeSpan.FromSeconds(1), RxApp.MainThreadScheduler)
+                    .Publish().RefCount();
+
+                var canSearch = this.WhenAnyValue(
+                    x => x.SearchText,
+                    selector: query => !string.IsNullOrWhiteSpace(query));
+
+                SearchPersonCommand = ReactiveCommand
+                    .CreateFromObservable<string, IEnumerable<Person>>(
+                        execute: (searchQuery) => Observable
+                            .StartAsync(ct => SearchPersonExecuteAsync(searchQuery, ct))
+                            .TakeUntil(searchEntered),
+                        canExecute: canSearch);
+
+                SearchPersonCommand.ThrownExceptions.Subscribe(ErrorHandler(nameof(SearchPersonCommand)));
+
+                _searchedPersons = SearchPersonCommand.ToProperty(this, x => x.Persons);
+
+                var searchTrigger = searchEntered
+                    .Select(searchQuery => SearchPersonCommand.IsExecuting.Where(e => !e).Take(1).Select(_ => searchQuery))
+                    .Publish().RefCount();
+
+                searchTrigger.Switch().InvokeCommand(SearchPersonCommand);
+            }
+
+            void InitSelectPersonCommand()
+            {
+                var selectEntered = this.WhenAnyValue(x => x.SelectedPerson)
+                    .Publish().RefCount();
+
+                SelectPersonCommand = ReactiveCommand
+                    .CreateFromObservable<Person, bool>(
+                        (person) => Observable
+                            .StartAsync(ct => SelectPersonExecutedAsync(person, ct))
+                            .TakeUntil(selectEntered));
+
+                SelectPersonCommand.ThrownExceptions.Subscribe(exception =>
+                {
+                    IsPhotoLoading = false;
+                    ErrorHandler(nameof(SelectPersonCommand)).Invoke(exception);
+                });
+
+                var selectTrigger = selectEntered
+                    .Select(selectedPerson => SelectPersonCommand.IsExecuting.Where(e => !e).Take(1).Select(_ => selectedPerson))
+                    .Publish().RefCount();
+
+                selectTrigger.Switch().InvokeCommand(SelectPersonCommand);
+            }
+
+            void InitSendPersonCommand()
+            {
+                var canSendPerson = this.WhenAnyValue(
+                    x => x.IsLoading,
+                    x => x.Visitor.Comment,
+                    x => x.Visitor.FirstName,
+                    x => x.Visitor.Message,
+                    x => x.Visitor.MiddleName,
+                    x => x.Visitor.Post,
+                    x => x.Visitor.SecondName,
+                    selector: (isLoading, _, __, ___, ____, _____, ______) => !Visitor.IsNullOrEmpty() && !isLoading);
+                SendVisitorCommand = ReactiveCommand.CreateFromTask<Visitor, bool>(SendVisitorExecuteAsync, canSendPerson);
+                SendVisitorCommand.ThrownExceptions.Subscribe(ErrorHandler(nameof(SendVisitorCommand)));
+            }
         }
 
         private async Task<IEnumerable<Person>> SearchPersonExecuteAsync(string query, CancellationToken cancellationToken = default)
