@@ -89,7 +89,7 @@ namespace Reception.App.ViewModels
             IsBoss = _settingsService.IsBoss;
             IsDark = _settingsService.IsDark;
             IsSystemTheme = _settingsService.IsSystemTheme;
-            Language = _settingsService.Language.IsNullOrWhiteSpace() ? Languages.First() : _settingsService.Language;
+            Language = _settingsService.Language.IsNullOrWhiteSpace() ? Languages[0] : _settingsService.Language;
             UseSystemTheme(IsSystemTheme);
         }
 
