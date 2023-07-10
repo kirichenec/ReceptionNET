@@ -13,10 +13,15 @@ namespace Reception.App.Localization.Test
             _resources = new ResourceManager(typeof(Language));
         }
 
-        public IEnumerable<string> GetAllKeys()
+        public IEnumerable<string> GetAllKeys(string? langKey = null)
         {
             var resourceSet = _resources
-                .GetResourceSet(CultureInfo.CurrentCulture, true, true)!
+                .GetResourceSet(
+                    culture: string.IsNullOrEmpty(langKey)
+                        ? CultureInfo.CurrentCulture
+                        : new CultureInfo(Localizer.Languages[langKey]),
+                    createIfNotExists: true,
+                    tryParents: true)!
                 .GetEnumerator();
             while (resourceSet.MoveNext())
             {
