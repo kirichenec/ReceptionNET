@@ -41,19 +41,6 @@ namespace Reception.App.Localization
 
         public string this[string key] => GetValueOrDefault(key);
 
-        public void Invalidate()
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(string.Empty));
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(INDEXER_NAME));
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(INDEXER_ARRAY_NAME));
-        }
-
-        public void LoadLanguage()
-        {
-            _resources = new ResourceManager(typeof(Language));
-            Invalidate();
-        }
-
         public void SetLanguage(string language)
         {
             if (string.IsNullOrEmpty(language) || !Languages.ContainsKey(language))
@@ -69,6 +56,19 @@ namespace Reception.App.Localization
         {
             var ret = _resources?.GetString(key)?.Replace(@"\\n", "\n");
             return ret.IsNullOrEmpty() ? $"Localize:{key}" : ret;
+        }
+
+        private void Invalidate()
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(string.Empty));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(INDEXER_NAME));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(INDEXER_ARRAY_NAME));
+        }
+
+        private void LoadLanguage()
+        {
+            _resources = new ResourceManager(typeof(Language));
+            Invalidate();
         }
 
         private static string TryUseSystemLanguageFallbackEnglish()
