@@ -4,7 +4,7 @@ using Xunit;
 
 namespace Reception.App.Localization.Test
 {
-    public class LocalizationTests : IClassFixture<LocalizationFixture>
+    public class LocalizerTests : IClassFixture<LocalizationFixture>
     {
         private const string NOT_EXISTED_KEY = "!!!";
 
@@ -12,7 +12,7 @@ namespace Reception.App.Localization.Test
         private readonly LocalizationFixture _localizationFixture;
 
 
-        public LocalizationTests(LocalizationFixture localizationFixture)
+        public LocalizerTests(LocalizationFixture localizationFixture)
         {
             _localizationFixture = localizationFixture;
         }
