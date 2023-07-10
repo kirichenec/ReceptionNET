@@ -11,10 +11,5 @@
         {
             return value == null;
         }
-
-        public static bool HasNoValue<T>(this T? value) where T : struct
-        {
-            return !value.HasValue;
-        }
     }
 }
