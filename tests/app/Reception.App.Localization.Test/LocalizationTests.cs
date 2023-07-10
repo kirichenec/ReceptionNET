@@ -1,9 +1,13 @@
-﻿using Xunit;
+﻿using FluentAssertions;
+using Xunit;
 
 namespace Reception.App.Localization.Test
 {
     public class LocalizationTests : IClassFixture<LocalizationFixture>
     {
+        private const string NOT_EXISTED_KEY = "!!!";
+
+
         private readonly LocalizationFixture _localizationFixture;
 
 
@@ -62,6 +66,40 @@ namespace Reception.App.Localization.Test
             // Assert
             Assert.True(allResourceValues.Values.All(l => l.Count == allResourceValues.Values.First().Count));
         }
+
+        [Theory]
+        [InlineData(NOT_EXISTED_KEY)]
+        public void Localizer_Resources_KeyNotExists_True(string notExistedKey)
+        {
+            // Arrange
+            var keys = _localizationFixture.GetAllKeys();
+
+            // Assert
+            Assert.DoesNotContain(notExistedKey, keys);
+        }
+
+        [Theory]
+        [InlineData(NOT_EXISTED_KEY)]
+        public void Localizer_Resources_LocalizedValueWithNonExistedKey_NotThrowing(string notExistedKey)
+        {
+            // Act
+            Func<string> act = () => Localizer.Instance[notExistedKey];
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Theory]
+        [InlineData(NOT_EXISTED_KEY)]
+        public void Localizer_Resources_LocalizedValueWithNonExistedKey_ReturnsDefault(string notExistedKey)
+        {
+            // Arrange
+            var localizedValue = Localizer.Instance[notExistedKey];
+
+            // Assert
+            Assert.False(string.IsNullOrEmpty(localizedValue));
+        }
+
 
         private static List<string> GetLanguageKeys()
         {
