@@ -72,6 +72,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "settings", "settings", "{15
 	ProjectSection(SolutionItems) = preProject
 		Directory.Build.props = Directory.Build.props
 		.github\workflows\dotnet.yml = .github\workflows\dotnet.yml
+		.sonarlint\kirichenec_receptionnet\CSharp\SonarLint.xml = .sonarlint\kirichenec_receptionnet\CSharp\SonarLint.xml
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reception.App.Localization", "src\Reception.App.Localization\Reception.App.Localization.csproj", "{709F4C84-27CB-4D8F-8BC2-72B89770C0FB}"
@@ -81,6 +82,14 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "app", "app", "{72FCA32B-1C17-429B-8D42-D04F1F995654}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reception.App.Localization.Test", "tests\app\Reception.App.Localization.Test\Reception.App.Localization.Test.csproj", "{B75B53EA-6695-45DB-8F9C-3EF343B07C0F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "sonar", "sonar", "{508BDE58-85B8-4D68-9184-FC410CA72FD3}"
+	ProjectSection(SolutionItems) = preProject
+		.sonarlint\kirichenec_receptionnetcsharp.ruleset = .sonarlint\kirichenec_receptionnetcsharp.ruleset
+		.sonarlint\Reception.slconfig = .sonarlint\Reception.slconfig
+		.sonarlint\sonar.settings.json = .sonarlint\sonar.settings.json
+		.sonarlint\kirichenec_receptionnet\CSharp\SonarLint.xml = .sonarlint\kirichenec_receptionnet\CSharp\SonarLint.xml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -191,6 +200,7 @@ Global
 		{709F4C84-27CB-4D8F-8BC2-72B89770C0FB} = {3A88485A-3BBB-4F79-8C73-AA76E8E6E499}
 		{72FCA32B-1C17-429B-8D42-D04F1F995654} = {0C12D78E-F56F-4D0A-8685-D99E8D8972BE}
 		{B75B53EA-6695-45DB-8F9C-3EF343B07C0F} = {72FCA32B-1C17-429B-8D42-D04F1F995654}
+		{508BDE58-85B8-4D68-9184-FC410CA72FD3} = {15A2C76C-FCA0-473D-A815-39FD52522E27}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D9C0D531-28FB-4D40-AFD0-658855890982}

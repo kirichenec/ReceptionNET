@@ -1,11 +1,3 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-    <PropertyGroup>
-        <CodeAnalysisRuleSet>..\..\.sonarlint\kirichenec_receptionnetcsharp.ruleset</CodeAnalysisRuleSet>
-    </PropertyGroup>
-
-    <ItemGroup>
-      <AdditionalFiles Include="..\..\.sonarlint\kirichenec_receptionnet\CSharp\SonarLint.xml" Link="SonarLint.xml" />
-    </ItemGroup>
-
 </Project>

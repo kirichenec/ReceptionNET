@@ -1,10 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <ItemGroup>
-      <AdditionalFiles Include="..\..\.sonarlint\kirichenec_receptionnet\CSharp\SonarLint.xml" Link="SonarLint.xml" />
-    </ItemGroup>
-
-    <ItemGroup>
         <PackageReference Include="RestSharp" Version="110.2.0" />
     </ItemGroup>
 
