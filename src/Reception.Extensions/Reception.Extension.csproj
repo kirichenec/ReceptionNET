@@ -1,13 +1,5 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-    <PropertyGroup>
-        <CodeAnalysisRuleSet>..\..\.sonarlint\kirichenec_receptionnetcsharp.ruleset</CodeAnalysisRuleSet>
-    </PropertyGroup>
-
-    <ItemGroup>
-        <AdditionalFiles Include="..\..\.sonarlint\kirichenec_receptionnet\CSharp\SonarLint.xml" Link="SonarLint.xml" />
-    </ItemGroup>
-
     <ItemGroup>
         <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="6.0.0-preview.4.21253.5" />
         <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
