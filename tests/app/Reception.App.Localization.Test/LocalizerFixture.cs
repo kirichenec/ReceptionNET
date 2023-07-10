@@ -4,11 +4,11 @@ using System.Resources;
 
 namespace Reception.App.Localization.Test
 {
-    public class LocalizationFixture
+    public class LocalizerFixture
     {
         private readonly ResourceManager _resources;
 
-        public LocalizationFixture()
+        public LocalizerFixture()
         {
             _resources = new ResourceManager(typeof(Language));
         }
