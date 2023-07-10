@@ -18,6 +18,9 @@
         <None Remove="Assets\RClogo.png" />
     </ItemGroup>
     <ItemGroup>
+      <AdditionalFiles Include="..\..\.sonarlint\kirichenec_receptionnet\CSharp\SonarLint.xml" Link="SonarLint.xml" />
+    </ItemGroup>
+    <ItemGroup>
         <PackageReference Include="Avalonia" Version="11.0.999-cibuild0037550-beta" />
         <PackageReference Include="Avalonia.Desktop" Version="11.0.999-cibuild0037550-beta" />
         <PackageReference Include="Avalonia.Diagnostics" Version="11.0.999-cibuild0037550-beta" />
