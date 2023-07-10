@@ -13,7 +13,7 @@ namespace Reception.App.Localization.Test
             _resources = new ResourceManager(typeof(Language));
         }
 
-        public IEnumerable<string> GetAllKeys(string? langKey = null)
+        public IEnumerable<string> GetAllResourcesKeys(string? langKey = null)
         {
             var resourceSet = _resources
                 .GetResourceSet(

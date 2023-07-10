@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using System.Globalization;
 using Xunit;
 
 namespace Reception.App.Localization.Test
@@ -27,6 +28,41 @@ namespace Reception.App.Localization.Test
             Assert.True(languageKeys.Any());
         }
 
+        [Theory]
+        [InlineData(Localizer.ENGLISH)]
+        [InlineData(Localizer.RUSSIAN)]
+        public void Localizer_Languages_SetSupportedLanguage_NotThrowing(string language)
+        {
+            // Act
+            var act = () => Localizer.Instance.SetLanguage(language);
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
+        [Theory]
+        [InlineData(Localizer.ENGLISH)]
+        [InlineData(Localizer.RUSSIAN)]
+        public void Localizer_Languages_SetSupportedLanguage_ExpectedLanguage(string language)
+        {
+            // Act
+            Localizer.Instance.SetLanguage(language);
+
+            // Assert
+            Assert.Equal(CultureInfo.CurrentUICulture.DisplayName, language, ignoreCase: true);
+        }
+
+        [Theory]
+        [InlineData(NOT_EXISTED_KEY)]
+        public void Localizer_Languages_SetUnsupportedLanguage_NotThrowing(string notSupportedLang)
+        {
+            // Act
+            var act = () => Localizer.Instance.SetLanguage(notSupportedLang);
+
+            // Assert
+            act.Should().NotThrow();
+        }
+
         [Fact]
         public void Localizer_Resources_AllLanguagesHasEqualKeys()
         {
@@ -38,7 +74,7 @@ namespace Reception.App.Localization.Test
                 .Select(key =>
                 {
                     Localizer.Instance.SetLanguage(key);
-                    return _localizationFixture.GetAllKeys(key).Order().ToList();
+                    return _localizationFixture.GetAllResourcesKeys(key).Order().ToList();
                 })
                 .ToList();
 
@@ -50,7 +86,7 @@ namespace Reception.App.Localization.Test
         public void Localizer_Resources_AllKeysHasValues()
         {
             // Arrange
-            var resourceKeys = _localizationFixture.GetAllKeys();
+            var resourceKeys = _localizationFixture.GetAllResourcesKeys();
             var languageKeys = GetLanguageKeys();
 
             // Act
@@ -72,7 +108,7 @@ namespace Reception.App.Localization.Test
         public void Localizer_Resources_KeyNotExists_True(string notExistedKey)
         {
             // Arrange
-            var keys = _localizationFixture.GetAllKeys();
+            var keys = _localizationFixture.GetAllResourcesKeys();
 
             // Assert
             Assert.DoesNotContain(notExistedKey, keys);
