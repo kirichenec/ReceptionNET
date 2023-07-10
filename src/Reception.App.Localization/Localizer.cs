@@ -14,7 +14,9 @@ namespace Reception.App.Localization
 {
     public class Localizer : INotifyPropertyChanged
     {
-        public const string FALLBACK_LANGUAGE = "English";
+        public const string ENGLISH = "English";
+        public const string FALLBACK_LANGUAGE = ENGLISH;
+        public const string RUSSIAN = "Русский";
         public const string SYSTEM_DEFAULT_LANGUAGE = "System default";
 
         private const string INDEXER_NAME = "Item";
@@ -34,7 +36,7 @@ namespace Reception.App.Localization
             {
                 { SYSTEM_DEFAULT_LANGUAGE, string.Empty },
                 { FALLBACK_LANGUAGE, "en" },
-                { "Русский", "ru" },
+                { RUSSIAN, "ru" },
             }.ToImmutableDictionary();
 
         public static Localizer Instance { get; set; } = new Localizer();
