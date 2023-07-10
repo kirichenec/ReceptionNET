@@ -1,18 +1,17 @@
 ﻿using FluentAssertions;
 using System.Globalization;
-using Xunit;
 
 namespace Reception.App.Localization.Test
 {
-    public class LocalizerTests : IClassFixture<LocalizationFixture>
+    public class LocalizerTests : IClassFixture<LocalizerFixture>
     {
         private const string NOT_EXISTED_KEY = "!!!";
 
 
-        private readonly LocalizationFixture _localizationFixture;
+        private readonly LocalizerFixture _localizationFixture;
 
 
-        public LocalizerTests(LocalizationFixture localizationFixture)
+        public LocalizerTests(LocalizerFixture localizationFixture)
         {
             _localizationFixture = localizationFixture;
         }
