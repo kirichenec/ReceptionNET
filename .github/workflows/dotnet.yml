@@ -46,12 +46,16 @@ jobs:
         run: |
             dotnet nuget add source https://nuget-feed-all.avaloniaui.net/v3/index.json --name "AvaloniaUI stable"
             dotnet nuget add source https://nuget-feed-nightly.avaloniaui.net/v3/index.json --name "AvaloniaUI nightly"
-      - name: Build and analyze
+      - name: Installing dotnet-coverage
+        shell: powershell
+        run: dotnet tool install --global dotnet-coverage
+      - name: Build, test and analyze
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         shell: powershell
-        run: |
-          .\.sonar\scanner\dotnet-sonarscanner begin /k:"kirichenec_ReceptionNET" /o:"kirichenec-github" /v:"${{ github.run_number }}" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
+        run: |          
+          .\.sonar\scanner\dotnet-sonarscanner begin /k:"kirichenec_ReceptionNET" /o:"kirichenec-github" /v:"${{ github.run_number }}" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.vscoveragexml.reportsPaths=coverage.xml
           dotnet build --configuration Release --force
+          dotnet-coverage collect 'dotnet test' -f xml -o 'coverage.xml'
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
