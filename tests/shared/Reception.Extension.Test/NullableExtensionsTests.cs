@@ -8,11 +8,11 @@
         public static void NullableExtensions_HasNoValue_ReturnsExpected<T>(
             T value, bool expextedResult) where T : class
         {
-            // Act
-            var act = () => value.HasNoValue();
+            // Arrange
+            var result = value.HasNoValue();
 
             // Assert
-            act().Should().Be(expextedResult);
+            result.Should().Be(expextedResult);
         }
 
         [Theory]
@@ -21,11 +21,11 @@
         public static void NullableExtensions_HasValue_ReturnsExpected<T>(
             T value, bool expextedResult) where T : class
         {
-            // Act
-            var act = () => value.HasValue();
+            // Arrange
+            var result = value.HasValue();
 
             // Assert
-            act().Should().Be(expextedResult);
+            result.Should().Be(expextedResult);
         }
     }
 }

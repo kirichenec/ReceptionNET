@@ -1,5 +1,3 @@
-using System.Diagnostics.CodeAnalysis;
-
 namespace Reception.Extension.Test
 {
     public class StringExtensionsTests
@@ -20,15 +18,13 @@ namespace Reception.Extension.Test
         [InlineData(null, "%%")]
         [InlineData("", "%%")]
         [InlineData("test", "%test%")]
-        // IDE's bug
-        [SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "<Pending>")]
         public void StringExtensions_AsLike_ReturnsExpectedString(string sourceValue, string expectedResult)
         {
-            // Act
-            var act = sourceValue.AsLike;
+            // Arrange
+            var result = sourceValue.AsLike();
 
             // Assert
-            act().Should().Be(expectedResult);
+            result.Should().Be(expectedResult);
         }
     }
 }
