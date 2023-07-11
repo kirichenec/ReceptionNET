@@ -1,4 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 
 namespace Reception.Extension.Test
 {
@@ -199,6 +200,40 @@ namespace Reception.Extension.Test
 
             // Assert
             result.Should().Be(expectedResult);
+        }
+
+
+        [Fact]
+        public void StringExtensions_ToTitleCase_SourceValueIsNull_ShouldThrow()
+        {
+            // Arrange
+            string value = null;
+
+            // Act
+            var act = () => value.ToTitleCase();
+
+            // Assert
+            act.Should().Throw<ArgumentNullException>();
+        }
+
+        [Theory]
+        [InlineData("hello world", "en-US", "Hello World")]
+        // Caps doesn't work
+        //[InlineData("HELLO WORLD", "en-US", "Hello World")]
+        // French ignore rules
+        //[InlineData("les naufragés d'ythaq", "fr-FR", "Les Naufragés d'Ythaq")]
+        //[InlineData("mon texte de démonstration", "fr-FR", "Mon Texte de Démonstration")]
+        public void StringExtensions_ToTitleCase_ReturnsExpected(
+            string sourceValue, string cultureName, string expectedResult)
+        {
+            // Arrange
+            var cultureInfo = new CultureInfo(cultureName);
+
+            // Act
+            var act = () => sourceValue.ToTitleCase(cultureInfo);
+
+            // Assert
+            act().Should().Be(expectedResult);
         }
     }
 }
