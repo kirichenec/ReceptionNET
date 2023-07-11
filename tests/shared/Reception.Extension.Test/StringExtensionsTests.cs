@@ -64,5 +64,21 @@ namespace Reception.Extension.Test
             // Assert
             result.Should().Be(expectedResult);
         }
+
+        [Theory]
+        [InlineData(null, true)]
+        [InlineData("", true)]
+        [InlineData(" ", true)]
+        [InlineData(" f ", false)]
+        [InlineData("value", false)]
+        public void StringExtensions_IsNullOrWhiteSpace_ReturnsExpected(
+            string sourceValue, bool expectedResult)
+        {
+            // Arrange
+            var result = sourceValue.IsNullOrWhiteSpace();
+
+            // Assert
+            result.Should().Be(expectedResult);
+        }
     }
 }
