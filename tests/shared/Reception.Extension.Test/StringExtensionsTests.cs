@@ -27,6 +27,7 @@ namespace Reception.Extension.Test
             result.Should().Be(expectedResult);
         }
 
+
         [Theory]
         [InlineData("", null)]
         [InlineData(null, "")]
@@ -65,6 +66,7 @@ namespace Reception.Extension.Test
             result.Should().Be(expectedResult);
         }
 
+
         [Theory]
         [InlineData(null, true)]
         [InlineData("", true)]
@@ -76,6 +78,47 @@ namespace Reception.Extension.Test
         {
             // Arrange
             var result = sourceValue.IsNullOrWhiteSpace();
+
+            // Assert
+            result.Should().Be(expectedResult);
+        }
+
+
+        [Fact]
+        public void StringExtensions_ParseBool_SourceValueIsNull_ShouldThrow()
+        {
+            // Arrange
+            string value = null;
+
+            // Act
+            var act = value.ParseBool;
+
+            // Assert
+            act.Should().Throw<ArgumentNullException>();
+        }
+
+        [Theory]
+        [InlineData("")]
+        [InlineData(" ")]
+        [InlineData("123")]
+        public void StringExtensions_ParseBool_SourceValueIsNotCorrect_ShouldThrow(string sourceValue)
+        {
+            // Act
+            var act = sourceValue.ParseBool;
+
+            // Assert
+            act.Should().Throw<FormatException>();
+        }
+
+        [Theory]
+        [InlineData("false", false)]
+        [InlineData("False", false)]
+        [InlineData("true", true)]
+        [InlineData("True", true)]
+        public void StringExtensions_ParseBool_ReturnsExpected(string sourceValue, bool expectedResult)
+        {
+            // Arrange
+            var result = sourceValue.ParseBool();
 
             // Assert
             result.Should().Be(expectedResult);
