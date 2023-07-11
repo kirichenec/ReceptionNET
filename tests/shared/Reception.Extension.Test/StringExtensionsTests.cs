@@ -123,5 +123,45 @@ namespace Reception.Extension.Test
             // Assert
             result.Should().Be(expectedResult);
         }
+
+
+        [Fact]
+        public void StringExtensions_ParseInt_SourceValueIsNull_ShouldThrow()
+        {
+            // Arrange
+            string value = null;
+
+            // Act
+            var act = value.ParseInt;
+
+            // Assert
+            act.Should().Throw<ArgumentNullException>();
+        }
+
+        [Theory]
+        [InlineData("")]
+        [InlineData(" ")]
+        [InlineData("asdf")]
+        public void StringExtensions_ParseInt_SourceValueIsNotCorrect_ShouldThrow(string sourceValue)
+        {
+            // Act
+            var act = sourceValue.ParseInt;
+
+            // Assert
+            act.Should().Throw<FormatException>();
+        }
+
+        [Theory]
+        [InlineData("0", 0)]
+        [InlineData("2147483647", 2147483647)]
+        [InlineData("-2147483648", -2147483648)]
+        public void StringExtensions_ParseInt_ReturnsExpected(string sourceValue, int expectedResult)
+        {
+            // Arrange
+            var result = sourceValue.ParseInt();
+
+            // Assert
+            result.Should().Be(expectedResult);
+        }
     }
 }
