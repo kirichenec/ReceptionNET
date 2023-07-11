@@ -1,3 +1,5 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace Reception.Extension.Test
 {
     public class StringExtensionsTests
@@ -159,6 +161,41 @@ namespace Reception.Extension.Test
         {
             // Arrange
             var result = sourceValue.ParseInt();
+
+            // Assert
+            result.Should().Be(expectedResult);
+        }
+
+
+        [Fact]
+        public void StringExtensions_ToJoinString_SourceCollectionIsNull_ShouldThrow()
+        {
+            // Arrange
+            string value = null;
+
+            // Act
+            var act = () => value.ToJoinString("");
+
+            // Assert
+            act.Should().Throw<ArgumentNullException>();
+        }
+
+        [Theory]
+        [InlineData(new int[] { }, null, "")]
+        [InlineData(new[] { 1, 2 }, null, "12")]
+        [InlineData(new[] { 1, 2 }, " ", "1 2")]
+        [InlineData(new[] { "One", "Two" }, "", "OneTwo")]
+        [InlineData(new[] { "One", "Two" }, " ", "One Two")]
+        [InlineData("One", " ", "O n e")]
+        [InlineData("One", ", ", "O, n, e")]
+        // Bug still not fixed
+        // https://github.com/xunit/xunit/issues/2075
+        [SuppressMessage("Usage", "xUnit1010:The value is not convertible to the method parameter type", Justification = "<Pending>")]
+        public void StringExtensions_ToJoinString_ReturnsExpected<T>(
+            IEnumerable<T> values, string separator, string expectedResult)
+        {
+            // Arrange
+            var result = values.ToJoinString(separator);
 
             // Assert
             result.Should().Be(expectedResult);
