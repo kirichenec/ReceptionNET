@@ -78,7 +78,7 @@ namespace Reception.App.Localization.Test
                 .ToList();
 
             // Assert
-            Assert.True(allLanguageKeys.All(lk => lk.SequenceEqual(allLanguageKeys.First())));
+            Assert.True(allLanguageKeys.TrueForAll(lk => lk.SequenceEqual(allLanguageKeys[0])));
         }
 
         [Fact]
