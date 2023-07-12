@@ -3,7 +3,6 @@ using ReactiveUI.Fody.Helpers;
 using Reception.App.Enums;
 using Reception.App.Localization;
 using Reception.Extension;
-using Reception.Extension.Helpers;
 using System.Reactive.Linq;
 
 namespace Reception.App.ViewModels.Abstract
@@ -17,7 +16,7 @@ namespace Reception.App.ViewModels.Abstract
         {
             _mainViewModel = mainViewModel;
 
-            UrlPathSegment = CallingClass.GetName();
+            UrlPathSegment = GetType().Name;
 
             ThrownExceptions.Subscribe(ErrorHandler(nameof(BaseViewModel)));
 

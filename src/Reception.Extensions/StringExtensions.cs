@@ -40,7 +40,7 @@ namespace Reception.Extension
 
         public static string ToTitleCase(this string value, CultureInfo cultureInfo = null)
         {
-            return (cultureInfo ?? CultureInfo.CurrentCulture).TextInfo.ToTitleCase(value);
+            return (cultureInfo ?? CultureInfo.CurrentCulture).TextInfo.ToTitleCase(value.ToLower());
         }
     }
 }
