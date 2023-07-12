@@ -213,13 +213,12 @@ namespace Reception.Extension.Test
             var act = () => value.ToTitleCase();
 
             // Assert
-            act.Should().Throw<ArgumentNullException>();
+            act.Should().Throw<NullReferenceException>();
         }
 
         [Theory]
         [InlineData("hello world", "en-US", "Hello World")]
-        // Caps doesn't work
-        //[InlineData("HELLO WORLD", "en-US", "Hello World")]
+        [InlineData("HELLO WORLD", "en-US", "Hello World")]
         // French ignore rules
         //[InlineData("les naufragés d'ythaq", "fr-FR", "Les Naufragés d'Ythaq")]
         //[InlineData("mon texte de démonstration", "fr-FR", "Mon Texte de Démonstration")]
