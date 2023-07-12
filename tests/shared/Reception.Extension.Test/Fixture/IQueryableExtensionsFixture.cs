@@ -1,15 +1,10 @@
 ﻿namespace Reception.Extension.Test.Fixture
 {
-    public static class IQueryableExtensionsFixture
+    internal static class IQueryableExtensionsFixture
     {
-        public static IQueryable<string> GetData(uint count)
+        internal static IQueryable<string> GetData(uint count)
         {
-            var result = new string[count];
-            for (int i = 0; i < count; i++)
-            {
-                result[i] = $"value{i + 1}";
-            }
-            return result.AsQueryable();
+            return Helper.GetStringData(count).AsQueryable();
         }
     }
 }
