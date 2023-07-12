@@ -44,5 +44,33 @@ namespace Reception.Extension.Test
             // Assert
             source.Should().BeEquivalentTo(values, options => options.WithStrictOrdering());
         }
+
+        [Fact]
+        public void IEnumerableExtensions_IsNullOrEmpty_SourceIsNull_ReturnsTrue()
+        {
+            // Arrange
+            IEnumerable<string> source = null;
+
+            // Act
+            var act = () => source.IsNullOrEmpty();
+
+            // Assert
+            act().Should().BeTrue();
+        }
+
+        [Theory]
+        [InlineData(0, true)]
+        [InlineData(10, false)]
+        public void IEnumerableExtensions_IsNullOrEmpty_SourceIsNotNull_ReturnsExpected(uint collectionLength, bool expextedResult)
+        {
+            // Arrange
+            var source = IEnumerableExtensionsFixture.GetData(collectionLength);
+
+            // Act
+            var act = () => source.IsNullOrEmpty();
+
+            // Assert
+            act().Should().Be(expextedResult);
+        }
     }
 }
