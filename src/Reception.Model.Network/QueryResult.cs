@@ -25,10 +25,5 @@ namespace Reception.Model.Network
         {
             return new QueryResult<T>(value);
         }
-
-        public async static Task<QueryResult<T>> ToQueryResultAsync<T>(this Task<T> valueTasked)
-        {
-            return (await valueTasked).ToQueryResult();
-        }
     }
 }
