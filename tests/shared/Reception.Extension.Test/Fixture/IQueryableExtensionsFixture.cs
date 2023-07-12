@@ -1,4 +1,4 @@
-﻿namespace Reception.Extension.Test
+﻿namespace Reception.Extension.Test.Fixture
 {
     public static class IQueryableExtensionsFixture
     {

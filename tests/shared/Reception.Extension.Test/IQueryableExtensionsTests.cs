@@ -1,4 +1,6 @@
-﻿namespace Reception.Extension.Test
+﻿using Reception.Extension.Test.Fixture;
+
+namespace Reception.Extension.Test
 {
     public class IQueryableExtensionsTests
     {
