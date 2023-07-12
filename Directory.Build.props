@@ -4,12 +4,7 @@
         <LangVersion>latest</LangVersion>
         <Nullable>disable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
-        <CodeAnalysisRuleSet>$(SolutionDir)\.sonarlint\kirichenec_receptionnetcsharp.ruleset</CodeAnalysisRuleSet>
     </PropertyGroup>
-    
-    <ItemGroup>
-      <AdditionalFiles Include="$(SolutionDir)\.sonarlint\kirichenec_receptionnet\CSharp\SonarLint.xml" Link="SonarLint.xml" />
-    </ItemGroup>
 
     <ItemGroup>
         <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
