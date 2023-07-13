@@ -20,7 +20,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\src\Reception.App.Service\Reception.App.Service.csproj" />
     <ProjectReference Include="..\..\..\src\Reception.Extensions\Reception.Extension.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="testhost.dll.config">
+      <TransformOnBuild>true</TransformOnBuild>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>
