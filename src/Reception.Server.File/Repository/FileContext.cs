@@ -11,7 +11,11 @@ namespace Reception.Server.File.Repository
 {
     public class FileContext : DbContext
     {
+        private const string SHEMA_NAME_FILES = "Files";
+        private const string TABLE_NAME_FILEDATA = "FileData";
+
         private readonly AppSettings _appSettings;
+
 
         public FileContext(IOptions<AppSettings> appSettings)
         {
@@ -20,7 +24,9 @@ namespace Reception.Server.File.Repository
             Database.Migrate();
         }
 
+
         public DbSet<FileData> FileDatas { get; set; }
+
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -43,10 +49,24 @@ namespace Reception.Server.File.Repository
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<FileData>().HasData(new FileData
+            await ConfigureFileDataEntity(modelBuilder, _appSettings);
+        }
+
+        private static async Task ConfigureFileDataEntity(ModelBuilder modelBuilder, AppSettings appSettings)
+        {
+            var builder = modelBuilder.Entity<FileData>();
+
+            builder.ToTable(TABLE_NAME_FILEDATA, SHEMA_NAME_FILES);
+
+            builder.HasKey(x => x.Id);
+
+            builder.Property(x => x.Data).IsRequired();
+            builder.Property(x => x.Name).IsRequired();
+
+            builder.HasData(new FileData
             {
                 Id = 1,
-                Data = await GetDefaultPhotoData(),
+                Data = await GetDefaultPhotoDataAsync(),
                 Comment = "Default admin photo",
                 Extension = "png",
                 Name = "admin",
@@ -55,9 +75,9 @@ namespace Reception.Server.File.Repository
             });
 
 
-            async Task<byte[]> GetDefaultPhotoData()
+            async Task<byte[]> GetDefaultPhotoDataAsync()
             {
-                return await _appSettings.DefaultVisitorPhotoPath.GetFileBytesByPathAsync();
+                return await appSettings.DefaultVisitorPhotoPath.GetFileBytesByPathAsync(CancellationToken.None);
             }
         }
     }

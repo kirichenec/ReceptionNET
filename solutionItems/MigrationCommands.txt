@@ -1,2 +1,7 @@
+PM:
 Add-Migration <MigrationName>
 Update-Database
+
+Terminal:
+dotnet ef migrations add <MigrationName>
+dotnet ef database update
