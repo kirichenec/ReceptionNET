@@ -3,18 +3,11 @@ using System.Globalization;
 
 namespace Reception.App.Localization.Test
 {
-    public class LocalizerTests : IClassFixture<LocalizerFixture>
+    public class LocalizerTests(LocalizerFixture localizationFixture) : IClassFixture<LocalizerFixture>
     {
         private const string NOT_EXISTED_KEY = "!!!";
 
-
-        private readonly LocalizerFixture _localizationFixture;
-
-
-        public LocalizerTests(LocalizerFixture localizationFixture)
-        {
-            _localizationFixture = localizationFixture;
-        }
+        private readonly LocalizerFixture _localizationFixture = localizationFixture;
 
 
         [Fact]

@@ -3,16 +3,35 @@
     public class DateTimeExtensionsTests
     {
         public static readonly object[][] InlineDataForBetween =
-        {
+        [
             // input between start-end
-            new object[] { new DateTime(2023, 03, 01), new DateTime(2023, 03, 01), new DateTime(2023, 03, 31), true },
+            [
+                new DateTime(2023, 03, 01, 00, 00, 00, DateTimeKind.Local),
+                new DateTime(2023, 03, 01, 00, 00, 00, DateTimeKind.Local),
+                new DateTime(2023, 03, 31, 00, 00, 00, DateTimeKind.Local),
+                true
+            ],
             // input = start = end
-            new object[] { new DateTime(2023, 03, 01), new DateTime(2023, 03, 01), new DateTime(2023, 03, 01), true },
+            [
+                new DateTime(2023, 03, 01, 00, 00, 00, DateTimeKind.Local),
+                new DateTime(2023, 03, 01, 00, 00, 00, DateTimeKind.Local),
+                new DateTime(2023, 03, 01, 00, 00, 00, DateTimeKind.Local),
+                true],
             // start > end
-            new object[] { new DateTime(2023, 03, 01), new DateTime(2023, 03, 31), new DateTime(2023, 03, 01), false },
+            [
+                new DateTime(2023, 03, 01, 00, 00, 00, DateTimeKind.Local),
+                new DateTime(2023, 03, 31, 00, 00, 00, DateTimeKind.Local),
+                new DateTime(2023, 03, 01, 00, 00, 00, DateTimeKind.Local),
+                false
+            ],
             // input not between start-end
-            new object[] { new DateTime(2024, 03, 01), new DateTime(2023, 03, 01), new DateTime(2023, 03, 31), false },
-        };
+            [
+                new DateTime(2024, 03, 01, 00, 00, 00, DateTimeKind.Local),
+                new DateTime(2023, 03, 01, 00, 00, 00, DateTimeKind.Local),
+                new DateTime(2023, 03, 31, 00, 00, 00, DateTimeKind.Local),
+                false
+            ],
+        ];
 
         [Theory, MemberData(nameof(InlineDataForBetween))]
         public void DateTimeExtensions_Between_ReturnsExpected(DateTime input,
