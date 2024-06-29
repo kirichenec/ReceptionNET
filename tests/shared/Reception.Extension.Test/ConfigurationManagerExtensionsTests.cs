@@ -1,9 +1,11 @@
 ﻿using Reception.App.Service;
 using System.Collections.ObjectModel;
 using System.Configuration;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Reception.Extension.Test
 {
+    [SuppressMessage("Style", "IDE0039:Use local function", Justification = "<Pending>")]
     /// <summary>
     /// Class uses testhost.dll.config
     /// </summary>
@@ -13,7 +15,7 @@ namespace Reception.Extension.Test
             new Dictionary<string, string>
             {
                 { "IsBoss", "False" },
-                { "IsSystemTheme", "True" },
+                { "Language", "English" },
                 { "PingDelay", "15" },
             }.AsReadOnly();
 
@@ -53,7 +55,6 @@ namespace Reception.Extension.Test
             act().Should().Be(expectedResult);
         }
 
-
         [Fact]
         public void ConfigurationManagerExtensions_GetSection_ParameterNameIsNull_ShouldNotThrown()
         {
@@ -70,20 +71,6 @@ namespace Reception.Extension.Test
         {
             ConfigurationManagerExtensions_GetSection_ReturnsExpectedOfType<TokenSection>(sectionName);
         }
-
-        private static void ConfigurationManagerExtensions_GetSection_ReturnsExpectedOfType<T>(string sectionName)
-        {
-            // Arrange
-            var expectedResult = (T)ConfigurationManager.GetSection(sectionName);
-
-            // Act
-            var act = () => ConfigurationManagerExtensions.GetSection<T>(sectionName);
-
-            // Assert
-            act().Should().Be(expectedResult);
-            act().Should().NotBeNull();
-        }
-
 
         [Fact]
         public void ConfigurationManagerExtensions_UpdateAppSettingsParam_SourceValueIsNull_ShouldThrow()
@@ -112,22 +99,59 @@ namespace Reception.Extension.Test
         }
 
         [Theory]
-        [InlineData(0, 1, "TestInt")]
-        [InlineData(0d, 1.1d, "TestDouble")]
-        [InlineData(0f, -1.1f, "TestSingle")]
-        [InlineData("InitTestValue", "TestValue", "TestString")]
-        [InlineData(false, true, "TestBool")]
-        public void ConfigurationManagerExtensions_UpdateAppSettingsParam_SavedSuccessfully<T>(
-            T initValue, T value, string parameterName)
+        [InlineData("PingDelay", 10)]
+        [InlineData("Language", "Russian")]
+        [InlineData("IsBoss", true)]
+        public void ConfigurationManagerExtensions_UpdateAppSettingsParam_SavedSuccessfully<T>(string parameterName, T value)
         {
             // Arrange
-            ConfigurationManager.AppSettings[parameterName] = initValue.ToString();
+            var initValue = ConfigurationManager.AppSettings[parameterName];
             value.UpdateAppSettingsParam(parameterName);
             var result = ConfigurationManager.AppSettings[parameterName];
 
             // Assert
-            result.Should().NotBe(initValue.ToString());
+            result.Should().NotBe(initValue);
             result.Should().Be(value.ToString());
+        }
+
+        [Fact]
+        public void ConfigurationManagerExtensions_UpdateSection_SourceValueIsNull_ShouldThrow()
+        {
+            // Arrange
+            TokenSection value = null;
+
+            // Act
+            var act = () => value.UpdateSection("tokenSettings");
+
+            // Assert
+            act.Should().Throw<ArgumentNullException>();
+        }
+
+        [Fact]
+        public void ConfigurationManagerExtensions_UpdateSection_ParamNameIsNull_ShouldThrow()
+        {
+            // Arrange
+            var value = new TokenSection();
+
+            // Act
+            var act = () => value.UpdateSection(null);
+
+            // Assert
+            act.Should().Throw<ConfigurationErrorsException>();
+        }
+
+
+        private static void ConfigurationManagerExtensions_GetSection_ReturnsExpectedOfType<T>(string sectionName)
+        {
+            // Arrange
+            var expectedResult = (T)ConfigurationManager.GetSection(sectionName);
+
+            // Act
+            var act = () => ConfigurationManagerExtensions.GetSection<T>(sectionName);
+
+            // Assert
+            act().Should().Be(expectedResult);
+            act().Should().NotBeNull();
         }
     }
 }
