@@ -17,7 +17,7 @@ namespace Reception.App.Localization.Test
             var languageKeys = GetLanguageKeys();
 
             // Assert
-            Assert.True(languageKeys.Any());
+            Assert.NotEmpty(languageKeys);
         }
 
         [Theory]

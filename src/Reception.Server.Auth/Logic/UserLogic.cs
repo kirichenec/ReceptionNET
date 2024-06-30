@@ -15,7 +15,7 @@ namespace Reception.Server.Auth.Logic
     public class UserLogic(IUserService userService, ITokenService tokenService, IOptions<HashingOptions> hashingOptions, IMapper mapper) : IUserLogic
     {
         private readonly IMapper _mapper = mapper;
-        private readonly IPasswordHasher _passwordHasher = new PasswordHasher(hashingOptions.Value);
+        private readonly PasswordHasher _passwordHasher = new(hashingOptions.Value);
         private readonly ITokenService _tokenService = tokenService;
         private readonly IUserService _userService = userService;
 
