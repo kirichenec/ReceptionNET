@@ -6,13 +6,8 @@ namespace Reception.App.Model.PersonInfo
 {
     public class Person : BaseModel
     {
-        #region ctors
-
         public Person() { }
 
-        #endregion
-
-        #region Properties
 
         public string FirstName { get; set; }
 
@@ -24,9 +19,6 @@ namespace Reception.App.Model.PersonInfo
 
         public string SecondName { get; set; }
 
-        #endregion
-
-        #region Methods
 
         public virtual void Clear()
         {
@@ -64,7 +56,5 @@ namespace Reception.App.Model.PersonInfo
                 && Post.IsNullOrEmpty()
                 && SecondName.IsNullOrWhiteSpace();
         }
-
-        #endregion
     }
 }
