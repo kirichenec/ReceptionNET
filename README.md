@@ -16,7 +16,7 @@ Uses .NET, Avalonia, SignalR
 - [ ] One-to-one instead of one-to-many for Hub boss-subordinate connections
 - [ ] Rework ShowError by MainWindowVM link to MessageBus or something looks like di
 - [ ] Up data after reconnection
-- [ ] Unit-tests
+- [X] Unit-tests
 
 ## Known issues
 - [ ] Client reconnection
