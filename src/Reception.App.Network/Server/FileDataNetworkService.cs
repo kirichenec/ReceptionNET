@@ -4,11 +4,8 @@ using Reception.App.Service.Interface;
 
 namespace Reception.App.Network.Server
 {
-    public class FileDataNetworkService : NetworkService<FileData>, IFileDataNetworkService
+    public class FileDataNetworkService(ISettingsService settingsService, IAuthService authService)
+        : NetworkService<FileData>(settingsService.FileServerPath, authService), IFileDataNetworkService
     {
-        public FileDataNetworkService(ISettingsService settingsService, IAuthService authService)
-            : base(settingsService.FileServerPath, authService)
-        {
-        }
     }
 }

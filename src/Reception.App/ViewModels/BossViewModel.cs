@@ -11,8 +11,8 @@ namespace Reception.App.ViewModels
 {
     public class BossViewModel : ClientViewModel
     {
-        public BossViewModel(ISettingsService settingsService,
-            MainViewModel mainViewModel, IClientService clientService)
+        public BossViewModel(MainViewModel mainViewModel, IClientService clientService,
+            ISettingsService settingsService)
             : base(mainViewModel, clientService)
         {
             WelcomeMessage = settingsService.WelcomeMessage;
@@ -34,6 +34,7 @@ namespace Reception.App.ViewModels
 
         [Reactive]
         public string WelcomeMessage { get; set; }
+
 
         protected override void BossDecisionReceived(BossDecision bossDecision)
         {

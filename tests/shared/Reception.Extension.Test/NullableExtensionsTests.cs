@@ -5,8 +5,7 @@
         [Theory]
         [InlineData(null, true)]
         [InlineData("", false)]
-        public static void NullableExtensions_HasNoValue_ReturnsExpected<T>(
-            T value, bool expextedResult) where T : class
+        public static void NullableExtensions_HasNoValue_ReturnsExpected<T>(T value, bool expextedResult) where T : class
         {
             // Arrange
             var result = value.HasNoValue();
@@ -18,8 +17,7 @@
         [Theory]
         [InlineData(null, false)]
         [InlineData("", true)]
-        public static void NullableExtensions_HasValue_ReturnsExpected<T>(
-            T value, bool expextedResult) where T : class
+        public static void NullableExtensions_HasValue_ReturnsExpected<T>(T value, bool expextedResult) where T : class
         {
             // Arrange
             var result = value.HasValue();

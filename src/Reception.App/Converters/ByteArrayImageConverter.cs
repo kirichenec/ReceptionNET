@@ -19,7 +19,7 @@ namespace Reception.App.Converters
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
 
-            byte[] data = Array.Empty<byte>();
+            byte[] data = [];
 
             if (value is Bitmap image)
             {

@@ -5,16 +5,11 @@ using Reception.Server.File.Repository;
 
 namespace Reception.Server.File.Logic
 {
-    public class FileDataLogic : IFileDataLogic
+    public class FileDataLogic(IFileDataService dataService, IMapper mapper) : IFileDataLogic
     {
-        private readonly IFileDataService _dataService;
-        private readonly IMapper _mapper;
+        private readonly IFileDataService _dataService = dataService;
+        private readonly IMapper _mapper = mapper;
 
-        public FileDataLogic(IFileDataService dataService, IMapper mapper)
-        {
-            _dataService = dataService;
-            _mapper = mapper;
-        }
 
         public async Task<bool> DeleteAsync(int id, CancellationToken cancellationToken = default)
         {
@@ -42,8 +37,8 @@ namespace Reception.Server.File.Logic
 
         public Task<FileDataDto> SaveAsync(FileDataDto value, CancellationToken cancellationToken = default)
         {
-            var rightMethodInfo = GetType().GetMethod(nameof(SaveAsync), new Type[] { typeof(string), typeof(byte[]) });
-            var wrongMethodInfo = GetType().GetMethod(nameof(SaveAsync), new Type[] { typeof(FileDataDto) });
+            var rightMethodInfo = GetType().GetMethod(nameof(SaveAsync), [typeof(string), typeof(byte[])]);
+            var wrongMethodInfo = GetType().GetMethod(nameof(SaveAsync), [typeof(FileDataDto)]);
             throw new NotSupportedException($"Use {rightMethodInfo} instead of {wrongMethodInfo}");
         }
 

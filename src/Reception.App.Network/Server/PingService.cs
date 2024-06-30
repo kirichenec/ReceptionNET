@@ -2,16 +2,13 @@
 
 namespace Reception.App.Network.Server
 {
-    public class PingService : IPingService
+    public class PingService(ISettingsService settingsService) : IPingService
     {
-        private readonly ISettingsService _settingsService;
+        private readonly ISettingsService _settingsService = settingsService;
 
-        public PingService(ISettingsService settingsService)
-        {
-            _settingsService = settingsService;
-        }
 
         public string ServerPath => _settingsService.DataServerPath;
+
 
         public async Task<string> PingAsync()
         {

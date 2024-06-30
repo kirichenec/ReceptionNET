@@ -40,8 +40,7 @@ namespace Reception.Extension.Test
         [InlineData(2, 10, 10, 0)]
         [InlineData(2, 10, 15, 5)]
         [InlineData(2, 5, 10, 5)]
-        public void IQueryableExtensions_Paged_PositiveParams(int page, int count, uint sourceLength,
-            int expectedCount)
+        public void IQueryableExtensions_Paged_PositiveParams(int page, int count, uint sourceLength, int expectedCount)
         {
             // Arrange
             var value = IQueryableExtensionsFixture.GetData(sourceLength);

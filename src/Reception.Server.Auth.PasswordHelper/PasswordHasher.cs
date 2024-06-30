@@ -2,14 +2,10 @@
 
 namespace Reception.Server.Auth.PasswordHelper
 {
-    public sealed class PasswordHasher : IPasswordHasher
+    public sealed class PasswordHasher(HashingOptions options) : IPasswordHasher
     {
-        private readonly HashingOptions _options;
+        private readonly HashingOptions _options = options;
 
-        public PasswordHasher(HashingOptions options)
-        {
-            _options = options;
-        }
 
         public (bool Verified, bool NeedsUpgrade) Check(string hash, string password)
         {

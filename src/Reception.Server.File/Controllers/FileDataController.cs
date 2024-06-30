@@ -12,14 +12,10 @@ namespace Reception.Server.File.Controllers
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [Authorize]
-    public class FileDataController : ControllerBase, IBaseController
+    public class FileDataController(IFileDataLogic fileDataLogic) : ControllerBase, IBaseController
     {
-        private readonly IFileDataLogic _fileDataLogic;
+        private readonly IFileDataLogic _fileDataLogic = fileDataLogic;
 
-        public FileDataController(IFileDataLogic fileDataLogic)
-        {
-            _fileDataLogic = fileDataLogic;
-        }
 
         // GET api/FileData/5
         [HttpGet("{id}")]

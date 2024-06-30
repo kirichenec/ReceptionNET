@@ -5,16 +5,11 @@ using Reception.Server.Data.Repository;
 
 namespace Reception.Server.Data.Logic
 {
-    public class PersonLogic : IPersonLogic
+    public class PersonLogic(IDataService dataService, IMapper mapper) : IPersonLogic
     {
-        private readonly IDataService _dataService;
-        private readonly IMapper _mapper;
+        private readonly IDataService _dataService = dataService;
+        private readonly IMapper _mapper = mapper;
 
-        public PersonLogic(IDataService dataService, IMapper mapper)
-        {
-            _dataService = dataService;
-            _mapper = mapper;
-        }
 
         public Task<bool> DeleteAsync(int id, CancellationToken cancellationToken = default)
         {

@@ -37,6 +37,7 @@ namespace Reception.App.ViewModels
             ApplyLanguage();
         }
 
+
         public ReactiveCommand<bool, Unit> ChangeSystemThemeCommand { get; }
 
         public ReactiveCommand<bool, Unit> ChangeThemeCommand { get; }

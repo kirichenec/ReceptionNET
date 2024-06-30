@@ -4,14 +4,10 @@ using Reception.Server.Data.Entities;
 
 namespace Reception.Server.Data.Repository
 {
-    public class DataService : IDataService
+    public class DataService(DataContext context) : IDataService
     {
-        private readonly DataContext _context;
+        private readonly DataContext _context = context;
 
-        public DataService(DataContext context)
-        {
-            _context = context;
-        }
 
         public async Task<Person> GetAsync(int id, CancellationToken cancellationToken = default)
         {

@@ -4,16 +4,12 @@ using Avalonia.Markup.Xaml.MarkupExtensions;
 
 namespace Reception.App.Localization
 {
-    public class LocalizeExtension : MarkupExtension
+    public class LocalizeExtension(string key) : MarkupExtension
     {
-        public LocalizeExtension(string key)
-        {
-            Key = key;
-        }
-
         public string Context { get; set; }
 
-        public string Key { get; private set; }
+        public string Key { get; private set; } = key;
+
 
         public override object ProvideValue(IServiceProvider serviceProvider)
         {
