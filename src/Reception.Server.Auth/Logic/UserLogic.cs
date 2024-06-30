@@ -12,20 +12,13 @@ using Reception.Server.Core.Extensions;
 
 namespace Reception.Server.Auth.Logic
 {
-    public class UserLogic : IUserLogic
+    public class UserLogic(IUserService userService, ITokenService tokenService, IOptions<HashingOptions> hashingOptions, IMapper mapper) : IUserLogic
     {
-        private readonly IMapper _mapper;
-        private readonly IPasswordHasher _passwordHasher;
-        private readonly ITokenService _tokenService;
-        private readonly IUserService _userService;
+        private readonly IMapper _mapper = mapper;
+        private readonly IPasswordHasher _passwordHasher = new PasswordHasher(hashingOptions.Value);
+        private readonly ITokenService _tokenService = tokenService;
+        private readonly IUserService _userService = userService;
 
-        public UserLogic(IUserService userService, ITokenService tokenService, IOptions<HashingOptions> hashingOptions, IMapper mapper)
-        {
-            _mapper = mapper;
-            _passwordHasher = new PasswordHasher(hashingOptions.Value);
-            _tokenService = tokenService;
-            _userService = userService;
-        }
 
         public async Task<AuthenticateResponse> AuthenticateAsync(AuthenticateRequest requestModel,
             CancellationToken cancellationToken = default)

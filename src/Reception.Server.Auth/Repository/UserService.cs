@@ -4,14 +4,10 @@ using Reception.Server.Auth.Entities;
 
 namespace Reception.Server.Auth.Repository
 {
-    public class UserService : IUserService
+    public class UserService(AuthContext userContext) : IUserService
     {
-        private readonly AuthContext _context;
+        private readonly AuthContext _context = userContext;
 
-        public UserService(AuthContext userContext)
-        {
-            _context = userContext;
-        }
 
         public async Task<bool> DeleteAsync(int id, CancellationToken cancellationToken = default)
         {

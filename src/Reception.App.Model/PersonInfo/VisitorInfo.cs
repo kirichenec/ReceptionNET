@@ -6,6 +6,7 @@ namespace Reception.App.Model.PersonInfo
     {
         public Visitor() { }
 
+
         public Visitor(Person value)
         {
             CopyFrom(value);

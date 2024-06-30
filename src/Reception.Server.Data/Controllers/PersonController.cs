@@ -12,14 +12,10 @@ namespace Reception.Server.Data.Controllers
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [Authorize]
-    public class PersonController : ControllerBase, IBaseController
+    public class PersonController(IPersonLogic personLogic) : ControllerBase, IBaseController
     {
-        private readonly IPersonLogic _personLogic;
+        private readonly IPersonLogic _personLogic = personLogic;
 
-        public PersonController(IPersonLogic personLogic)
-        {
-            _personLogic = personLogic;
-        }
 
         // GET api/Person/5
         [HttpGet("{id}")]

@@ -10,11 +10,14 @@ namespace Reception.App.Network.Chat
     public class ClientService : IClientService, IDisposable
     {
         #region Fields
+
         private readonly HubConnection _client;
         private readonly ISettingsService _settingsService;
-        #endregion
+
+        #endregion Fields
 
         #region ctor
+
         public ClientService(ISettingsService settingsService)
         {
             _settingsService = settingsService;
@@ -38,9 +41,11 @@ namespace Reception.App.Network.Chat
 
             _client.On(ChatMethodType.RECEIVER, OnReceive);
         }
-        #endregion
+
+        #endregion ctor
 
         #region Events
+
         public event Func<Exception, Task> Closed;
 
         public event Func<bool, Task> Connected;
@@ -50,11 +55,17 @@ namespace Reception.App.Network.Chat
         public event Func<string, Task> Reconnected;
 
         public event Func<Exception, Task> Reconnecting;
-        #endregion
+
+        #endregion Events
+
+        #region Properties
 
         public HubConnectionState State => _client.State;
 
+        #endregion Propertiess
+
         #region Methods
+
         private Action<int, QueryResult<object>> OnReceive =>
             (userId, message) =>
             MessageReceived?.Invoke(userId, message.DataType, message.Data);
@@ -77,9 +88,10 @@ namespace Reception.App.Network.Chat
             Closed?.Invoke(null);
         }
 
-        #endregion
+        #endregion Methods
 
         #region IDisposable Support
+
         private bool _disposedValue = false;
 
         protected async virtual void Dispose(bool disposing)
@@ -102,6 +114,7 @@ namespace Reception.App.Network.Chat
             Dispose(true);
             GC.SuppressFinalize(this);
         }
-        #endregion
+
+        #endregion IDisposable Support
     }
 }

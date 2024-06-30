@@ -25,9 +25,9 @@ namespace Reception.App.ViewModels
         private ObservableAsPropertyHelper<IEnumerable<Person>> _searchedPersons;
 
 
-        public SubordinateViewModel(ISettingsService settingsService,
-            MainViewModel mainViewModel, IClientService clientService,
-            IPersonNetworkService personNetworkService, IFileDataNetworkService fileDataNetworkService)
+        public SubordinateViewModel(MainViewModel mainViewModel, IClientService clientService,
+            IPersonNetworkService personNetworkService, IFileDataNetworkService fileDataNetworkService,
+            ISettingsService settingsService)
             : base(mainViewModel, clientService)
         {
             _networkServiceOfPersons = personNetworkService;
@@ -45,7 +45,7 @@ namespace Reception.App.ViewModels
         [Reactive]
         public bool IsPhotoLoading { get; set; }
 
-        public IEnumerable<Person> Persons => _searchedPersons.Value ?? Array.Empty<Person>();
+        public IEnumerable<Person> Persons => _searchedPersons.Value ?? [];
 
         public ReactiveCommand<string, IEnumerable<Person>> SearchPersonCommand { get; private set; }
 
@@ -177,7 +177,7 @@ namespace Reception.App.ViewModels
         {
             SetNotification(Localizer.Instance["SubordinateSearching"], NotificationType.Request);
             var answer = query == null
-                ? Array.Empty<Person>()
+                ? []
                 : await _networkServiceOfPersons.SearchAsync(query, cancellationToken);
             ClearNotification();
             return answer;
@@ -195,7 +195,7 @@ namespace Reception.App.ViewModels
             IsPhotoLoading = true;
             Visitor = new(person)
             {
-                ImageSource = await GetVisitorPhoto(person?.PhotoId, cancellationToken)
+                ImageSource = await GetVisitorPhotoAsync(person.PhotoId, cancellationToken)
             };
             IsPhotoLoading = false;
 
@@ -203,19 +203,19 @@ namespace Reception.App.ViewModels
             return true;
 
 
-            async Task<byte[]> GetDefaultVisitorPhoto(CancellationToken cancellationToken = default)
+            async Task<byte[]> GetDefaultVisitorPhotoAsync(CancellationToken cancellationToken = default)
             {
                 return _defaultPhotoData ??= await _settingsService.DefaultVisitorPhotoPath
                     .GetFileBytesByPathAsync(cancellationToken);
             }
 
-            async Task<byte[]> GetVisitorPhoto(int? photoId, CancellationToken cancellationToken = default)
+            async Task<byte[]> GetVisitorPhotoAsync(int? photoId, CancellationToken cancellationToken = default)
             {
                 return photoId.HasValue
                     && (await _networkServiceOfFileData.GetByIdAsync(photoId.Value, cancellationToken)) is { } visitorImageSource
                     && !visitorImageSource.Data.IsNullOrEmpty()
                     ? visitorImageSource.Data
-                    : await GetDefaultVisitorPhoto(cancellationToken);
+                    : await GetDefaultVisitorPhotoAsync(cancellationToken);
             }
         }
 

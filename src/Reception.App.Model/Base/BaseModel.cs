@@ -9,6 +9,7 @@ namespace Reception.App.Model.Base
 
         public int Id { get; set; }
 
+
         public virtual bool IsEmpty()
         {
             return Comment.IsNullOrWhiteSpace();

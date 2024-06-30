@@ -6,20 +6,17 @@ using Reception.Constant;
 
 namespace Reception.App.Network.Auth
 {
-    public class AuthService : IAuthService
+    public class AuthService(ISettingsService settingsService) : IAuthService
     {
+        private readonly ISettingsService _settingsService = settingsService;
+
         private AuthenticateResponse _authData = new();
 
-        private readonly ISettingsService _settingsService;
-
-        public AuthService(ISettingsService settingsService)
-        {
-            _settingsService = settingsService;
-        }
 
         public AuthenticateResponse AuthData => _authData;
 
         public string UserRootUri => $"{_settingsService.AuthServerPath}/User";
+
 
         public async Task<AuthenticateResponse> Authenticate(string login, string password)
         {
@@ -40,7 +37,7 @@ namespace Reception.App.Network.Auth
             throw new QueryException(response.StatusDescription, response.StatusCode);
         }
 
-        public (string, string)[] GetDefaultHeaders() => new[] { (HttpHeaders.TOKEN, _authData.Token) };
+        public (string, string)[] GetDefaultHeaders() => [(HttpHeaders.TOKEN, _authData.Token)];
 
         public async Task<bool> IsAuthValid()
         {

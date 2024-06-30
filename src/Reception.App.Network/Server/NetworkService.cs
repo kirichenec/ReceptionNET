@@ -6,16 +6,11 @@ using RestSharp;
 
 namespace Reception.App.Network.Server
 {
-    public class NetworkService<T> : INetworkService<T>
+    public class NetworkService<T>(string serverPath, IAuthService authService) : INetworkService<T>
     {
-        private readonly IAuthService _authService;
-        private readonly string _serverPath;
+        private readonly IAuthService _authService = authService;
+        private readonly string _serverPath = serverPath;
 
-        public NetworkService(string serverPath, IAuthService authService)
-        {
-            _serverPath = serverPath;
-            _authService = authService;
-        }
 
         public async Task<T> GetByIdAsync(int id, CancellationToken cancellationToken = default)
         {

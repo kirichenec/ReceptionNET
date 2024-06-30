@@ -31,13 +31,13 @@ namespace Reception.App.ViewModels.Abstract
         {
             switch (Types.Dictionary.TryGetValue(messageType))
             {
-                case 1:
+                case Types.PERSON_TYPE_ID:
                     PersonReceived(message.DeserializeMessage<Person>());
                     break;
-                case 2:
+                case Types.VISITOR_TYPE_ID:
                     VisitorReceived(message.DeserializeMessage<Visitor>());
                     break;
-                case 3:
+                case Types.BOSS_DECISION_TYPE_ID:
                     BossDecisionReceived(message.DeserializeMessage<BossDecision>());
                     break;
                 default:

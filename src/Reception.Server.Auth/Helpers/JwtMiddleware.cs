@@ -9,16 +9,11 @@ using System.Text;
 
 namespace Reception.Server.Auth.Helpers
 {
-    public class JwtMiddleware
+    public class JwtMiddleware(RequestDelegate next, IOptions<AppSettings> appSettings)
     {
-        private readonly RequestDelegate _next;
-        private readonly AppSettings _appSettings;
+        private readonly AppSettings _appSettings = appSettings.Value;
+        private readonly RequestDelegate _next = next;
 
-        public JwtMiddleware(RequestDelegate next, IOptions<AppSettings> appSettings)
-        {
-            _next = next;
-            _appSettings = appSettings.Value;
-        }
 
         public async Task Invoke(HttpContext context, IUserLogic userService)
         {

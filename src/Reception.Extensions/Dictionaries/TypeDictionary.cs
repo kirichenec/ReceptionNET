@@ -2,7 +2,7 @@
 {
     public static class TypeDictionary
     {
-        public static int TryGetValue<T>(this Dictionary<T, int> value, T type)
+        public static int TryGetValue<T>(this Dictionary<T, int> value, T type) where T : Type
         {
             if (type == null)
             {

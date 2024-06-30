@@ -16,7 +16,7 @@ namespace Reception.Server.Auth.ConnectionLibrary
             var authSettings = context.HttpContext.RequestServices.GetRequiredService<IOptions<AuthSettings>>().Value;
 
             if (context.HttpContext.Request.Headers[HttpHeaders.TOKEN].FirstOrDefault() is not string token
-                || !await CheckAuth(authSettings.AuthServerPath, new[] { (HttpHeaders.TOKEN, token) }))
+                || !await CheckAuth(authSettings.AuthServerPath, [(HttpHeaders.TOKEN, token)]))
             {
                 // not logged in
                 context.Result = DefaultResponse.UNAUTHORIZED_RESULT;

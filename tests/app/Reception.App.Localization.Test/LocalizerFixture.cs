@@ -8,12 +8,14 @@ namespace Reception.App.Localization.Test
     {
         private readonly ResourceManager _resources;
 
+
         public LocalizerFixture()
         {
             _resources = new ResourceManager(typeof(Language));
         }
 
-        public IEnumerable<string> GetAllResourcesKeys(string? langKey = null)
+
+        public IEnumerable<string> GetAllResourcesKeys(string langKey = null)
         {
             var resourceSet = _resources
                 .GetResourceSet(

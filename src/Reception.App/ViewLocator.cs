@@ -15,7 +15,9 @@ namespace Reception.App
                 : new TextBlock { Text = $"Not Found: {name}" };
         }
 
+
         public static bool SupportsRecycling => false;
+
 
         public bool Match(object data)
         {

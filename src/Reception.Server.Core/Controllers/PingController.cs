@@ -8,7 +8,7 @@ namespace Reception.Server.Core.Controllers
     [Route("api")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [AllowAnonymous]
-    public class PingController : Controller
+    public class PingController : ControllerBase
     {
         // GET api/Ping
         [HttpGet("Ping")]

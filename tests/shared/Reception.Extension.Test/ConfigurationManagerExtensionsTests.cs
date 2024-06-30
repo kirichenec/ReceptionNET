@@ -1,11 +1,9 @@
 ﻿using Reception.App.Service;
 using System.Collections.ObjectModel;
 using System.Configuration;
-using System.Diagnostics.CodeAnalysis;
 
 namespace Reception.Extension.Test
 {
-    [SuppressMessage("Style", "IDE0039:Use local function", Justification = "<Pending>")]
     /// <summary>
     /// Class uses testhost.dll.config
     /// </summary>

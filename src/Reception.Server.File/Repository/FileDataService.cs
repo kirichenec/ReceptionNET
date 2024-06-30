@@ -4,14 +4,10 @@ using Reception.Server.File.Entities;
 
 namespace Reception.Server.File.Repository
 {
-    public class FileDataService : IFileDataService
+    public class FileDataService(FileContext context) : IFileDataService
     {
-        private readonly FileContext _context;
+        private readonly FileContext _context = context;
 
-        public FileDataService(FileContext context)
-        {
-            _context = context;
-        }
 
         public async Task<bool> DeleteAsync(int id, CancellationToken cancellationToken = default)
         {

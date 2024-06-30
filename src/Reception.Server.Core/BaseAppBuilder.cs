@@ -35,8 +35,8 @@ namespace Reception.Server.Core
 
             configure(app, builder);
 
-            Log.Information("{appName} started", builder.Environment.ApplicationName);
-            Log.Information("Swagger: {swaggerUrl}", SwaggerConstants.DEFAULT_SWAGGER_URL);
+            Log.Information("{AppName} started", builder.Environment.ApplicationName);
+            Log.Information("Swagger: {SwaggerUrl}", SwaggerConstants.DEFAULT_SWAGGER_URL);
 
             app.Run();
         }

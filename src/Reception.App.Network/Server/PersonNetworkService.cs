@@ -4,11 +4,8 @@ using Reception.App.Service.Interface;
 
 namespace Reception.App.Network.Server
 {
-    public class PersonNetworkService : NetworkService<Person>, IPersonNetworkService
+    public class PersonNetworkService(ISettingsService settingsService, IAuthService authService)
+        : NetworkService<Person>(settingsService.DataServerPath, authService), IPersonNetworkService
     {
-        public PersonNetworkService(ISettingsService settingsService, IAuthService authService)
-            : base(settingsService.DataServerPath, authService)
-        {
-        }
     }
 }

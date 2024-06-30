@@ -11,20 +11,11 @@ using System.Text;
 
 namespace Reception.Server.Auth.Repository
 {
-    public class TokenService : ITokenService
+    public class TokenService(IOptions<AppSettings> appSettings, AuthContext userContext) : ITokenService
     {
-        private readonly AppSettings _appSettings;
-        private readonly AuthContext _context;
+        private readonly AppSettings _appSettings = appSettings.Value;
+        private readonly AuthContext _context = userContext;
 
-        public TokenService(IOptions<AppSettings> appSettings, AuthContext userContext)
-        {
-            _appSettings = appSettings.Value;
-            _context = userContext;
-        }
-
-        #region Methods
-
-        #region public
 
         public async Task<bool> CheckAsync(string token, CancellationToken cancellationToken = default)
         {
@@ -48,10 +39,6 @@ namespace Reception.Server.Auth.Repository
             return await SaveOrUpdateAsync(userId, tokenValue, cancellationToken);
         }
 
-        #endregion
-
-        #region private
-
         private static bool IsJwtTokenActual(JwtSecurityToken token)
         {
             return DateTime.Now.Between(token.ValidFrom, token.ValidTo);
@@ -74,7 +61,7 @@ namespace Reception.Server.Auth.Repository
             var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
             var tokenDescriptor = new SecurityTokenDescriptor
             {
-                Subject = new ClaimsIdentity(new[] { new Claim(Constants.ClaimTypes.USER_ID, userId.ToString()) }),
+                Subject = new ClaimsIdentity([new Claim(Constants.ClaimTypes.USER_ID, userId.ToString())]),
                 Expires = DateTime.UtcNow.AddDays(_appSettings.ExpirationHours),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
@@ -105,9 +92,5 @@ namespace Reception.Server.Auth.Repository
                 return await _context.Tokens.FirstOrDefaultAsync(token => token.UserId == userId, cancellationToken);
             }
         }
-
-        #endregion
-
-        #endregion
     }
 }

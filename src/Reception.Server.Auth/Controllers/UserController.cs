@@ -10,14 +10,10 @@ namespace Reception.Server.Auth.Controllers
     [Route("[controller]")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    public class UserController : ControllerBase
+    public class UserController(IUserLogic userService) : ControllerBase
     {
-        private readonly IUserLogic _userLogic;
+        private readonly IUserLogic _userLogic = userService;
 
-        public UserController(IUserLogic userService)
-        {
-            _userLogic = userService;
-        }
 
         // POST User/Authenticate
         [HttpPost("Authenticate")]

@@ -27,19 +27,20 @@ namespace Reception.App.Views
             }
         }
 
-        private void HandleDisposing()
-        {
-            if (ViewModel is IClientViewModel icvm)
-            {
-                icvm.StopClientListening();
-            }
-        }
 
         protected void InitFirstFocusItem()
         {
             if (this.FindControl<Control>(FOCUSED_ITEM_NAME) is { } control)
             {
                 control.AttachedToVisualTree += OnAttachedToVisualTree;
+            }
+        }
+
+        private void HandleDisposing()
+        {
+            if (ViewModel is IClientViewModel icvm)
+            {
+                icvm.StopClientListening();
             }
         }
 
