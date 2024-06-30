@@ -1,12 +1,7 @@
-﻿using System.Runtime.Serialization;
-
-namespace Reception.App.Network.Exceptions
+﻿namespace Reception.App.Network.Exceptions
 {
-    [Serializable]
     public class NotFoundException<T> : Exception
     {
-        public T ExceptionObject { get; }
-
         public NotFoundException() : base() { }
 
         public NotFoundException(string message) : base(message) { }
@@ -23,18 +18,7 @@ namespace Reception.App.Network.Exceptions
             ExceptionObject = exceptionObject;
         }
 
-        protected NotFoundException(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
-            ExceptionObject = (T)info.GetValue(nameof(ExceptionObject), typeof(T));
-        }
 
-        public override void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            ArgumentNullException.ThrowIfNull(info);
-
-            info.AddValue(nameof(ExceptionObject), ExceptionObject);
-
-            base.GetObjectData(info, context);
-        }
+        public T ExceptionObject { get; }
     }
 }
