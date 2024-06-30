@@ -1,4 +1,3 @@
-using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 
 namespace Reception.Extension.Test
@@ -189,9 +188,6 @@ namespace Reception.Extension.Test
         [InlineData(new[] { "One", "Two" }, " ", "One Two")]
         [InlineData("One", " ", "O n e")]
         [InlineData("One", ", ", "O, n, e")]
-        // Bug still not fixed
-        // https://github.com/xunit/xunit/issues/2075
-        [SuppressMessage("Usage", "xUnit1010:The value is not convertible to the method parameter type", Justification = "<Pending>")]
         public void StringExtensions_ToJoinString_ReturnsExpected<T>(
             IEnumerable<T> values, string separator, string expectedResult)
         {
