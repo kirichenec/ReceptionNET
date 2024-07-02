@@ -1,10 +1,7 @@
 ﻿using Newtonsoft.Json;
-using System.Diagnostics.CodeAnalysis;
 
 namespace Reception.Extension.Converters.Test;
 
-[SuppressMessage("Usage", "xUnit1045:Avoid using TheoryData type arguments that might not be serializable", Justification = "<Pending>")]
-[SuppressMessage("Usage", "xUnit1042:The member referenced by the MemberData attribute returns untyped data rows", Justification = "<Pending>")]
 public class NewtonsoftConvertersTests
 {
     public static TheoryData<string> CorrectSourceDataForDeserialization => new("", "{}", "[]");
