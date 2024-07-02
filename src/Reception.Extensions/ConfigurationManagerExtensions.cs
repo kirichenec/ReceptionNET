@@ -15,36 +15,31 @@ namespace Reception.Extension
             return (T)ConfigurationManager.GetSection(sectionName);
         }
 
-        public static void UpdateAppSettingsParam<T>(this T value, [CallerMemberName] string parameterName = null)
+        public static void UpdateAppSettingsParam<Tin>(this Tin value, [CallerMemberName] string parameterName = null)
         {
-            UpdateSectionInternal(value, parameterName, "appSettings", UpdateOrCreateSection);
-
-
-            static void UpdateOrCreateSection(T value, string parameterName, Configuration config)
-            {
-                var stringValue = value.ToString();
-
-                if (config.AppSettings.Settings[parameterName] is KeyValueConfigurationElement setting)
+            UpdateSectionInternal(value, parameterName, "appSettings",
+                updateAction: (value, sectionName, config) =>
                 {
-                    setting.Value = stringValue;
-                }
-                else
-                {
+                    var stringValue = value.ToString();
+
+                    if (config.AppSettings.Settings[parameterName] is KeyValueConfigurationElement setting)
+                    {
+                        setting.Value = stringValue;
+                        return;
+                    }
+
                     config.AppSettings.Settings.Add(new KeyValueConfigurationElement(parameterName, stringValue));
-                }
-            }
+                });
         }
 
         public static void UpdateSection(this ConfigurationSection value, string sectionName)
         {
-            UpdateSectionInternal(value, sectionName, sectionName, UpdateSection);
-
-
-            static void UpdateSection(ConfigurationSection value, string sectionName, Configuration config)
-            {
-                config.Sections.Remove(sectionName);
-                config.Sections.Add(sectionName, value);
-            }
+            UpdateSectionInternal(value, sectionName, sectionName,
+                updateAction: (value, sectionName, config) =>
+                {
+                    config.Sections.Remove(sectionName);
+                    config.Sections.Add(sectionName, value);
+                });
         }
 
         private static void UpdateSectionInternal<Tin>(Tin value, string parameterName, string sectionName,

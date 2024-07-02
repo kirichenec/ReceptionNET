@@ -1,10 +1,9 @@
-﻿namespace Reception.Extension.Test.Fixture
+﻿namespace Reception.Extension.Test.Fixture;
+
+internal static class IEnumerableExtensionsFixture
 {
-    internal static class IEnumerableExtensionsFixture
+    internal static IEnumerable<string> GetData(uint count)
     {
-        internal static IEnumerable<string> GetData(uint count)
-        {
-            return Helper.GetStringData(count);
-        }
+        return Helper.GetStringData(count);
     }
 }
