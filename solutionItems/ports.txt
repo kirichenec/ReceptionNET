@@ -1,0 +1,4 @@
+Auth http://localhost:58327;https://localhost:44345
+Chat http://localhost:51164;https://localhost:44324
+Data http://localhost:61593;https://localhost:44329
+File http://localhost:63538;https://localhost:44381

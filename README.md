@@ -17,6 +17,7 @@ Uses .NET, Avalonia, SignalR
 - [ ] Rework ShowError by MainWindowVM link to MessageBus or something looks like di
 - [ ] Up data after reconnection
 - [X] Unit-tests
+- [ ] Docker config
 
 ## Known issues
 - [ ] Client reconnection

@@ -5,73 +5,72 @@ using Microsoft.OpenApi.Models;
 using Reception.Server.Core.Constants;
 using Serilog;
 
-namespace Reception.Server.Core
+namespace Reception.Server.Core;
+
+public static class BaseAppBuilder
 {
-    public static class BaseAppBuilder
+    public static void BuildAndRunApp(Type appType, Action<WebApplicationBuilder> configureServices,
+        Action<WebApplication, WebApplicationBuilder> configure, string[] args)
     {
-        public static void BuildAndRunApp(Type appType, Action<WebApplicationBuilder> configureServices,
-            Action<WebApplication, WebApplicationBuilder> configure, string[] args)
+        var appName = appType.Assembly.GetName().Name;
+
+        var builder = WebApplication.CreateBuilder(new WebApplicationOptions
         {
-            var appName = appType.Assembly.GetName().Name;
+            Args = args,
+            ApplicationName = appName,
+            ContentRootPath = Directory.GetCurrentDirectory(),
+            EnvironmentName = Environments.Staging
+        });
 
-            var builder = WebApplication.CreateBuilder(new WebApplicationOptions
-            {
-                Args = args,
-                ApplicationName = appName,
-                ContentRootPath = Directory.GetCurrentDirectory(),
-                EnvironmentName = Environments.Staging
-            });
+        configureServices(builder);
 
-            configureServices(builder);
+        builder.Host.UseSerilog((context, services, configuration) => configuration
+            .ReadFrom.Configuration(context.Configuration)
+            .ReadFrom.Services(services)
+            .Enrich.FromLogContext()
+            .WriteTo.Console())
+            ;
 
-            builder.Host.UseSerilog((context, services, configuration) => configuration
-                .ReadFrom.Configuration(context.Configuration)
-                .ReadFrom.Services(services)
-                .Enrich.FromLogContext()
-                .WriteTo.Console())
-                ;
+        var app = builder.Build();
 
-            var app = builder.Build();
+        configure(app, builder);
 
-            configure(app, builder);
+        Log.Information("{AppName} started", builder.Environment.ApplicationName);
+        Log.Information("Swagger: {SwaggerUrl}", SwaggerConstants.DEFAULT_SWAGGER_URL);
 
-            Log.Information("{AppName} started", builder.Environment.ApplicationName);
-            Log.Information("Swagger: {SwaggerUrl}", SwaggerConstants.DEFAULT_SWAGGER_URL);
+        app.Run();
+    }
 
-            app.Run();
+    public static void Configure(WebApplication app, WebApplicationBuilder builder)
+    {
+        if (!app.Environment.IsDevelopment())
+        {
+            app.UseDeveloperExceptionPage();
+        }
+        else
+        {
+            app.UseHsts();
         }
 
-        public static void Configure(WebApplication app, WebApplicationBuilder builder)
+        app.UseSwagger();
+        app.UseSwaggerUI(options => options.SwaggerEndpoint(SwaggerConstants.DEFAULT_SWAGGER_URL, builder.Environment.ApplicationName));
+
+        app.UseHttpsRedirection();
+        app.UseRouting();
+    }
+
+    public static void ConfigureServices(WebApplicationBuilder builder, string openApiTitle)
+    {
+        builder.Services.AddMvc().AddNewtonsoftJson();
+
+        builder.Services.AddSwaggerGen(swaggerOptions =>
         {
-            if (!app.Environment.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-            else
-            {
-                app.UseHsts();
-            }
+            swaggerOptions.SwaggerDoc(
+                name: SwaggerConstants.DEFAULT_OPEN_API_VERSION,
+                info: new OpenApiInfo { Title = openApiTitle, Version = SwaggerConstants.DEFAULT_OPEN_API_VERSION });
+            swaggerOptions.EnableAnnotations();
+        });
 
-            app.UseSwagger();
-            app.UseSwaggerUI(options => options.SwaggerEndpoint(SwaggerConstants.DEFAULT_SWAGGER_URL, builder.Environment.ApplicationName));
-
-            app.UseHttpsRedirection();
-            app.UseRouting();
-        }
-
-        public static void ConfigureServices(WebApplicationBuilder builder, string openApiTitle)
-        {
-            builder.Services.AddMvc().AddNewtonsoftJson();
-
-            builder.Services.AddSwaggerGen(swaggerOptions =>
-            {
-                swaggerOptions.SwaggerDoc(
-                    name: SwaggerConstants.DEFAULT_OPEN_API_VERSION,
-                    info: new OpenApiInfo { Title = openApiTitle, Version = SwaggerConstants.DEFAULT_OPEN_API_VERSION });
-                swaggerOptions.EnableAnnotations();
-            });
-
-            builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-        }
+        builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
     }
 }

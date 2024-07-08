@@ -64,12 +64,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "helpers", "helpers", "{023A
 	ProjectSection(SolutionItems) = preProject
 		solutionItems\MigrationCommands.txt = solutionItems\MigrationCommands.txt
 		solutionItems\Order.txt = solutionItems\Order.txt
+		solutionItems\ports.txt = solutionItems\ports.txt
+		solutionItems\publish.bat = solutionItems\publish.bat
 		README.md = README.md
 		solutionItems\Samples.txt = solutionItems\Samples.txt
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "settings", "settings", "{15A2C76C-FCA0-473D-A815-39FD52522E27}"
 	ProjectSection(SolutionItems) = preProject
+		.dockerignore = .dockerignore
 		.gitignore = .gitignore
 		Directory.Build.props = Directory.Build.props
 		.github\workflows\dotnet.yml = .github\workflows\dotnet.yml
