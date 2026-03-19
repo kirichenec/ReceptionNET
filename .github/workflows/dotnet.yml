@@ -61,7 +61,7 @@ jobs:
             /v:"${{ github.run_number }}" `
             /d:sonar.token="$env:SONAR_TOKEN" `
             /d:sonar.host.url="https://sonarcloud.io" `
-            /d:sonar.cs.vscoveragexml.reportsPaths="tests\coverage\localizationCoverage.xml,tests\coverage\extensionsCoverage.xml"
+            /d:sonar.cs.vscoveragexml.reportsPaths=tests\coverage\localizationCoverage.xml,tests\coverage\extensionsCoverage.xml
 
           dotnet build --configuration Release --force --no-incremental
 
