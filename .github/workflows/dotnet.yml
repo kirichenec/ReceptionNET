@@ -12,24 +12,27 @@ jobs:
         dotnet-version: [ '8.0.x' ]
     steps:
       - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
       - name: Setup .NET SDK ${{ matrix.dotnet-version }}
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: ${{ matrix.dotnet-version }}
+
       - name: Set up JDK 17
         uses: actions/setup-java@v3
         with:
           distribution: 'adopt'
           java-version: 17
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+
       - name: Cache SonarCloud packages
         uses: actions/cache@v3
         with:
           path: ~\sonar\cache
           key: ${{ runner.os }}-sonar
           restore-keys: ${{ runner.os }}-sonar
+
       - name: Cache SonarCloud scanner
         id: cache-sonar-scanner
         uses: actions/cache@v3
@@ -37,25 +40,23 @@ jobs:
           path: .\.sonar\scanner
           key: ${{ runner.os }}-sonar-scanner
           restore-keys: ${{ runner.os }}-sonar-scanner
+
       - name: Install SonarCloud scanner
         if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
         shell: powershell
         run: |
           New-Item -Path .\.sonar\scanner -ItemType Directory
           dotnet tool update dotnet-sonarscanner --tool-path .\.sonar\scanner
-      - name: Add avaloniaui.net as nuget package source
+
+      - name: Add AvaloniaUI sources
         run: |
             dotnet nuget add source https://nuget-feed-all.avaloniaui.net/v3/index.json --name "AvaloniaUI stable"
             dotnet nuget add source https://nuget-feed-nightly.avaloniaui.net/v3/index.json --name "AvaloniaUI nightly"
-      - name: Installing coverlet.console
-        shell: powershell
-        run: dotnet tool install --global coverlet.console
+
       - name: Build, test and analyze
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          COVERAGE_EXTENSIONS: extensionsCoverage
-          COVERAGE_LOCALIZATION: localizationCoverage
         shell: powershell
         run: |
           .\.sonar\scanner\dotnet-sonarscanner begin /k:"kirichenec_ReceptionNET" `
@@ -63,20 +64,12 @@ jobs:
             /v:"${{ github.run_number }}" `
             /d:sonar.token="$env:SONAR_TOKEN" `
             /d:sonar.host.url="https://sonarcloud.io" `
-            /d:sonar.cs.opencover.reportsPaths=".\tests\*.xml"
+            /d:sonar.cs.opencover.reportsPaths="**/TestResults/**/coverage.opencover.xml"
 
           dotnet build --configuration Release --force --no-incremental
 
-          coverlet ".\tests\shared\Reception.Extension.Test\bin\Release\net8.0\Reception.Extension.Test.dll" `
-            --target "dotnet" `
-            --targetargs "test --no-build" `
-            -f=opencover `
-            -o=".\tests\$env:COVERAGE_EXTENSIONS.xml"
-
-          coverlet ".\tests\app\Reception.App.Localization.Test\bin\Release\net8.0\Reception.App.Localization.Test.dll" `
-            --target "dotnet" `
-            --targetargs "test --no-build" `
-            -f=opencover `
-            -o=".\tests\$env:COVERAGE_LOCALIZATION.xml"
+          dotnet test --configuration Release --no-build --verbosity normal `
+            --collect:"XPlat Code Coverage" `
+            -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
 
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.token="$env:SONAR_TOKEN"
