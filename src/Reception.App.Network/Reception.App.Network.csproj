@@ -1,21 +1,21 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-    <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="8.0.6" />
-        <PackageReference Include="Microsoft.AspNetCore.SignalR.Protocols.NewtonsoftJson" Version="8.0.6" />
-        <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-        <PackageReference Include="RestSharp" Version="112.0.0" />
-        <PackageReference Include="Splat" Version="15.1.1" />
-        <PackageReference Include="System.Configuration.ConfigurationManager" Version="8.0.0" />
-        <PackageReference Include="System.Text.Encodings.Web" Version="8.0.0" />
-    </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="8.0.6" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Protocols.NewtonsoftJson" Version="8.0.6" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="RestSharp" Version="112.0.0" />
+    <PackageReference Include="Splat" Version="15.1.1" />
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="8.0.0" />
+    <PackageReference Include="System.Text.Encodings.Web" Version="8.0.0" />
+  </ItemGroup>
 
-    <ItemGroup>
-        <ProjectReference Include="..\Reception.App.Model\Reception.App.Model.csproj" />
-        <ProjectReference Include="..\Reception.App.Service\Reception.App.Service.csproj" />
-        <ProjectReference Include="..\Reception.Constant\Reception.Constant.csproj" />
-        <ProjectReference Include="..\Reception.Model.Interfaces\Reception.Model.Interface.csproj" />
-        <ProjectReference Include="..\Reception.Model.Network\Reception.Model.Network.csproj" />
-    </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Reception.App.Model\Reception.App.Model.csproj" />
+    <ProjectReference Include="..\Reception.App.Service\Reception.App.Service.csproj" />
+    <ProjectReference Include="..\Reception.Constant\Reception.Constant.csproj" />
+    <ProjectReference Include="..\Reception.Model.Interfaces\Reception.Model.Interface.csproj" />
+    <ProjectReference Include="..\Reception.Model.Network\Reception.Model.Network.csproj" />
+  </ItemGroup>
 
 </Project>

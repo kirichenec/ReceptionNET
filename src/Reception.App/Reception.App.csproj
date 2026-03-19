@@ -1,76 +1,76 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-    <PropertyGroup>
-        <OutputType>WinExe</OutputType>
-        <ApplicationIcon />
-        <StartupObject />
-        <PackageIcon>RClogo.png</PackageIcon>
-    </PropertyGroup>
-    <ItemGroup>
-        <Compile Update="**\*.xaml.cs">
-            <DependentUpon>%(Filename)</DependentUpon>
-        </Compile>
-        <AvaloniaResource Include="**\*.xaml">
-            <SubType>Designer</SubType>
-        </AvaloniaResource>
-        <AvaloniaResource Include="Assets\*" />
-    </ItemGroup>
-    <ItemGroup>
-        <None Remove="Assets\RClogo.png" />
-    </ItemGroup>
-    <ItemGroup>
-        <PackageReference Include="Avalonia" Version="11.2.999-cibuild0049653-alpha" />
-        <PackageReference Include="Avalonia.Desktop" Version="11.2.999-cibuild0049653-alpha" />
-        <PackageReference Include="Avalonia.Diagnostics" Version="11.2.999-cibuild0049653-alpha" />
-        <PackageReference Include="Avalonia.ReactiveUI" Version="11.2.999-cibuild0049653-alpha" />
-        <PackageReference Include="Avalonia.Xaml.Behaviors" Version="11.1.0-rc1" />
-        <PackageReference Include="DialogHost.Avalonia" Version="0.8.0-avalonia11dot1-3" />
-        <PackageReference Include="Material.Avalonia" Version="3.6.1-nightly.0.3" />
-        <PackageReference Include="Material.Icons.Avalonia" Version="2.1.10" />
-        <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.5-beta1.23270.2">
-            <PrivateAssets>all</PrivateAssets>
-            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-        </PackageReference>
-        <PackageReference Include="Microsoft.VisualStudio.SlowCheetah" Version="4.0.50">
-            <PrivateAssets>all</PrivateAssets>
-            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-        </PackageReference>
-        <PackageReference Include="ReactiveUI.Fody" Version="19.5.41" />
-        <PackageReference Include="RestSharp" Version="112.0.0" />
-        <PackageReference Include="Splat.DependencyInjection.SourceGenerator" Version="1.2.3">
-            <PrivateAssets>all</PrivateAssets>
-            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-        </PackageReference>
-        <PackageReference Include="System.Configuration.ConfigurationManager" Version="8.0.0" />
-    </ItemGroup>
-    <ItemGroup>
-        <ProjectReference Include="..\Reception.App.Localization\Reception.App.Localization.csproj" />
-        <ProjectReference Include="..\Reception.Constant\Reception.Constant.csproj" />
-        <ProjectReference Include="..\Reception.App.Model\Reception.App.Model.csproj" />
-        <ProjectReference Include="..\Reception.App.Network\Reception.App.Network.csproj" />
-        <ProjectReference Include="..\Reception.App.Service\Reception.App.Service.csproj" />
-        <ProjectReference Include="..\Reception.Model.Network\Reception.Model.Network.csproj" />
-    </ItemGroup>
-    <ItemGroup>
-        <None Update="App.config">
-            <TransformOnBuild>true</TransformOnBuild>
-        </None>
-        <None Update="App.Debug.config">
-            <IsTransformFile>true</IsTransformFile>
-            <DependentUpon>App.config</DependentUpon>
-        </None>
-        <None Update="App.Release.config">
-            <IsTransformFile>true</IsTransformFile>
-            <DependentUpon>App.config</DependentUpon>
-        </None>
-        <None Update="Images\Person.png">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-    </ItemGroup>
-    <ItemGroup>
-        <None Include="..\..\solutionItems\RClogo.png">
-            <Pack>True</Pack>
-            <PackagePath>\</PackagePath>
-        </None>
-        <None Include="FodyWeavers.xsd" />
-    </ItemGroup>
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <ApplicationIcon />
+    <StartupObject />
+    <PackageIcon>RClogo.png</PackageIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Update="**\*.xaml.cs">
+      <DependentUpon>%(Filename)</DependentUpon>
+    </Compile>
+    <AvaloniaResource Include="**\*.xaml">
+      <SubType>Designer</SubType>
+    </AvaloniaResource>
+    <AvaloniaResource Include="Assets\*" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Assets\RClogo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Avalonia" Version="11.2.999-cibuild0049653-alpha" />
+    <PackageReference Include="Avalonia.Desktop" Version="11.2.999-cibuild0049653-alpha" />
+    <PackageReference Include="Avalonia.Diagnostics" Version="11.2.999-cibuild0049653-alpha" />
+    <PackageReference Include="Avalonia.ReactiveUI" Version="11.2.999-cibuild0049653-alpha" />
+    <PackageReference Include="Avalonia.Xaml.Behaviors" Version="11.1.0-rc1" />
+    <PackageReference Include="DialogHost.Avalonia" Version="0.8.0-avalonia11dot1-3" />
+    <PackageReference Include="Material.Avalonia" Version="3.6.1-nightly.0.3" />
+    <PackageReference Include="Material.Icons.Avalonia" Version="2.1.10" />
+    <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.5-beta1.23270.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.SlowCheetah" Version="4.0.50">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="ReactiveUI.Fody" Version="19.5.41" />
+    <PackageReference Include="RestSharp" Version="112.0.0" />
+    <PackageReference Include="Splat.DependencyInjection.SourceGenerator" Version="1.2.3">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="8.0.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Reception.App.Localization\Reception.App.Localization.csproj" />
+    <ProjectReference Include="..\Reception.Constant\Reception.Constant.csproj" />
+    <ProjectReference Include="..\Reception.App.Model\Reception.App.Model.csproj" />
+    <ProjectReference Include="..\Reception.App.Network\Reception.App.Network.csproj" />
+    <ProjectReference Include="..\Reception.App.Service\Reception.App.Service.csproj" />
+    <ProjectReference Include="..\Reception.Model.Network\Reception.Model.Network.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="App.config">
+      <TransformOnBuild>true</TransformOnBuild>
+    </None>
+    <None Update="App.Debug.config">
+      <IsTransformFile>true</IsTransformFile>
+      <DependentUpon>App.config</DependentUpon>
+    </None>
+    <None Update="App.Release.config">
+      <IsTransformFile>true</IsTransformFile>
+      <DependentUpon>App.config</DependentUpon>
+    </None>
+    <None Update="Images\Person.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\solutionItems\RClogo.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Include="FodyWeavers.xsd" />
+  </ItemGroup>
 </Project>
