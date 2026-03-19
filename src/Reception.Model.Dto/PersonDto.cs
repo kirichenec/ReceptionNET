@@ -10,7 +10,7 @@
 
         public string MiddleName { get; set; }
 
-        public int PhotoId { get; set; }
+        public int? PhotoId { get; set; }
 
         public PostDto Post { get; set; }
 
