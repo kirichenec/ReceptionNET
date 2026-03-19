@@ -29,6 +29,11 @@ namespace Reception.App.Model.PersonInfo
             Message = null;
         }
 
+        public sealed override void CopyFrom(Person value)
+        {
+            base.CopyFrom(value);
+        }
+
         public override bool IsEmpty()
         {
             return
