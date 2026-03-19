@@ -37,7 +37,7 @@ bld/
 # MSTest test Results
 [Tt]est[Rr]esult*/
 [Bb]uild[Ll]og.*
-tests/coverage
+tests/*Coverage.xml
 
 # NUNIT
 *.VisualState.xml
