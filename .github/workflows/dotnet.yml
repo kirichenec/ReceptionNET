@@ -54,6 +54,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          COVERAGE_EXTENSIONS: extensionsCoverage
+          COVERAGE_LOCALIZATION: localizationCoverage
         shell: powershell
         run: |
           .\.sonar\scanner\dotnet-sonarscanner begin /k:"kirichenec_ReceptionNET" `
@@ -61,20 +63,20 @@ jobs:
             /v:"${{ github.run_number }}" `
             /d:sonar.token="$env:SONAR_TOKEN" `
             /d:sonar.host.url="https://sonarcloud.io" `
-            /d:sonar.cs.vscoveragexml.reportsPaths=.\tests\localizationCoverage.xml,.\tests\extensionsCoverage.xml
+            /d:sonar.cs.opencover.reportsPaths=".\tests\*.xml"
 
           dotnet build --configuration Release --force --no-incremental
-
-          coverlet ".\tests\app\Reception.App.Localization.Test\bin\Release\net8.0\Reception.App.Localization.Test.dll" `
-            --target "dotnet" `
-            --targetargs "test --no-build" `
-            -f=opencover `
-            -o=".\tests\localizationCoverage.xml"
 
           coverlet ".\tests\shared\Reception.Extension.Test\bin\Release\net8.0\Reception.Extension.Test.dll" `
             --target "dotnet" `
             --targetargs "test --no-build" `
             -f=opencover `
-            -o=".\tests\extensionsCoverage.xml"
+            -o=".\tests\$env:COVERAGE_EXTENSIONS.xml"
+
+          coverlet ".\tests\app\Reception.App.Localization.Test\bin\Release\net8.0\Reception.App.Localization.Test.dll" `
+            --target "dotnet" `
+            --targetargs "test --no-build" `
+            -f=opencover `
+            -o=".\tests\$env:COVERAGE_LOCALIZATION.xml"
 
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.token="$env:SONAR_TOKEN"
