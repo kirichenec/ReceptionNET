@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-    <ItemGroup>
-        <ProjectReference Include="..\Reception.Extensions\Reception.Extension.csproj" />
-    </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Reception.Extensions\Reception.Extension.csproj" />
+  </ItemGroup>
 
 </Project>

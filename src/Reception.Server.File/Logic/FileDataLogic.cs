@@ -1,52 +1,51 @@
-﻿using AutoMapper;
-using Reception.Server.File.Entities;
+﻿using Reception.Server.File.Entities;
+using Reception.Server.File.Mapper;
 using Reception.Server.File.Model.Dto;
 using Reception.Server.File.Repository;
 
-namespace Reception.Server.File.Logic
+namespace Reception.Server.File.Logic;
+
+public class FileDataLogic(IFileDataService dataService) : IFileDataLogic
 {
-    public class FileDataLogic(IFileDataService dataService, IMapper mapper) : IFileDataLogic
+    private readonly IFileDataService _dataService = dataService;
+
+
+    public async Task<bool> DeleteAsync(int id, CancellationToken cancellationToken = default)
     {
-        private readonly IFileDataService _dataService = dataService;
-        private readonly IMapper _mapper = mapper;
+        return await _dataService.DeleteAsync(id, cancellationToken);
+    }
 
+    public async Task<FileDataDto> GetAsync(int id, CancellationToken cancellationToken = default)
+    {
+        var fileData = await _dataService.GetAsync(id, cancellationToken);
+        return fileData.Map();
+    }
 
-        public async Task<bool> DeleteAsync(int id, CancellationToken cancellationToken = default)
-        {
-            return await _dataService.DeleteAsync(id, cancellationToken);
-        }
+    public Task<IEnumerable<FileDataDto>> GetByIdsAsync(IEnumerable<int> ids,
+        CancellationToken cancellationToken = default)
+    {
+        throw new NotImplementedException();
+    }
 
-        public async Task<FileDataDto> GetAsync(int id, CancellationToken cancellationToken = default)
-        {
-            var fileData = await _dataService.GetAsync(id, cancellationToken);
-            return _mapper.Map<FileDataDto>(fileData);
-        }
+    public async Task<FileDataDto> SaveAsync(string fileName, byte[] fileData,
+        CancellationToken cancellationToken = default)
+    {
+        var data = new FileData { Data = fileData };
+        var file = await _dataService.SaveAsync(data, cancellationToken);
+        return file.Map();
+    }
 
-        public Task<IEnumerable<FileDataDto>> GetByIdsAsync(IEnumerable<int> ids,
-            CancellationToken cancellationToken = default)
-        {
-            throw new NotImplementedException();
-        }
+    public Task<FileDataDto> SaveAsync(FileDataDto value, CancellationToken cancellationToken = default)
+    {
+        var rightMethodInfo = GetType().GetMethod(nameof(SaveAsync), [typeof(string), typeof(byte[])]);
+        var wrongMethodInfo = GetType().GetMethod(nameof(SaveAsync), [typeof(FileDataDto)]);
+        throw new NotSupportedException($"Use {rightMethodInfo} instead of {wrongMethodInfo}");
+    }
 
-        public async Task<FileDataDto> SaveAsync(string fileName, byte[] fileData,
-            CancellationToken cancellationToken = default)
-        {
-            var data = new FileData { Data = fileData };
-            return _mapper.Map<FileDataDto>(await _dataService.SaveAsync(data, cancellationToken));
-        }
-
-        public Task<FileDataDto> SaveAsync(FileDataDto value, CancellationToken cancellationToken = default)
-        {
-            var rightMethodInfo = GetType().GetMethod(nameof(SaveAsync), [typeof(string), typeof(byte[])]);
-            var wrongMethodInfo = GetType().GetMethod(nameof(SaveAsync), [typeof(FileDataDto)]);
-            throw new NotSupportedException($"Use {rightMethodInfo} instead of {wrongMethodInfo}");
-        }
-
-        public async Task<IEnumerable<FileDataDto>> SearchAsync(string searchText,
-            CancellationToken cancellationToken = default)
-        {
-            return _mapper.Map<IEnumerable<FileDataDto>>(
-                await _dataService.SearchAsync(searchText, cancellationToken));
-        }
+    public async Task<IEnumerable<FileDataDto>> SearchAsync(string searchText,
+        CancellationToken cancellationToken = default)
+    {
+        var files = await _dataService.SearchAsync(searchText, cancellationToken);
+        return files.Map();
     }
 }

@@ -1,11 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-    <ItemGroup>
-        <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  </ItemGroup>
 
-    <ItemGroup>
-        <ProjectReference Include="..\Reception.Model.Interfaces\Reception.Model.Interface.csproj" />
-    </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Reception.Model.Interfaces\Reception.Model.Interface.csproj" />
+  </ItemGroup>
 
 </Project>

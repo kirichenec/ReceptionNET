@@ -1,12 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-    <ItemGroup>
-        <PackageReference Include="System.Configuration.ConfigurationManager" Version="8.0.0" />
-    </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="8.0.0" />
+  </ItemGroup>
 
-    <ItemGroup>
-        <ProjectReference Include="..\Reception.App.Model\Reception.App.Model.csproj" />
-        <ProjectReference Include="..\Reception.Model.Network\Reception.Model.Network.csproj" />
-    </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Reception.App.Model\Reception.App.Model.csproj" />
+    <ProjectReference Include="..\Reception.Model.Network\Reception.Model.Network.csproj" />
+  </ItemGroup>
 
 </Project>

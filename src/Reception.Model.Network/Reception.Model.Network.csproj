@@ -1,17 +1,17 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-    <ItemGroup>
-        <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  </ItemGroup>
 
-    <ItemGroup>
-        <FrameworkReference Include="Microsoft.AspNetCore.App" />
-    </ItemGroup>
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
 
-    <ItemGroup>
-        <ProjectReference Include="..\Reception.Constant\Reception.Constant.csproj" />
-        <ProjectReference Include="..\Reception.Extensions\Reception.Extension.csproj" />
-        <ProjectReference Include="..\Reception.Model.Interfaces\Reception.Model.Interface.csproj" />
-    </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Reception.Constant\Reception.Constant.csproj" />
+    <ProjectReference Include="..\Reception.Extensions\Reception.Extension.csproj" />
+    <ProjectReference Include="..\Reception.Model.Interfaces\Reception.Model.Interface.csproj" />
+  </ItemGroup>
 
 </Project>

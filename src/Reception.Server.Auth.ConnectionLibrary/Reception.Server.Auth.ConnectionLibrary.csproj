@@ -1,13 +1,13 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-    <ItemGroup>
-        <PackageReference Include="RestSharp" Version="111.3.0" />
-    </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="RestSharp" Version="112.0.0" />
+  </ItemGroup>
 
-    <ItemGroup>
-        <ProjectReference Include="..\Reception.Constant\Reception.Constant.csproj" />
-        <ProjectReference Include="..\Reception.Extensions\Reception.Extension.csproj" />
-        <ProjectReference Include="..\Reception.Model.Network\Reception.Model.Network.csproj" />
-    </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Reception.Constant\Reception.Constant.csproj" />
+    <ProjectReference Include="..\Reception.Extensions\Reception.Extension.csproj" />
+    <ProjectReference Include="..\Reception.Model.Network\Reception.Model.Network.csproj" />
+  </ItemGroup>
 
 </Project>

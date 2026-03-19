@@ -13,7 +13,7 @@ namespace Reception.App.Model.PersonInfo
 
         public string MiddleName { get; set; }
 
-        public int PhotoId { get; set; }
+        public int? PhotoId { get; set; }
 
         public Post Post { get; set; }
 
@@ -28,7 +28,7 @@ namespace Reception.App.Model.PersonInfo
             SecondName = null;
             Comment = null;
             Id = 0;
-            PhotoId = 0;
+            PhotoId = null;
         }
 
         public virtual void CopyFrom(Person value)
