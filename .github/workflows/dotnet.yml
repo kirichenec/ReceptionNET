@@ -59,7 +59,7 @@ jobs:
           .\.sonar\scanner\dotnet-sonarscanner begin /k:"kirichenec_ReceptionNET" `
             /o:"kirichenec-github" `
             /v:"${{ github.run_number }}" `
-            /d:sonar.token="$SONAR_TOKEN" `
+            /d:sonar.token="$env:SONAR_TOKEN" `
             /d:sonar.host.url="https://sonarcloud.io" `
             /d:sonar.cs.vscoveragexml.reportsPaths="tests\coverage\localizationCoverage.xml,tests\coverage\extensionsCoverage.xml"
 
@@ -77,4 +77,4 @@ jobs:
             -f=opencover `
             -o="tests\coverage\extensionsCoverage.xml"
 
-          .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.token="$SONAR_TOKEN"
+          .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.token="$env:SONAR_TOKEN"
