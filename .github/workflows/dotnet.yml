@@ -61,7 +61,7 @@ jobs:
             /v:"${{ github.run_number }}" `
             /d:sonar.token="$env:SONAR_TOKEN" `
             /d:sonar.host.url="https://sonarcloud.io" `
-            /d:sonar.cs.vscoveragexml.reportsPaths=tests\coverage\localizationCoverage.xml,tests\coverage\extensionsCoverage.xml
+            /d:sonar.cs.vscoveragexml.reportsPaths=.\tests\localizationCoverage.xml,.\tests\extensionsCoverage.xml
 
           dotnet build --configuration Release --force --no-incremental
 
@@ -69,12 +69,12 @@ jobs:
             --target "dotnet" `
             --targetargs "test --no-build" `
             -f=opencover `
-            -o="tests\coverage\localizationCoverage.xml"
+            -o=".\tests\localizationCoverage.xml"
 
           coverlet ".\tests\shared\Reception.Extension.Test\bin\Release\net8.0\Reception.Extension.Test.dll" `
             --target "dotnet" `
             --targetargs "test --no-build" `
             -f=opencover `
-            -o="tests\coverage\extensionsCoverage.xml"
+            -o=".\tests\extensionsCoverage.xml"
 
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.token="$env:SONAR_TOKEN"
