@@ -47,16 +47,34 @@ jobs:
         run: |
             dotnet nuget add source https://nuget-feed-all.avaloniaui.net/v3/index.json --name "AvaloniaUI stable"
             dotnet nuget add source https://nuget-feed-nightly.avaloniaui.net/v3/index.json --name "AvaloniaUI nightly"
-      - name: Installing dotnet-coverage
+      - name: Installing coverlet.console
         shell: powershell
-        run: dotnet tool install --global dotnet-coverage
+        run: dotnet tool install --global coverlet.console
       - name: Build, test and analyze
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         shell: powershell
         run: |
-          .\.sonar\scanner\dotnet-sonarscanner begin /k:"kirichenec_ReceptionNET" /o:"kirichenec-github" /v:"${{ github.run_number }}" /d:sonar.token="$SONAR_TOKEN" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.vscoveragexml.reportsPaths=coverage.xml
-          dotnet build --configuration Release --force
-          dotnet-coverage collect 'dotnet test' -f xml -o 'coverage.xml'
-          .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.token="$SONAR_TOKEN"
+          dotnet sonarscanner begin /k:"kirichenec_ReceptionNET" `
+            /o:"kirichenec-github" `
+            /v:"${{ github.run_number }}" `
+            /d:sonar.token="$SONAR_TOKEN" `
+            /d:sonar.host.url="https://sonarcloud.io" `
+            /d:sonar.cs.vscoveragexml.reportsPaths="tests\coverage\localizationCoverage.xml,tests\coverage\extensionsCoverage.xml"
+
+          dotnet build --configuration Release --force --no-incremental
+
+          coverlet ".\tests\app\Reception.App.Localization.Test\bin\Release\net8.0\Reception.App.Localization.Test.dll" `
+            --target "dotnet" `
+            --targetargs "test --no-build" `
+            -f=opencover `
+            -o="tests\coverage\localizationCoverage.xml"
+
+          coverlet ".\tests\shared\Reception.Extension.Test\bin\Release\net8.0\Reception.Extension.Test.dll" `
+            --target "dotnet" `
+            --targetargs "test --no-build" `
+            -f=opencover `
+            -o="tests\coverage\extensionsCoverage.xml"
+
+          dotnet sonarscanner end /d:sonar.token="$SONAR_TOKEN"
