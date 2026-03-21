@@ -30,7 +30,7 @@
                 IsChecked="{Binding $parent[local:SettingsControl].IsSystemTheme}"
                 Command="{Binding $parent[local:SettingsControl].ChangeSystemThemeCommand}"
                 CommandParameter="{Binding $self.IsChecked}"/>
-            
+
             <TextBlock
                 Text="{localization:Localize SettingsDarkTheme}"
                 Grid.Row="1" Grid.Column="0"
@@ -49,7 +49,7 @@
             <ToggleSwitch
                 Grid.Row="2" Grid.Column="1"
                 IsChecked="{Binding $parent[local:SettingsControl].IsBoss}"/>
-            
+
             <TextBlock
                 Text="{localization:Localize SettingsLanguage}"
                 Grid.Row="3" Grid.Column="0"

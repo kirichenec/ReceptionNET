@@ -59,7 +59,7 @@
                     <TextBox.InnerRightContent>
                         <Button Width="{Binding $self.Bounds.Height}"
                                 Classes="Flat"
-                                Content="{icons:MaterialIconExt Close, Size=24}"
+                                Content="{icons:MaterialIconExt Close}"
                                 Command="{Binding ClearSearchPersonCommand}"
                                 Margin="0"
                                 ToolTip.Tip="Clear"/>

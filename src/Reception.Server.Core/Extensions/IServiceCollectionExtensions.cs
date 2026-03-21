@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.OpenApi.Models;
+using Microsoft.OpenApi;
 using Reception.Constant;
 using Swashbuckle.AspNetCore.Filters;
 using Swashbuckle.AspNetCore.SwaggerGen;
@@ -27,22 +27,12 @@ namespace Reception.Server.Core.Extensions
                         In = ParameterLocation.Header,
                         Description = "Please insert JWT with Bearer into field",
                         Name = HttpHeaders.TOKEN,
-                        Type = SecuritySchemeType.ApiKey
+                        Type = SecuritySchemeType.ApiKey,
                     });
                 swaggerOptions.AddSecurityRequirement(
-                    new OpenApiSecurityRequirement
+                    document => new()
                     {
-                        {
-                            new OpenApiSecurityScheme
-                            {
-                                Reference = new OpenApiReference
-                                {
-                                    Type = ReferenceType.SecurityScheme,
-                                    Id = HttpHeaders.TOKEN
-                                }
-                            },
-                            Array.Empty<string>()
-                        }
+                        [new("Bearer", document)] = []
                     });
             });
             services.AddSwaggerGenNewtonsoftSupport();

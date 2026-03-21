@@ -1,5 +1,6 @@
 ﻿using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Options;
 using Reception.Server.Auth.Entities;
 using Reception.Server.Auth.PasswordHelper;
@@ -35,6 +36,7 @@ namespace Reception.Server.Auth.Repository
             var connection = new SqliteConnection(connectionString);
 
             optionsBuilder.UseSqlite(connection);
+            optionsBuilder.ConfigureWarnings(w => w.Ignore(RelationalEventId.PendingModelChangesWarning));
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

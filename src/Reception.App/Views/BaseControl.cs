@@ -1,9 +1,10 @@
 ﻿using Avalonia;
 using Avalonia.Controls;
-using Avalonia.ReactiveUI;
 using ReactiveUI;
+using ReactiveUI.Avalonia;
 using Reception.App.ViewModels.Abstract;
 using System.Reactive.Disposables;
+using System.Reactive.Disposables.Fluent;
 using static Reception.App.Constants.ControlNames;
 
 namespace Reception.App.Views

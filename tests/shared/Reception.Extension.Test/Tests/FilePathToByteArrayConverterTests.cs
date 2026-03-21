@@ -78,7 +78,7 @@ public class FilePathToByteArrayConverterTests
         File.SetAttributes(filePath, File.GetAttributes(filePath) | FileAttributes.Temporary);
 
         // act
-        var file = await filePath.GetFileBytesByPathAsync();
+        var file = await filePath.GetFileBytesByPathAsync(cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         file.Should().BeEquivalentTo(Array.Empty<byte>());

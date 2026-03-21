@@ -1,4 +1,4 @@
-﻿using Xunit.Abstractions;
+﻿using Xunit.Sdk;
 
 namespace Reception.Extension.Test;
 
@@ -6,7 +6,7 @@ public class DateTimeExtensionsTests
 {
     public static TheoryData<DateTimeExtensionInputItem> InlineDataForBetween =>
     [
-        new()
+        new DateTimeExtensionInputItem
         {
             Description =       "input between start-end",
             Input =             new DateTime(2023, 03, 01, 00, 00, 00, DateTimeKind.Local),
@@ -14,7 +14,7 @@ public class DateTimeExtensionsTests
             EndDateTime =       new DateTime(2023, 03, 31, 00, 00, 00, DateTimeKind.Local),
             ExpectedResult =    true,
         },
-        new()
+        new DateTimeExtensionInputItem
         {
             Description =       "input = start = end",
             Input =             new DateTime(2023, 03, 01, 00, 00, 00, DateTimeKind.Local),
@@ -22,7 +22,7 @@ public class DateTimeExtensionsTests
             EndDateTime =       new DateTime(2023, 03, 01, 00, 00, 00, DateTimeKind.Local),
             ExpectedResult =    true
         },
-        new()
+        new DateTimeExtensionInputItem
         {
             Description =       "start > end",
             Input =             new DateTime(2023, 03, 01, 00, 00, 00, DateTimeKind.Local),
@@ -30,7 +30,7 @@ public class DateTimeExtensionsTests
             EndDateTime =       new DateTime(2023, 03, 01, 00, 00, 00, DateTimeKind.Local),
             ExpectedResult =    false
         },
-        new()
+        new DateTimeExtensionInputItem
         {
             Description =       "input not between start-end",
             Input =             new DateTime(2024, 03, 01, 00, 00, 00, DateTimeKind.Local),
@@ -38,7 +38,7 @@ public class DateTimeExtensionsTests
             EndDateTime =       new DateTime(2023, 03, 31, 00, 00, 00, DateTimeKind.Local),
             ExpectedResult =    false
         },
-        new()
+        new DateTimeExtensionInputItem
         {
             Description =       "input not between start-end",
             Input =             new DateTime(2022, 03, 01, 00, 00, 00, DateTimeKind.Local),

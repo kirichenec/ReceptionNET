@@ -222,4 +222,7 @@
   <data name="SubordinateSendVisitor" xml:space="preserve">
     <value>Visitor on the way..</value>
   </data>
+  <data name="ErrorPatternNoVForVM" xml:space="preserve">
+    <value>View for {0} wasn't found</value>
+  </data>
 </root>

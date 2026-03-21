@@ -1,5 +1,5 @@
 ﻿using ReactiveUI;
-using ReactiveUI.Fody.Helpers;
+using ReactiveUI.SourceGenerators;
 using Reception.App.Enums;
 using Reception.App.Localization;
 using Reception.App.Model.Auth;
@@ -13,7 +13,7 @@ using System.Reactive.Linq;
 
 namespace Reception.App.ViewModels
 {
-    public class AuthViewModel : BaseViewModel
+    public partial class AuthViewModel : BaseViewModel
     {
         private readonly IAuthService _authService;
 
@@ -32,15 +32,15 @@ namespace Reception.App.ViewModels
         public ReactiveCommand<AuthenticateResponse, Unit> ApplyAuthCommand { get; private set; }
 
         [Reactive]
-        public AuthenticateResponse AuthData { get; set; }
+        public partial AuthenticateResponse AuthData { get; set; }
 
         [Reactive]
-        public string Login { get; set; }
+        public partial string Login { get; set; }
 
         public ReactiveCommand<Unit, Unit> LoginCommand { get; private set; }
 
         [Reactive]
-        public string Password { get; set; }
+        public partial string Password { get; set; }
 
 
         protected override async Task OnViewModelInitialized()

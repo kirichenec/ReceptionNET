@@ -49,7 +49,7 @@
             </StackPanel>
 
         </Grid>
-        
+
         <TextBlock Text="{localization:Localize BossNoVisitors}"
                    HorizontalAlignment="Center" VerticalAlignment="Center"
                    IsVisible="{Binding Visitor, Converter={x:Static ObjectConverters.IsNull}}"/>

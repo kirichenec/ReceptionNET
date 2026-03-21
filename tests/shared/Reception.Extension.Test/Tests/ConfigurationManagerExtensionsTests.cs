@@ -1,5 +1,4 @@
 ﻿using Reception.App.Service;
-using System.Collections.ObjectModel;
 using System.Configuration;
 
 namespace Reception.Extension.Test;
@@ -9,20 +8,15 @@ namespace Reception.Extension.Test;
 /// </summary>
 public class ConfigurationManagerExtensionsTests
 {
-    private readonly ReadOnlyDictionary<string, string> AppSettingsInitData =
-        new Dictionary<string, string>
-        {
-            { "IsBoss", "False" },
-            { "Language", "English" },
-            { "PingDelay", "15" },
-        }.AsReadOnly();
+    private const string CONFIG_KEY = "APP_CONFIG_FILE";
+    private const string CONFIG_NAME = "testhost.dll.config";
 
 
     public ConfigurationManagerExtensionsTests()
     {
+        AppDomain.CurrentDomain.SetData(CONFIG_KEY, CONFIG_NAME);
         var config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
         config.AppSettings.Settings.Clear();
-        AppSettingsInitData.ForEach(x => config.AppSettings.Settings.Add(x.Key, x.Value));
         config.Save(ConfigurationSaveMode.Modified);
         ConfigurationManager.RefreshSection("appSettings");
     }
@@ -97,9 +91,9 @@ public class ConfigurationManagerExtensionsTests
     }
 
     [Theory]
-    [InlineData("PingDelay", 10)]
-    [InlineData("Language", "Russian")]
     [InlineData("IsBoss", true)]
+    [InlineData("Language", "Russian")]
+    [InlineData("PingDelay", 10)]
     public void ConfigurationManagerExtensions_UpdateAppSettingsParam_SavedSuccessfully<T>(string parameterName, T value)
     {
         // Arrange

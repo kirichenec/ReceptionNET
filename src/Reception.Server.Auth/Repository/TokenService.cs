@@ -52,7 +52,14 @@ namespace Reception.Server.Auth.Repository
 
         private static JwtSecurityToken ReadToken(string value)
         {
-            return new JwtSecurityTokenHandler().ReadJwtToken(value);
+            try
+            {
+                return new JwtSecurityTokenHandler().ReadJwtToken(value);
+            }
+            catch (SecurityTokenMalformedException)
+            {
+                return null;
+            }
         }
 
         private string GenerateJwtToken(int userId)

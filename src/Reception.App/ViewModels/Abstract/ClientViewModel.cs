@@ -9,7 +9,7 @@ using System.Runtime.CompilerServices;
 
 namespace Reception.App.ViewModels.Abstract
 {
-    public abstract class ClientViewModel : BaseViewModel, IClientViewModel
+    public abstract partial class ClientViewModel : BaseViewModel, IClientViewModel
     {
         protected readonly IClientService _clientService;
 

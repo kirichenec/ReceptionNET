@@ -22,22 +22,30 @@ namespace Reception.Server.Auth.PasswordHelper
 
             var needsUpgrade = iterations != _options.Iterations;
 
-            using var algorithm = new Rfc2898DeriveBytes(password, salt, iterations, HashAlgorithmName.SHA256);
+            var keyToCheck = Rfc2898DeriveBytes.Pbkdf2(
+                password,
+                salt,
+                iterations,
+                HashAlgorithmName.SHA256,
+                _options.KeySize);
 
-            var keyToCheck = algorithm.GetBytes(_options.KeySize);
-
-            var verified = keyToCheck.SequenceEqual(key);
+            var verified = CryptographicOperations.FixedTimeEquals(keyToCheck, key);
 
             return (verified, needsUpgrade);
         }
 
         public string Hash(string password)
         {
-            using var algorithm = new Rfc2898DeriveBytes(password, _options.SaltSize, _options.Iterations, HashAlgorithmName.SHA256);
-            var key = Convert.ToBase64String(algorithm.GetBytes(_options.KeySize));
-            var salt = Convert.ToBase64String(algorithm.Salt);
+            var salt = RandomNumberGenerator.GetBytes(_options.SaltSize);
 
-            return $"{_options.Iterations}.{salt}.{key}";
+            var key = Rfc2898DeriveBytes.Pbkdf2(
+                password,
+                salt,
+                _options.Iterations,
+                HashAlgorithmName.SHA256,
+                _options.KeySize);
+
+            return $"{_options.Iterations}.{Convert.ToBase64String(salt)}.{Convert.ToBase64String(key)}";
         }
     }
 }
