@@ -1,4 +1,5 @@
-﻿using Reception.App.Network.Auth;
+﻿using ReactiveUI;
+using Reception.App.Network.Auth;
 using Reception.App.Network.Chat;
 using Reception.App.Network.Server;
 using Reception.App.Service;
@@ -35,6 +36,11 @@ namespace Reception.App
             SplatRegistrations.Register<AuthView>();
             SplatRegistrations.Register<BossView>();
             SplatRegistrations.Register<SubordinateView>();
+
+            // Views to View models
+            Locator.CurrentMutable.Register(() => new AuthView(), typeof(IViewFor<AuthViewModel>));
+            Locator.CurrentMutable.Register(() => new BossView(), typeof(IViewFor<BossViewModel>));
+            Locator.CurrentMutable.Register(() => new SubordinateView(), typeof(IViewFor<SubordinateViewModel>));
         }
     }
 }

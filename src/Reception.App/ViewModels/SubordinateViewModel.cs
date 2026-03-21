@@ -1,5 +1,5 @@
 ﻿using ReactiveUI;
-using ReactiveUI.Fody.Helpers;
+using ReactiveUI.SourceGenerators;
 using Reception.App.Enums;
 using Reception.App.Localization;
 using Reception.App.Model.Extensions;
@@ -15,7 +15,7 @@ using System.Reactive.Linq;
 
 namespace Reception.App.ViewModels
 {
-    public class SubordinateViewModel : ClientViewModel
+    public partial class SubordinateViewModel : ClientViewModel
     {
         private readonly IPersonNetworkService _networkServiceOfPersons;
         private readonly IFileDataNetworkService _networkServiceOfFileData;
@@ -43,24 +43,24 @@ namespace Reception.App.ViewModels
         public ReactiveCommand<Unit, Unit> ClearSearchPersonCommand { get; private set; }
 
         [Reactive]
-        public bool IsPhotoLoading { get; set; }
+        public partial bool IsPhotoLoading { get; set; }
 
         public IEnumerable<Person> Persons => _searchedPersons.Value ?? [];
 
         public ReactiveCommand<string, IEnumerable<Person>> SearchPersonCommand { get; private set; }
 
         [Reactive]
-        public string SearchText { get; set; }
+        public partial string SearchText { get; set; }
 
         [Reactive]
-        public Person SelectedPerson { get; set; }
+        public partial Person SelectedPerson { get; set; }
 
         public ReactiveCommand<Person, bool> SelectPersonCommand { get; private set; }
 
         public ReactiveCommand<Visitor, bool> SendVisitorCommand { get; private set; }
 
         [Reactive]
-        public Visitor Visitor { get; set; }
+        public partial Visitor Visitor { get; set; }
 
 
         // ToDo: Visualize decision + history
@@ -108,7 +108,7 @@ namespace Reception.App.ViewModels
             void InitSearchPersonCommand()
             {
                 var searchEntered = this.WhenAnyValue(x => x.SearchText)
-                    .Throttle(TimeSpan.FromSeconds(1), RxApp.MainThreadScheduler)
+                    .Throttle(TimeSpan.FromSeconds(1), RxSchedulers.MainThreadScheduler)
                     .Publish().RefCount();
 
                 var canSearch = this.WhenAnyValue(

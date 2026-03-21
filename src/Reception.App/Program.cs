@@ -1,6 +1,6 @@
 ﻿using Avalonia;
 using Avalonia.Controls;
-using Avalonia.ReactiveUI;
+using ReactiveUI.Avalonia;
 using Reception.App.Extensions;
 
 namespace Reception.App
@@ -22,7 +22,7 @@ namespace Reception.App
                 .UsePlatformDetect()
                 .UsePlatformCrutches()
                 .LogToTrace()
-                .UseReactiveUI();
+                .UseReactiveUI(rxui => { });
         }
     }
 }

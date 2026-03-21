@@ -6,9 +6,6 @@
              xmlns:materialIcons="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
              xmlns:themes="clr-namespace:Material.Styles.Themes;assembly=Material.Styles"
              x:Class="Reception.App.App">
-    <Application.DataTemplates>
-        <local:ViewLocator/>
-    </Application.DataTemplates>
 
     <Application.Resources>
         <Thickness x:Key="Full">8</Thickness>

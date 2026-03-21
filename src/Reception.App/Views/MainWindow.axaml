@@ -59,7 +59,7 @@
                 <Separator Classes="vertical"/>
                 <Button Classes="Flat"
                         Command="{Binding $parent[dialogHost:DialogHost].OpenDialogCommand}"
-                        Content="{icons:MaterialIconExt Settings, Size=12}"
+                        Content="{icons:MaterialIconExt Settings}"
                         Padding="0"
                         ToolTip.Tip="{localization:Localize MainSettingsTooltip}"
                         Width="{Binding $self.Bounds.Height}"/>

@@ -21,10 +21,12 @@
                         IsEnabled="{Binding !IsLoading}"
                         MinWidth="300">
                 <TextBox Text="{Binding Login, Mode=TwoWay}"
-                         assists:TextFieldAssist.Label="{localization:Localize AuthUsername}" UseFloatingWatermark="True"
+                         assists:TextFieldAssist.Label="{localization:Localize AuthUsername}"
+                         UseFloatingWatermark="True"
                          x:Name="{x:Static const:ControlNames.FOCUSED_ITEM_NAME}"/>
                 <TextBox Text="{Binding Password, Mode=TwoWay}"
-                         assists:TextFieldAssist.Label="{localization:Localize AuthPassword}" UseFloatingWatermark="True"
+                         assists:TextFieldAssist.Label="{localization:Localize AuthPassword}"
+                         UseFloatingWatermark="True"
                          PasswordChar="*" Classes="revealPasswordButton"/>
                 <controls:FloatingButton
                     Content="{localization:Localize AuthLogin}"

@@ -3,7 +3,7 @@ using DialogHostAvalonia;
 using Material.Styles.Themes;
 using Material.Styles.Themes.Base;
 using ReactiveUI;
-using ReactiveUI.Fody.Helpers;
+using ReactiveUI.SourceGenerators;
 using Reception.App.Constants;
 using Reception.App.Localization;
 using Reception.App.Service.Interface;
@@ -12,7 +12,7 @@ using System.Reactive;
 
 namespace Reception.App.ViewModels
 {
-    public class SettingsViewModel
+    public partial class SettingsViewModel : ReactiveObject
     {
         private readonly MaterialTheme _materialThemeStyles;
         private readonly Action _navigateToAuth;
@@ -31,7 +31,7 @@ namespace Reception.App.ViewModels
             CloseSettingsCommand = ReactiveCommand.Create(CloseSettings);
             SaveSettingsCommand = ReactiveCommand.Create(SaveSettings);
 
-            Languages = Localizer.Languages.Keys.ToArray();
+            Languages = [.. Localizer.Languages.Keys];
 
             RestoreSettings();
             ApplyLanguage();
@@ -45,19 +45,19 @@ namespace Reception.App.ViewModels
         public ReactiveCommand<Unit, Unit> CloseSettingsCommand { get; }
 
         [Reactive]
-        public bool IsBoss { get; set; }
+        public partial bool IsBoss { get; set; }
 
         [Reactive]
-        public bool IsDark { get; set; }
+        public partial bool IsDark { get; set; }
 
         [Reactive]
-        public bool IsLogined { get; set; }
+        public partial bool IsLogined { get; set; }
 
         [Reactive]
-        public bool IsSystemTheme { get; set; }
+        public partial bool IsSystemTheme { get; set; }
 
         [Reactive]
-        public string Language { get; set; }
+        public partial string Language { get; set; }
 
         public string[] Languages { get; }
 

@@ -1,9 +1,10 @@
 using Avalonia;
 using Avalonia.Markup.Xaml;
-using Avalonia.ReactiveUI;
 using ReactiveUI;
+using ReactiveUI.Avalonia;
 using Reception.App.ViewModels;
 using System.Reactive.Disposables;
+using System.Reactive.Disposables.Fluent;
 
 namespace Reception.App.Views
 {

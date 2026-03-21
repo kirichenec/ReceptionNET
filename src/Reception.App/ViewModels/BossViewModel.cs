@@ -1,5 +1,5 @@
 ﻿using ReactiveUI;
-using ReactiveUI.Fody.Helpers;
+using ReactiveUI.SourceGenerators;
 using Reception.App.Localization;
 using Reception.App.Model.PersonInfo;
 using Reception.App.Network.Chat;
@@ -9,7 +9,7 @@ using System.Reactive;
 
 namespace Reception.App.ViewModels
 {
-    public class BossViewModel : ClientViewModel
+    public partial class BossViewModel : ClientViewModel
     {
         public BossViewModel(MainViewModel mainViewModel, IClientService clientService,
             ISettingsService settingsService)
@@ -28,12 +28,12 @@ namespace Reception.App.ViewModels
         public ReactiveCommand<Visitor, Unit> DenyCommand { get; private set; }
 
         [Reactive]
-        public Visitor Visitor { get; set; }
+        public partial Visitor Visitor { get; set; }
 
         public ReactiveCommand<Visitor, Unit> WaitCommand { get; private set; }
 
         [Reactive]
-        public string WelcomeMessage { get; set; }
+        public partial string WelcomeMessage { get; set; }
 
 
         protected override void BossDecisionReceived(BossDecision bossDecision)

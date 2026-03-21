@@ -1,5 +1,5 @@
 ﻿using ReactiveUI;
-using ReactiveUI.Fody.Helpers;
+using ReactiveUI.SourceGenerators;
 using Reception.App.Enums;
 using Reception.App.Localization;
 using Reception.Extension;
@@ -7,7 +7,7 @@ using System.Reactive.Linq;
 
 namespace Reception.App.ViewModels.Abstract
 {
-    public abstract class BaseViewModel : ReactiveObject, IRoutableViewModel
+    public abstract partial class BaseViewModel : ReactiveObject, IRoutableViewModel
     {
         protected readonly MainViewModel _mainViewModel;
 
@@ -33,7 +33,7 @@ namespace Reception.App.ViewModels.Abstract
         public IScreen HostScreen { get; }
 
         [Reactive]
-        public bool IsLoading { get; set; }
+        public partial bool IsLoading { get; set; }
 
         public string UrlPathSegment { get; }
 

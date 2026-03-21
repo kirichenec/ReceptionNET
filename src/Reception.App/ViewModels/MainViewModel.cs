@@ -1,6 +1,6 @@
 ﻿using Avalonia.Logging;
 using ReactiveUI;
-using ReactiveUI.Fody.Helpers;
+using ReactiveUI.SourceGenerators;
 using Reception.App.Enums;
 using Reception.App.Extensions;
 using Reception.App.Localization;
@@ -21,7 +21,7 @@ using System.Runtime.CompilerServices;
 
 namespace Reception.App.ViewModels
 {
-    public class MainViewModel : ReactiveObject, IScreen
+    public partial class MainViewModel : ReactiveObject, IScreen
     {
         private readonly IClientService _clientService;
         private readonly IPingService _pingService;
@@ -43,7 +43,7 @@ namespace Reception.App.ViewModels
 
             Router = new RoutingState();
 
-            _ = Observable.Timer(TimeSpan.Zero, TimeSpan.FromSeconds(_settingsService.PingDelay), RxApp.MainThreadScheduler)
+            _ = Observable.Timer(TimeSpan.Zero, TimeSpan.FromSeconds(_settingsService.PingDelay), RxSchedulers.MainThreadScheduler)
                           .Subscribe(async x => await TryPing());
 
             Settings = new SettingsViewModel(_settingsService, NavigateToAuth);
@@ -62,34 +62,34 @@ namespace Reception.App.ViewModels
         public string AppVersion { get; }
 
         [Reactive]
-        public AuthenticateResponse AuthData { get; set; }
+        public partial AuthenticateResponse AuthData { get; set; }
 
         [Reactive]
-        public string CenterMessage { get; set; }
+        public partial string CenterMessage { get; set; }
 
         public ReactiveCommand<Unit, Unit> InitCommand { get; }
 
         [Reactive]
-        public bool IsLogined { get; set; }
+        public partial bool IsLogined { get; set; }
 
         [Reactive]
-        public string NotificationMessage { get; set; }
+        public partial string NotificationMessage { get; set; }
 
         [Reactive]
-        public NotificationType NotificationType { get; set; }
+        public partial NotificationType NotificationType { get; set; }
 
         public RoutingState Router { get; }
 
         [Reactive]
-        public string ServerStatusMessage { get; set; }
+        public partial string ServerStatusMessage { get; set; }
 
         [Reactive]
-        public SettingsViewModel Settings { get; set; }
+        public partial SettingsViewModel Settings { get; set; }
 
         public ShowErrorAction ShowError { get; }
 
         [Reactive]
-        public string StatusMessage { get; set; }
+        public partial string StatusMessage { get; set; }
 
 
         public void ApplyAuthData(AuthenticateResponse authData)
